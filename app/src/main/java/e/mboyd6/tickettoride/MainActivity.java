@@ -22,9 +22,14 @@ public class MainActivity extends AppCompatActivity
   private static final long FADE_DEFAULT_TIME = 150;
   private FragmentManager mFragmentManager;
   private Handler mDelayedTransactionHandler = new Handler();
-  private Runnable mRunnable = new Runnable() {
+  private Runnable mRunnableTransitionToRegister = new Runnable() {
     public void run() {
-      performTransition();
+      //transitionToRegister();
+    }
+  };
+  private Runnable mRunnableTransitionToLogin = new Runnable() {
+    public void run() {
+      //transitionToLogin();
     }
   };
 
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity
 
     mFragmentManager = getSupportFragmentManager();
     loadLoginFragmentFirstTime();
-    mDelayedTransactionHandler.postDelayed(mRunnable, 1000);
+
   }
 
   public void loadLoginFragmentFirstTime() {
@@ -54,24 +59,24 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void onRegisterFragmentBackButton() {
-
+  public void onRegisterFragmentBackButton(String usernameData, String passwordData) {
+    //mDelayedTransactionHandler.post(mRunnableTransitionToLogin);
+    transitionToLogin(usernameData, passwordData);
   }
 
   @Override
-  public void onLoginFragmentSignUpButton() {
-
-  }
+  public void onLoginFragmentSignUpButton(String usernameData, String passwordData) {
+    //mDelayedTransactionHandler.post(mRunnableTransitionToRegister);
+    transitionToRegister(usernameData, passwordData);
+}
 
   @TargetApi(21)
-  private void performTransition() {
+  private void transitionToRegister(String usernameData, String passwordData) {
     if (isDestroyed()) {
       return;
     }
 
     Fragment previousFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
-    String usernameData = getResources().getString(R.string.Username);
-    String passwordData = getResources().getString(R.string.Password);
     String confirmData = getResources().getString(R.string.Password);
     Fragment nextFragment = RegisterFragment.newInstance(usernameData, passwordData, confirmData);
 
@@ -93,15 +98,7 @@ public class MainActivity extends AppCompatActivity
 
     // 3. Enter Transition for New Fragment
 
-    /*
-    Fade enterFade = new Fade();
-    //enterFade.setStartDelay(MOVE_DEFAULT_TIME + FADE_DEFAULT_TIME);
-    enterFade.setStartDelay(FADE_DEFAULT_TIME);
-    enterFade.setDuration(FADE_DEFAULT_TIME);
-    nextFragment.setEnterTransition(enterFade);
-    */
-
-    Slide enterSlide = new Slide(Gravity.RIGHT);
+    Slide enterSlide = new Slide(Gravity.LEFT);
     enterSlide.setStartDelay(FADE_DEFAULT_TIME);
     enterSlide.setDuration(FADE_DEFAULT_TIME);
     nextFragment.setEnterTransition(enterSlide);
@@ -110,6 +107,52 @@ public class MainActivity extends AppCompatActivity
     View logo = previousFragment.getView().findViewById(R.id.login_fragment_logo);
     View usernameField = previousFragment.getView().findViewById(R.id.login_fragment_username_field);
     View passwordField = previousFragment.getView().findViewById(R.id.login_fragment_password_field);
+
+    fragmentTransaction.addSharedElement(logo, logo.getTransitionName());
+    fragmentTransaction.addSharedElement(usernameField, usernameField.getTransitionName());
+    fragmentTransaction.addSharedElement(passwordField, passwordField.getTransitionName());
+    fragmentTransaction.replace(R.id.main_activity_fragment_container, nextFragment);
+    fragmentTransaction.commitAllowingStateLoss();
+  }
+
+
+  @TargetApi(21)
+  private void transitionToLogin(String usernameData, String passwordData) {
+    if (isDestroyed()) {
+      return;
+    }
+
+    Fragment previousFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
+    Fragment nextFragment = LoginFragment.newInstance(usernameData, passwordData);
+
+    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
+    // 1. Exit for Previous Fragment
+
+    Fade exitFade = new Fade();
+    exitFade.setDuration(FADE_DEFAULT_TIME);
+    previousFragment.setExitTransition(exitFade);
+
+    // 2. Shared Elements Transition
+
+    TransitionSet enterTransitionSet = new TransitionSet();
+    enterTransitionSet.addTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.move));
+    enterTransitionSet.setDuration(MOVE_DEFAULT_TIME);
+    enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME);
+    nextFragment.setSharedElementEnterTransition(enterTransitionSet);
+
+    // 3. Enter Transition for New Fragment
+
+    Slide enterSlide = new Slide(Gravity.RIGHT);
+    enterSlide.setStartDelay(FADE_DEFAULT_TIME);
+    enterSlide.setDuration(FADE_DEFAULT_TIME);
+    nextFragment.setEnterTransition(enterSlide);
+
+    //TODO: Make the elements be shared between the two fragments
+    View logo = previousFragment.getView().findViewById(R.id.register_fragment_logo);
+    View usernameField = previousFragment.getView().findViewById(R.id.register_fragment_username_field);
+    View passwordField = previousFragment.getView().findViewById(R.id.register_fragment_password_field);
+
     fragmentTransaction.addSharedElement(logo, logo.getTransitionName());
     fragmentTransaction.addSharedElement(usernameField, usernameField.getTransitionName());
     fragmentTransaction.addSharedElement(passwordField, passwordField.getTransitionName());
@@ -123,6 +166,6 @@ public class MainActivity extends AppCompatActivity
 
   {
     super.onDestroy();
-    mDelayedTransactionHandler.removeCallbacks(mRunnable);
+    mDelayedTransactionHandler.removeCallbacks(mRunnableTransitionToRegister);
   }
 }

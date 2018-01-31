@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 
 /**
@@ -28,6 +30,10 @@ public class RegisterFragment extends Fragment {
     private String mConfirmData;
 
     private OnFragmentInteractionListener mListener;
+
+    private Button mBackButton;
+    private EditText mUsernameField;
+    private EditText mPasswordField;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -67,13 +73,26 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+        View layout = inflater.inflate(R.layout.fragment_register, container, false);
+        mBackButton = layout.findViewById(R.id.register_fragment_back_button);
+        mUsernameField = layout.findViewById(R.id.register_fragment_username_field);
+        mPasswordField = layout.findViewById(R.id.register_fragment_password_field);
+        mUsernameField.setText(mUsernameData);
+        mPasswordField.setText(mPasswordData);
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackButtonPressed(mUsernameField.getText().toString(), mPasswordField.getText().toString());
+            }
+        });
+        return layout;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onBackButtonPressed(String usernameData, String passwordData) {
         if (mListener != null) {
-            mListener.onRegisterFragmentBackButton();
+            mListener.onRegisterFragmentBackButton(usernameData, passwordData);
         }
     }
 
@@ -106,6 +125,6 @@ public class RegisterFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onRegisterFragmentBackButton();
+        void onRegisterFragmentBackButton(String usernameData, String passwordData);
     }
 }

@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 
 /**
@@ -24,6 +26,10 @@ public class LoginFragment extends Fragment {
 
     private String mUsernameData;
     private String mPasswordData;
+
+    private Button mSignUpButton;
+    private EditText mUsernameField;
+    private EditText mPasswordField;
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,13 +67,28 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View layout = inflater.inflate(R.layout.fragment_login, container, false);
+        mSignUpButton = layout.findViewById(R.id.login_fragment_sign_up_button);
+        mUsernameField = layout.findViewById(R.id.login_fragment_username_field);
+        mPasswordField = layout.findViewById(R.id.login_fragment_password_field);
+        mUsernameField.setText(mUsernameData);
+        mPasswordField.setText(mPasswordData);
+
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                onSignUpButtonPressed(mUsernameField.getText().toString(), mPasswordField.getText().toString());
+            }
+        });
+        return layout;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onSignUpButtonPressed(String usernameData, String passwordData) {
         if (mListener != null) {
-            mListener.onLoginFragmentSignUpButton();
+            mListener.onLoginFragmentSignUpButton(usernameData, passwordData);
         }
     }
 
@@ -100,6 +121,6 @@ public class LoginFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onLoginFragmentSignUpButton();
+        void onLoginFragmentSignUpButton(String usernameData, String passwordData);
     }
 }
