@@ -5,9 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\hunte\Documents\GitHub\ticket-to-ride\app\app.iml" filepath="C:\Users\hunte\Documents\GitHub\ticket-to-ride\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
-      <module fileurl="file://C:\Users\mboyd6\Code\ticket-to-ride\server\server.iml" filepath="C:\Users\mboyd6\Code\ticket-to-ride\server\server.iml" />
       <module fileurl="file://$PROJECT_DIR$/sharedCode/sharedCode.iml" filepath="$PROJECT_DIR$/sharedCode/sharedCode.iml" />
-      <module fileurl="file://C:\Users\mboyd6\Code\ticket-to-ride\sharedCode\sharedCode.iml" filepath="C:\Users\mboyd6\Code\ticket-to-ride\sharedCode\sharedCode.iml" />
       <module fileurl="file://$PROJECT_DIR$/ticket-to-ride.iml" filepath="$PROJECT_DIR$/ticket-to-ride.iml" />
       <module fileurl="file://C:\Users\hunte\Documents\GitHub\ticket-to-ride\ticket-to-ride.iml" filepath="C:\Users\hunte\Documents\GitHub\ticket-to-ride\ticket-to-ride.iml" />
     </modules>
