@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="e.mboyd6.tickettoride.MainActivity">
-
+    tools:context="e.mboyd6.tickettoride.MainActivity"
+    android:background="@drawable/TicketToRideBackground">
 
     <Button
         android:id="@+id/angry_btn"
@@ -22,7 +22,7 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586" />
+        app:layout_constraintVertical_bias="0.774" />
 
     <Button
         android:id="@+id/angry_btn2"
@@ -58,7 +58,7 @@
         android:textColor="#000000"
         android:textSize="30sp"
         tools:layout_editor_absoluteX="168dp"
-        tools:layout_editor_absoluteY="81dp" />
+        tools:layout_editor_absoluteY="128dp" />
 
     <EditText
         android:id="@+id/editText2"
@@ -75,6 +75,14 @@
         android:textColor="#000000"
         android:textSize="30sp"
         tools:layout_editor_absoluteX="168dp"
-        tools:layout_editor_absoluteY="130dp" />
+        tools:layout_editor_absoluteY="182dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="243dp"
+        android:layout_height="103dp"
+        app:srcCompat="@drawable/TicketToRideLogo"
+        tools:layout_editor_absoluteX="175dp"
+        tools:layout_editor_absoluteY="16dp" />
 
 </android.support.constraint.ConstraintLayout>
