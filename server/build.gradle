@@ -3,7 +3,9 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':sharedCode')
+    compile 'com.google.code.gson:gson:2.8.1'
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
