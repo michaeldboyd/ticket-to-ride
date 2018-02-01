@@ -13,8 +13,8 @@ public class ServerFacade implements ILobbyFacade, ILoginFacade {
   /*
     Login will check if the user is currently in the Model's user list, and if not, add the user.
    */
-  //TODO: Probably should be a singleton...
-  
+  //TODO: Probably should be a singleton eventually
+
   @Override
   public CommandResult login(String username, String password) {
 
