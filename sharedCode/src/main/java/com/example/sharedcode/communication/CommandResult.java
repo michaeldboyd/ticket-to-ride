@@ -1,6 +1,5 @@
 package com.example.sharedcode.communication;
 
-import com.example.sharedcode.model.GenericCommand;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,12 @@ import java.util.List;
  */
 
 public class CommandResult {
-    List<GenericCommand> commands = new ArrayList<GenericCommand>();
+    List<Command> commands = new ArrayList<Command>();
+    String message;
+    public CommandResult(String message, List<Command> commands)
+    {
+        this.message = message;
+        this.commands = commands;
+    }
 
 }

@@ -2,13 +2,13 @@ package com.example.sharedcode.communication;
 
 import java.lang.reflect.*;
 
-class GenericCommand implements Command {
+public class Command implements ICommand {
   private String _className;
   private String _methodName;
   private Class<?>[] _paramTypes;
   private Object[] _paramValues;
 
-  public GenericCommand(String className, String methodName,
+  public Command(String className, String methodName,
       Class<?>[] paramTypes, Object[] paramValues) {
     _className = className;
     _methodName = methodName;
@@ -25,10 +25,9 @@ class GenericCommand implements Command {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
     return null;
   }
 }
-interface Command {
+interface ICommand {
   Object execute() throws Exception;
 }
