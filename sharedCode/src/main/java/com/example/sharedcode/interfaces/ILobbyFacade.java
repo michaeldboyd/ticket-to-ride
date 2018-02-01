@@ -1,4 +1,4 @@
-package com.example.sharedcode.facades;
+package com.example.sharedcode.interfaces;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;

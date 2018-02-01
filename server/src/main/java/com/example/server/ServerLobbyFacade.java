@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Communication;
+package com.example.server;
 
 import com.example.sharedcode.interfaces.ILobbyFacade;
 import com.example.sharedcode.model.Game;
@@ -8,12 +8,7 @@ import com.example.sharedcode.model.Player;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class ClientLobbyFacade implements ILobbyFacade {
-
-  private static ClientLobbyFacade _instance = new ClientLobbyFacade();
-  private ClientLobbyFacade() {}
-
-  public static ClientLobbyFacade instance() { return _instance; }
+public class ServerLobbyFacade implements ILobbyFacade {
 
   @Override
   public void createGame() {

@@ -1,7 +1,7 @@
 package e.mboyd6.tickettoride.Communication;
 
 import com.example.sharedcode.communication.CommandResult;
-import com.example.sharedcode.facades.ILoginFacade;
+import com.example.sharedcode.interfaces.ILoginFacade;
 
 /**
  * Created by mboyd6 on 2/1/2018.
