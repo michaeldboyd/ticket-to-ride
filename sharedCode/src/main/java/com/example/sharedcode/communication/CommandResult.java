@@ -1,5 +1,6 @@
-package com.example.sharedcode;
+package com.example.sharedcode.communication;
 
+import com.example.sharedcode.model.GenericCommand;
 import java.util.ArrayList;
 import java.util.List;
 

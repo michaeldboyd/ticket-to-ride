@@ -1,4 +1,4 @@
-package com.example.sharedcode;
+package com.example.sharedcode.communication;
 
 import java.lang.reflect.*;
 
