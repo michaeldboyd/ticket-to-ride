@@ -8,6 +8,7 @@ import com.example.sharedcode.model.Player;
  */
 
 public interface ILobbyFacade {
+
     public void createGame();
 
     public Game[] getGames();

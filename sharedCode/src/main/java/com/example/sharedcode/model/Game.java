@@ -10,7 +10,7 @@ public class Game {
 
     private String gameID;
 
-    //Do we want to have this be an array of players instead strings?
+    //Do we want to have this be an array of players instead of strings?
     ArrayList<String> playerIDs = new ArrayList<String>();
 
 
