@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride;
+package e.mboyd6.tickettoride.UI;
 
 import android.annotation.TargetApi;
 import android.support.v4.app.Fragment;
@@ -13,6 +13,8 @@ import android.transition.TransitionInflater;
 import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.View;
+
+import e.mboyd6.tickettoride.R;
 
 public class MainActivity extends AppCompatActivity
         implements RegisterFragment.OnFragmentInteractionListener,
