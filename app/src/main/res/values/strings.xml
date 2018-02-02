@@ -5,5 +5,10 @@
   <string name="log_in">Log In</string>
   <string name="sign_up">Sign Up</string>
   <string name="back">Back</string>
+  <string name="start_new_game">Start New Game</string>
+  <string name="log_out">Log Out</string>
+  <string name="game_creator">GAME CREATOR</string>
+  <string name="players">PLAYERS</string>
+    <string name="join">JOIN</string>
 
 </resources>
