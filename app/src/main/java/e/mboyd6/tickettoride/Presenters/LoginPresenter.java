@@ -7,13 +7,30 @@ import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
  */
 
 public class LoginPresenter implements ILoginPresenter {
+
+
+    /**
+     * @param username
+     * @return returns boolean whether
+     */
     @Override
-    public boolean validUsername(String s) {
-        return false;
+    public boolean validUsername(String username) {
+        if(username == null)
+            return false;
+        if(username.contains(".."))
+            return false;
+        if(username.contains("__"))
+            return false;
+        if(!username.matches("[A-Za-z0-9_.]+"))
+            return false;
+        return true;
+
+
+        //return ((username != null) && username.matches("[A-Za-z0-9_.]+"));
     }
 
     @Override
-    public boolean validPassword(String s) {
-        return false;
+    public boolean validPassword(String password) {
+        return password != null && !password.equals("") && !password.contains(" ");
     }
 }
