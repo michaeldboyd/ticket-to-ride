@@ -24,7 +24,7 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void ValidUsername() throws Exception {
+    public void validUsernameTest() throws Exception {
         String s = "THIS_is.A_valid.PASSWORD.1234567890";
         assertTrue(loginPresenter.validUsername(s));
 
@@ -57,7 +57,7 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void ValidPassowrd() throws Exception {
+    public void validPassowrdTest() throws Exception {
         String s = "ValidPassword!@#$%^&*()1234567890-=";
         assertTrue(loginPresenter.validPassword(s));
 

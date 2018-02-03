@@ -12,4 +12,6 @@ public interface IRegisterPresenter {
     boolean validUsername(String s);
 
     boolean validPassword(String s);
+
+    boolean passwordsMatch(String password1, String password2);
 }
