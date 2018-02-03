@@ -5,4 +5,5 @@ package e.mboyd6.tickettoride.Views.Interfaces;
  */
 
 public interface ILoginFragment {
+    void onLoginFragmentSignUpButton(String usernameData, String passwordData);
 }

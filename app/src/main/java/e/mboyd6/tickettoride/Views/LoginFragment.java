@@ -10,17 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LoginFragment.OnFragmentInteractionListener} interface
+ * {@link ILoginFragment} interface
  * to handle interaction events.
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements ILoginFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String USERNAME_DATA = "Username Data";
     private static final String PASSWORD_DATA = "Password Data";
@@ -32,7 +33,7 @@ public class LoginFragment extends Fragment {
     private EditText mUsernameField;
     private EditText mPasswordField;
 
-    private OnFragmentInteractionListener mListener;
+    private ILoginFragment mListener;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -80,24 +81,17 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                onSignUpButtonPressed(mUsernameField.getText().toString(), mPasswordField.getText().toString());
+                onLoginFragmentSignUpButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
             }
         });
         return layout;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onSignUpButtonPressed(String usernameData, String passwordData) {
-        if (mListener != null) {
-            mListener.onLoginFragmentSignUpButton(usernameData, passwordData);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof ILoginFragment) {
+            mListener = (ILoginFragment) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -110,6 +104,13 @@ public class LoginFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onLoginFragmentSignUpButton(String usernameData, String passwordData) {
+        if (mListener != null) {
+            mListener.onLoginFragmentSignUpButton(usernameData, passwordData);
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -120,8 +121,4 @@ public class LoginFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onLoginFragmentSignUpButton(String usernameData, String passwordData);
-    }
 }

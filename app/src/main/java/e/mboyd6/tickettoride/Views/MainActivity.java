@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.Fade;
@@ -13,15 +14,18 @@ import android.transition.TransitionInflater;
 import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 
 public class MainActivity extends AppCompatActivity
         implements RegisterFragment.OnFragmentInteractionListener,
-                    LoginFragment.OnFragmentInteractionListener
+        ILoginFragment
 {
   private static final long MOVE_DEFAULT_TIME = 1000;
-  private static final long FADE_DEFAULT_TIME = 150;
+  private static final long SLIDE_DEFAULT_TIME = 500;
   private FragmentManager mFragmentManager;
   private Handler mDelayedTransactionHandler = new Handler();
   private Runnable mRunnableTransitionToRegister = new Runnable() {
@@ -39,8 +43,10 @@ public class MainActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    if (getActionBar() != null)
-      getActionBar().hide();
+    
+    ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null)
+      actionBar.hide();
 
     mFragmentManager = getSupportFragmentManager();
     loadLoginFragmentFirstTime();
@@ -87,7 +93,7 @@ public class MainActivity extends AppCompatActivity
     // 1. Exit for Previous Fragment
 
     Fade exitFade = new Fade();
-    exitFade.setDuration(FADE_DEFAULT_TIME);
+    exitFade.setDuration(SLIDE_DEFAULT_TIME);
     previousFragment.setExitTransition(exitFade);
 
     // 2. Shared Elements Transition
@@ -95,14 +101,14 @@ public class MainActivity extends AppCompatActivity
     TransitionSet enterTransitionSet = new TransitionSet();
     enterTransitionSet.addTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.move));
     enterTransitionSet.setDuration(MOVE_DEFAULT_TIME);
-    enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME);
+    enterTransitionSet.setStartDelay(SLIDE_DEFAULT_TIME);
     nextFragment.setSharedElementEnterTransition(enterTransitionSet);
 
     // 3. Enter Transition for New Fragment
 
     Slide enterSlide = new Slide(Gravity.LEFT);
-    enterSlide.setStartDelay(FADE_DEFAULT_TIME);
-    enterSlide.setDuration(FADE_DEFAULT_TIME);
+    enterSlide.setStartDelay(SLIDE_DEFAULT_TIME);
+    enterSlide.setDuration(SLIDE_DEFAULT_TIME);
     nextFragment.setEnterTransition(enterSlide);
 
     //TODO: Make the elements be shared between the two fragments
@@ -132,7 +138,7 @@ public class MainActivity extends AppCompatActivity
     // 1. Exit for Previous Fragment
 
     Fade exitFade = new Fade();
-    exitFade.setDuration(FADE_DEFAULT_TIME);
+    exitFade.setDuration(SLIDE_DEFAULT_TIME);
     previousFragment.setExitTransition(exitFade);
 
     // 2. Shared Elements Transition
@@ -140,14 +146,14 @@ public class MainActivity extends AppCompatActivity
     TransitionSet enterTransitionSet = new TransitionSet();
     enterTransitionSet.addTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.move));
     enterTransitionSet.setDuration(MOVE_DEFAULT_TIME);
-    enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME);
+    enterTransitionSet.setStartDelay(SLIDE_DEFAULT_TIME);
     nextFragment.setSharedElementEnterTransition(enterTransitionSet);
 
     // 3. Enter Transition for New Fragment
 
     Slide enterSlide = new Slide(Gravity.RIGHT);
-    enterSlide.setStartDelay(FADE_DEFAULT_TIME);
-    enterSlide.setDuration(FADE_DEFAULT_TIME);
+    enterSlide.setStartDelay(SLIDE_DEFAULT_TIME);
+    enterSlide.setDuration(SLIDE_DEFAULT_TIME);
     nextFragment.setEnterTransition(enterSlide);
 
     //TODO: Make the elements be shared between the two fragments
