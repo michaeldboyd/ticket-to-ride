@@ -1,4 +1,4 @@
-f
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -73,7 +73,7 @@ f
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
 
-        android:background="@drawable/buttonshape_blue_noCorners"
+        android:background="@drawable/buttonshape_blue_nocorners"
         android:drawableEnd="@drawable/forward_arrow"
         android:fontFamily="@font/dense"
         android:paddingLeft="10dp"
