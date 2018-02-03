@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.UI;
+package e.mboyd6.tickettoride.Views;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,28 +15,26 @@ import e.mboyd6.tickettoride.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RegisterFragment.OnFragmentInteractionListener} interface
+ * {@link LoginFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link RegisterFragment#newInstance} factory method to
+ * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment {
+public class LoginFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String USERNAME_DATA = "Username Data";
     private static final String PASSWORD_DATA = "Password Data";
-    private static final String CONFIRM_DATA = "Confirm Data";
 
     private String mUsernameData;
     private String mPasswordData;
-    private String mConfirmData;
 
-    private OnFragmentInteractionListener mListener;
-
-    private Button mBackButton;
+    private Button mSignUpButton;
     private EditText mUsernameField;
     private EditText mPasswordField;
 
-    public RegisterFragment() {
+    private OnFragmentInteractionListener mListener;
+
+    public LoginFragment() {
         // Required empty public constructor
     }
 
@@ -46,16 +44,13 @@ public class RegisterFragment extends Fragment {
      *
      * @param usernameData Parameter 1.
      * @param passwordData Parameter 2.
-     * @param confirmData Parameter 3.
-     * @return A new instance of fragment RegisterFragment.
+     * @return A new instance of fragment LoginFragment.
      */
-    public static RegisterFragment newInstance(String usernameData, String passwordData,
-                                               String confirmData) {
-        RegisterFragment fragment = new RegisterFragment();
+    public static LoginFragment newInstance(String usernameData, String passwordData) {
+        LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(USERNAME_DATA, usernameData);
         args.putString(PASSWORD_DATA, passwordData);
-        args.putString(CONFIRM_DATA, confirmData);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +61,6 @@ public class RegisterFragment extends Fragment {
         if (getArguments() != null) {
             mUsernameData = getArguments().getString(USERNAME_DATA);
             mPasswordData = getArguments().getString(PASSWORD_DATA);
-            mConfirmData = getArguments().getString(CONFIRM_DATA);
         }
     }
 
@@ -74,26 +68,28 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View layout = inflater.inflate(R.layout.fragment_register, container, false);
-        mBackButton = layout.findViewById(R.id.register_fragment_back_button);
-        mUsernameField = layout.findViewById(R.id.register_fragment_username_field);
-        mPasswordField = layout.findViewById(R.id.register_fragment_password_field);
+        View layout = inflater.inflate(R.layout.fragment_login, container, false);
+        mSignUpButton = layout.findViewById(R.id.login_fragment_sign_up_button);
+        mUsernameField = layout.findViewById(R.id.login_fragment_username_field);
+        mPasswordField = layout.findViewById(R.id.login_fragment_password_field);
         mUsernameField.setText(mUsernameData);
         mPasswordField.setText(mPasswordData);
 
-        mBackButton.setOnClickListener(new View.OnClickListener() {
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                onBackButtonPressed(mUsernameField.getText().toString(), mPasswordField.getText().toString());
+
+                onSignUpButtonPressed(mUsernameField.getText().toString(), mPasswordField.getText().toString());
             }
         });
         return layout;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onBackButtonPressed(String usernameData, String passwordData) {
+    public void onSignUpButtonPressed(String usernameData, String passwordData) {
         if (mListener != null) {
-            mListener.onRegisterFragmentBackButton(usernameData, passwordData);
+            mListener.onLoginFragmentSignUpButton(usernameData, passwordData);
         }
     }
 
@@ -126,6 +122,6 @@ public class RegisterFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onRegisterFragmentBackButton(String usernameData, String passwordData);
+        void onLoginFragmentSignUpButton(String usernameData, String passwordData);
     }
 }

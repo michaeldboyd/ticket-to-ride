@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.UI;
+package e.mboyd6.tickettoride.Views;
 
 import android.annotation.TargetApi;
 import android.support.v4.app.Fragment;
