@@ -60,4 +60,17 @@ public class RegisterPresenter implements IRegisterPresenter {
             return true;
         }
     }
+
+
+    /**
+     * This method 
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    @Override
+    public boolean register(String username, String password) {
+        return false;
+    }
 }
