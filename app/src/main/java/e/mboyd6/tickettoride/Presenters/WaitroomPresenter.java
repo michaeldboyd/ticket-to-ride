@@ -7,4 +7,18 @@ import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
  */
 
 public class WaitroomPresenter implements IWaitroomPresenter {
+    @Override
+    public void updateReadyPlayers() {
+
+    }
+
+    @Override
+    public boolean gameReady() {
+        return false;
+    }
+
+    @Override
+    public void startGame() {
+
+    }
 }

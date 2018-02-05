@@ -39,5 +39,18 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public boolean validPassword(String password) {
         return password != null && !password.equals("") && !password.contains(" ");
+
     }
+
+    /**
+     * @param password
+     * @return
+     */
+    @Override
+    public boolean login(String password) {
+        return false;
+
+    }
+
+
 }

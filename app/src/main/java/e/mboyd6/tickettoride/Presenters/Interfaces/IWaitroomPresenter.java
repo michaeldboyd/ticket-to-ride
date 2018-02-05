@@ -6,4 +6,12 @@ package e.mboyd6.tickettoride.Presenters.Interfaces;
 
 public interface IWaitroomPresenter {
 
+
+    void updateReadyPlayers();
+
+    boolean gameReady();
+
+    void startGame();
+
+
 }

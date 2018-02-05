@@ -9,7 +9,11 @@ package e.mboyd6.tickettoride.Presenters.Interfaces;
  */
 public interface ILoginPresenter {
 
-    boolean validUsername(String s);
+    boolean validUsername(String username);
 
-    boolean validPassword(String s);
+    boolean validPassword(String password);
+
+    boolean login(String password);
+
+
 }

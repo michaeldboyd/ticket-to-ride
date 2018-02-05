@@ -5,4 +5,13 @@ package e.mboyd6.tickettoride.Presenters.Interfaces;
  */
 
 public interface ILobbyPresenter {
+
+
+    void updateGameList();
+
+    void joinGame(String gameID);
+
+    void createGame();
+
+
 }

@@ -63,7 +63,7 @@ public class RegisterPresenter implements IRegisterPresenter {
 
 
     /**
-     * This method 
+     * This method
      *
      * @param username
      * @param password
