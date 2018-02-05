@@ -30,7 +30,7 @@ public class ServerLoginFacade implements ILoginFacade {
       }
       else{
           serverModel.instance().allUsers.put(username, password);
-          
+
       }
 
       return null;
