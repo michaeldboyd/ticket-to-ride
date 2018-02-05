@@ -6,7 +6,7 @@ import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
  * Created by jonathanlinford on 2/2/18.
  */
 
-public class LoginPresenter implements ILoginPresenter {
+public class LoginPresenter implements ILoginPresenter{
 
 
     /**
@@ -53,4 +53,8 @@ public class LoginPresenter implements ILoginPresenter {
     }
 
 
+    @Override
+    public void update(Observable observable, Object o) {
+
+    }
 }

@@ -1,12 +1,15 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
 
 /**
  * Created by jonathanlinford on 2/3/18.
  */
 
-public class LobbyPresenter implements ILobbyPresenter {
+public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     @Override
     public void updateGameList() {
@@ -20,6 +23,11 @@ public class LobbyPresenter implements ILobbyPresenter {
 
     @Override
     public void createGame() {
+
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
 
     }
 }
