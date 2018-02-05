@@ -10,8 +10,11 @@ public class LoginPresenter implements ILoginPresenter {
 
 
     /**
+     * Used to check whether a username is valid.
+     *
      * @param username
-     * @return returns boolean whether
+     * @return return false if null, .., __, contains spaces, empty string, contains characters
+     * other than . and _. Returns true if the username is valid
      */
     @Override
     public boolean validUsername(String username) {
@@ -25,10 +28,14 @@ public class LoginPresenter implements ILoginPresenter {
             return false;
         return true;
 
-
-        //return ((username != null) && username.matches("[A-Za-z0-9_.]+"));
     }
 
+    /**
+     * Use to check whether a password is valid
+     *
+     * @param password
+     * @return returns false if password is null, empty or contains contain a space. Returns true otherwise
+     */
     @Override
     public boolean validPassword(String password) {
         return password != null && !password.equals("") && !password.contains(" ");
