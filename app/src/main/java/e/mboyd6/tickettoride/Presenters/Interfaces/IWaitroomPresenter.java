@@ -9,8 +9,6 @@ public interface IWaitroomPresenter {
 
     void updateReadyPlayers();
 
-    boolean gameReady();
-
     void startGame();
 
 
