@@ -1,5 +1,6 @@
 package com.example.sharedcode.interfaces;
 
+import com.example.sharedcode.communication.CommandResult;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
@@ -9,15 +10,17 @@ import com.example.sharedcode.model.Player;
 
 public interface ILobbyFacade {
 
-    public void createGame();
+    public CommandResult createGame(String gameName);
 
-    public Game[] getGames();
+    public CommandResult getGames();
 
-    public boolean joinGame(String gameID);
+    public CommandResult joinGame(String gameID, String username);
+
+    public CommandResult leaveGame(String gameID, String username);
 
     public void startGame(String gameID);
 
-    public Player[] getPlayersForGame(String gameID);
+    public CommandResult getPlayersForGame(String gameID);
 
 
 }
