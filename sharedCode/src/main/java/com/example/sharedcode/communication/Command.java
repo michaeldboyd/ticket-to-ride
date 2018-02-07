@@ -73,7 +73,10 @@ public class Command implements ICommand {
         Class<?>[] paramTypes = (Class<?>[])paramTypesList.toArray();
 
         Method method = receiver.getMethod(_methodName, paramTypes);
-        return (CommandResult)method.invoke(null, _paramValues);
+        CommandResult result = (CommandResult)method.invoke(null, _paramValues);
+        result.success = true;
+
+        return result;
     }
 }
 
