@@ -1,4 +1,4 @@
-Jan 31, 2018 4:52:19 PM com.example.server.Server run
+Feb 05, 2018 6:03:07 PM com.example.server.Server run
 FINE: Initializing HTTP Server
-Jan 31, 2018 4:52:20 PM com.example.server.Server run
+Feb 05, 2018 6:03:07 PM com.example.server.Server run
 FINEST: Server started...
