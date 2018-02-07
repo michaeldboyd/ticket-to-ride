@@ -1,12 +1,15 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
 
 /**
  * Created by jonathanlinford on 2/2/18.
  */
 
-public class LoginPresenter implements ILoginPresenter{
+public class LoginPresenter implements ILoginPresenter, Observer {
 
 
     /**
@@ -43,14 +46,16 @@ public class LoginPresenter implements ILoginPresenter{
     }
 
     /**
+     * @param username
      * @param password
      * @return
      */
     @Override
-    public boolean login(String password) {
+    public boolean login(String username, String password) {
         return false;
 
     }
+
 
 
     @Override

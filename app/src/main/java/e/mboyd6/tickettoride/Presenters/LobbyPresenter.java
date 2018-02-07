@@ -44,6 +44,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
             return false;
         } else {
             ClientLobbyFacade.instance().createGame();
+            return true;
         }
     }
 
