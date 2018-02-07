@@ -29,6 +29,22 @@ public class ClientModel extends Observable {
     private ClientModel() {
     }
 
+    public ArrayList<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(ArrayList<Game> games) {
+        this.games = games;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);

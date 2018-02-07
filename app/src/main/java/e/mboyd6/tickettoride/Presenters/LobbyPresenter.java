@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
 
@@ -36,8 +37,15 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
     }
 
     @Override
-    public void createGame() {
-
+    public boolean createGame(String name, int numOfPlayers) {
+        if(numOfPlayers >= 2 && numOfPlayers <= 5){
+            return false;
+        } else if(name == null || name.equals("") || name.equals(" ")){
+            return false;
+        } else {
+            ClientLobbyFacade.instance().createGame();
+            return true;
+        }
     }
 
     /**

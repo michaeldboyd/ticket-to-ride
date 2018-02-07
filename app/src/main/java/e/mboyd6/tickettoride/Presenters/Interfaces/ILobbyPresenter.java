@@ -11,7 +11,7 @@ public interface ILobbyPresenter {
 
     void joinGame(String gameID);
 
-    void createGame();
+    boolean createGame(String name, int numOfPlayers);
 
 
 }
