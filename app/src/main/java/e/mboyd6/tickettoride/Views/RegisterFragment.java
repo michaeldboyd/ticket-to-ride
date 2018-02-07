@@ -116,4 +116,11 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
         }
     }
 
+    @Override
+    public void onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
+        if (mListener != null) {
+            mListener.onRegisterFragmentSignUpButton(usernameData, passwordData);
+        }
+    }
+
 }

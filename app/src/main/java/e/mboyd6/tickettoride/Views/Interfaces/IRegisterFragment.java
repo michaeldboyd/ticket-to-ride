@@ -17,4 +17,5 @@ package e.mboyd6.tickettoride.Views.Interfaces;
 
 public interface IRegisterFragment {
     void onRegisterFragmentBackButton(String usernameData, String passwordData);
+    void onRegisterFragmentSignUpButton(String usernameData, String passwordData);
 }

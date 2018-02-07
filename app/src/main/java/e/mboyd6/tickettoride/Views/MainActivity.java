@@ -17,6 +17,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
+import e.mboyd6.tickettoride.Presenters.LoginPresenter;
+import e.mboyd6.tickettoride.Presenters.RegisterPresenter;
+import e.mboyd6.tickettoride.Presenters.WaitroomPresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
@@ -40,8 +44,14 @@ public class MainActivity extends AppCompatActivity
     }
   };
 
+  private LoginPresenter mLoginPresenter = new LoginPresenter();
+  private RegisterPresenter mRegisterPresenter = new RegisterPresenter();
+  private LobbyPresenter mLobbyPresenter = new LobbyPresenter();
+  private WaitroomPresenter waitroomPresenter = new WaitroomPresenter();
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     
@@ -74,10 +84,20 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
+  public void onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
+
+  }
+
+  @Override
   public void onLoginFragmentSignUpButton(String usernameData, String passwordData) {
     //mDelayedTransactionHandler.post(mRunnableTransitionToRegister);
     transitionToRegister(usernameData, passwordData);
 }
+
+  @Override
+  public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
+
+  }
 
   @TargetApi(21)
   private void transitionToRegister(String usernameData, String passwordData) {

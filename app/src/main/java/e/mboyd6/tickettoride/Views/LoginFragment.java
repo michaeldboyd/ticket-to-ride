@@ -111,6 +111,13 @@ public class LoginFragment extends Fragment implements ILoginFragment {
         }
     }
 
+    @Override
+    public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
+        if (mListener != null) {
+            mListener.onLoginFragmentLoginButton(usernameData, passwordData);
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
