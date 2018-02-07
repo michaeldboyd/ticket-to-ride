@@ -19,9 +19,10 @@ import android.view.WindowManager;
 
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements RegisterFragment.OnFragmentInteractionListener,
+        implements IRegisterFragment,
         ILoginFragment
 {
   private static final long MOVE_DEFAULT_TIME = 1000;
