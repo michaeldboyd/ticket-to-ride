@@ -19,11 +19,11 @@ import android.view.WindowManager;
 
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements IRegisterFragment,
-        ILoginFragment
+        implements IMainActivity
 {
   private static final long MOVE_DEFAULT_TIME = 1000;
   private static final long SLIDE_DEFAULT_TIME = 500;
