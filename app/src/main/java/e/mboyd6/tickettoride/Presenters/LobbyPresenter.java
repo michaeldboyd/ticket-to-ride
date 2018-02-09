@@ -43,7 +43,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
     @Override
     public void joinGame(String gameID) {
         System.out.println("gameID should not be ");
-        ClientLobbyFacade.instance().joinGame(gameID);
+        ClientLobbyFacade.instance().joinGame(gameID, null);
     }
 
     /**

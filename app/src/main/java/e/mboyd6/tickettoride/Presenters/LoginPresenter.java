@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.content.Context;
+
 import com.example.sharedcode.communication.CommandResult;
 
 import java.util.Observable;
@@ -7,14 +9,24 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ClientLoginFacade;
+import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
+import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 /**
  * Created by jonathanlinford on 2/2/18.
  */
 
-public class LoginPresenter implements ILoginPresenter{
+public class LoginPresenter implements ILoginPresenter, Observer{
 
+    MainActivity mainActivity;
+
+    public LoginPresenter(Context context){
+        mainActivity = (MainActivity) context;
+
+        ClientModel.getInstance().addObserver(this);
+    }
 
     /**
      * Used to check whether a username is valid.
@@ -55,11 +67,28 @@ public class LoginPresenter implements ILoginPresenter{
      */
     @Override
     public boolean login(String username, String password) {
-        CommandResult result = ClientLoginFacade._login(username, password);
-
         //if(result.)
 
         return false;
+
+    }
+
+    private void sendLoginResponse(){
+
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+
+        UpdateType updateType = (UpdateType) o;
+
+        switch (updateType){
+            case LOGINRESPONSE:
+
+                break;
+            default:
+                break;
+        }
 
     }
 }
