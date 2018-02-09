@@ -15,6 +15,7 @@ public class ClientModel extends Observable {
 
     private ArrayList<Game> games = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
+    private Player currentPlayer = new Player();
 
     public enum UpdateType {
         GAMELIST, PLAYERLIST, GAMESTARTED
@@ -35,6 +36,7 @@ public class ClientModel extends Observable {
 
     public void setGames(ArrayList<Game> games) {
         this.games = games;
+        notifyObservers(UpdateType.GAMELIST);
     }
 
     public ArrayList<Player> getPlayers() {
@@ -43,6 +45,7 @@ public class ClientModel extends Observable {
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
+        notifyObservers(UpdateType.PLAYERLIST);
     }
 
     @Override

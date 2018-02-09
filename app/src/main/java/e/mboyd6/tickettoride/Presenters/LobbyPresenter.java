@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.content.Context;
+
 import com.example.sharedcode.model.Player;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Observer;
 import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
+import e.mboyd6.tickettoride.Views.MainActivity;
 
 /**
  * Created by jonathanlinford on 2/3/18.
@@ -17,18 +20,19 @@ import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
 
 public class LobbyPresenter implements ILobbyPresenter, Observer{
 
+     //mainActivity =
+
+
     Player currentPlayer = new Player();
     List<Player> players = new ArrayList<>();
 
-    public LobbyPresenter(Player player) {
-        this.currentPlayer = player;
-
+    public LobbyPresenter(Context mainActivity) {
         ClientModel.getInstance().addObserver(this);
     }
 
     @Override
     public void updateGameList() {
-
+        //TODO: Hunter needs
     }
 
     @Override
