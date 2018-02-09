@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.content.Context;
 
+import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
 import java.util.ArrayList;
@@ -20,19 +21,23 @@ import e.mboyd6.tickettoride.Views.MainActivity;
 
 public class LobbyPresenter implements ILobbyPresenter, Observer{
 
-     //mainActivity =
+     MainActivity mainActivity;
 
-
-    Player currentPlayer = new Player();
     List<Player> players = new ArrayList<>();
 
     public LobbyPresenter(Context mainActivity) {
         ClientModel.getInstance().addObserver(this);
+
+        //Setting the main activity to be called upon updates
+        this.mainActivity = (MainActivity) mainActivity;
     }
 
     @Override
     public void updateGameList() {
-        //TODO: Hunter needs
+        ArrayList<Game> newList = ClientModel.getInstance().getGames();
+
+        //TODO: This is going to
+        mainActivity.updateGameList(newList);
     }
 
     @Override

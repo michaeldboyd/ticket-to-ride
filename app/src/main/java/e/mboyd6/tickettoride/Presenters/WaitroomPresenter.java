@@ -25,6 +25,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     @Override
     public void updateReadyPlayers() {
+        ClientModel.getInstance().getPlayers();
 
     }
 
