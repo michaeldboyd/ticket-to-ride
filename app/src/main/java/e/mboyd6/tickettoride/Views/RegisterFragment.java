@@ -8,19 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RegisterFragment.OnFragmentInteractionListener} interface
+ * {@link IRegisterFragment} interface
  * to handle interaction events.
  * Use the {@link RegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends Fragment implements IRegisterFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String USERNAME_DATA = "Username Data";
     private static final String PASSWORD_DATA = "Password Data";
@@ -30,8 +32,9 @@ public class RegisterFragment extends Fragment {
     private String mPasswordData;
     private String mConfirmData;
 
-    private OnFragmentInteractionListener mListener;
+    private IRegisterFragment mListener;
 
+    private Button mSignUpButton;
     private Button mBackButton;
     private EditText mUsernameField;
     private EditText mPasswordField;
@@ -75,33 +78,40 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_register, container, false);
+
+        mSignUpButton = layout.findViewById(R.id.register_fragment_sign_up_button);
         mBackButton = layout.findViewById(R.id.register_fragment_back_button);
         mUsernameField = layout.findViewById(R.id.register_fragment_username_field);
         mPasswordField = layout.findViewById(R.id.register_fragment_password_field);
         mUsernameField.setText(mUsernameData);
         mPasswordField.setText(mPasswordData);
 
+
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String resultText = onRegisterFragmentSignUpButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
+                Toast toast = Toast.makeText(getContext(), resultText, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackButtonPressed(mUsernameField.getText().toString(), mPasswordField.getText().toString());
+                onRegisterFragmentBackButton(mUsernameField.getText().toString(),
+                        mPasswordField.getText().toString());
             }
         });
         return layout;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onBackButtonPressed(String usernameData, String passwordData) {
-        if (mListener != null) {
-            mListener.onRegisterFragmentBackButton(usernameData, passwordData);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof IRegisterFragment) {
+            mListener = (IRegisterFragment) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -114,18 +124,19 @@ public class RegisterFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onRegisterFragmentBackButton(String usernameData, String passwordData);
+    @Override
+    public void onRegisterFragmentBackButton(String usernameData, String passwordData) {
+        if (mListener != null) {
+            mListener.onRegisterFragmentBackButton(usernameData, passwordData);
+        }
     }
+
+    @Override
+    public String onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
+        if (mListener != null) {
+            return mListener.onRegisterFragmentSignUpButton(usernameData, passwordData);
+        }
+        return "Client had an error.";
+    }
+
 }

@@ -1,7 +1,7 @@
 package e.mboyd6.tickettoride.Views.Interfaces;
 
 /**
- * Created by jonathanlinford on 2/2/18.
+ * Created by hunte on 2/7/2018.
  */
 
 /**
@@ -15,7 +15,7 @@ package e.mboyd6.tickettoride.Views.Interfaces;
  * >Communicating with Other Fragments</a> for more information.
  */
 
-public interface ILoginFragment {
-    void onLoginFragmentSignUpButton(String usernameData, String passwordData);
-    String onLoginFragmentLoginButton(String usernameData, String passwordData);
+public interface IRegisterFragment {
+    void onRegisterFragmentBackButton(String usernameData, String passwordData);
+    String onRegisterFragmentSignUpButton(String usernameData, String passwordData);
 }

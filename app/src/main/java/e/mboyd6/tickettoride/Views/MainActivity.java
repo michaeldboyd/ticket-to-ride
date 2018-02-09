@@ -14,15 +14,16 @@ import android.transition.TransitionInflater;
 import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
+import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
+import e.mboyd6.tickettoride.Presenters.LoginPresenter;
+import e.mboyd6.tickettoride.Presenters.RegisterPresenter;
+import e.mboyd6.tickettoride.Presenters.WaitroomPresenter;
 import e.mboyd6.tickettoride.R;
-import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 
 public class MainActivity extends AppCompatActivity
-        implements RegisterFragment.OnFragmentInteractionListener,
-        ILoginFragment
+        implements IMainActivity
 {
   private static final long MOVE_DEFAULT_TIME = 1000;
   private static final long SLIDE_DEFAULT_TIME = 500;
@@ -39,8 +40,14 @@ public class MainActivity extends AppCompatActivity
     }
   };
 
+  private LoginPresenter mLoginPresenter = new LoginPresenter();
+  private RegisterPresenter mRegisterPresenter = new RegisterPresenter();
+  private LobbyPresenter mLobbyPresenter;
+  private WaitroomPresenter waitroomPresenter;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     
@@ -73,10 +80,43 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
+  public String onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
+    if(mRegisterPresenter == null)
+      return "Something went wrong on our end.";
+    if(!mRegisterPresenter.validUsername(usernameData)) {
+      return "Invalid username";
+    }
+    if(!mRegisterPresenter.validPassword(passwordData)) {
+      return "Invalid password";
+    }
+    if(!mRegisterPresenter.register(usernameData, passwordData))
+    {
+      return "Server error, or connection does not exist";
+    }
+    return "Success!";
+  }
+
+  @Override
   public void onLoginFragmentSignUpButton(String usernameData, String passwordData) {
     //mDelayedTransactionHandler.post(mRunnableTransitionToRegister);
     transitionToRegister(usernameData, passwordData);
 }
+
+  @Override
+  public String onLoginFragmentLoginButton(String usernameData, String passwordData) {
+    if(mLoginPresenter == null)
+      return "Something went wrong on our end";
+    if(!mLoginPresenter.validUsername(usernameData)) {
+      return "Invalid username";
+    }
+    if(!mLoginPresenter.validPassword(passwordData)) {
+      return "Invalid password";
+    }
+    if (!mLoginPresenter.login(usernameData, passwordData)) {
+      return "Server error, or connection does not exist";
+    }
+    return "Success!";
+  }
 
   @TargetApi(21)
   private void transitionToRegister(String usernameData, String passwordData) {
