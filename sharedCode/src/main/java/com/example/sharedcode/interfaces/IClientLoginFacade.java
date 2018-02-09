@@ -1,7 +1,5 @@
 package com.example.sharedcode.interfaces;
 
-import com.example.sharedcode.communication.CommandResult;
-
 /**
  * Created by eric on 2/7/18.
  */
