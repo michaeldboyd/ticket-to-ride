@@ -1,15 +1,19 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import com.example.sharedcode.communication.CommandResult;
+
 import java.util.Observable;
 import java.util.Observer;
 
+import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
+import e.mboyd6.tickettoride.Communication.ClientLoginFacade;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
 
 /**
  * Created by jonathanlinford on 2/2/18.
  */
 
-public class LoginPresenter implements ILoginPresenter, Observer {
+public class LoginPresenter implements ILoginPresenter{
 
 
     /**
@@ -42,7 +46,6 @@ public class LoginPresenter implements ILoginPresenter, Observer {
     @Override
     public boolean validPassword(String password) {
         return password != null && !password.equals("") && !password.contains(" ");
-
     }
 
     /**
@@ -52,14 +55,11 @@ public class LoginPresenter implements ILoginPresenter, Observer {
      */
     @Override
     public boolean login(String username, String password) {
+        CommandResult result = ClientLoginFacade._login(username, password);
+
+        //if(result.)
+
         return false;
-
-    }
-
-
-
-    @Override
-    public void update(Observable observable, Object o) {
 
     }
 }
