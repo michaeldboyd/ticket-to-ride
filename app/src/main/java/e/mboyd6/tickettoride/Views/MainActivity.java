@@ -14,17 +14,13 @@ import android.transition.TransitionInflater;
 import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.Presenters.LoginPresenter;
 import e.mboyd6.tickettoride.Presenters.RegisterPresenter;
 import e.mboyd6.tickettoride.Presenters.WaitroomPresenter;
 import e.mboyd6.tickettoride.R;
-import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
-import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
 
 public class MainActivity extends AppCompatActivity
         implements IMainActivity
@@ -46,8 +42,8 @@ public class MainActivity extends AppCompatActivity
 
   private LoginPresenter mLoginPresenter = new LoginPresenter();
   private RegisterPresenter mRegisterPresenter = new RegisterPresenter();
-  private LobbyPresenter mLobbyPresenter = new LobbyPresenter();
-  private WaitroomPresenter waitroomPresenter = new WaitroomPresenter();
+  private LobbyPresenter mLobbyPresenter;
+  private WaitroomPresenter waitroomPresenter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +80,20 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
-
+  public String onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
+    if(mRegisterPresenter == null)
+      return "Something went wrong on our end.";
+    if(!mRegisterPresenter.validUsername(usernameData)) {
+      return "Invalid username";
+    }
+    if(!mRegisterPresenter.validPassword(passwordData)) {
+      return "Invalid password";
+    }
+    if(!mRegisterPresenter.register(usernameData, passwordData))
+    {
+      return "Server error, or connection does not exist";
+    }
+    return "Success!";
   }
 
   @Override
@@ -95,8 +103,19 @@ public class MainActivity extends AppCompatActivity
 }
 
   @Override
-  public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
-
+  public String onLoginFragmentLoginButton(String usernameData, String passwordData) {
+    if(mLoginPresenter == null)
+      return "Something went wrong on our end";
+    if(!mLoginPresenter.validUsername(usernameData)) {
+      return "Invalid username";
+    }
+    if(!mLoginPresenter.validPassword(passwordData)) {
+      return "Invalid password";
+    }
+    if (!mLoginPresenter.login(usernameData, passwordData)) {
+      return "Server error, or connection does not exist";
+    }
+    return "Success!";
   }
 
   @TargetApi(21)

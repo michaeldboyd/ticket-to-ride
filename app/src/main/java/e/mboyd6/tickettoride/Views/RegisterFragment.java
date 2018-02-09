@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
@@ -33,6 +34,7 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
 
     private IRegisterFragment mListener;
 
+    private Button mSignUpButton;
     private Button mBackButton;
     private EditText mUsernameField;
     private EditText mPasswordField;
@@ -76,11 +78,24 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_register, container, false);
+
+        mSignUpButton = layout.findViewById(R.id.register_fragment_sign_up_button);
         mBackButton = layout.findViewById(R.id.register_fragment_back_button);
         mUsernameField = layout.findViewById(R.id.register_fragment_username_field);
         mPasswordField = layout.findViewById(R.id.register_fragment_password_field);
         mUsernameField.setText(mUsernameData);
         mPasswordField.setText(mPasswordData);
+
+
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String resultText = onRegisterFragmentSignUpButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
+                Toast toast = Toast.makeText(getContext(), resultText, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,10 +132,11 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
     }
 
     @Override
-    public void onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
+    public String onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
         if (mListener != null) {
-            mListener.onRegisterFragmentSignUpButton(usernameData, passwordData);
+            return mListener.onRegisterFragmentSignUpButton(usernameData, passwordData);
         }
+        return "Client had an error.";
     }
 
 }
