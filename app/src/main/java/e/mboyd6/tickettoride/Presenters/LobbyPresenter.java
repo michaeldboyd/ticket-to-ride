@@ -13,6 +13,7 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
@@ -34,10 +35,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     @Override
     public void updateGameList() {
-        ArrayList<Game> newList = ClientModel.getInstance().getGames();
-
-        //TODO: This is going to
-        mainActivity.updateGameList(newList);
+        mainActivity.updateGameList(ClientModel.getInstance().getGames());
     }
 
     @Override
@@ -61,7 +59,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         } else if(name == null || name.equals("") || name.equals(" ")){
             return false;
         } else {
-            ClientLobbyFacade.instance().createGame();
+            ClientLobbyFacade.instance().createGame("test", "test");
             return true;
         }
     }
@@ -76,7 +74,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
      */
     @Override
     public void update(Observable observable, Object o) {
-        ClientModel.UpdateType updateType = (ClientModel.UpdateType) o;
+        UpdateType updateType = (UpdateType) o;
 
         switch(updateType){
             case GAMELIST:

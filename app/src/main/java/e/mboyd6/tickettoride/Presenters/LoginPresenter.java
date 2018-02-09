@@ -2,13 +2,10 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.content.Context;
 
-import com.example.sharedcode.communication.CommandResult;
-
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
-import e.mboyd6.tickettoride.Communication.ClientLoginFacade;
+import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
@@ -66,15 +63,12 @@ public class LoginPresenter implements ILoginPresenter, Observer{
      * @return
      */
     @Override
-    public boolean login(String username, String password) {
-        //if(result.)
-
-        return false;
-
+    public void login(String username, String password) {
+        ServerProxyLoginFacade.instance().login(username, password);
     }
 
-    private void sendLoginResponse(){
-
+    private void loginResponse(String message){
+        //mainActivity.onLoginResponse(message);
     }
 
     @Override
@@ -84,7 +78,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
 
         switch (updateType){
             case LOGINRESPONSE:
-
+                loginResponse(ClientModel.getInstance().getLoginResponse());
                 break;
             default:
                 break;

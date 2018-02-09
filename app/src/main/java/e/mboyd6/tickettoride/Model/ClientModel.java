@@ -7,17 +7,32 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.websocket.Session;
+
 /**
  * Created by jonathanlinford on 2/5/18.
  */
 
 public class ClientModel extends Observable {
 
+    //Game data
     private ArrayList<Game> games = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
+
+    //Current player data
     private Player currentPlayer = new Player();
     private String authToken;
+    private String loginResponse;
 
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    private Session session;
     private static final ClientModel ourInstance = new ClientModel();
 
     public static ClientModel getInstance() {
@@ -59,6 +74,14 @@ public class ClientModel extends Observable {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
+    }
+
+    public String getLoginResponse() {
+        return loginResponse;
+    }
+
+    public void setLoginResponse(String loginResponse) {
+        this.loginResponse = loginResponse;
     }
 
     @Override

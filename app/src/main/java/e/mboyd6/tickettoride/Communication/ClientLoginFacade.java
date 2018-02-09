@@ -1,6 +1,6 @@
 package e.mboyd6.tickettoride.Communication;
 
-import com.example.sharedcode.communication.CommandResult;
+
 import com.example.sharedcode.interfaces.IClientLoginFacade;
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 
@@ -31,7 +31,11 @@ public class ClientLoginFacade implements IClientLoginFacade {
     public void login(String authToken, String message) {
         // Received the command that said a user attempted to log in
         // If successful, message == null
-
+        if(message == null)
+        {
+            System.out.println("Client has logged in successfully");
+            //update client model
+        }
         // Essentially, we need to update the Client-side model so that the UI will update properly
     }
 
@@ -39,7 +43,7 @@ public class ClientLoginFacade implements IClientLoginFacade {
     public void register(String authToken, String message) {
         // Received the command that said a user attempted to register
         // If successful, message == null
-
+        System.out.println("Client has registered Successfully! (And websockets now work)");
         // Essentially, we need to update the Client-side model so that the UI will update properly
     }
 }

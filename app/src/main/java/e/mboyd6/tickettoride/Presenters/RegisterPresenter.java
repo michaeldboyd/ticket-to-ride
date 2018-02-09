@@ -1,12 +1,17 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
 
 /**
  * Created by jonathanlinford on 2/2/18.
  */
 
-public class RegisterPresenter implements IRegisterPresenter {
+public class RegisterPresenter implements IRegisterPresenter, Observer {
 
 
     /**
@@ -72,5 +77,22 @@ public class RegisterPresenter implements IRegisterPresenter {
     @Override
     public boolean register(String username, String password) {
         return false;
+    }
+
+    private void registerResponse(String message){
+        //mainActivity.onRegisterUpdate(message);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        UpdateType updateType = (UpdateType) o;
+
+        switch (updateType){
+            case REGISTERRESPONSE:
+                registerResponse(ClientModel.getInstance().getLoginResponse());
+                break;
+            default:
+                break;
+        }
     }
 }
