@@ -399,6 +399,11 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
+  public void onRegisterSuccessful() {
+
+  }
+
+  @Override
   public void onLoginFragmentSignUpButton(String usernameData, String passwordData) {
     //mDelayedTransactionHandler.post(mRunnableTransitionToRegister);
     transitionToRegisterFromLogin(usernameData, passwordData);
@@ -427,6 +432,11 @@ public class MainActivity extends AppCompatActivity
     } else {
       transitionToLobbyFromLoginAndRegister();
     }
+  }
+
+  @Override
+  public void onLoginSuccessful() {
+
   }
 
   @Override
