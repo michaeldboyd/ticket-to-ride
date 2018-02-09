@@ -1,7 +1,5 @@
-import com.google.gson.Gson;
 import java.io.*;
 
-import java.net.*;
 import org.eclipse.jetty.server.Server;
 
 import org.eclipse.jetty.server.ServerConnector;
@@ -53,16 +51,16 @@ public class ServerRunner {
         connector.setPort(portNumber);
         server.addConnector(connector);
 
-    WebSocketHandler context = new WebSocketHandler() {
-      @Override
-      public void configure(WebSocketServletFactory factory) {
-        factory.register(CommandSocket.class);
-      }
-    };
-    ContextHandler contextHandler = new ContextHandler();
-    contextHandler.setContextPath("/echo/");
-    contextHandler.setHandler(context);
-    server.setHandler(contextHandler);
+        WebSocketHandler context = new WebSocketHandler() {
+          @Override
+          public void configure(WebSocketServletFactory factory) {
+            factory.register(CommandSocket.class);
+          }
+        };
+        ContextHandler contextHandler = new ContextHandler();
+        contextHandler.setContextPath("/echo/");
+        contextHandler.setHandler(context);
+        server.setHandler(contextHandler);
 
         try {
             server.start();

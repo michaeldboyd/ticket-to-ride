@@ -1,3 +1,4 @@
+package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandMessage;
 import com.google.gson.Gson;
@@ -12,6 +13,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import e.mboyd6.tickettoride.Model.ClientModel;
+
 @ClientEndpoint
 @ServerEndpoint(value="/echo")
 public class CommandSocket implements WebSocketListener
@@ -20,8 +23,8 @@ public class CommandSocket implements WebSocketListener
     @OnOpen
     public void onWebSocketConnect(Session sess)
     {
-       ServerModel.instance().session = sess;
-       // TODO: linke each session with the appropriate user. this is where it all starts
+        System.out.println("Client Connected!");
+        // TODO: linke each session with the appropriate user. this is where it all starts
     }
 
 
@@ -29,7 +32,6 @@ public class CommandSocket implements WebSocketListener
     @OnMessage
     public void onWebSocketText(String message)
     {
-        System.out.println(message);
         Command res = gson.fromJson(message, Command.class);
         try {
             res.execute();

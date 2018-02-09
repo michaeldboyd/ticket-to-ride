@@ -37,10 +37,10 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
         Command loginClientCommand = CommandFactory.createCommand("ClientLoginFacade", "login", paramTypes, paramValues);
 
         // TODO - Send loginCommand to Client via socket
-        CommandMessage mess = new CommandMessage("test", loginClientCommand);
+
         Session sess = ServerModel.instance().session;
         try {
-            sess.getBasicRemote().sendText(new Gson().toJson(mess));
+            sess.getBasicRemote().sendText(new Gson().toJson(loginClientCommand));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,5 +56,11 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
         Command registerClientCommand = CommandFactory.createCommand("ClientLoginFacade", "register", paramTypes, paramValues);
 
         // TODO - Send registerCommand to Client via socket
+        Session sess = ServerModel.instance().session;
+        try {
+            sess.getBasicRemote().sendText(new Gson().toJson(registerClientCommand));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

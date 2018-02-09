@@ -52,7 +52,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         } else if(name == null || name.equals("") || name.equals(" ")){
             return false;
         } else {
-            ClientLobbyFacade.instance().createGame();
+            ClientLobbyFacade.instance().createGame("test", "test");
             return true;
         }
     }
