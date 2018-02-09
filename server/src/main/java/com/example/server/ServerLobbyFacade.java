@@ -1,12 +1,14 @@
 package com.example.server;
 
+import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandResult;
-import com.example.sharedcode.interfaces.ILobbyFacade;
+import com.example.sharedcode.interfaces.IServerLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 
 import Model.serverModel;
 
@@ -14,98 +16,83 @@ import Model.serverModel;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class ServerLobbyFacade implements ILobbyFacade {
+public class ServerLobbyFacade implements IServerLobbyFacade {
 
     int playerLimit = 5;
 
-  @Override
-  public CommandResult createGame(String gameName) {
-    //create commandresult
-    if(serverModel.instance().games.containsKey(gameName)){
+    // Creates command to create game and send back to the client
+    @Override
+    public void createGame() {
+        // Don't need to check for existence of a new game because this should only be called when creating a brand new game
 
-      //Commandresult.setMessage("Game already exists")
-
-    }
-    else{
-
-        Game newGame = new Game();
-        newGame.setGameID(gameName);
-        serverModel.instance().games.put(gameName, newGame);
-
+        // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
+        // Create a random UUID for gameID to pass to createGame method
+        ClientProxyLobbyFacade.instance().createGame(UUID.randomUUID().toString(), null);
     }
 
-    return null;
-  }
+    @Override
+    public void getGames() {
+        Game[] games = (Game[]) serverModel.instance().games.values().toArray();
 
-  @Override
-  public CommandResult getGames() {
-     Map gameMap = serverModel.instance().games;
+        // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
+        ClientProxyLobbyFacade.instance().updateGames(games, null);
+    }
 
-     return null;
-  }
+    @Override
+    public void joinGame(String gameID, String playerID) {
+        String message = null;
 
-  @Override
-  public CommandResult joinGame(String gameID, String username) {
+        if (serverModel.instance().games.containsKey(gameID)) {
 
-      if(serverModel.instance().games.containsKey(gameID)){
+            // Only set message if we fail to add user to the game
+            if (!serverModel.instance().games.get(gameID).addPlayer(playerID)) {
+                message = "Could not add player to game [id = " + gameID + "]";
+            }
 
-          if(serverModel.instance().games.get(gameID).addPlayer(username)){
+        }
 
-              //command
+        ClientProxyLobbyFacade.instance().joinGame(gameID, message);
+    }
 
-          }
-          else{
+    @Override
+    public void leaveGame(String gameID, String playerID) {
+        String message = null;
 
-              //error: "could not add player to game"
-              // either to many players or player already in game. may want to specify
+        // This returns false if playerID is not part of game
+        if (!serverModel.instance().games.get(gameID).removePlayer(playerID)) {
+            message = "couldn't remove player because wasn't in game yet";
+        }
 
-          }
-
-      }
-      return null;
-  }
-
-  @Override
-    public CommandResult leaveGame(String gameID, String username){
-      if(serverModel.instance().games.containsKey(gameID)){
-
-          if(serverModel.instance().games.get(gameID).removePlayer(username)){
-
-              //command
-
-          }
-          else{
-
-              //error: "couldn't remove player because wasn't in game yet"
-
-          }
-
-      }
-      return null;
+        ClientProxyLobbyFacade.instance().leaveGame(gameID, message);
     }
 
 
     @Override
-  public void startGame(String gameID) {
+    public void startGame(String gameID) {
+        String message = null;
 
-  }
+        if (!serverModel.instance().games.containsKey(gameID)) {
+            message = "Game doesn't exist.";
+        }
 
-  @Override
-  public CommandResult getPlayersForGame(String gameID) {
-      //create commandresult
-      if(serverModel.instance().games.containsKey(gameID)){
+        ClientProxyLobbyFacade.instance().startGame(gameID, message);
+    }
 
-          ArrayList players = serverModel.instance().games.get(gameID).getPlayerIDs();
+    @Override
+    public void getPlayersForGame(String gameID) {
+        String message = null;
+        Player[] players = null;
 
-          //put arraylist in command and return
+        //create commandresult
+        if (serverModel.instance().games.containsKey(gameID)) {
 
-      }
-      else{
+            players = (Player[])serverModel.instance().games.get(gameID).getPlayerIDs().toArray();
+        } else {
 
-        //error: game does not exist
+            message = "Game does not exist.";
+        }
 
-      }
+        ClientProxyLobbyFacade.instance().getPlayersForGame(gameID, players, message);
+    }
 
-      return null;
-  }
 }

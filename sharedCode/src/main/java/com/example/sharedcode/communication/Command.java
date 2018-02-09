@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 interface ICommand {
-    Object execute() throws Exception;
+    void execute() throws Exception;
 }
 
 
@@ -22,9 +22,12 @@ public class Command implements ICommand {
 
 
     /**
+     * Commands should only ever execute static methods on classes.
+     * This ensures that we dont' have issues
      *
-     * @param className - the name of the facade class that
-     * @param methodName - the method to be called on the facade class
+     *
+     * @param className - the name of the facade class that will call the method (full name--e.g. "String" ==> "java.lang.String"
+     * @param methodName - the name method to be called on the facade class
      * @param paramTypesStringNames - String names of parameter types for the method-->converted to Class<?>[]
      * @param paramValues -- array of actual objects for parameter values passed into the method
      *
@@ -40,10 +43,11 @@ public class Command implements ICommand {
     }
 
     /**
-     * @return
+     *
+     * @throws Exception - thrown if any errors occur in trying to execute this command (e.g. ClassNotFoundException)
      */
     @Override
-    public CommandResult execute() throws Exception {
+    public void execute() throws Exception {
         Class<?> receiver;
 
         switch (_className) {
@@ -73,10 +77,7 @@ public class Command implements ICommand {
         Class<?>[] paramTypes = (Class<?>[])paramTypesList.toArray();
 
         Method method = receiver.getMethod(_methodName, paramTypes);
-        CommandResult result = (CommandResult)method.invoke(null, _paramValues);
-        result.success = true;
-
-        return result;
+        method.invoke(null, _paramValues);
     }
 }
 

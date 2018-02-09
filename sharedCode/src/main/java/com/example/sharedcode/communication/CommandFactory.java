@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Communication;
+package com.example.sharedcode.communication;
 
 import com.example.sharedcode.communication.Command;
 

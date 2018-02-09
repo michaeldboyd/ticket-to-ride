@@ -39,16 +39,17 @@ public class CommandHandler implements HttpHandler {
 
                 //check if request is valid:
 
-                res = req.execute();
+                req.execute();
             } else {
                 msg = "This API is a POST request. No GET requests allowed in the club! :(";
 
-                res = new CommandResult(msg, null);
+                // TODO - Call ClientProxyLoginFacade to create a command with this error message
+
                 System.out.println(msg);
             }
         } catch (IOException e) {
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
-            res = new CommandResult(e.getLocalizedMessage(), null);
+            // TODO - Call ClientProxyLoginFacade to create a command with this error message-->error.getLocalizedMessage()
 
             // Display/log the stack trace
             msg = "An Internal Server Error has occurred: " + e.getMessage();
@@ -56,7 +57,8 @@ public class CommandHandler implements HttpHandler {
             e.printStackTrace();
         } catch (Exception e) {
             // For some reason, calling execute on the command failed, so send the message back
-            res = new CommandResult(e.getLocalizedMessage(), null);
+
+            // TODO - Call ClientProxyLoginFacade to create a command with this error message-->error.getLocalizedMessage()
 
             System.out.println(e.getMessage());
             e.printStackTrace();
