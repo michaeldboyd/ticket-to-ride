@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
     }
   };
 
-  private LoginPresenter mLoginPresenter = new LoginPresenter();
+  private LoginPresenter mLoginPresenter = new LoginPresenter(this);
   private RegisterPresenter mRegisterPresenter = new RegisterPresenter();
   private LobbyPresenter mLobbyPresenter;
   private WaitroomPresenter waitroomPresenter;
@@ -424,8 +424,8 @@ public class MainActivity extends AppCompatActivity
     else if(!mLoginPresenter.validPassword(passwordData)) {
       message = "Invalid password";
     }
-    else if (!mLoginPresenter.login(usernameData, passwordData)) {
-      message = "Server error, or connection does not exist";
+    else {
+      mLoginPresenter.login(usernameData, passwordData);
     }
     if (handleError(message)) {
       return;
