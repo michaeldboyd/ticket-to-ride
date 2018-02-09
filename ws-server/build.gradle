@@ -1,0 +1,24 @@
+group 'ticket-to-ride'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'com.google.code.gson:gson:2.8.1'
+    // https://mvnrepository.com/artifact/javax.websocket/javax.websocket-all
+    compile group: 'javax.websocket', name: 'javax.websocket-all', version: '1.1', ext: 'pom'
+    // https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api
+    compile group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
+    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server
+    compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.8.v20171121'
+    // https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-server
+    compile group: 'org.eclipse.jetty.websocket', name: 'websocket-server', version: '9.4.8.v20171121'
+
+}

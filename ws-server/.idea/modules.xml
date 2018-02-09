@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ws-server.iml" filepath="$PROJECT_DIR$/.idea/modules/ws-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ws-server_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ws-server_main.iml" group="ws-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ws-server_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ws-server_test.iml" group="ws-server" />
+    </modules>
+  </component>
+</project>
