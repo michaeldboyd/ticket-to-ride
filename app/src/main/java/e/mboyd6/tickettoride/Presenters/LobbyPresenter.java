@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -25,11 +26,10 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     List<Player> players = new ArrayList<>();
 
-    public LobbyPresenter(Context mainActivity) {
-        ClientModel.getInstance().addObserver(this);
+    public LobbyPresenter(Context context) {
+        this.mainActivity = (MainActivity) context;
 
-        //Setting the main activity to be called upon updates
-        this.mainActivity = (MainActivity) mainActivity;
+        ClientModel.getInstance().addObserver(this);
     }
 
     @Override
@@ -42,9 +42,18 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     @Override
     public void joinGame(String gameID) {
-
+        System.out.println("gameID should not be ");
+        ClientLobbyFacade.instance().joinGame(gameID);
     }
 
+    /**
+     * Used to create a game.
+     *
+     * @param name
+     * @param numOfPlayers
+     * @return weather the game was correctly created or not
+     * @post a new game will be created. Creator will be automatically added
+     */
     @Override
     public boolean createGame(String name, int numOfPlayers) {
         if(numOfPlayers >= 2 && numOfPlayers <= 5){
