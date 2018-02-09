@@ -7,19 +7,13 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.websocket.Session;
+
 /**
  * Created by jonathanlinford on 2/5/18.
  */
 
 public class ClientModel extends Observable {
-
-    private ArrayList<Game> games = new ArrayList<>();
-    private ArrayList<Player> players = new ArrayList<>();
-    private Player currentPlayer = new Player();
-
-    public enum UpdateType {
-        GAMELIST, PLAYERLIST, GAMESTARTED
-    }
 
     private static final ClientModel ourInstance = new ClientModel();
 
@@ -30,6 +24,22 @@ public class ClientModel extends Observable {
     private ClientModel() {
     }
 
+    private ArrayList<Game> games = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
+    private Player currentPlayer = new Player();
+    private Session session;
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public enum UpdateType {
+        GAMELIST, PLAYERLIST, GAMESTARTED
+    }
     public ArrayList<Game> getGames() {
         return games;
     }

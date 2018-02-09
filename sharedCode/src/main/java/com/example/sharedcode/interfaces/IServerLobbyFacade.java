@@ -1,9 +1,5 @@
 package com.example.sharedcode.interfaces;
 
-import com.example.sharedcode.communication.CommandResult;
-import com.example.sharedcode.model.Game;
-import com.example.sharedcode.model.Player;
-
 /**
  * Created by mboyd6 on 2/1/2018.
  */

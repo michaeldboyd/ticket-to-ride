@@ -1,6 +1,6 @@
 package e.mboyd6.tickettoride.Presenters;
 
-import com.example.sharedcode.communication.CommandResult;
+import com.example.sharedcode.communication.CommandMessage;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -55,7 +55,7 @@ public class LoginPresenter implements ILoginPresenter{
      */
     @Override
     public boolean login(String username, String password) {
-        CommandResult result = ClientLoginFacade._login(username, password);
+       ClientLoginFacade._login(username, password);
 
         //if(result.)
 
