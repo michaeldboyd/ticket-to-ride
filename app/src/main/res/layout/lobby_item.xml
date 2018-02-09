@@ -8,7 +8,7 @@
     android:weightSum="10">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/lobby_item_game_creator"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="left"
@@ -21,42 +21,42 @@
 
 
     <View
-        android:id="@+id/card_1"
+        android:id="@+id/lobby_item_card_1"
         android:layout_width="15dp"
         android:layout_height="match_parent"
         android:background="#c92d39"
         android:visibility="visible" />
 
     <View
-        android:id="@+id/card_2"
+        android:id="@+id/lobby_item_card_2"
         android:layout_width="15dp"
         android:layout_height="match_parent"
         android:background="#19967D"
         android:visibility="visible" />
 
     <View
-        android:id="@+id/card_3"
+        android:id="@+id/lobby_item_card_3"
         android:layout_width="15dp"
         android:layout_height="match_parent"
         android:background="#EF8D22"
         android:visibility="visible" />
 
     <View
-        android:id="@+id/card_4"
+        android:id="@+id/lobby_item_card_4"
         android:layout_width="15dp"
         android:layout_height="match_parent"
         android:background="#0C7CBA"
         android:visibility="visible" />
 
     <View
-        android:id="@+id/card_5"
+        android:id="@+id/lobby_item_card_5"
         android:layout_width="15dp"
         android:layout_height="match_parent"
         android:background="#834187"
         android:visibility="visible" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/lobby_item_player_count"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
@@ -68,7 +68,7 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/game_join_button"
+        android:id="@+id/lobby_item_game_join_button"
 
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

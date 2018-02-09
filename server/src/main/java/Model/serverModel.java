@@ -28,9 +28,9 @@ public class serverModel {
     private serverModel() {}
 
     public ArrayList<Command> queuedCommands = new ArrayList<>();
-    public ArrayList<User> loggedInUsers = new ArrayList<>();
-    public Map<String, String> allUsers = new HashMap<>();
-    public ArrayList<Game> Games = new ArrayList<>();
+    public Map<String, User> loggedInUsers = new HashMap<>();
+    public Map<String, User> allUsers = new HashMap<>();
+    public Map<String, Game> games = new HashMap<>();
 
 
 

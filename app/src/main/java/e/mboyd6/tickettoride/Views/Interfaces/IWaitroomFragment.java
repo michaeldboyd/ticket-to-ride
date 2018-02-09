@@ -4,6 +4,11 @@ package e.mboyd6.tickettoride.Views.Interfaces;
  * Created by jonathanlinford on 2/2/18.
  */
 
+import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Player;
+
+import java.util.ArrayList;
+
 /**
  * This interface must be implemented by activities that contain this
  * fragment to allow an interaction in this fragment to be communicated
@@ -15,7 +20,9 @@ package e.mboyd6.tickettoride.Views.Interfaces;
  * >Communicating with Other Fragments</a> for more information.
  */
 
-public interface ILoginFragment {
-    void onLoginFragmentSignUpButton(String usernameData, String passwordData);
-    String onLoginFragmentLoginButton(String usernameData, String passwordData);
+public interface IWaitroomFragment {
+    void updatePlayerList(ArrayList<Player> newList);
+    void updateChat();
+    void onWaitroomFragmentColorPicked(int color);
+    void onWaitroomFragmentBackoutButton();
 }

@@ -2,8 +2,10 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.content.Context;
 
+import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -12,7 +14,7 @@ import java.util.Observer;
 import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
-import e.mboyd6.tickettoride.Views.MainActivity;
+import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 /**
  * Created by jonathanlinford on 2/3/18.
@@ -20,26 +22,38 @@ import e.mboyd6.tickettoride.Views.MainActivity;
 
 public class LobbyPresenter implements ILobbyPresenter, Observer{
 
-     //mainActivity =
+     MainActivity mainActivity;
 
-
-    Player currentPlayer = new Player();
     List<Player> players = new ArrayList<>();
 
-    public LobbyPresenter(Context mainActivity) {
+    public LobbyPresenter(Context context) {
+        this.mainActivity = (MainActivity) context;
+
         ClientModel.getInstance().addObserver(this);
     }
 
     @Override
     public void updateGameList() {
-        //TODO: Hunter needs
+        ArrayList<Game> newList = ClientModel.getInstance().getGames();
+
+        //TODO: This is going to
+        mainActivity.updateGameList(newList);
     }
 
     @Override
     public void joinGame(String gameID) {
-
+        System.out.println("gameID should not be ");
+        ClientLobbyFacade.instance().joinGame(gameID);
     }
 
+    /**
+     * Used to create a game.
+     *
+     * @param name
+     * @param numOfPlayers
+     * @return weather the game was correctly created or not
+     * @post a new game will be created. Creator will be automatically added
+     */
     @Override
     public boolean createGame(String name, int numOfPlayers) {
         if(numOfPlayers >= 2 && numOfPlayers <= 5){

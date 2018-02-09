@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Views;
+package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
@@ -29,6 +30,7 @@ public class LoginFragment extends Fragment implements ILoginFragment {
     private String mUsernameData;
     private String mPasswordData;
 
+    private Button mLoginButton;
     private Button mSignUpButton;
     private EditText mUsernameField;
     private EditText mPasswordField;
@@ -70,11 +72,23 @@ public class LoginFragment extends Fragment implements ILoginFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_login, container, false);
+        mLoginButton = layout.findViewById(R.id.login_fragment_log_in_button);
         mSignUpButton = layout.findViewById(R.id.login_fragment_sign_up_button);
         mUsernameField = layout.findViewById(R.id.login_fragment_username_field);
         mPasswordField = layout.findViewById(R.id.login_fragment_password_field);
         mUsernameField.setText(mUsernameData);
         mPasswordField.setText(mPasswordData);
+
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                String resultText = onLoginFragmentLoginButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
+                Toast toast = Toast.makeText(getContext(), resultText, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
 
@@ -109,6 +123,14 @@ public class LoginFragment extends Fragment implements ILoginFragment {
         if (mListener != null) {
             mListener.onLoginFragmentSignUpButton(usernameData, passwordData);
         }
+    }
+
+    @Override
+    public String onLoginFragmentLoginButton(String usernameData, String passwordData) {
+        if (mListener != null) {
+            return mListener.onLoginFragmentLoginButton(usernameData, passwordData);
+        }
+        return "Client had an error.";
     }
 
     /**

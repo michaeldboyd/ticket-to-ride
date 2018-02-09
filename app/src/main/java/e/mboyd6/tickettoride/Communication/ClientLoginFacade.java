@@ -1,35 +1,45 @@
 package e.mboyd6.tickettoride.Communication;
 
 import com.example.sharedcode.communication.CommandResult;
-import com.example.sharedcode.interfaces.ILoginFacade;
+import com.example.sharedcode.interfaces.IClientLoginFacade;
+import com.example.sharedcode.interfaces.IServerLoginFacade;
 
 /**
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class ClientLoginFacade implements ILoginFacade{
-  private static ClientLoginFacade instance = new ClientLoginFacade();
+public class ClientLoginFacade implements IClientLoginFacade {
+    private static ClientLoginFacade instance = new ClientLoginFacade();
 
-  private ClientLoginFacade() {}
-
-  //Static methods are so that we don't need to call the .instance() getter.
-  public static CommandResult _login(String username, String password) {
-    return instance.login(username, password);
-  }
-  public static CommandResult _register(String username, String password) {
-    return instance.register(username, password);
-  }
+    private ClientLoginFacade() {
+    }
 
 
-  @Override
-  public CommandResult login(String username, String password) {
-    //TODO use websocket to connect to server
-    return null;
-  }
+    public static void _login(String authToken, String message) {
+        instance.login(authToken, message);
+    }
 
-  @Override
-  public CommandResult register(String username, String password) {
-    //TODO
-    return null;
-  }
+    public static void _register(String authToken, String message) {
+        instance.register(authToken, message);
+    }
+
+
+
+    //***** THESE METHODS ARE NOT CALLED FROM THE CLIENT PROXY--ONLY FROM THE CORRESPONDING STATIC METHODS *****
+
+    @Override
+    public void login(String authToken, String message) {
+        // Received the command that said a user attempted to log in
+        // If successful, message == null
+
+        // Essentially, we need to update the Client-side model so that the UI will update properly
+    }
+
+    @Override
+    public void register(String authToken, String message) {
+        // Received the command that said a user attempted to register
+        // If successful, message == null
+
+        // Essentially, we need to update the Client-side model so that the UI will update properly
+    }
 }

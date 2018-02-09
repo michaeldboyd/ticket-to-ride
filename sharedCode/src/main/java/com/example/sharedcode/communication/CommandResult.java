@@ -8,12 +8,20 @@ import java.util.List;
  */
 
 public class CommandResult {
-    List<Command> commands = new ArrayList<Command>();
+    Command command;
     String message;
-    public CommandResult(String message, List<Command> commands)
+    Boolean success;
+
+
+    /**
+     * @param message
+     * @param command
+     */
+    public CommandResult(String message, Command command)
     {
         this.message = message;
-        this.commands = commands;
+        this.command = command;
+        this.success = false; // false by default --> updated later by Command.execute()
     }
 
 }
