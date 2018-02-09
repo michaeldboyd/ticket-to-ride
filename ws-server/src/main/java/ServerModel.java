@@ -1,36 +1,34 @@
-package Model;
+
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.User;
 import com.example.sharedcode.communication.Command;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import javax.websocket.Session;
+import java.util.*;
 
-/**
- * Created by mboyd6 on 2/1/2018.
- */
 
-public class serverModel {
+public class ServerModel {
 
-    public static serverModel _instance;
+    public static ServerModel _instance;
 
-    public static serverModel instance() {
+    public static ServerModel instance() {
 
         if (_instance == null){
-            _instance = new serverModel();
+            _instance = new ServerModel();
         }
 
         return _instance;
     }
 
-    private serverModel() {}
+    private ServerModel() {}
 
     public ArrayList<Command> queuedCommands = new ArrayList<>();
     public Map<String, User> loggedInUsers = new HashMap<>();
     public Map<String, User> allUsers = new HashMap<>();
     public Map<String, Game> games = new HashMap<>();
+    public Set<Session> sessionSet = new HashSet<Session>();
+    public Session session;
 
 
 

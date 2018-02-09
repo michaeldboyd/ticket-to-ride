@@ -1,4 +1,4 @@
-package com.example.server;
+
 
 import com.example.sharedcode.communication.*;
 import com.sun.net.httpserver.HttpExchange;
@@ -29,7 +29,7 @@ public class CommandHandler implements HttpHandler {
         String respData = null;
         String msg = "Invalid http request";
         Gson gson = new Gson();
-        CommandResult res = null;
+        CommandMessage res = null;
 
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("post")) {

@@ -1,4 +1,4 @@
-package com.example.server;
+
 
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
@@ -6,7 +6,6 @@ import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
-import Model.serverModel;
 
 /**
  * Created by eric on 2/7/18.
@@ -31,7 +30,7 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     public void createGame(String gameID, String message) {
         Game newGame = new Game();
         newGame.setGameID(gameID);
-        serverModel.instance().games.put(gameID, newGame);
+        ServerModel.instance().games.put(gameID, newGame);
 
         // This is called after the Server has attempted to get all games
         // If successful, message == null

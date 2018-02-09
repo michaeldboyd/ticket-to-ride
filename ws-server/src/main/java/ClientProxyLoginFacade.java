@@ -1,8 +1,13 @@
-package com.example.server;
+
 
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
+import com.example.sharedcode.communication.CommandMessage;
 import com.example.sharedcode.interfaces.IClientLoginFacade;
+import com.google.gson.Gson;
+
+import javax.websocket.Session;
+import java.io.IOException;
 
 /**
  * Created by eric on 2/7/18.
@@ -32,6 +37,13 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
         Command loginClientCommand = CommandFactory.createCommand("ClientLoginFacade", "login", paramTypes, paramValues);
 
         // TODO - Send loginCommand to Client via socket
+        CommandMessage mess = new CommandMessage("test", loginClientCommand);
+        Session sess = ServerModel.instance().session;
+        try {
+            sess.getBasicRemote().sendText(new Gson().toJson(mess));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

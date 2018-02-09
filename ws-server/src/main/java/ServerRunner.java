@@ -53,7 +53,7 @@ public class ServerRunner {
         connector.setPort(portNumber);
         server.addConnector(connector);
 
-   /* WebSocketHandler context = new WebSocketHandler() {
+    WebSocketHandler context = new WebSocketHandler() {
       @Override
       public void configure(WebSocketServletFactory factory) {
         factory.register(CommandSocket.class);
@@ -62,7 +62,7 @@ public class ServerRunner {
     ContextHandler contextHandler = new ContextHandler();
     contextHandler.setContextPath("/echo/");
     contextHandler.setHandler(context);
-    server.setHandler(contextHandler);*/
+    server.setHandler(contextHandler);
 
         try {
             server.start();

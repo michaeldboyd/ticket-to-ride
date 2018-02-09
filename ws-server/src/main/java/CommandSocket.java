@@ -1,6 +1,7 @@
 
+import com.example.sharedcode.communication.CommandMessage;
+import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
@@ -15,30 +16,25 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value="/echo")
 public class CommandSocket implements WebSocketListener
 {
+    Gson gson = new Gson();
     @OnOpen
     public void onWebSocketConnect(Session sess)
     {
-        System.out.println("Socket Connected: " + sess);
+       ServerModel.instance().session = sess;
+       // TODO: linke each session with the appropriate user. this is where it all starts
     }
 
-    @Override
-    public void onWebSocketBinary(byte[] payload, int offset, int len) {
 
-    }
-    @Override
-    public void onWebSocketClose(int statusCode, String reason) {
-
-    }
-
-    @Override
-    public void onWebSocketConnect(org.eclipse.jetty.websocket.api.Session session) {
-
-    }
 
     @OnMessage
     public void onWebSocketText(String message)
     {
-        System.out.println("Received TEXT message: " + message);
+        CommandMessage res = gson.fromJson(message, CommandMessage.class);
+        try {
+            res.getCommand().execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClose
@@ -52,4 +48,13 @@ public class CommandSocket implements WebSocketListener
     {
         cause.printStackTrace(System.err);
     }
+
+    // NOTE: Dont use these function right now, use the other ones. They need to be here though
+    @Override
+    public void onWebSocketBinary(byte[] payload, int offset, int len) {}
+    @Override
+    public void onWebSocketClose(int statusCode, String reason) {}
+
+    @Override
+    public void onWebSocketConnect(org.eclipse.jetty.websocket.api.Session session) {}
 }

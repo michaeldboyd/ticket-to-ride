@@ -1,12 +1,9 @@
-package com.example.server;
 
-import com.example.sharedcode.communication.CommandResult;
+
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 import com.example.sharedcode.model.User;
 
 import java.util.UUID;
-
-import Model.serverModel;
 
 /**
  * Created by mboyd6 on 2/1/2018.
@@ -15,8 +12,17 @@ import Model.serverModel;
 public class ServerLoginFacade implements IServerLoginFacade {
 
 
-    //TODO: Probably should be a singleton eventually
+    private static ServerLoginFacade loginFacade;
 
+    public static ServerLoginFacade instance() {
+        if (loginFacade == null) {
+            loginFacade = new ServerLoginFacade();
+        }
+
+        return loginFacade;
+    }
+
+    private ServerLoginFacade() {}
 
     /**
      * Checks to see if user is already logged in. If so, returns error message.
@@ -35,13 +41,13 @@ public class ServerLoginFacade implements IServerLoginFacade {
         //New command result
         String authToken = null;
         String message = null;
-        if (serverModel.instance().loggedInUsers.containsKey(username)) {
+        if (ServerModel.instance().loggedInUsers.containsKey(username)) {
             message = "User already logged in.";
         } else {
 
-            if (serverModel.instance().allUsers.containsKey(username)) {
+            if (ServerModel.instance().allUsers.containsKey(username)) {
 
-                User user = serverModel.instance().allUsers.get(username);
+                User user = ServerModel.instance().allUsers.get(username);
 
                 if (user.getPassword().equals(password)) {
 
@@ -49,8 +55,8 @@ public class ServerLoginFacade implements IServerLoginFacade {
                     UUID uuid = UUID.randomUUID();
                     authToken = uuid.toString();
 
-                    serverModel.instance().allUsers.get(username).setAuthtoken(authToken);
-                    serverModel.instance().loggedInUsers.put(user.getUsername(), user);
+                    ServerModel.instance().allUsers.get(username).setAuthtoken(authToken);
+                    ServerModel.instance().loggedInUsers.put(user.getUsername(), user);
                 } else {
                     message = "Incorrect password.";
                 }
@@ -79,7 +85,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
         String authToken = null;
         String message = null;
 
-        if (serverModel.instance().allUsers.containsKey(username)) {
+        if (ServerModel.instance().allUsers.containsKey(username)) {
             message = "Username already registered.";
         } else {
             authToken = UUID.randomUUID().toString();
@@ -90,8 +96,8 @@ public class ServerLoginFacade implements IServerLoginFacade {
             user.setUsername(username);
             user.setPassword(password);
 
-            serverModel.instance().allUsers.put(username, user);
-            serverModel.instance().loggedInUsers.put(username, user);
+            ServerModel.instance().allUsers.put(username, user);
+            ServerModel.instance().loggedInUsers.put(username, user);
         }
 
         ClientProxyLoginFacade.instance().register(authToken, message);

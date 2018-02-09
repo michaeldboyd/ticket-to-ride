@@ -3,11 +3,8 @@ package com.example.sharedcode.communication;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by michael boyd on 1/31/2018.
- */
 
-public class CommandResult {
+public class CommandMessage {
     Command command;
     String message;
     Boolean success;
@@ -17,11 +14,22 @@ public class CommandResult {
      * @param message
      * @param command
      */
-    public CommandResult(String message, Command command)
+    public CommandMessage(String message, Command command)
     {
         this.message = message;
         this.command = command;
         this.success = false; // false by default --> updated later by Command.execute()
     }
 
+    public Command getCommand() {
+        return command;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
 }
