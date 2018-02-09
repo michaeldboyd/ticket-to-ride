@@ -8,7 +8,8 @@ import java.util.ArrayList;
  * Created by hunte on 2/7/2018.
  */
 
-public interface IMainActivity extends ILoginFragment, IRegisterFragment{
-
-    void updateGameList(ArrayList<Game> newList);
-}
+public interface IMainActivity extends
+        ILoginFragment,
+        IRegisterFragment,
+        ILobbyFragment,
+        IWaitroomFragment {}
