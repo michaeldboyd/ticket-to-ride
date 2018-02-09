@@ -9,8 +9,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
-import e.mboyd6.tickettoride.Views.MainActivity;
+import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 /**
  * Created by jonathanlinford on 2/3/18.
@@ -46,7 +47,8 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
      */
     @Override
     public void update(Observable observable, Object o) {
-        ClientModel.UpdateType updateType = (ClientModel.UpdateType) o;
+
+        UpdateType updateType = (UpdateType) o;
 
         switch(updateType) {
             case PLAYERLIST:
