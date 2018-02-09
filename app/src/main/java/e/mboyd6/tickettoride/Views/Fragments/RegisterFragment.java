@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Views;
+package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;

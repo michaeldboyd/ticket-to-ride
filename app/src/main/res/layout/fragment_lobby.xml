@@ -85,9 +85,10 @@
         app:layout_constraintTop_toTopOf="@+id/rectangle_at_the_top" />
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/lobby_fragment_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:transitionName="LobbyFragmentListView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

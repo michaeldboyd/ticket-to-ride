@@ -14,7 +14,7 @@ import java.util.Observer;
 import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
-import e.mboyd6.tickettoride.Views.MainActivity;
+import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 /**
  * Created by jonathanlinford on 2/3/18.
