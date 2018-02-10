@@ -12,6 +12,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
+import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
+import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
@@ -40,7 +42,6 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     @Override
     public void joinGame(String gameID) {
-        System.out.println("gameID should not be ");
         ClientLobbyFacade.instance().joinGame(gameID, null);
     }
 
@@ -59,7 +60,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         } else if(name == null || name.equals("") || name.equals(" ")){
             return false;
         } else {
-            ClientLobbyFacade.instance().createGame("test", "test");
+            ServerProxyLobbyFacade
             return true;
         }
     }
