@@ -30,13 +30,13 @@ import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 public class WaitroomFragment extends Fragment implements IWaitroomFragment {
     public class SelectedColor
     {
-        int playerColor;
+        PlayerColors playerColor;
         int background;
         int backgroundFaded;
         boolean shown;
         boolean chosen;
 
-        public SelectedColor(int playerColor, int background, int backgroundFaded, boolean shown, boolean chosen) {
+        public SelectedColor(PlayerColors playerColor, int background, int backgroundFaded, boolean shown, boolean chosen) {
             this.playerColor = playerColor;
             this.background = background;
             this.backgroundFaded = backgroundFaded;
@@ -125,7 +125,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
 
             int background = 0;
             if (i < playerCount) {
-                int playerColor = players.get(i).getColor();
+                PlayerColors playerColor = players.get(i).getColor();
                 if (playerColor != PlayerColors.NO_COLOR) {
                     for (SelectedColor selectedColor : selectedColors) {
                         if (playerColor == selectedColor.playerColor) {

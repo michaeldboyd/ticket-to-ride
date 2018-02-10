@@ -69,6 +69,9 @@ public class ClientModel extends Observable {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+        notifyObservers(UpdateType.REGISTERRESPONSE);
+        notifyObservers(UpdateType.LOGINRESPONSE);
+
     }
 
     public String getAuthToken() {

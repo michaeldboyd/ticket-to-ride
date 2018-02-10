@@ -15,5 +15,6 @@ public interface ILoginPresenter {
 
     void login(String username, String password);
 
+    void loginResponse(String message);
 
 }

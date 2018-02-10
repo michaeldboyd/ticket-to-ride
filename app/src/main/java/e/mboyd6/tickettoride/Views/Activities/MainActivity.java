@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
   };
 
   private LoginPresenter mLoginPresenter = new LoginPresenter(this);
-  private RegisterPresenter mRegisterPresenter = new RegisterPresenter();
+  private RegisterPresenter mRegisterPresenter = new RegisterPresenter(this);
   private LobbyPresenter mLobbyPresenter;
   private WaitroomPresenter waitroomPresenter;
 

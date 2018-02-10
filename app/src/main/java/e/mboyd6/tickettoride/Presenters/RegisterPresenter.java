@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.content.Context;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,6 +10,7 @@ import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
+import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 /**
  * Created by jonathanlinford on 2/2/18.
@@ -15,6 +18,22 @@ import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
 
 public class RegisterPresenter implements IRegisterPresenter, Observer {
 
+    MainActivity mainActivity;
+    boolean registerPending = false;
+
+    public RegisterPresenter(Context context) {
+        mainActivity = (MainActivity) context;
+
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    public boolean isRegisterPending() {
+        return registerPending;
+    }
+
+    public void setRegisterPending(boolean registerPending) {
+        this.registerPending = registerPending;
+    }
 
     /**
      * Used to check whether a username is valid.
@@ -77,6 +96,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
      */
     @Override
     public void register(String username, String password) {
+        registerPending = true;
         ServerProxyLoginFacade.instance().register(username, password);
     }
 
@@ -86,7 +106,8 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
      * @param message - if null, register was successful. If not null, register was unsuccessful
      *                and the message is contained
      */
-    private void registerResponse(String message){
+    @Override
+    public void registerResponse(String message){
         //mainActivity.onRegisterUpdate(message);
     }
 
@@ -96,7 +117,9 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
 
         switch (updateType){
             case REGISTERRESPONSE:
-                registerResponse(ClientModel.getInstance().getLoginResponse());
+                if(registerPending) {
+                    registerResponse(ClientModel.getInstance().getLoginResponse());
+                }
                 break;
             default:
                 break;
