@@ -347,6 +347,13 @@ public class MainActivity extends AppCompatActivity
     fakeGames.add(game2);
     Game game3 = new Game();
     fakeGames.add(game3);
+    Game game4 = new Game();
+    game4.addPlayer("001");
+    game4.addPlayer("002");
+    game4.addPlayer("003");
+    game4.addPlayer("004");
+    game4.addPlayer("005");
+    fakeGames.add(game4);
     ClientModel.getInstance().setGames(fakeGames);
     transitionToLobbyFromLoginAndRegister();
   }

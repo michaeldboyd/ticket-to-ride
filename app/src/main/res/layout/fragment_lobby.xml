@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="e.mboyd6.tickettoride.UI.MainActivity">
+    tools:context="e.mboyd6.tickettoride.Views.Activities.MainActivity">
 
     <Button
         android:id="@+id/lobby_fragment_back_button"
@@ -44,7 +44,7 @@
     <View
         android:id="@+id/rectangle_at_the_top"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="60dp"
         android:background="#434343"
@@ -61,6 +61,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="20dp"
         android:fontFamily="@font/dense"
+        android:textColor="#FFFFFF"
         android:text="@string/game_creator"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/rectangle_at_the_top"
@@ -77,6 +78,7 @@
         android:layout_marginStart="56dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/dense"
+        android:textColor="#FFFFFF"
         android:text="@string/players"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/rectangle_at_the_top"
