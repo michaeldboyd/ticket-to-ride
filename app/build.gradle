@@ -28,14 +28,16 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':sharedCode')
     compile 'com.google.code.gson:gson:2.8.2'
-
+    compile "org.java-websocket:Java-WebSocket:1.3.7"
     // https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-api
-//    compile 'javax.websocket:javax.websocket-api:1.1'
+   //compile 'javax.websocket:javax.websocket-api:1.1'
     // https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-client
-    compile 'org.eclipse.jetty.websocket:websocket-client:9.4.8.v20171121'
+    //compile 'org.eclipse.jetty.websocket:websocket-client:9.4.8.v20171121'
     // https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/javax-websocket-client-impl
-    compile group: 'org.eclipse.jetty.websocket', name: 'javax-websocket-client-impl', version: '9.4.8.v20171121'
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
-    testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    //compile group: 'org.eclipse.jetty.websocket', name: 'javax-websocket-client-impl', version: '9.4.8.v20171121'
+
+
+
+
 
 }

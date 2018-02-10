@@ -21,6 +21,7 @@ import com.example.sharedcode.model.Player;
 
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.Presenters.LoginPresenter;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity
 
     mFragmentManager = getSupportFragmentManager();
     loadLoginFragmentFirstTime();
-
+    SocketManager.socketConnect("test", "test", "test");
   }
 
   public void loadLoginFragmentFirstTime() {

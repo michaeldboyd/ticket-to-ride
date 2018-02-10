@@ -4,14 +4,17 @@ import com.example.sharedcode.communication.CommandMessage;
 import com.google.gson.Gson;
 
 
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
-import javax.websocket.Session;
 
+@WebSocket
 @ClientEndpoint
 public class CommandSocket
 {
