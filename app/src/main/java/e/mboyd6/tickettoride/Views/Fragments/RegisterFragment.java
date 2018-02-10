@@ -138,7 +138,7 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
 
     @Override
     public void onRegisterSuccessful() {
-
+        System.out.println("[RegisterFragment/onRegisterSuccessful says:] Register was successful! ");
     }
 
 }

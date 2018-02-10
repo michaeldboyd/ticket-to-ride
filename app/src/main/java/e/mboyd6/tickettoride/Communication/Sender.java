@@ -9,9 +9,13 @@ public class Sender {
     private static Gson gson = new Gson();
     public static boolean sendCommand(Command command, Session sess){
         try {
-            sess.getBasicRemote().sendText(gson.toJson(command));
+            if(sess != null)
+            {
+                sess.getBasicRemote().sendText(gson.toJson(command));
+            } else throw new Exception("Session is null");
+
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
