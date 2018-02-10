@@ -24,35 +24,35 @@
         android:id="@+id/lobby_item_card_1"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="#c92d39"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <View
         android:id="@+id/lobby_item_card_2"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="#19967D"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <View
         android:id="@+id/lobby_item_card_3"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="#EF8D22"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <View
         android:id="@+id/lobby_item_card_4"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="#0C7CBA"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <View
         android:id="@+id/lobby_item_card_5"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="#834187"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <TextView
@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
 
-        android:background="@drawable/buttonshape_blue_nocorners"
+        android:background="@drawable/buttonshape_blue_nocorners_bg"
         android:drawableEnd="@drawable/forward_arrow"
         android:fontFamily="@font/dense"
         android:paddingLeft="10dp"

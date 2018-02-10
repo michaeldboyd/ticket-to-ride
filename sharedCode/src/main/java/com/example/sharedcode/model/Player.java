@@ -8,6 +8,12 @@ import java.awt.Color;
 
 public class Player {
 
+    public Player(String playerID, String name, int color) {
+        this.playerID = playerID;
+        this.name = name;
+        this.color = color;
+    }
+
     private String playerID;
     private String name;
     private int color;

@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Model;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -20,7 +21,7 @@ public class ClientModel extends Observable {
     private ArrayList<Player> players = new ArrayList<>();
 
     //Current player data
-    private Player currentPlayer = new Player();
+    private Player currentPlayer = new Player("0", "NO PLAYER YET", PlayerColors.RED);
     private String authToken;
     private String loginResponse;
 

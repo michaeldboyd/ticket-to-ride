@@ -10,6 +10,7 @@
     <string name="game_creator">GAME CREATOR</string>
     <string name="players">PLAYERS</string>
     <string name="join">JOIN</string>
+    <string name="full">FULL</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

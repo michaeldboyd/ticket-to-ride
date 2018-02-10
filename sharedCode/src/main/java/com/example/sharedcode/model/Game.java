@@ -11,7 +11,7 @@ public class Game {
     private String gameID;
 
     //Do we want to have this be an array of players instead of strings?
-    private ArrayList<String> playerIDs = new ArrayList<String>();
+    private ArrayList<Player> players = new ArrayList<Player>();
 
 
     public String getGameID() {
@@ -22,8 +22,8 @@ public class Game {
         this.gameID = gameID;
     }
 
-    public ArrayList<String> getPlayerIDs(){
-        return playerIDs;
+    public ArrayList<Player> getPlayers(){
+        return players;
     }
 
     /*
@@ -33,15 +33,15 @@ public class Game {
     * Else does nothing and returns false.
     *
     * */
-    public boolean addPlayer(String playerID){
-        if(playerIDs.size() >= 5){
+    public boolean addPlayer(Player player){
+        if(players.size() >= 5){
 
             return false;
 
         }
-        if(!playerIDs.contains(playerID)) {
+        if(!players.contains(player)) {
 
-            playerIDs.add(playerID);
+            players.add(player);
             return true;
 
         }
@@ -60,13 +60,13 @@ public class Game {
    *
    * */
     public boolean removePlayer(String playerID){
-        if(playerIDs.contains(playerID)) {
-            playerIDs.remove(playerID);
-            return true;
+        int beforeSize = players.size();
+        for(int i = 0; i < players.size(); i++)
+        {
+            if (players.get(i).getPlayerID().equals(playerID))
+                players.remove(i);
         }
-        else{
-            return false;
-        }
+        return (beforeSize > players.size());
     }
 
     public void startGame(){
