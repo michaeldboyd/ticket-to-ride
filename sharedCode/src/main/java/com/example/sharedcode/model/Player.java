@@ -34,11 +34,11 @@ public class Player {
         this.name = name;
     }
 
-    public int getColor() {
+    public PlayerColors getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(PlayerColors color) {
         this.color = color;
     }
 }

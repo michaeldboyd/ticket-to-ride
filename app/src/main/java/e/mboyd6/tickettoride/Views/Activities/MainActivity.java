@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity
     {
       mRegisterPresenter.register(usernameData, passwordData);
     }
-    
+
     if (handleError(message)) {
       return;
     } else {
