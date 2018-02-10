@@ -50,9 +50,10 @@ public class ClientLoginFacade implements IClientLoginFacade {
     public void register(String authToken, String message) {
         // Received the command that said a user attempted to register
         // If successful, message == null
-        if(message != null)
+        if(message == null)
         {
             ClientModel.getInstance().setAuthToken(authToken);
+            System.out.println("Client has register successfully");
         }
         //System.out.println("Client has registered Successfully! (And websockets now work)");
         // Essentially, we need to update the Client-side model so that the UI will update properly

@@ -1,48 +1,37 @@
 package e.mboyd6.tickettoride;
 
-import org.eclipse.jetty.util.component.LifeCycle;
+import org.java_websocket.client.WebSocketClient;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
-
-import e.mboyd6.tickettoride.Communication.CommandSocket;
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
+import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
-
 public class AndroidSocketTest {
-    WebSocketContainer container;
-
+    WebSocketClient client;
     @Before
     public void init()
     {
-        URI uri = URI.create("ws://10.0.2.2:8080/echo/");
+        this.client = null;
+        try {
+            client = new SocketClient(new URI("ws://10.0.2.2:8080/echo/"));
 
-        try
-        {
-            this.container = ContainerProvider.getWebSocketContainer();
+        } catch (URISyntaxException e) {
 
-            try
-            {
-                // Attempt Connect
-                Session session = container.connectToServer(CommandSocket.class, uri);
-                ClientModel.getInstance().setSession(session);
-            }
-            finally
-            {
-
-            }
+            e.printStackTrace();
         }
-        catch (Throwable t)
+        if(client != null)
         {
-            t.printStackTrace(System.err);
+            client.connect();
+            ClientModel.getInstance().setSocket(client);
+        } else
+        {
+            System.out.println("Yo, your socket didn't connect correctly... Sorry broseph");
         }
     }
 
@@ -50,30 +39,13 @@ public class AndroidSocketTest {
     @Test
     public void test()
     {
-        try {
-            Session sess = ClientModel.getInstance().getSession();
-            ServerProxyLoginFacade.instance().register("test", "test");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ServerProxyLoginFacade.instance().register("test1", "test");
+
     }
 
     @After
     public void close()
     {
-        // Force lifecycle stop when done with container.
-        // This is to free up threads and resources that the
-        // JSR-356 container allocates. But unfortunately
-        // the JSR-356 spec does not handle lifecycles (yet)
-        if (container instanceof LifeCycle)
-        {
-            try {
-                ClientModel.getInstance().getSession().close();
-                ((LifeCycle)container).stop();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
     }
 }

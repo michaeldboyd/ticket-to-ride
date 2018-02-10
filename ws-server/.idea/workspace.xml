@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ede5aef-8775-4afa-b577-ce1894ab3962" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../app/build.gradle" afterPath="$PROJECT_DIR$/../app/build.gradle" />
-      <change beforePath="$PROJECT_DIR$/../app/src/androidTest/java/e/mboyd6/tickettoride/TyrusAndroidTest.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/CommandSocket.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/NateSocket.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/Sender.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLobbyFacade.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLobbyFacade.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLoginFacade.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLoginFacade.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/SocketManager.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Model/ClientModel.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Model/ClientModel.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Views/Activities/MainActivity.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Views/Activities/MainActivity.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/SocketConnectionTest.java" afterPath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/SocketConnectionTest.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/TyrusSocketTest.java" afterPath="" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/SocketClient.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -35,17 +24,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ClientProxyLoginFacade.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ClientProxyLoginFacade.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ClientProxyLoginFacade.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1428">
-              <caret line="75" column="108" lean-forward="false" selection-start-line="75" selection-start-column="108" selection-end-line="75" selection-end-column="108" />
+            <state relative-caret-position="878">
+              <caret line="75" column="87" lean-forward="false" selection-start-line="75" selection-start-column="70" selection-end-line="75" selection-end-column="87" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientProxyLobbyFacade.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ClientProxyLobbyFacade.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ClientProxyLobbyFacade.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="420">
@@ -58,8 +47,8 @@
       <file leaf-file-name="CommandSocket.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/CommandSocket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="756">
-              <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state relative-caret-position="647">
+              <caret line="33" column="31" lean-forward="false" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -474,8 +463,8 @@
         <option value="$PROJECT_DIR$/src/main/java/CommandSocket.java" />
         <option value="$PROJECT_DIR$/src/main/java/ServerModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/ServerLobbyFacade.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ClientProxyLoginFacade.java" />
         <option value="$PROJECT_DIR$/src/main/java/ClientProxyLobbyFacade.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ClientProxyLoginFacade.java" />
       </list>
     </option>
   </component>
@@ -485,8 +474,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="22" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="153" />
+    <option name="y" value="214" />
     <option name="width" value="1440" />
     <option name="height" value="878" />
   </component>
@@ -752,15 +742,16 @@
       <updated>1518200207953</updated>
       <workItem from="1518200215366" duration="8983000" />
       <workItem from="1518280466302" duration="6853000" />
-      <workItem from="1518292130257" duration="2817000" />
+      <workItem from="1518292130257" duration="4055000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18653000" />
+    <option name="totallyTimeSpent" value="19891000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1060" extended-state="6" />
+    <frame x="153" y="214" width="1440" height="878" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -771,12 +762,12 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3762268" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46938777" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20729166" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27988747" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1118,16 +1109,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/CommandSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-common/9.4.8.v20171121/faa7caf4cfb6e6a90ebb368339457d0281f85fb5/websocket-common-9.4.8.v20171121-sources.jar!/org/eclipse/jetty/websocket/common/message/SimpleTextMessage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1029">
@@ -1148,6 +1129,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="124" column="9" lean-forward="false" selection-start-line="124" selection-start-column="9" selection-end-line="124" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1201,11 +1183,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ClientProxyLoginFacade.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/CommandSocket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="75" column="108" lean-forward="false" selection-start-line="75" selection-start-column="108" selection-end-line="75" selection-end-column="108" />
-          <folding />
+        <state relative-caret-position="647">
+          <caret line="33" column="31" lean-forward="false" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1213,6 +1197,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="63" column="26" lean-forward="true" selection-start-line="63" selection-start-column="26" selection-end-line="63" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ClientProxyLoginFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="878">
+          <caret line="75" column="87" lean-forward="false" selection-start-line="75" selection-start-column="70" selection-end-line="75" selection-end-column="87" />
           <folding />
         </state>
       </provider>

@@ -3,6 +3,8 @@ package e.mboyd6.tickettoride.Model;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
+import org.java_websocket.client.WebSocketClient;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,7 +25,11 @@ public class ClientModel extends Observable {
     private Player currentPlayer = new Player();
     private String authToken;
     private String loginResponse;
+    private WebSocketClient socket;
 
+    public WebSocketClient getSocket() {
+        return socket;
+    }
     //TODO: put all this in the socket manager
 
     private static final ClientModel ourInstance = new ClientModel();
@@ -85,6 +91,8 @@ public class ClientModel extends Observable {
     }
 
 
-
+    public void setSocket(WebSocketClient socket) {
+        this.socket = socket;
+    }
 }
 

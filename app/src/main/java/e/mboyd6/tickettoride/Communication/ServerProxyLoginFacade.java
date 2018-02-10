@@ -41,6 +41,7 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
         Command registerCommand = CommandFactory.createCommand("ServerLoginFacade", "_register", paramTypes, paramValues);
 
         // TODO - Put sender functions into socket manager
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(registerCommand));
     }
 
 }

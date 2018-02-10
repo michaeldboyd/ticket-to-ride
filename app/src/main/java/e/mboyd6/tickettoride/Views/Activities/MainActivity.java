@@ -19,8 +19,13 @@ import android.widget.Toast;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
+import org.java_websocket.client.WebSocketClient;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.Presenters.LoginPresenter;
@@ -75,6 +80,24 @@ public class MainActivity extends AppCompatActivity
 
     mFragmentManager = getSupportFragmentManager();
     loadLoginFragmentFirstTime();
+
+    WebSocketClient client = null;
+    try {
+      client = new SocketClient(new URI("ws://10.0.2.2:8080/echo/"));
+
+    } catch (URISyntaxException e) {
+      handleError("Yo, your socket didn't connect correctly... Sorry broseph. Error: " + e.getMessage());
+      e.printStackTrace();
+    }
+    if(client != null)
+    {
+      client.connect();
+      ClientModel.getInstance().setSocket(client);
+    } else
+    {
+      handleError("Yo, your socket didn't connect correctly... Sorry broseph");
+    }
+
 
   }
 
