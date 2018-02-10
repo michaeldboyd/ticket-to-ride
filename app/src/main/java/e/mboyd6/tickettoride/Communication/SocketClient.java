@@ -39,7 +39,6 @@ public class SocketClient extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         System.out.println("received message: " + message);
-        System.out.println(message);
         Gson gson = new Gson();
         Command res = gson.fromJson(message, Command.class);
         try {

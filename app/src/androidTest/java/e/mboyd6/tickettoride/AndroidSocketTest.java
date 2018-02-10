@@ -19,7 +19,7 @@ public class AndroidSocketTest {
     {
         this.client = null;
         try {
-            client = new SocketClient(new URI("ws://10.0.2.2:8080/echo/"));
+            client = new SocketClient(new URI("ws://192.168.255.178:8080/echo/"));
 
         } catch (URISyntaxException e) {
 
