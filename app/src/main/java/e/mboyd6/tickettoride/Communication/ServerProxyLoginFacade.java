@@ -25,7 +25,7 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
     public void login(String username, String password) {
         String[] paramTypes = {username.getClass().toString(), password.getClass().toString()};
         String[] paramValues = {username, password};
-        Command loginCommand = CommandFactory.createCommand("ServerLoginFacade", "login", paramTypes, paramValues);
+        Command loginCommand = CommandFactory.createCommand("ServerLoginFacade", "_login", paramTypes, paramValues);
         // TODO - send login to Server via socket
         try {
             ClientModel.getInstance().getSession()
@@ -40,7 +40,7 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
     public void register(String username, String password) {
         String[] paramTypes = {username.getClass().toString(), password.getClass().toString()};
         String[] paramValues = {username, password};
-        Command registerCommand = CommandFactory.createCommand("ServerLoginFacade", "register", paramTypes, paramValues);
+        Command registerCommand = CommandFactory.createCommand("ServerLoginFacade", "_register", paramTypes, paramValues);
 
         // TODO - send registerCommand to Server via socket
         try {

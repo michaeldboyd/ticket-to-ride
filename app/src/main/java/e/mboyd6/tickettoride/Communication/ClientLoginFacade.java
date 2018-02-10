@@ -9,18 +9,23 @@ import com.example.sharedcode.interfaces.IServerLoginFacade;
  */
 
 public class ClientLoginFacade implements IClientLoginFacade {
-    private static ClientLoginFacade instance = new ClientLoginFacade();
+    private static ClientLoginFacade loginFacade;
 
-    private ClientLoginFacade() {
+    public static ClientLoginFacade instance() {
+        if (loginFacade == null) {
+            loginFacade = new ClientLoginFacade();
+        }
+
+        return loginFacade;
     }
 
 
-    public static void _login(String authToken, String message) {
-        instance.login(authToken, message);
+    public static void _loginReceived(String authToken, String message) {
+        instance().login(authToken, message);
     }
 
-    public static void _register(String authToken, String message) {
-        instance.register(authToken, message);
+    public static void _registerReceived(String authToken, String message) {
+        instance().register(authToken, message);
     }
 
 

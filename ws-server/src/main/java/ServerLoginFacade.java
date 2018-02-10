@@ -2,6 +2,7 @@
 
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 import com.example.sharedcode.model.User;
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 import java.util.UUID;
 
@@ -23,6 +24,16 @@ public class ServerLoginFacade implements IServerLoginFacade {
     }
 
     private ServerLoginFacade() {}
+
+
+    public static void _login(String username, String password) {
+        instance().login(username, password);
+    }
+
+    public static void _register(String username, String password) {
+        instance().register(username, password);
+    }
+
 
     /**
      * Checks to see if user is already logged in. If so, returns error message.

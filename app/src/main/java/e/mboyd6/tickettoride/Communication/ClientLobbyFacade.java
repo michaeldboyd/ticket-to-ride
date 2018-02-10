@@ -11,33 +11,37 @@ import com.example.sharedcode.model.Player;
 
 public class ClientLobbyFacade implements IClientLobbyFacade {
 
-    private static ClientLobbyFacade _instance = new ClientLobbyFacade();
-
-    private ClientLobbyFacade() {
-    }
+    private static ClientLobbyFacade lobbyFacade;
 
     public static ClientLobbyFacade instance() {
-        return _instance;
+        if (lobbyFacade == null) {
+            lobbyFacade = new ClientLobbyFacade();
+        }
+
+        return lobbyFacade;
     }
 
 
-    static void _createGame(String gameID, String message) {
+    public static void _createGameReceived(String gameID, String message) {
         instance().createGame(gameID, message);
     }
 
-    static void _updateGames(Game[] games, String message) {
+    public static void _updateGamesReceived(Game[] games, String message) {
         instance().updateGames(games, message);
     }
 
-    static void _joinGame(String gameID, String message) {
+    public static void _joinGameReceived(String gameID, String message) {
         instance().joinGame(gameID, message);
     }
 
-    static void _startGame(String gameID, String message) {
+    public static void _startGameReceived(String gameID, String message) {
         instance().startGame(gameID, message);
     }
 
-    static void _getPlayersForGame(String gameID, Player[] players, String message) {
+    public static void _leaveGameReceived(String gameID, String message) {
+        instance().leaveGame(gameID, message);
+    }
+    static void _getPlayersForGameReceived(String gameID, Player[] players, String message) {
         instance().getPlayersForGame(gameID, players, message);
     }
 

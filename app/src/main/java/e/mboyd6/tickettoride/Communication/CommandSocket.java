@@ -11,12 +11,12 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
+//import javax.websocket.server.ServerEndpoint;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 @ClientEndpoint
-@ServerEndpoint(value="/echo")
+//@ServerEndpoint(value="/echo")
 public class CommandSocket implements WebSocketListener
 {
     Gson gson = new Gson();

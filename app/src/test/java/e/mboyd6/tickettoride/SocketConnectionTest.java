@@ -45,12 +45,14 @@ public class SocketConnectionTest {
             t.printStackTrace(System.err);
         }
     }
+
+
     @Test
     public void test()
     {
         try {
             Session sess = ClientModel.getInstance().getSession();
-           ServerProxyLoginFacade.instance().register("test", "test");
+            ServerProxyLoginFacade.instance().register("test", "test");
         } catch (Exception e) {
             e.printStackTrace();
         }
