@@ -50,8 +50,8 @@ public class ServerLoginFacade implements IServerLoginFacade {
     @Override
     public void login(String username, String password) {
         //New command result
-        String authToken = null;
-        String message = null;
+        String authToken = "";
+        String message = "";
         if (ServerModel.instance().loggedInUsers.containsKey(username)) {
             message = "User already logged in.";
         } else {
@@ -93,8 +93,8 @@ public class ServerLoginFacade implements IServerLoginFacade {
     @Override
     public void register(String username, String password) {
         //New command result
-        String authToken = null;
-        String message = null;
+        String authToken = "";
+        String message = "";
 
         if (ServerModel.instance().allUsers.containsKey(username)) {
             message = "Username already registered.";
