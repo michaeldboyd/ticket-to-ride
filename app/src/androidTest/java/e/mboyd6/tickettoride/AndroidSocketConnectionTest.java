@@ -23,7 +23,7 @@ public class AndroidSocketConnectionTest {
     @Before
     public void init()
     {
-        URI uri = URI.create("ws://10.0.2.2:8080/echo/");
+        URI uri = URI.create("ws://10.0.2.2:8080/poll");
 
         try
         {

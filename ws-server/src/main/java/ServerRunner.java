@@ -1,5 +1,6 @@
 import java.io.*;
 
+import com.sun.net.httpserver.HttpServer;
 import org.eclipse.jetty.server.Server;
 
 import org.eclipse.jetty.server.ServerConnector;
@@ -8,13 +9,18 @@ import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 
+import javax.xml.ws.spi.http.HttpExchange;
+import javax.xml.ws.spi.http.HttpHandler;
+import java.net.InetSocketAddress;
 import java.util.logging.*;
 
 public class ServerRunner {
 
     // STATIC MEMBERS
+    private static final int MAX_WAITING_CONNECTIONS = 12;
 
     private static Logger log;
+
 
     static {
         try {
@@ -57,6 +63,8 @@ public class ServerRunner {
             factory.register(CommandSocket.class);
           }
         };
+
+
         ContextHandler contextHandler = new ContextHandler();
         contextHandler.setContextPath("/echo/");
         contextHandler.setHandler(context);
@@ -66,7 +74,17 @@ public class ServerRunner {
             server.start();
             server.dump();
             server.join();
+
+
+            //***** POLLING PART *****
+            HttpServer pollServer = HttpServer.create(
+                    new InetSocketAddress(portNumber),
+                    MAX_WAITING_CONNECTIONS);
+
+            pollServer.createContext("/poll", new CommandHandler());
+            pollServer.start();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
