@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "e.mboyd6.tickettoride"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -29,7 +29,15 @@ dependencies {
     implementation project(':sharedCode')
     compile 'com.google.code.gson:gson:2.8.1'
 
+    // https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-api
+//    compile group: 'org.eclipse.jetty.websocket', name: 'websocket-api', version: '9.4.8.v20171121'
+
     compile group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
-    compile group: 'org.eclipse.jetty.websocket', name: 'javax-websocket-client-impl', version: '9.4.8.v20171121'
-    compile group: 'org.eclipse.jetty.websocket', name: 'javax-websocket-server-impl', version: '9.4.8.v20171121'
+
+
+    // https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-client
+    compile group: 'org.eclipse.jetty.websocket', name: 'websocket-client', version: '9.4.8.v20171121'
+    //    compile group: 'org.eclipse.jetty.websocket', name: 'javax-websocket-client-impl', version: '9.4.8.v20171121'
+
+
 }

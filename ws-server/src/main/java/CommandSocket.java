@@ -1,5 +1,4 @@
 import com.example.sharedcode.communication.Command;
-import com.example.sharedcode.communication.CommandMessage;
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
 
@@ -21,7 +20,7 @@ public class CommandSocket implements WebSocketListener
     public void onWebSocketConnect(Session sess)
     {
        ServerModel.instance().session = sess;
-       // TODO: linke each session with the appropriate user. this is where it all starts
+       // TODO: link each session with the appropriate user. this is where it all starts
     }
 
 
