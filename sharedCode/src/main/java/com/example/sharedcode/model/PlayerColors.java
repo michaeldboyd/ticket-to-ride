@@ -11,4 +11,5 @@ public class PlayerColors
     public static final int ORANGE = 2;
     public static final int BLUE = 3;
     public static final int PURPLE = 4;
+    public static final int NO_COLOR = 5;
 }
