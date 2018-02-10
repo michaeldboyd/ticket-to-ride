@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import java.util.ArrayList;
 
@@ -336,23 +337,23 @@ public class MainActivity extends AppCompatActivity
   private void GuestLogin() {
     // Implement code that adds a bunch of fake games so you can go to the lobby
     ArrayList<Game> fakeGames = new ArrayList<Game>();
-    Game game1 = new Game();
-    game1.addPlayer("001");
-    game1.addPlayer("002");
-    game1.addPlayer("003");
-    fakeGames.add(game1);
     Game game2 = new Game();
-    game2.addPlayer("003");
-    game2.addPlayer("004");
+    game2.addPlayer(new Player("001", "Michael", PlayerColors.TURQUOISE));
+    game2.addPlayer(new Player("002", "Michael", PlayerColors.BLUE));
+    game2.addPlayer(new Player("003", "Eric", PlayerColors.RED));
     fakeGames.add(game2);
+    Game game1 = new Game();
+    game1.addPlayer(new Player("001", "Alli", PlayerColors.BLUE));
+    game1.addPlayer(new Player("002", "Michael", PlayerColors.RED));
+    fakeGames.add(game1);
     Game game3 = new Game();
     fakeGames.add(game3);
     Game game4 = new Game();
-    game4.addPlayer("001");
-    game4.addPlayer("002");
-    game4.addPlayer("003");
-    game4.addPlayer("004");
-    game4.addPlayer("005");
+    game4.addPlayer(new Player("001", "Michael", PlayerColors.RED));
+    game4.addPlayer(new Player("002", "Alli", PlayerColors.TURQUOISE));
+    game4.addPlayer(new Player("003", "Eric", PlayerColors.ORANGE));
+    game4.addPlayer(new Player("004", "Hunter", PlayerColors.BLUE));
+    game4.addPlayer(new Player("005", "Jonny", PlayerColors.PURPLE));
     fakeGames.add(game4);
     ClientModel.getInstance().setGames(fakeGames);
     transitionToLobbyFromLoginAndRegister();

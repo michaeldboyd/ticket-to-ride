@@ -24,35 +24,35 @@
         android:id="@+id/lobby_item_card_1"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="@drawable/color_red"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <View
         android:id="@+id/lobby_item_card_2"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="@drawable/color_turquoise"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <View
         android:id="@+id/lobby_item_card_3"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="@drawable/color_orange"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <View
         android:id="@+id/lobby_item_card_4"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="@drawable/color_blue"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <View
         android:id="@+id/lobby_item_card_5"
         android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:background="@drawable/color_purple"
+        android:background="@drawable/color_invisible"
         android:visibility="visible" />
 
     <TextView
