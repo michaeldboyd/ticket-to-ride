@@ -15,5 +15,5 @@ public interface IRegisterPresenter {
 
     boolean passwordsMatch(String password1, String password2);
 
-    boolean register(String username, String password);
+    void register(String username, String password);
 }
