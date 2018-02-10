@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
+import org.java_websocket.WebSocketImpl;
 import org.java_websocket.client.WebSocketClient;
 
 import java.net.URI;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity
 
     mFragmentManager = getSupportFragmentManager();
     loadLoginFragmentFirstTime();
-
+    WebSocketImpl.DEBUG = true;
     WebSocketClient client = null;
     try {
       client = new SocketClient(new URI("ws://10.0.2.2:8080/echo/"));
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity
     {
       handleError("Yo, your socket didn't connect correctly... Sorry broseph");
     }
-
 
   }
 
