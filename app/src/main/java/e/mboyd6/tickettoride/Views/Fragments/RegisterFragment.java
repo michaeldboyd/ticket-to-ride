@@ -91,9 +91,7 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
 
             @Override
             public void onClick(View v) {
-                String resultText = onRegisterFragmentSignUpButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
-                Toast toast = Toast.makeText(getContext(), resultText, Toast.LENGTH_SHORT);
-                toast.show();
+            onRegisterFragmentSignUpButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
             }
         });
 
@@ -132,11 +130,15 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
     }
 
     @Override
-    public String onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
+    public void onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
         if (mListener != null) {
-            return mListener.onRegisterFragmentSignUpButton(usernameData, passwordData);
+            mListener.onRegisterFragmentSignUpButton(usernameData, passwordData);
         }
-        return "Client had an error.";
+    }
+
+    @Override
+    public void onRegisterSuccessful() {
+
     }
 
 }

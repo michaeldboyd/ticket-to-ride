@@ -84,9 +84,7 @@ public class LoginFragment extends Fragment implements ILoginFragment {
             @Override
             public void onClick(View v) {
 
-                String resultText = onLoginFragmentLoginButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
-                Toast toast = Toast.makeText(getContext(), resultText, Toast.LENGTH_SHORT);
-                toast.show();
+                onLoginFragmentLoginButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
             }
         });
 
@@ -126,11 +124,15 @@ public class LoginFragment extends Fragment implements ILoginFragment {
     }
 
     @Override
-    public String onLoginFragmentLoginButton(String usernameData, String passwordData) {
+    public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
         if (mListener != null) {
-            return mListener.onLoginFragmentLoginButton(usernameData, passwordData);
+            mListener.onLoginFragmentLoginButton(usernameData, passwordData);
         }
-        return "Client had an error.";
+    }
+
+    @Override
+    public void onLoginSuccessful() {
+
     }
 
     /**

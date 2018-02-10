@@ -21,7 +21,6 @@
         app:srcCompat="@drawable/ticket_to_ride_logo" />
 
     <EditText
-        android:transitionName="usernameField"
         android:id="@+id/login_fragment_username_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,12 +29,13 @@
         android:drawableEnd="@drawable/user"
         android:ems="8"
         android:fontFamily="@font/dense"
+        android:hint="Username"
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/Username"
         android:textColor="#000000"
         android:textSize="30sp"
+        android:transitionName="usernameField"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_fragment_logo" />
@@ -53,7 +53,7 @@
         android:inputType="textPassword"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/Password"
+        android:hint="Password"
         android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.content.Context;
+
 import com.example.sharedcode.model.Game;
 
 import java.io.Console;
@@ -7,7 +9,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
+import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 /**
  * Created by jonathanlinford on 2/3/18.
@@ -15,10 +19,10 @@ import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
 
 public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
-    Game game;
+    MainActivity mainActivity;
 
-    public WaitroomPresenter(Game game) {
-        this.game = game;
+    public WaitroomPresenter(Context context) {
+        this.mainActivity = (MainActivity) context;
 
         ClientModel.getInstance().addObserver(this);
     }
@@ -43,7 +47,8 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
      */
     @Override
     public void update(Observable observable, Object o) {
-        ClientModel.UpdateType updateType = (ClientModel.UpdateType) o;
+
+        UpdateType updateType = (UpdateType) o;
 
         switch(updateType) {
             case PLAYERLIST:

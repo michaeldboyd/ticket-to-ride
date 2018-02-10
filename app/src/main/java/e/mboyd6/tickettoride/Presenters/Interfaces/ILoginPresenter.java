@@ -13,7 +13,7 @@ public interface ILoginPresenter {
 
     boolean validPassword(String password);
 
-    boolean login(String username, String password);
+    void login(String username, String password);
 
 
 }

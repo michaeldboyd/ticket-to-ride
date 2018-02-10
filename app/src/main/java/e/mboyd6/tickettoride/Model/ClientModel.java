@@ -15,19 +15,14 @@ import javax.websocket.Session;
 
 public class ClientModel extends Observable {
 
-    private static final ClientModel ourInstance = new ClientModel();
-
-    public static ClientModel getInstance() {
-        return ourInstance;
-    }
-
-    private ClientModel() {
-    }
-
+    //Game data
     private ArrayList<Game> games = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
+
+    //Current player data
     private Player currentPlayer = new Player();
-    private Session session;
+    private String authToken;
+    private String loginResponse;
 
     public Session getSession() {
         return session;
@@ -37,9 +32,16 @@ public class ClientModel extends Observable {
         this.session = session;
     }
 
-    public enum UpdateType {
-        GAMELIST, PLAYERLIST, GAMESTARTED
+    private Session session;
+    private static final ClientModel ourInstance = new ClientModel();
+
+    public static ClientModel getInstance() {
+        return ourInstance;
     }
+
+    private ClientModel() {
+    }
+
     public ArrayList<Game> getGames() {
         return games;
     }
@@ -56,6 +58,30 @@ public class ClientModel extends Observable {
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
         notifyObservers(UpdateType.PLAYERLIST);
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
+    public String getLoginResponse() {
+        return loginResponse;
+    }
+
+    public void setLoginResponse(String loginResponse) {
+        this.loginResponse = loginResponse;
     }
 
     @Override

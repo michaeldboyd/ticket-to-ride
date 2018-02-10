@@ -6,12 +6,12 @@ package e.mboyd6.tickettoride.Presenters.Interfaces;
 
 public interface ILobbyPresenter {
 
-
-    void updateGameList();
-
     void joinGame(String gameID);
 
     boolean createGame(String name, int numOfPlayers);
+
+    //Observer Methods
+    void updateGameList();
 
 
 }

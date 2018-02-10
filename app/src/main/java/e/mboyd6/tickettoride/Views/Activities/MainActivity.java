@@ -14,6 +14,7 @@ import android.transition.TransitionInflater;
 import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity
     }
   };
 
-  private LoginPresenter mLoginPresenter = new LoginPresenter();
+  private LoginPresenter mLoginPresenter = new LoginPresenter(this);
   private RegisterPresenter mRegisterPresenter = new RegisterPresenter();
   private LobbyPresenter mLobbyPresenter;
   private WaitroomPresenter waitroomPresenter;
@@ -359,6 +360,16 @@ public class MainActivity extends AppCompatActivity
     mDelayedTransactionHandler.removeCallbacks(mRunnableTransitionToRegister);
   }
 
+  public boolean handleError(String message)
+  {
+    if (message == null)
+      return false;
+
+    Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+    toast.show();
+    return true;
+  }
+
   @Override
   public void onRegisterFragmentBackButton(String usernameData, String passwordData) {
     //mDelayedTransactionHandler.post(mRunnableTransitionToLogin);
@@ -366,21 +377,30 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public String onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
+  public void onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
+    String message = null;
     if(mRegisterPresenter == null)
-      return "Something went wrong on our end.";
-    if(!mRegisterPresenter.validUsername(usernameData)) {
-      return "Invalid username";
+      message = "Something went wrong on our end.";
+    else if(!mRegisterPresenter.validUsername(usernameData)) {
+      message = "Invalid username";
     }
-    if(!mRegisterPresenter.validPassword(passwordData)) {
-      return "Invalid password";
+    else if(!mRegisterPresenter.validPassword(passwordData)) {
+      message = "Invalid password";
     }
-    if(!mRegisterPresenter.register(usernameData, passwordData))
+    else if(!mRegisterPresenter.register(usernameData, passwordData))
     {
-      return "Server error, or connection does not exist";
+      message = "Server error, or connection does not exist";
     }
-    transitionToLobbyFromLoginAndRegister();
-    return "Success!";
+    if (handleError(message)) {
+      return;
+    } else {
+      transitionToLobbyFromLoginAndRegister();
+    }
+  }
+
+  @Override
+  public void onRegisterSuccessful() {
+
   }
 
   @Override
@@ -390,25 +410,33 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public String onLoginFragmentLoginButton(String usernameData, String passwordData) {
+  public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
+    String message = "";
     if (usernameData.equals("Guest") && passwordData.equals("Password"))
     {
       GuestLogin();
-      return "Success!";
     }
-    if(mLoginPresenter == null)
-      return "Something went wrong on our end";
-    if(!mLoginPresenter.validUsername(usernameData)) {
-      return "Invalid username";
+    else if(mLoginPresenter == null)
+      message = "Something went wrong on our end";
+    else if(!mLoginPresenter.validUsername(usernameData)) {
+      message = "Invalid username";
     }
-    if(!mLoginPresenter.validPassword(passwordData)) {
-      return "Invalid password";
+    else if(!mLoginPresenter.validPassword(passwordData)) {
+      message = "Invalid password";
     }
-    if (!mLoginPresenter.login(usernameData, passwordData)) {
-      return "Server error, or connection does not exist";
+    else {
+      mLoginPresenter.login(usernameData, passwordData);
     }
-    transitionToLobbyFromLoginAndRegister();
-    return "Success!";
+    if (handleError(message)) {
+      return;
+    } else {
+      transitionToLobbyFromLoginAndRegister();
+    }
+  }
+
+  @Override
+  public void onLoginSuccessful() {
+
   }
 
   @Override
