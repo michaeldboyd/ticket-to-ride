@@ -8,7 +8,8 @@ import com.example.sharedcode.communication.Command;
 
 public class CommandFactory {
 
-    public static Command createCommand(String className, String methodName, String[] paramTypesStringNames, Object[] paramValues) {
+    public static Command createCommand(String className, String methodName, Object[] paramTypesStringNames, Object[] paramValues) {
         return new Command(className, methodName, paramTypesStringNames, paramValues);
-    }   
+    }
+
 }

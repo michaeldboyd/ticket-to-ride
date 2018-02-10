@@ -17,7 +17,7 @@ interface ICommand {
 public class Command implements ICommand {
     private String _className;
     private String _methodName;
-    private String[] _paramTypesStringNames;
+    private Object[] _paramTypesStringNames;
     private Object[] _paramValues;
 
 
@@ -35,7 +35,7 @@ public class Command implements ICommand {
      * @throws ClassNotFoundException - thrown if improper class name is passed in
      */
     public Command(String className, String methodName,
-                   String[] paramTypesStringNames, Object[] paramValues) {
+                   Object[] paramTypesStringNames, Object[] paramValues) {
         _className = className;
         _methodName = methodName;
         _paramTypesStringNames = paramTypesStringNames;
@@ -69,9 +69,9 @@ public class Command implements ICommand {
         }
 
         ArrayList<Class<?>> paramTypesList = new ArrayList<>();
-        for (String classStringName :
+        for (Object classStringName :
                 _paramTypesStringNames) {
-            paramTypesList.add(Class.forName(classStringName));
+            paramTypesList.add(Class.forName((String)classStringName));
         }
 
         Class<?>[] paramTypes = (Class<?>[])paramTypesList.toArray();

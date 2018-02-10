@@ -23,17 +23,17 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
 
     @Override
     public void login(String username, String password) {
-        String[] paramTypes = {username.getClass().toString(), password.getClass().toString()};
+        Object[] paramTypes = {(Object)username.getClass().toString(), (Object)password.getClass().toString()};
         String[] paramValues = {username, password};
         Command loginCommand = CommandFactory.createCommand("ServerLoginFacade", "login", paramTypes, paramValues);
         // TODO - send login to Server via socket
-        try {
+        /*try {
             ClientModel.getInstance().getSession()
                     .getBasicRemote()
                     .sendText(new Gson().toJson(loginCommand));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -43,13 +43,13 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
         Command registerCommand = CommandFactory.createCommand("ServerLoginFacade", "register", paramTypes, paramValues);
 
         // TODO - send registerCommand to Server via socket
-        try {
+        /*try {
             ClientModel.getInstance().getSession()
                     .getBasicRemote()
                     .sendText(new Gson().toJson(registerCommand));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 }
