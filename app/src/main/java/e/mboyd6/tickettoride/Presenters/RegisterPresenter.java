@@ -3,6 +3,8 @@ package e.mboyd6.tickettoride.Presenters;
 import java.util.Observable;
 import java.util.Observer;
 
+import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
+import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
@@ -68,17 +70,22 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
 
 
     /**
-     * This method
+     * This method calls the register on the proxy. It doesn't return anything.
      *
      * @param username
      * @param password
-     * @return
      */
     @Override
-    public boolean register(String username, String password) {
-        return false;
+    public void register(String username, String password) {
+        ServerProxyLoginFacade.instance().register(username, password);
     }
 
+
+    /**
+     * This should be called as a response is received by the client from the server.
+     * @param message - if null, register was successful. If not null, register was unsuccessful
+     *                and the message is contained
+     */
     private void registerResponse(String message){
         //mainActivity.onRegisterUpdate(message);
     }
