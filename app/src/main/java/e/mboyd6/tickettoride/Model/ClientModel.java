@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
+
 
 /**
  * Created by jonathanlinford on 2/5/18.
@@ -26,24 +25,7 @@ public class ClientModel extends Observable {
     private String loginResponse;
 
     //TODO: put all this in the socket manager
-    public WebSocketContainer getContainer() {
-        return container;
-    }
 
-    public void setContainer(WebSocketContainer container) {
-        this.container = container;
-    }
-
-    private WebSocketContainer container;
-    public Session getSession() {
-        return session;
-    }
-
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
-    private Session session;
     private static final ClientModel ourInstance = new ClientModel();
 
     public static ClientModel getInstance() {

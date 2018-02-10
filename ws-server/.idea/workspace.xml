@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ede5aef-8775-4afa-b577-ce1894ab3962" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/NateSocket.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/CommandSocket.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/CommandSocket.java" />
+      <change beforePath="$PROJECT_DIR$/../app/build.gradle" afterPath="$PROJECT_DIR$/../app/build.gradle" />
+      <change beforePath="$PROJECT_DIR$/../app/src/androidTest/java/e/mboyd6/tickettoride/TyrusAndroidTest.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/CommandSocket.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/NateSocket.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/Sender.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLobbyFacade.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLobbyFacade.java" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLoginFacade.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLoginFacade.java" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/SocketManager.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Model/ClientModel.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Model/ClientModel.java" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Views/Activities/MainActivity.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Views/Activities/MainActivity.java" />
+      <change beforePath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/SocketConnectionTest.java" afterPath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/SocketConnectionTest.java" />
+      <change beforePath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/TyrusSocketTest.java" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
