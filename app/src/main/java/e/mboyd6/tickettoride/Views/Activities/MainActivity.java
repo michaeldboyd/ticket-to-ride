@@ -395,10 +395,11 @@ public class MainActivity extends AppCompatActivity
     else if(!mRegisterPresenter.validPassword(passwordData)) {
       message = "Invalid password";
     }
-    else if(!mRegisterPresenter.register(usernameData, passwordData))
+    else
     {
-      message = "Server error, or connection does not exist";
+      mRegisterPresenter.register(usernameData, passwordData);
     }
+    
     if (handleError(message)) {
       return;
     } else {
