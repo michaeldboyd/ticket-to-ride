@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
   };
 
   private LoginPresenter mLoginPresenter = new LoginPresenter(this);
-  private RegisterPresenter mRegisterPresenter = new RegisterPresenter();
+  private RegisterPresenter mRegisterPresenter = new RegisterPresenter(this);
   private LobbyPresenter mLobbyPresenter;
   private WaitroomPresenter waitroomPresenter;
 
@@ -261,13 +261,13 @@ public class MainActivity extends AppCompatActivity
   }
 
   @TargetApi(21)
-  private void transitionToWaitroomFromLobby(Game game) {
+  private void transitionToWaitroomFromLobby() {
     if (isDestroyed()) {
       return;
     }
 
     Fragment previousFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
-    Fragment nextFragment = WaitroomFragment.newInstance(game);
+    Fragment nextFragment = WaitroomFragment.newInstance();
 
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
@@ -395,10 +395,11 @@ public class MainActivity extends AppCompatActivity
     else if(!mRegisterPresenter.validPassword(passwordData)) {
       message = "Invalid password";
     }
-    else if(!mRegisterPresenter.register(usernameData, passwordData))
+    else
     {
-      message = "Server error, or connection does not exist";
+      mRegisterPresenter.register(usernameData, passwordData);
     }
+
     if (handleError(message)) {
       return;
     } else {
@@ -466,7 +467,8 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onLobbyFragmentJoinGameButton(Game game) {
-    transitionToWaitroomFromLobby(game);
+    ClientModel.getInstance().setCurrentGame(game);
+    transitionToWaitroomFromLobby();
   }
 
   @Override
@@ -497,6 +499,7 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onWaitroomFragmentBackoutButton() {
+    ClientModel.getInstance().setCurrentGame(null);
     transitionToLobbyFromWaitroom();
   }
 }

@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Presenters;
 import android.content.Context;
 
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.PlayerColors;
 
 import java.io.Console;
 import java.util.Observable;
@@ -27,6 +28,15 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         ClientModel.getInstance().addObserver(this);
     }
 
+
+    public void changePlayerColor(PlayerColors color){
+
+    }
+
+
+
+
+    //Called by the observer
     @Override
     public void updateReadyPlayers() {
         ClientModel.getInstance().getPlayers();

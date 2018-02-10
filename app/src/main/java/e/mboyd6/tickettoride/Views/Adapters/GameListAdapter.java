@@ -130,15 +130,15 @@ public class GameListAdapter extends ArrayAdapter<Game> {
         return convertView;
     }
 
-    int getCardDrawableFromPlayerColor(int playerColor){
+    int getCardDrawableFromPlayerColor(PlayerColors playerColor){
         int result = 0;
         switch(playerColor)
         {
-            case PlayerColors.RED : result = R.drawable.color_red; break;
-            case PlayerColors.TURQUOISE : result = R.drawable.color_turquoise; break;
-            case PlayerColors.ORANGE : result = R.drawable.color_orange; break;
-            case PlayerColors.BLUE : result = R.drawable.color_blue; break;
-            case PlayerColors.PURPLE : result = R.drawable.color_purple; break;
+            case RED : result = R.drawable.color_red; break;
+            case TURQUOISE : result = R.drawable.color_turquoise; break;
+            case ORANGE : result = R.drawable.color_orange; break;
+            case BLUE : result = R.drawable.color_blue; break;
+            case PURPLE : result = R.drawable.color_purple; break;
         }
         return result;
     }

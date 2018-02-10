@@ -25,6 +25,8 @@ public class ClientModel extends Observable {
     private String authToken;
     private String loginResponse;
 
+    private Game currentGame;
+
     public Session getSession() {
         return session;
     }
@@ -67,6 +69,9 @@ public class ClientModel extends Observable {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+        notifyObservers(UpdateType.REGISTERRESPONSE);
+        notifyObservers(UpdateType.LOGINRESPONSE);
+
     }
 
     public String getAuthToken() {
@@ -91,6 +96,12 @@ public class ClientModel extends Observable {
     }
 
 
+    public Game getCurrentGame() {
+        return currentGame;
+    }
 
+    public void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
+    }
 }
 
