@@ -2,7 +2,7 @@ package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandMessage;
 import com.google.gson.Gson;
-import org.eclipse.jetty.websocket.api.WebSocketListener;
+
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
@@ -16,8 +16,8 @@ import javax.websocket.server.ServerEndpoint;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 @ClientEndpoint
-@ServerEndpoint(value="/echo")
-public class CommandSocket implements WebSocketListener
+@ServerEndpoint(value="/echo/")
+public class CommandSocket
 {
     Gson gson = new Gson();
     @OnOpen
@@ -26,8 +26,6 @@ public class CommandSocket implements WebSocketListener
         System.out.println("Client Connected!");
         // TODO: linke each session with the appropriate user. this is where it all starts
     }
-
-
 
     @OnMessage
     public void onWebSocketText(String message)
@@ -53,11 +51,4 @@ public class CommandSocket implements WebSocketListener
     }
 
     // NOTE: Dont use these function right now, use the other ones. They need to be here though
-    @Override
-    public void onWebSocketBinary(byte[] payload, int offset, int len) {}
-    @Override
-    public void onWebSocketClose(int statusCode, String reason) {}
-
-    @Override
-    public void onWebSocketConnect(org.eclipse.jetty.websocket.api.Session session) {}
 }

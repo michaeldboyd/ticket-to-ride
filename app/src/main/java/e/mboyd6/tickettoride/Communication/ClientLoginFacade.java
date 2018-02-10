@@ -4,6 +4,8 @@ package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.interfaces.IClientLoginFacade;
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 
+import e.mboyd6.tickettoride.Model.ClientModel;
+
 /**
  * Created by mboyd6 on 2/1/2018.
  */
@@ -43,7 +45,11 @@ public class ClientLoginFacade implements IClientLoginFacade {
     public void register(String authToken, String message) {
         // Received the command that said a user attempted to register
         // If successful, message == null
-        System.out.println("Client has registered Successfully! (And websockets now work)");
+        if(message != null)
+        {
+            ClientModel.getInstance().setAuthToken(authToken);
+        }
+        //System.out.println("Client has registered Successfully! (And websockets now work)");
         // Essentially, we need to update the Client-side model so that the UI will update properly
     }
 }
