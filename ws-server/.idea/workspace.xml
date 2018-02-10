@@ -2,28 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ede5aef-8775-4afa-b577-ce1894ab3962" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../app/build.gradle" afterPath="$PROJECT_DIR$/../app/build.gradle" />
-      <change beforePath="$PROJECT_DIR$/../app/src/androidTest/java/e/mboyd6/tickettoride/SocketAndroidTest.java" afterPath="$PROJECT_DIR$/../app/src/androidTest/java/e/mboyd6/tickettoride/AndroidSocketTest.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/../app/src/main/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ClientLobbyFacade.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ClientLobbyFacade.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ClientLoginFacade.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ClientLoginFacade.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/NateSocket.java" />
       <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/CommandSocket.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/CommandSocket.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLobbyFacade.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLobbyFacade.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLoginFacade.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/ServerProxyLoginFacade.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/SocketManager.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Communication/SocketManager.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Views/Activities/MainActivity.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Views/Activities/MainActivity.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/LoginPresenterTest.java" afterPath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/LoginPresenterTest.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/SocketConnectionTest.java" afterPath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/SocketConnectionTest.java" />
-      <change beforePath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/TyrusSocketTest.java" afterPath="$PROJECT_DIR$/../app/src/test/java/e/mboyd6/tickettoride/TyrusSocketTest.java" />
-      <change beforePath="$PROJECT_DIR$/../sharedCode/src/main/java/com/example/sharedcode/communication/Command.java" afterPath="$PROJECT_DIR$/../sharedCode/src/main/java/com/example/sharedcode/communication/Command.java" />
-      <change beforePath="$PROJECT_DIR$/../sharedCode/src/main/java/com/example/sharedcode/communication/CommandFactory.java" afterPath="$PROJECT_DIR$/../sharedCode/src/main/java/com/example/sharedcode/communication/CommandFactory.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ClientProxyLobbyFacade.java" afterPath="$PROJECT_DIR$/src/main/java/ClientProxyLobbyFacade.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ClientProxyLoginFacade.java" afterPath="$PROJECT_DIR$/src/main/java/ClientProxyLoginFacade.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CommandSocket.java" afterPath="$PROJECT_DIR$/src/main/java/CommandSocket.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ServerLobbyFacade.java" afterPath="$PROJECT_DIR$/src/main/java/ServerLobbyFacade.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ServerLoginFacade.java" afterPath="$PROJECT_DIR$/src/main/java/ServerLoginFacade.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ServerModel.java" afterPath="$PROJECT_DIR$/src/main/java/ServerModel.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -58,7 +38,7 @@
       <file leaf-file-name="ClientProxyLobbyFacade.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ClientProxyLobbyFacade.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
+            <state relative-caret-position="420">
               <caret line="63" column="26" lean-forward="true" selection-start-line="63" selection-start-column="26" selection-end-line="63" selection-end-column="26" />
               <folding />
             </state>
@@ -762,12 +742,12 @@
       <updated>1518200207953</updated>
       <workItem from="1518200215366" duration="8983000" />
       <workItem from="1518280466302" duration="6853000" />
-      <workItem from="1518292130257" duration="2218000" />
+      <workItem from="1518292130257" duration="2817000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18054000" />
+    <option name="totallyTimeSpent" value="18653000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1060" extended-state="6" />
@@ -1221,7 +1201,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ClientProxyLobbyFacade.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
+        <state relative-caret-position="420">
           <caret line="63" column="26" lean-forward="true" selection-start-line="63" selection-start-column="26" selection-end-line="63" selection-end-column="26" />
           <folding />
         </state>
