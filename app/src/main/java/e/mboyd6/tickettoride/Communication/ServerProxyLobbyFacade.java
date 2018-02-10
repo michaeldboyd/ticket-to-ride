@@ -3,7 +3,6 @@ package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
-
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**

@@ -17,7 +17,7 @@ interface ICommand {
 public class Command implements ICommand {
     private String _className;
     private String _methodName;
-    private Object[] _paramTypesStringNames;
+    private String[] _paramTypesStringNames;
     private Object[] _paramValues;
 
 
@@ -35,7 +35,7 @@ public class Command implements ICommand {
      * @throws ClassNotFoundException - thrown if improper class name is passed in
      */
     public Command(String className, String methodName,
-                   Object[] paramTypesStringNames, Object[] paramValues) {
+                   String[] paramTypesStringNames, Object[] paramValues) {
         _className = className;
         _methodName = methodName;
         _paramTypesStringNames = paramTypesStringNames;
@@ -68,13 +68,15 @@ public class Command implements ICommand {
                 break;
         }
 
-        ArrayList<Class<?>> paramTypesList = new ArrayList<>();
-        for (Object classStringName :
-                _paramTypesStringNames) {
-            paramTypesList.add(Class.forName((String)classStringName));
+        Class<?>[] paramTypes = new Class<?>[_paramTypesStringNames.length];
+        for (int i = 0; i < paramTypes.length; i++) {
+            String classStringName = _paramTypesStringNames[i];
+            String className = classStringName.replace("class ", "");
+
+            paramTypes[i] = Class.forName(className);
         }
 
-        Class<?>[] paramTypes = (Class<?>[])paramTypesList.toArray();
+
 
         Method method = receiver.getMethod(_methodName, paramTypes);
         method.invoke(null, _paramValues);

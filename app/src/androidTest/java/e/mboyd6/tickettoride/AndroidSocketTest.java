@@ -1,6 +1,6 @@
 package e.mboyd6.tickettoride;
 
-
+import org.eclipse.jetty.util.component.LifeCycle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +17,7 @@ import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 
-public class SocketConnectionTest {
+public class AndroidSocketTest {
     WebSocketContainer container;
 
     @Before
@@ -28,22 +28,31 @@ public class SocketConnectionTest {
         try
         {
             this.container = ContainerProvider.getWebSocketContainer();
-            // Attempt Connect
-            Session session = container.connectToServer(CommandSocket.class, uri);
-            ClientModel.getInstance().setSession(session);
 
+            try
+            {
+                // Attempt Connect
+                Session session = container.connectToServer(CommandSocket.class, uri);
+                ClientModel.getInstance().setSession(session);
+            }
+            finally
+            {
+
+            }
         }
         catch (Throwable t)
         {
             t.printStackTrace(System.err);
         }
     }
+
+
     @Test
     public void test()
     {
         try {
             Session sess = ClientModel.getInstance().getSession();
-           ServerProxyLoginFacade.instance().register("test", "test");
+            ServerProxyLoginFacade.instance().register("test", "test");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,19 +65,15 @@ public class SocketConnectionTest {
         // This is to free up threads and resources that the
         // JSR-356 container allocates. But unfortunately
         // the JSR-356 spec does not handle lifecycles (yet)
-//        if (container instanceof LifeCycle)
-//        {
-//            try {
-        try {
-            ClientModel.getInstance().getSession().close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (container instanceof LifeCycle)
+        {
+            try {
+                ClientModel.getInstance().getSession().close();
+                ((LifeCycle)container).stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-//                ((LifeCycle)container).stop();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
 
     }
 }

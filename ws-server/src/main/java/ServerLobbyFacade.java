@@ -11,6 +11,43 @@ import java.util.UUID;
 
 public class ServerLobbyFacade implements IServerLobbyFacade {
 
+    private static ServerLobbyFacade lobbyFacade;
+
+    public static ServerLobbyFacade instance() {
+        if (lobbyFacade == null) {
+            lobbyFacade = new ServerLobbyFacade();
+        }
+
+        return lobbyFacade;
+    }
+
+
+    public static void _createGame() {
+        instance().createGame();
+    }
+
+    public static void _getGames() {
+        instance().getGames();
+    }
+
+    public static void _joinGame(String gameID, String playerID) {
+        instance().joinGame(gameID, playerID);
+    }
+
+    public static void _leaveGame(String gameID, String playerID) {
+        instance().leaveGame(gameID, playerID);
+    }
+
+    public static void _startGame(String gameID) {
+        instance().startGame(gameID);
+    }
+
+    public static void _getPlayersForGame(String gameID) {
+        instance().getPlayersForGame(gameID);
+    }
+
+
+
     int playerLimit = 5;
 
     // Creates command to create game and send back to the client

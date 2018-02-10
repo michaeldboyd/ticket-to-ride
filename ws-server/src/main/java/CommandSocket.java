@@ -10,18 +10,13 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import java.lang.reflect.InvocationTargetException;
 
 
 @ServerEndpoint(value="/echo/")
 public class CommandSocket implements WebSocketListener
 {
     Gson gson = new Gson();
-    @OnOpen
-    public void onWebSocketConnect(Session sess)
-    {
-       ServerModel.instance().session = sess;
-       // TODO: link each session with the appropriate user. this is where it all starts
-    }
 
 
 
@@ -32,7 +27,11 @@ public class CommandSocket implements WebSocketListener
         Command res = gson.fromJson(message, Command.class);
         try {
             res.execute();
+        } catch (InvocationTargetException e) {
+            System.out.println(e.getCause().getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -56,5 +55,7 @@ public class CommandSocket implements WebSocketListener
     public void onWebSocketClose(int statusCode, String reason) {}
 
     @Override
-    public void onWebSocketConnect(org.eclipse.jetty.websocket.api.Session session) {}
+    public void onWebSocketConnect(org.eclipse.jetty.websocket.api.Session session) {
+        ServerModel.instance().session = session;
+    }
 }
