@@ -261,13 +261,13 @@ public class MainActivity extends AppCompatActivity
   }
 
   @TargetApi(21)
-  private void transitionToWaitroomFromLobby(Game game) {
+  private void transitionToWaitroomFromLobby() {
     if (isDestroyed()) {
       return;
     }
 
     Fragment previousFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
-    Fragment nextFragment = WaitroomFragment.newInstance(game);
+    Fragment nextFragment = WaitroomFragment.newInstance();
 
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
@@ -467,7 +467,8 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onLobbyFragmentJoinGameButton(Game game) {
-    transitionToWaitroomFromLobby(game);
+    ClientModel.getInstance().setCurrentGame(game);
+    transitionToWaitroomFromLobby();
   }
 
   @Override
@@ -498,6 +499,7 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onWaitroomFragmentBackoutButton() {
+    ClientModel.getInstance().setCurrentGame(null);
     transitionToLobbyFromWaitroom();
   }
 }
