@@ -30,8 +30,8 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         instance().getGames();
     }
 
-    public static void _joinGame(String gameID, String playerID) {
-        instance().joinGame(gameID, playerID);
+    public static void _joinGame(String gameID, String username) {
+        instance().joinGame(gameID, username);
     }
 
     public static void _leaveGame(String gameID, String playerID) {
@@ -69,13 +69,15 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void joinGame(String gameID, String playerID) {
+    public void joinGame(String gameID, String username) {
         String message = null;
 
         if (ServerModel.instance().games.containsKey(gameID)) {
 
+            Player newPlayer = new Player(UUID.randomUUID().toString(), username, );
+
             // Only set message if we fail to add user to the game
-            if (!ServerModel.instance().games.get(gameID).addPlayer(playerID)) {
+            if (!ServerModel.instance().games.get(gameID).addPlayer(newPlayer)) {
                 message = "Could not add player to game [id = " + gameID + "]";
             }
 
@@ -116,7 +118,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         //create commandresult
         if (ServerModel.instance().games.containsKey(gameID)) {
 
-            players = (Player[]) ServerModel.instance().games.get(gameID).getPlayerIDs().toArray();
+            players = (Player[]) ServerModel.instance().games.get(gameID).getPlayers().toArray();
         } else {
 
             message = "Game does not exist.";
