@@ -9,6 +9,7 @@ import java.io.Console;
 import java.util.Observable;
 import java.util.Observer;
 
+import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
@@ -35,7 +36,6 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
 
 
-
     //Called by the observer
     @Override
     public void updateReadyPlayers() {
@@ -46,6 +46,13 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     @Override
     public void startGame() {
 
+    }
+
+    @Override
+    public void leaveGame() {
+        ServerProxyLobbyFacade.instance().leaveGame(
+                ClientModel.getInstance().getCurrentGame().getGameID(),
+                ClientModel.getInstance().getCurrentPlayer().getPlayerID());
     }
 
 
