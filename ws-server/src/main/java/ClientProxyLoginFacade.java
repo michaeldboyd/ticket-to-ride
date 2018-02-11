@@ -30,17 +30,17 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
     @Override
     public void login(String authToken, String message) {
         // This is called after the Server has attempted to log someone in
-        // If login was successful, message == null
+        // If login was successful, message == "" [empty string]
 
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
         String[] paramValues = {authToken, message};
-        Command loginClientCommand = CommandFactory.createCommand("ClientLoginFacade", "login", paramTypes, paramValues);
+        Command loginClientCommand = CommandFactory.createCommand("ClientLoginFacade", "_loginReceived", paramTypes, paramValues);
 
         // TODO - Send loginCommand to Client via socket
 
-        Session sess = ServerModel.instance().session;
+        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         try {
-            sess.getBasicRemote().sendText(new Gson().toJson(loginClientCommand));
+            sess.getRemote().sendString(new Gson().toJson(loginClientCommand));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,16 +49,16 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
     @Override
     public void register(String authToken, String message) {
         // This is called after the Server has attempted to register a new user
-        // If register was successful, message == null
+        // If register was successful, message == "" [empty string]
 
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
         String[] paramValues = {authToken, message};
-        Command registerClientCommand = CommandFactory.createCommand("ClientLoginFacade", "register", paramTypes, paramValues);
+        Command registerClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_registerReceived", paramTypes, paramValues);
 
         // TODO - Send registerCommand to Client via socket
-        Session sess = ServerModel.instance().session;
+        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         try {
-            sess.getBasicRemote().sendText(new Gson().toJson(registerClientCommand));
+            sess.getRemote().sendString(new Gson().toJson(registerClientCommand));
         } catch (IOException e) {
             e.printStackTrace();
         }

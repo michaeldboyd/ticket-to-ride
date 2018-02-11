@@ -11,6 +11,43 @@ import java.util.UUID;
 
 public class ServerLobbyFacade implements IServerLobbyFacade {
 
+    private static ServerLobbyFacade lobbyFacade;
+
+    public static ServerLobbyFacade instance() {
+        if (lobbyFacade == null) {
+            lobbyFacade = new ServerLobbyFacade();
+        }
+
+        return lobbyFacade;
+    }
+
+
+    public static void _createGame() {
+        instance().createGame();
+    }
+
+    public static void _getGames() {
+        instance().getGames();
+    }
+
+    public static void _joinGame(String gameID, String playerID) {
+        instance().joinGame(gameID, playerID);
+    }
+
+    public static void _leaveGame(String gameID, String playerID) {
+        instance().leaveGame(gameID, playerID);
+    }
+
+    public static void _startGame(String gameID) {
+        instance().startGame(gameID);
+    }
+
+    public static void _getPlayersForGame(String gameID) {
+        instance().getPlayersForGame(gameID);
+    }
+
+
+
     int playerLimit = 5;
 
     // Creates command to create game and send back to the client
@@ -18,22 +55,22 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     public void createGame() {
         // Don't need to check for existence of a new game because this should only be called when creating a brand new game
 
-        // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
+        // TODO - message parameter is always empty string -- we should remove it or figure out potential errors/problems
         // Create a random UUID for gameID to pass to createGame method
-        ClientProxyLobbyFacade.instance().createGame(UUID.randomUUID().toString(), null);
+        ClientProxyLobbyFacade.instance().createGame(UUID.randomUUID().toString(), "");
     }
 
     @Override
     public void getGames() {
         Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
 
-        // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
-        ClientProxyLobbyFacade.instance().updateGames(games, null);
+        // TODO - message parameter is always empty string -- we should remove it or figure out potential errors/problems
+        ClientProxyLobbyFacade.instance().updateGames(games, "");
     }
 
     @Override
     public void joinGame(String gameID, String playerID) {
-        String message = null;
+        String message = "";
 
         if (ServerModel.instance().games.containsKey(gameID)) {
 
@@ -49,7 +86,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void leaveGame(String gameID, String playerID) {
-        String message = null;
+        String message = "";
 
         // This returns false if playerID is not part of game
         if (!ServerModel.instance().games.get(gameID).removePlayer(playerID)) {
@@ -62,7 +99,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void startGame(String gameID) {
-        String message = null;
+        String message = "";
 
         if (!ServerModel.instance().games.containsKey(gameID)) {
             message = "Game doesn't exist.";
@@ -73,7 +110,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void getPlayersForGame(String gameID) {
-        String message = null;
+        String message = "";
         Player[] players = null;
 
         //create commandresult
@@ -81,7 +118,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
             players = (Player[]) ServerModel.instance().games.get(gameID).getPlayerIDs().toArray();
         } else {
-
+            players = new Player[0];
             message = "Game does not exist.";
         }
 
