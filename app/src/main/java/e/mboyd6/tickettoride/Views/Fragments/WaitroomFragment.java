@@ -204,14 +204,29 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
     }
 
     @Override
+    public void onWaitroomFragmentStartGameButton() {
+
+    }
+
+    @Override
+    public void onStartGameSent() {
+
+    }
+
+    @Override
+    public void onStartGameResponse() {
+
+    }
+
+    @Override
     public void updateChat() {
         //Change layout to have updated chat
     }
 
     @Override
-    public void onWaitroomFragmentColorPicked(int color) {
+    public void onWaitroomFragmentColorPicked(PlayerColors playerColor) {
         if (mListener != null) {
-            mListener.onWaitroomFragmentColorPicked(color);
+            mListener.onWaitroomFragmentColorPicked(playerColor);
         }
     }
 
@@ -221,4 +236,15 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             mListener.onWaitroomFragmentBackoutButton();
         }
     }
+
+    @Override
+    public void onBackOutSent() {
+
+    }
+
+    @Override
+    public void onBackoutResponse(String message) {
+
+    }
+
 }

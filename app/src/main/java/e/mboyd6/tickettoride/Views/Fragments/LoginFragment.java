@@ -134,21 +134,16 @@ public class LoginFragment extends Fragment implements ILoginFragment {
     @Override
     public void onLoginSent() {
         mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
-        mLoginButton.setOnClickListener(null);
+        mLoginButton.setEnabled(false);
+        mSignUpButton.setEnabled(false);
     }
 
     //Calls main activity
     @Override
     public void onLoginResponse(String message) {
         mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0, 0,0);
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                onLoginFragmentLoginButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
-            }
-        });
+        mLoginButton.setEnabled(true);
+        mSignUpButton.setEnabled(true);
     }
 
 

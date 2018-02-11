@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
   private LoginPresenter mLoginPresenter = new LoginPresenter(this);
   private RegisterPresenter mRegisterPresenter = new RegisterPresenter(this);
   private LobbyPresenter mLobbyPresenter;
-  private WaitroomPresenter waitroomPresenter;
+  private WaitroomPresenter mWaitroomPresenter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
   public void loadLoginFragment(String usernameData, String passwordData) {
     Fragment initialFragment = LoginFragment.newInstance(usernameData, passwordData);
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-    fragmentTransaction.replace(R.id.main_activity_fragment_container, initialFragment);
+    fragmentTransaction.replace(R.id.main_activity_fragment_container, initialFragment, "CURRENT_FRAGMENT");
     fragmentTransaction.commit();
   }
 
@@ -463,6 +463,7 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
+
     String message = "";
     if (usernameData.equals("Guest") && passwordData.equals("Password")) {
       GuestLogin();
@@ -479,22 +480,25 @@ public class MainActivity extends AppCompatActivity
       mLoginPresenter.login(usernameData, passwordData);
     }
     if (handleError(message)) {
+
       return;
     } else {
+
       onLoginSent();
     }
   }
 
   @Override
   public void onLoginSent() {
-    if (mFragmentManager != null) {
+    if (mFragmentManager == null) {
+      mFragmentManager = getSupportFragmentManager();
+    }
       Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
       if (currentFragment != null && currentFragment instanceof ILoginFragment)
       {
         ILoginFragment loginFragment = (ILoginFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
         loginFragment.onLoginSent();
       }
-    }
   }
 
   @Override
@@ -531,7 +535,7 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onLobbyFragmentStartNewGameButton() {
-
+    mLobbyPresenter.createGame();
   }
 
   @Override
@@ -565,6 +569,21 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
+  @Override
+  public void onWaitroomFragmentStartGameButton() {
+
+  }
+
+  @Override
+  public void onStartGameSent() {
+
+  }
+
+  @Override
+  public void onStartGameResponse() {
+
+  }
+
   //TODO: Implement this function correctly
   @Override
   public void updateChat() {
@@ -577,13 +596,25 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void onWaitroomFragmentColorPicked(int color) {
+  public void onWaitroomFragmentColorPicked(PlayerColors playerColor) {
     //Calls waitroomPresenter
+    mWaitroomPresenter.changePlayerColor(playerColor);
   }
+
 
   @Override
   public void onWaitroomFragmentBackoutButton() {
     ClientModel.getInstance().setCurrentGame(null);
     transitionToLobbyFromWaitroom();
+  }
+
+  @Override
+  public void onBackOutSent() {
+
+  }
+
+  @Override
+  public void onBackoutResponse(String message) {
+
   }
 }

@@ -6,6 +6,7 @@ package e.mboyd6.tickettoride.Views.Interfaces;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,16 @@ import java.util.ArrayList;
 
 public interface IWaitroomFragment {
     void updatePlayerList(ArrayList<Player> newList);
-    void updateChat();
-    void onWaitroomFragmentColorPicked(int color);
+
+    void onWaitroomFragmentStartGameButton();
+    void onStartGameSent();
+    void onStartGameResponse();
+
     void onWaitroomFragmentBackoutButton();
+    void onBackOutSent();
+    void onBackoutResponse(String message);
+
+    void onWaitroomFragmentColorPicked(PlayerColors playerColor);
+
+    void updateChat();
 }
