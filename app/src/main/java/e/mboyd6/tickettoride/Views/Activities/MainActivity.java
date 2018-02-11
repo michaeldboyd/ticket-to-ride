@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity
   }
 
   public void loadLoginFragmentFirstTime() {
-    String usernameData = getResources().getString(R.string.Username);
-    String passwordData = getResources().getString(R.string.Password);
+    String usernameData = "";//getResources().getString(R.string.Username);
+    String passwordData = "";//getResources().getString(R.string.Password);
     loadLoginFragment(usernameData, passwordData);
   }
 
@@ -227,8 +227,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     Fragment previousFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
-    String usernameData = getResources().getString(R.string.Username);
-    String passwordData = getResources().getString(R.string.Password);
+    String usernameData = "";//getResources().getString(R.string.Username);
+    String passwordData = "";//getResources().getString(R.string.Password);
     Fragment nextFragment = LoginFragment.newInstance(usernameData, passwordData);
 
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -462,6 +462,7 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onLobbyFragmentLogOutButton() {
+
     transitionToLoginFromLobby();
   }
 
