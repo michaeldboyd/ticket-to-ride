@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Model;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import org.java_websocket.client.WebSocketClient;
 
@@ -19,10 +20,11 @@ public class ClientModel extends Observable {
 
     //Game data
     private ArrayList<Game> games = new ArrayList<>();
+    private Game currentGame = null;
     private ArrayList<Player> players = new ArrayList<>();
 
     //Current player data
-    private Player currentPlayer = new Player();
+    private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
     private String authToken;
     private String loginResponse;
     private WebSocketClient socket;
@@ -68,8 +70,7 @@ public class ClientModel extends Observable {
     }
 
     public String getAuthToken() {
-        //TODO: Notify presenters of changes
-        notifyObservers(UpdateType.REGISTERRESPONSE);
+
         return authToken;
     }
 
@@ -93,6 +94,14 @@ public class ClientModel extends Observable {
 
     public void setSocket(WebSocketClient socket) {
         this.socket = socket;
+    }
+
+    public Game getCurrentGame() {
+        return currentGame;
+    }
+
+    public void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
     }
 }
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;

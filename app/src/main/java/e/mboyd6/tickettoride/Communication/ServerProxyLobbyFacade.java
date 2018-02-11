@@ -11,6 +11,12 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
+    private static ServerProxyLobbyFacade _instance = new ServerProxyLobbyFacade();
+
+    private ServerProxyLobbyFacade() {}
+
+    public static ServerProxyLobbyFacade instance() {return _instance;}
+
     @Override
     public void createGame() {
         Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "createGame", null, null);
@@ -23,6 +29,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
     }
 
+    //TODO: Should I be passing userID to this? userID is never stored in the client. I think we should be passing the authToekn.
     @Override
     public void joinGame(String gameID, String userID) {
         String[] paramTypes = {gameID.getClass().toString(), userID.getClass().toString()};
