@@ -18,20 +18,11 @@ import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 public class LoginPresenter implements ILoginPresenter, Observer{
 
     MainActivity mainActivity;
-    boolean loginPending = false;
 
     public LoginPresenter(Context context){
         mainActivity = (MainActivity) context;
 
         ClientModel.getInstance().addObserver(this);
-    }
-
-    public boolean isLoginPending() {
-        return loginPending;
-    }
-
-    public void setLoginPending(boolean loginPending) {
-        this.loginPending = loginPending;
     }
 
     /**
@@ -73,14 +64,12 @@ public class LoginPresenter implements ILoginPresenter, Observer{
      */
     @Override
     public void login(String username, String password) {
-        loginPending = true;
         ServerProxyLoginFacade.instance().login(username, password);
     }
 
     @Override
     public void loginResponse(String message){
         //mainActivity.onLoginResponse(message);
-        loginPending = false;
     }
 
     @Override
@@ -90,9 +79,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
 
         switch (updateType){
             case LOGINRESPONSE:
-                if(loginPending) {
-                    loginResponse(ClientModel.getInstance().getLoginResponse());
-                }
+                loginResponse(ClientModel.getInstance().getLoginResponse());
                 break;
             default:
                 break;

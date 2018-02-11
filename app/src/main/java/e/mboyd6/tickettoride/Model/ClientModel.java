@@ -69,17 +69,22 @@ public class ClientModel extends Observable {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
-        notifyObservers(UpdateType.REGISTERRESPONSE);
-        notifyObservers(UpdateType.LOGINRESPONSE);
-
     }
 
     public String getAuthToken() {
         return authToken;
     }
 
-    public void setAuthToken(String authToken) {
+    public void setAuthTokenFromRegister(String authToken) {
         this.authToken = authToken;
+
+        notifyObservers(UpdateType.REGISTERRESPONSE);
+    }
+
+    public void setAuthTokenFromLogin(String authToken) {
+        this.authToken = authToken;
+
+        notifyObservers(UpdateType.LOGINRESPONSE);
     }
 
     public String getLoginResponse() {
@@ -90,18 +95,19 @@ public class ClientModel extends Observable {
         this.loginResponse = loginResponse;
     }
 
-    @Override
-    public synchronized void addObserver(Observer o) {
-        super.addObserver(o);
-    }
-
-
     public Game getCurrentGame() {
         return currentGame;
     }
 
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
+    }
+
+
+
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
     }
 }
 
