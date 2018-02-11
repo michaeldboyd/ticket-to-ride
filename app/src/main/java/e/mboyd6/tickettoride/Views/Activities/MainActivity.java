@@ -33,7 +33,9 @@ import e.mboyd6.tickettoride.Views.Fragments.LoginFragment;
 import e.mboyd6.tickettoride.Views.Fragments.RegisterFragment;
 import e.mboyd6.tickettoride.Views.Fragments.WaitroomFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -370,7 +372,7 @@ public class MainActivity extends AppCompatActivity
 
   public boolean handleError(String message)
   {
-    if (message == null)
+    if (message == null || message.equals(""))
       return false;
 
     Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
@@ -395,21 +397,39 @@ public class MainActivity extends AppCompatActivity
     else if(!mRegisterPresenter.validPassword(passwordData)) {
       message = "Invalid password";
     }
-    else
-    {
+    else {
       mRegisterPresenter.register(usernameData, passwordData);
     }
 
     if (handleError(message)) {
       return;
     } else {
-      transitionToLobbyFromLoginAndRegister();
+      onRegisterSent();
     }
   }
 
   @Override
-  public void onRegisterSuccessful() {
+  public void onRegisterSent() {
+    if (mFragmentManager != null) {
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof IRegisterFragment) {
+        IRegisterFragment registerFragment = (IRegisterFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        registerFragment.onRegisterSent();
+      }
+    }
+  }
 
+  @Override
+  public void onRegisterResponse(String message) {
+    if (!handleError(message)) {
+      transitionToLobbyFromLoginAndRegister();
+    } else {
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof IRegisterFragment) {
+        IRegisterFragment registerFragment = (IRegisterFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        registerFragment.onRegisterResponse(message);
+      }
+    }
   }
 
   @Override
@@ -421,8 +441,7 @@ public class MainActivity extends AppCompatActivity
   @Override
   public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
     String message = "";
-    if (usernameData.equals("Guest") && passwordData.equals("Password"))
-    {
+    if (usernameData.equals("Guest") && passwordData.equals("Password")) {
       GuestLogin();
     }
     else if(mLoginPresenter == null)
@@ -439,13 +458,34 @@ public class MainActivity extends AppCompatActivity
     if (handleError(message)) {
       return;
     } else {
-      transitionToLobbyFromLoginAndRegister();
+      onLoginSent();
     }
   }
 
   @Override
-  public void onLoginSuccessful() {
+  public void onLoginSent() {
+    if (mFragmentManager != null) {
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof ILoginFragment)
+      {
+        ILoginFragment loginFragment = (ILoginFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        loginFragment.onLoginSent();
+      }
+    }
+  }
 
+  @Override
+  public void onLoginResponse(String message) {
+    if (!handleError(message)) {
+      transitionToLobbyFromLoginAndRegister();
+    } else {
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof ILoginFragment)
+      {
+        ILoginFragment loginFragment = (ILoginFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        loginFragment.onLoginResponse(message);
+      }
+    }
   }
 
   @Override
@@ -467,9 +507,29 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
+  public void onLobbyFragmentStartNewGameButton() {
+
+  }
+
+  @Override
+  public void onStartNewGameSent() {
+
+  }
+
+  @Override
   public void onLobbyFragmentJoinGameButton(Game game) {
     ClientModel.getInstance().setCurrentGame(game);
     transitionToWaitroomFromLobby();
+  }
+
+  @Override
+  public void onGameJoinedSent() {
+
+  }
+
+  @Override
+  public void onGameJoinedResponse() {
+
   }
 
   @Override

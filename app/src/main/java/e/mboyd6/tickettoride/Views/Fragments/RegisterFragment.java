@@ -137,8 +137,20 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
     }
 
     @Override
-    public void onRegisterSuccessful() {
-
+    public void onRegisterSent() {
+        mSignUpButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        mSignUpButton.setOnClickListener(null);
     }
 
+    @Override
+    public void onRegisterResponse(String message) {
+        mSignUpButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onRegisterFragmentSignUpButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
+            }
+        });
+    }
 }

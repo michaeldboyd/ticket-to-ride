@@ -108,9 +108,29 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
     }
 
     @Override
+    public void onLobbyFragmentStartNewGameButton() {
+
+    }
+
+    @Override
+    public void onStartNewGameSent() {
+
+    }
+
+    @Override
     public void onLobbyFragmentJoinGameButton(Game game) {
         if (mListener != null) {
             mListener.onLobbyFragmentJoinGameButton(game);
         }
+    }
+
+    @Override
+    public void onGameJoinedSent() {
+
+    }
+
+    @Override
+    public void onGameJoinedResponse() {
+
     }
 }
