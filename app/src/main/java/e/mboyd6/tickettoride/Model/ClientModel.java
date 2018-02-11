@@ -2,13 +2,14 @@ package e.mboyd6.tickettoride.Model;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
-import com.example.sharedcode.model.PlayerColors;
+
+import org.java_websocket.client.WebSocketClient;
 
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.websocket.Session;
+
 
 /**
  * Created by jonathanlinford on 2/5/18.
@@ -21,21 +22,16 @@ public class ClientModel extends Observable {
     private ArrayList<Player> players = new ArrayList<>();
 
     //Current player data
-    private Player currentPlayer = new Player("0", "NO PLAYER YET", PlayerColors.RED);
+    private Player currentPlayer = new Player();
     private String authToken;
     private String loginResponse;
+    private WebSocketClient socket;
 
-    private Game currentGame;
-
-    public Session getSession() {
-        return session;
+    public WebSocketClient getSocket() {
+        return socket;
     }
+    //TODO: put all this in the socket manager
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
-    private Session session;
     private static final ClientModel ourInstance = new ClientModel();
 
     public static ClientModel getInstance() {
@@ -69,12 +65,11 @@ public class ClientModel extends Observable {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
-        notifyObservers(UpdateType.REGISTERRESPONSE);
-        notifyObservers(UpdateType.LOGINRESPONSE);
-
     }
 
     public String getAuthToken() {
+        //TODO: Notify presenters of changes
+        notifyObservers(UpdateType.REGISTERRESPONSE);
         return authToken;
     }
 
@@ -96,12 +91,8 @@ public class ClientModel extends Observable {
     }
 
 
-    public Game getCurrentGame() {
-        return currentGame;
-    }
-
-    public void setCurrentGame(Game currentGame) {
-        this.currentGame = currentGame;
+    public void setSocket(WebSocketClient socket) {
+        this.socket = socket;
     }
 }
 

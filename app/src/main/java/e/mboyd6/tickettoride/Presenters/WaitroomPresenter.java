@@ -28,7 +28,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         ClientModel.getInstance().addObserver(this);
     }
 
-
+    @Override
     public void changePlayerColor(PlayerColors color){
 
     }

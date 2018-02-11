@@ -33,11 +33,11 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
         ServerModel.instance().games.put(gameID, newGame);
 
         // This is called after the Server has attempted to get all games
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
-        String[] paramTypes = {newGame.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {newGame, message};
-        Command createGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "createGame", paramTypes, paramValues);
+        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+        String[] paramValues = {gameID, message};
+        Command createGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_createGameReceived", paramTypes, paramValues);
 
         // TODO - Send createGameClientCommand to Client via socket
     }
@@ -45,11 +45,12 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     @Override
     public void updateGames(Game[] games, String message) {
         // This is called after the Server has attempted to get all games
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
         String[] paramTypes = {games.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {games, message};
-        Command updateGamesClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "updateGames", paramTypes, paramValues);
+
+        Command updateGamesClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_updateGamesReceived", paramTypes, paramValues);
 
         // TODO - Send updateGamesClientCommand to Client via socket
     }
@@ -57,11 +58,12 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     @Override
     public void joinGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
-        Command joinGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "joinGame", paramTypes, paramValues);
+
+        Command joinGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_joinGameReceived", paramTypes, paramValues);
 
         // TODO - Send joinGameClientCommand to Client via socket
     }
@@ -69,11 +71,12 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     @Override
     public void startGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
-        Command startGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "startGame", paramTypes, paramValues);
+
+        Command startGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_startGameReceived", paramTypes, paramValues);
 
         // TODO - Send startGameClientCommand to Client via socket
     }
@@ -81,11 +84,12 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     @Override
     public void leaveGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
-        Command leaveGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "leaveGame", paramTypes, paramValues);
+
+        Command leaveGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_leaveGameReceived", paramTypes, paramValues);
 
         // TODO - Send leaveGameClientCommand to Client via socket
     }
@@ -93,11 +97,13 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     @Override
     public void getPlayersForGame(String gameID, Player[] players, String message) {
         // This is called after the Server has attempted to join game
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
         String[] paramTypes = {gameID.getClass().toString(), players.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, players, message};
-        Command getPlayersForGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "getPlayersForGame", paramTypes, paramValues);
+
+
+        Command getPlayersForGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_getPlayersForGameReceived", paramTypes, paramValues);
 
         // TODO - Send getPlayersForGameClientCommand to Client via socket
     }

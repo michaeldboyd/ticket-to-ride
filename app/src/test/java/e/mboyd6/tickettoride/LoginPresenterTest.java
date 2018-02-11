@@ -20,7 +20,7 @@ public class LoginPresenterTest {
 
     @Before
     public void setup(){
-        loginPresenter = new LoginPresenter();
+//        loginPresenter = new LoginPresenter();
     }
 
     @Test
