@@ -58,4 +58,9 @@ public class ClientLoginFacade implements IClientLoginFacade {
         //System.out.println("Client has registered Successfully! (And websockets now work)");
         // Essentially, we need to update the Client-side model so that the UI will update properly
     }
+
+    @Override
+    public void logout(String message) {
+        System.out.println("logout was called");
+    }
 }
