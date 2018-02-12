@@ -82,12 +82,14 @@ public class ClientModel extends Observable {
     public void setLoginResponse(String authToken, String message) {
         this.authToken = authToken;
         this.response = message;
+        this.setChanged();
         notifyObservers(UpdateType.LOGINRESPONSE);
     }
 
     public void setRegisterResponse(String authToken, String message) {
         this.authToken = authToken;
         this.response = message;
+        this.setChanged();
         notifyObservers(UpdateType.REGISTERRESPONSE);
     }
 
