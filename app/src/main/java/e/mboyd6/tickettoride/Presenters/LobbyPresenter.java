@@ -24,8 +24,6 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
      MainActivity mainActivity;
 
-    List<Player> players = new ArrayList<>();
-
     public LobbyPresenter(Context context) {
         this.mainActivity = (MainActivity) context;
 

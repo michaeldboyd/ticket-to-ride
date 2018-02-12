@@ -42,11 +42,19 @@ public class ClientLoginFacade implements IClientLoginFacade {
         // If successful, message == "" (empty string)
         if(message.length() == 0) {
             System.out.println("Client has logged in successfully. Auth token: " + authToken);
+            ClientModel.getInstance().setAuthToken(authToken);
+            ClientModel.getInstance().setLoginResponse(null);
+
+            ServerProxyLobbyFacade.instance().getGames();
+
             //update client model
         } else {
             System.out.println(message);
+            ClientModel.getInstance().setLoginResponse(message);
         }
         // Essentially, we need to update the Client-side model so that the UI will update properly
+
+
     }
 
     @Override
@@ -54,12 +62,17 @@ public class ClientLoginFacade implements IClientLoginFacade {
         // Received the command that said a user attempted to register
         // If successful, message == "" (empty string)
         if(message.length() == 0) {
-            ClientModel.getInstance().setAuthToken(authToken);
             System.out.println("Client has registered successfully. Auth token: " + authToken);
+
+            ClientModel.getInstance().setAuthToken(authToken);
+            ClientModel.getInstance().setRegisterResponse(null);
+
+            ServerProxyLobbyFacade.instance().getGames();
         } else {
             System.out.println(message);
+            ClientModel.getInstance().setRegisterResponse(message);
         }
-        //System.out.println("Client has registered Successfully! (And websockets now work)");
+
         // Essentially, we need to update the Client-side model so that the UI will update properly
     }
 }
