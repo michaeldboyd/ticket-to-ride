@@ -44,4 +44,9 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
         ClientModel.getInstance().getSocket().send(new Gson().toJson(registerCommand));
     }
 
+    @Override
+    public void logout(String username) {
+
+    }
+
 }

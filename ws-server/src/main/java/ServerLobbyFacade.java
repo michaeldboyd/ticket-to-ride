@@ -1,6 +1,7 @@
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import java.util.UUID;
 
@@ -30,8 +31,8 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         instance().getGames();
     }
 
-    public static void _joinGame(String gameID, String playerID) {
-        instance().joinGame(gameID, playerID);
+    public static void _joinGame(String gameID, String username) {
+        instance().joinGame(gameID, username);
     }
 
     public static void _leaveGame(String gameID, String playerID) {
@@ -68,19 +69,20 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     public void getGames() {
         Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
 
-        // TODO - message parameter is always empty string -- we should remove it or figure out potential errors/problems
-        ClientProxyLobbyFacade.instance().updateGames(games, "");
+        // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
+        ClientProxyLobbyFacade.instance().updateGames(games, null);
     }
 
     @Override
-    public void joinGame(String gameID, String playerID) {
-        String message = "";
+    public void joinGame(String gameID, String username) {
+        String message = null;
 
         if (ServerModel.instance().games.containsKey(gameID)) {
 
-            // this line is broken. removing it for now
+            Player newPlayer = new Player(UUID.randomUUID().toString(), username, PlayerColors.NO_COLOR);
+
             // Only set message if we fail to add user to the game
-            if (false) { // PREVIOUS CONDITIONAL: !ServerModel.instance().games.get(gameID).addPlayer(playerID)
+            if (!ServerModel.instance().games.get(gameID).addPlayer(newPlayer)) {
                 message = "Could not add player to game [id = " + gameID + "]";
             }
 

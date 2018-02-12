@@ -378,6 +378,7 @@ public class MainActivity extends AppCompatActivity
   protected void onDestroy()
   {
     super.onDestroy();
+    mLobbyPresenter.logOut();
     mDelayedTransactionHandler.removeCallbacks(mRunnableTransitionToRegister);
   }
 
@@ -745,4 +746,5 @@ public class MainActivity extends AppCompatActivity
         }
       }});
   }
+
 }

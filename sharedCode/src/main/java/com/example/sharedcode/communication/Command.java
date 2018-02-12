@@ -81,9 +81,8 @@ public class Command implements ICommand {
             Method method = receiver.getMethod(_methodName, paramTypes);
             method.invoke(null, _paramValues);
         } else {
-            Object[] paramVals = new Object[0];
             Method method = receiver.getMethod(_methodName, null);
-            method.invoke(null, paramVals);
+            method.invoke(null, null);
         }
     }
 }
