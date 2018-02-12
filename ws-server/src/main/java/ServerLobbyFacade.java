@@ -1,6 +1,7 @@
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import java.util.UUID;
 
@@ -74,7 +75,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
         if (ServerModel.instance().games.containsKey(gameID)) {
 
-            Player newPlayer = new Player(UUID.randomUUID().toString(), username, );
+            Player newPlayer = new Player(UUID.randomUUID().toString(), username, PlayerColors.NO_COLOR);
 
             // Only set message if we fail to add user to the game
             if (!ServerModel.instance().games.get(gameID).addPlayer(newPlayer)) {
