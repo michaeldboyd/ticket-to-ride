@@ -2,6 +2,7 @@
     <string name="app_name">TicketToRide</string>
     <string name="Username">Username</string>
     <string name="Password">Password</string>
+    <string name="Confirm">Confirm</string>
     <string name="log_in">Log In</string>
     <string name="sign_up">Sign Up</string>
     <string name="back">Back</string>

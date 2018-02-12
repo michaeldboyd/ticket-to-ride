@@ -5,6 +5,9 @@ import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.google.gson.Gson;
+
+import java.io.IOException;
 
 
 /**
@@ -33,146 +36,90 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
         ServerModel.instance().games.put(gameID, newGame);
 
         // This is called after the Server has attempted to get all games
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
-        String className;
-        Object param;
-        if (message == null) {
-            className = gameID.getClass().toString();
-            param = gameID;
-        } else {
-            className = message.getClass().toString();
-            param = message;
-        }
-
-        String[] paramTypes = {className};
-        Object[] paramValues = {param};
+        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+        String[] paramValues = {gameID, message};
         Command createGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_createGameReceived", paramTypes, paramValues);
 
         // TODO - Send createGameClientCommand to Client via socket
+        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
+        Sender.sendCommand(createGameClientCommand, sess);
+
     }
 
     @Override
     public void updateGames(Game[] games, String message) {
         // This is called after the Server has attempted to get all games
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
-        String className;
-        Object param;
-        if (message == null) {
-            className = games.getClass().toString();
-            param = games;
-        } else {
-            className = message.getClass().toString();
-            param = message;
-        }
+        String[] paramTypes = {games.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {games, message};
 
-        String[] paramTypes = {className};
-        Object[] paramValues = {param};
+        Command updateGamesClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_updateGamesReceived", paramTypes, paramValues);
 
-        Command updateGamesClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_updateGamesReceived", paramTypes, paramValues);
-
-        // TODO - Send updateGamesClientCommand to Client via socket
+        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
+        Sender.sendCommand(updateGamesClientCommand, sess);
     }
 
     @Override
     public void joinGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
-        String className;
-        Object param;
-        if (message == null) {
-            className = gameID.getClass().toString();
-            param = gameID;
-        } else {
-            className = message.getClass().toString();
-            param = message;
-        }
+        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gameID, message};
 
-        String[] paramTypes = {className};
-        Object[] paramValues = {param};
-
-        Command joinGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_joinGameReceived", paramTypes, paramValues);
+        Command joinGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_joinGameReceived", paramTypes, paramValues);
 
         // TODO - Send joinGameClientCommand to Client via socket
+        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
+        Sender.sendCommand(joinGameClientCommand, sess);
     }
 
     @Override
     public void startGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
-        String className;
-        Object param;
-        if (message == null) {
-            className = gameID.getClass().toString();
-            param = gameID;
-        } else {
-            className = message.getClass().toString();
-            param = message;
-        }
+        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gameID, message};
 
-        String[] paramTypes = {className};
-        Object[] paramValues = {param};
-
-        Command startGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_startGameReceived", paramTypes, paramValues);
+        Command startGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_startGameReceived", paramTypes, paramValues);
 
         // TODO - Send startGameClientCommand to Client via socket
+        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
+        Sender.sendCommand(startGameClientCommand, sess);
     }
 
     @Override
     public void leaveGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
-        String className;
-        Object param;
-        if (message == null) {
-            className = gameID.getClass().toString();
-            param = gameID;
-        } else {
-            className = message.getClass().toString();
-            param = message;
-        }
+        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gameID, message};
 
-        String[] paramTypes = {className};
-        Object[] paramValues = {param};
-
-        Command leaveGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_leaveGameReceived", paramTypes, paramValues);
-
+        Command leaveGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_leaveGameReceived", paramTypes, paramValues);
         // TODO - Send leaveGameClientCommand to Client via socket
+        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
+        Sender.sendCommand(leaveGameClientCommand, sess);
+
     }
 
     @Override
     public void getPlayersForGame(String gameID, Player[] players, String message) {
         // This is called after the Server has attempted to join game
-        // If successful, message == null
+        // If successful, message == "" [empty string]
 
-        String[] paramTypes;
-        Object[] paramValues;
-
-        if (message == null) {
-            paramTypes = new String[2];
-            paramValues = new Object[2];
-
-            paramTypes[0] = gameID.getClass().toString();
-            paramTypes[1] = players.getClass().toString();
-
-            paramValues[0] = gameID;
-            paramValues[0] = players;
-        } else {
-            paramTypes = new String[1];
-            paramValues = new Object[1];
-
-            paramTypes[0] = message.getClass().toString();
-
-            paramValues[0] = message;
-        }
+        String[] paramTypes = {gameID.getClass().toString(), players.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gameID, players, message};
 
 
-        Command getPlayersForGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_getPlayersForGameReceived", paramTypes, paramValues);
+        Command getPlayersForGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_getPlayersForGameReceived", paramTypes, paramValues);
 
         // TODO - Send getPlayersForGameClientCommand to Client via socket
+        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
+        Sender.sendCommand(getPlayersForGameClientCommand, sess);
     }
 }

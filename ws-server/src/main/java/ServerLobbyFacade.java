@@ -56,9 +56,9 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     public void createGame() {
         // Don't need to check for existence of a new game because this should only be called when creating a brand new game
 
-        // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
+        // TODO - message parameter is always empty string -- we should remove it or figure out potential errors/problems
         // Create a random UUID for gameID to pass to createGame method
-        ClientProxyLobbyFacade.instance().createGame(UUID.randomUUID().toString(), null);
+        ClientProxyLobbyFacade.instance().createGame(UUID.randomUUID().toString(), "");
     }
 
     @Override
@@ -89,7 +89,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void leaveGame(String gameID, String playerID) {
-        String message = null;
+        String message = "";
 
         // This returns false if playerID is not part of game
         if (!ServerModel.instance().games.get(gameID).removePlayer(playerID)) {
@@ -102,7 +102,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void startGame(String gameID) {
-        String message = null;
+        String message = "";
 
         if (!ServerModel.instance().games.containsKey(gameID)) {
             message = "Game doesn't exist.";
@@ -113,7 +113,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void getPlayersForGame(String gameID) {
-        String message = null;
+        String message = "";
         Player[] players = null;
 
         //create commandresult
@@ -121,7 +121,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
             players = (Player[]) ServerModel.instance().games.get(gameID).getPlayers().toArray();
         } else {
-
+            players = new Player[0];
             message = "Game does not exist.";
         }
 

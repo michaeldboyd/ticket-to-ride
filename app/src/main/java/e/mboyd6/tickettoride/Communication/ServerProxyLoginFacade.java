@@ -6,6 +6,8 @@ import com.example.sharedcode.interfaces.IServerLoginFacade;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.net.URI;
+
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 
@@ -21,19 +23,15 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
 
     public static ServerProxyLoginFacade instance() {return _instance;}
 
+
+
     @Override
     public void login(String username, String password) {
         String[] paramTypes = {username.getClass().toString(), password.getClass().toString()};
         String[] paramValues = {username, password};
         Command loginCommand = CommandFactory.createCommand("ServerLoginFacade", "_login", paramTypes, paramValues);
         // TODO - send login to Server via socket
-        try {
-            ClientModel.getInstance().getSession()
-                    .getBasicRemote()
-                    .sendText(new Gson().toJson(loginCommand));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(loginCommand));
     }
 
     @Override
@@ -42,14 +40,8 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
         String[] paramValues = {username, password};
         Command registerCommand = CommandFactory.createCommand("ServerLoginFacade", "_register", paramTypes, paramValues);
 
-        // TODO - send registerCommand to Server via socket
-        try {
-            ClientModel.getInstance().getSession()
-                    .getBasicRemote()
-                    .sendText(new Gson().toJson(registerCommand));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // TODO - Put sender functions into socket manager
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(registerCommand));
     }
 
 }

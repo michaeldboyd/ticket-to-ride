@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
@@ -19,20 +18,11 @@ import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 public class RegisterPresenter implements IRegisterPresenter, Observer {
 
     MainActivity mainActivity;
-    boolean registerPending = false;
 
     public RegisterPresenter(Context context) {
         mainActivity = (MainActivity) context;
 
         ClientModel.getInstance().addObserver(this);
-    }
-
-    public boolean isRegisterPending() {
-        return registerPending;
-    }
-
-    public void setRegisterPending(boolean registerPending) {
-        this.registerPending = registerPending;
     }
 
     /**
@@ -96,7 +86,6 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
      */
     @Override
     public void register(String username, String password) {
-        registerPending = true;
         ServerProxyLoginFacade.instance().register(username, password);
     }
 
@@ -108,7 +97,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
      */
     @Override
     public void registerResponse(String message){
-        //mainActivity.onRegisterUpdate(message);
+        mainActivity.onRegisterResponse(message);
     }
 
     @Override
@@ -117,9 +106,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
 
         switch (updateType){
             case REGISTERRESPONSE:
-                if(registerPending) {
-                    registerResponse(ClientModel.getInstance().getLoginResponse());
-                }
+                registerResponse(ClientModel.getInstance().getLoginResponse());
                 break;
             default:
                 break;

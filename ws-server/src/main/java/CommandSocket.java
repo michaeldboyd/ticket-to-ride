@@ -12,8 +12,8 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.lang.reflect.InvocationTargetException;
 
-@ClientEndpoint
-@ServerEndpoint(value="/echo")
+
+@ServerEndpoint(value="/echo/")
 public class CommandSocket implements WebSocketListener
 {
     Gson gson = new Gson();

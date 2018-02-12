@@ -52,31 +52,31 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
 
     @Override
     public void createGame(String gameID, String message) {
-
+        System.out.println("createGame called on CLF");
     }
 
     @Override
     public void updateGames(Game[] games, String message) {
-
+        System.out.println("updateGames called on CLF");
     }
 
     @Override
     public void joinGame(String gameID, String message) {
-
+        System.out.println("joinGame called on CLF");
     }
 
     @Override
     public void startGame(String gameID, String message) {
-
+        System.out.println("startGame called on CLF");
     }
 
     @Override
     public void leaveGame(String gameID, String message) {
-
+        System.out.println("leaveGame called on CLF");
     }
 
     @Override
     public void getPlayersForGame(String gameID, Player[] players, String message) {
-
+        System.out.println("getPlayersForGame called on CLF");
     }
 }

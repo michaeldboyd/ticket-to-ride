@@ -50,6 +50,7 @@ public class Command implements ICommand {
     public void execute() throws Exception {
         Class<?> receiver;
 
+        System.out.println("execute received");
         switch (_className) {
             case "java.lang.String":
                 receiver = String.class;
@@ -69,12 +70,13 @@ public class Command implements ICommand {
         }
 
         Class<?>[] paramTypes = new Class<?>[_paramTypesStringNames.length];
-        for (int i = 0; i < paramTypes.length; i++) {
+        for (int i = 0; i < _paramTypesStringNames.length; i++) {
             String classStringName = _paramTypesStringNames[i];
             String className = classStringName.replace("class ", "");
 
             paramTypes[i] = Class.forName(className);
         }
+
 
 
         Method method = receiver.getMethod(_methodName, paramTypes);

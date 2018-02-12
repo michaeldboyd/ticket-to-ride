@@ -20,8 +20,14 @@ import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
 
+import org.java_websocket.WebSocketImpl;
+import org.java_websocket.client.WebSocketClient;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.Presenters.LoginPresenter;
@@ -33,7 +39,9 @@ import e.mboyd6.tickettoride.Views.Fragments.LoginFragment;
 import e.mboyd6.tickettoride.Views.Fragments.RegisterFragment;
 import e.mboyd6.tickettoride.Views.Fragments.WaitroomFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -62,7 +70,7 @@ public class MainActivity extends AppCompatActivity
   private LoginPresenter mLoginPresenter = new LoginPresenter(this);
   private RegisterPresenter mRegisterPresenter = new RegisterPresenter(this);
   private LobbyPresenter mLobbyPresenter;
-  private WaitroomPresenter waitroomPresenter;
+  private WaitroomPresenter mWaitroomPresenter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -76,19 +84,36 @@ public class MainActivity extends AppCompatActivity
 
     mFragmentManager = getSupportFragmentManager();
     loadLoginFragmentFirstTime();
+    WebSocketImpl.DEBUG = true;
+    WebSocketClient client = null;
+    try {
+      client = new SocketClient(new URI("ws://192.168.255.178:8080/echo/"));
+
+    } catch (URISyntaxException e) {
+      handleError("Yo, your socket didn't connect correctly... Sorry broseph. Error: " + e.getMessage());
+      e.printStackTrace();
+    }
+    if(client != null)
+    {
+      client.connect();
+      ClientModel.getInstance().setSocket(client);
+    } else
+    {
+      handleError("Yo, your socket didn't connect correctly... Sorry broseph");
+    }
 
   }
 
   public void loadLoginFragmentFirstTime() {
-    String usernameData = getResources().getString(R.string.Username);
-    String passwordData = getResources().getString(R.string.Password);
+    String usernameData = "";//getResources().getString(R.string.Username);
+    String passwordData = "";//getResources().getString(R.string.Password);
     loadLoginFragment(usernameData, passwordData);
   }
 
   public void loadLoginFragment(String usernameData, String passwordData) {
     Fragment initialFragment = LoginFragment.newInstance(usernameData, passwordData);
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-    fragmentTransaction.replace(R.id.main_activity_fragment_container, initialFragment);
+    fragmentTransaction.replace(R.id.main_activity_fragment_container, initialFragment, "CURRENT_FRAGMENT");
     fragmentTransaction.commit();
   }
 
@@ -227,8 +252,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     Fragment previousFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
-    String usernameData = getResources().getString(R.string.Username);
-    String passwordData = getResources().getString(R.string.Password);
+    String usernameData = "";//getResources().getString(R.string.Username);
+    String passwordData = "";//getResources().getString(R.string.Password);
     Fragment nextFragment = LoginFragment.newInstance(usernameData, passwordData);
 
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -370,7 +395,7 @@ public class MainActivity extends AppCompatActivity
 
   public boolean handleError(String message)
   {
-    if (message == null)
+    if (message == null || message.equals(""))
       return false;
 
     Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
@@ -395,21 +420,39 @@ public class MainActivity extends AppCompatActivity
     else if(!mRegisterPresenter.validPassword(passwordData)) {
       message = "Invalid password";
     }
-    else
-    {
+    else {
       mRegisterPresenter.register(usernameData, passwordData);
     }
 
     if (handleError(message)) {
       return;
     } else {
-      transitionToLobbyFromLoginAndRegister();
+      onRegisterSent();
     }
   }
 
   @Override
-  public void onRegisterSuccessful() {
+  public void onRegisterSent() {
+    if (mFragmentManager != null) {
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof IRegisterFragment) {
+        IRegisterFragment registerFragment = (IRegisterFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        registerFragment.onRegisterSent();
+      }
+    }
+  }
 
+  @Override
+  public void onRegisterResponse(String message) {
+    if (!handleError(message)) {
+      transitionToLobbyFromLoginAndRegister();
+    } else {
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof IRegisterFragment) {
+        IRegisterFragment registerFragment = (IRegisterFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        registerFragment.onRegisterResponse(message);
+      }
+    }
   }
 
   @Override
@@ -420,9 +463,9 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
+
     String message = "";
-    if (usernameData.equals("Guest") && passwordData.equals("Password"))
-    {
+    if (usernameData.equals("Guest") && passwordData.equals("Password")) {
       GuestLogin();
     }
     else if(mLoginPresenter == null)
@@ -437,15 +480,39 @@ public class MainActivity extends AppCompatActivity
       mLoginPresenter.login(usernameData, passwordData);
     }
     if (handleError(message)) {
+
       return;
     } else {
-      transitionToLobbyFromLoginAndRegister();
+
+      onLoginSent();
     }
   }
 
   @Override
-  public void onLoginSuccessful() {
+  public void onLoginSent() {
+    if (mFragmentManager == null) {
+      mFragmentManager = getSupportFragmentManager();
+    }
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof ILoginFragment)
+      {
+        ILoginFragment loginFragment = (ILoginFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        loginFragment.onLoginSent();
+      }
+  }
 
+  @Override
+  public void onLoginResponse(String message) {
+    if (!handleError(message)) {
+      transitionToLobbyFromLoginAndRegister();
+    } else {
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof ILoginFragment)
+      {
+        ILoginFragment loginFragment = (ILoginFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        loginFragment.onLoginResponse(message);
+      }
+    }
   }
 
   @Override
@@ -462,13 +529,34 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onLobbyFragmentLogOutButton() {
+
     transitionToLoginFromLobby();
+  }
+
+  @Override
+  public void onLobbyFragmentStartNewGameButton() {
+    mLobbyPresenter.createGame();
+  }
+
+  @Override
+  public void onStartNewGameSent() {
+
   }
 
   @Override
   public void onLobbyFragmentJoinGameButton(Game game) {
     ClientModel.getInstance().setCurrentGame(game);
     transitionToWaitroomFromLobby();
+  }
+
+  @Override
+  public void onGameJoinedSent() {
+
+  }
+
+  @Override
+  public void onGameJoinedResponse() {
+
   }
 
   @Override
@@ -479,6 +567,21 @@ public class MainActivity extends AppCompatActivity
         waitroomFragment.updatePlayerList(newList);
       }
     }
+  }
+
+  @Override
+  public void onWaitroomFragmentStartGameButton() {
+
+  }
+
+  @Override
+  public void onStartGameSent() {
+
+  }
+
+  @Override
+  public void onStartGameResponse() {
+
   }
 
   //TODO: Implement this function correctly
@@ -493,13 +596,25 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void onWaitroomFragmentColorPicked(int color) {
+  public void onWaitroomFragmentColorPicked(PlayerColors playerColor) {
     //Calls waitroomPresenter
+    mWaitroomPresenter.changePlayerColor(playerColor);
   }
+
 
   @Override
   public void onWaitroomFragmentBackoutButton() {
     ClientModel.getInstance().setCurrentGame(null);
     transitionToLobbyFromWaitroom();
+  }
+
+  @Override
+  public void onBackOutSent() {
+
+  }
+
+  @Override
+  public void onBackoutResponse(String message) {
+
   }
 }
