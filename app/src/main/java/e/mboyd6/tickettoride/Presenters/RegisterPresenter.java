@@ -97,7 +97,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
      */
     @Override
     public void registerResponse(String message){
-        //mainActivity.onRegisterUpdate(message);
+        mainActivity.onRegisterResponse(message);
     }
 
     @Override
