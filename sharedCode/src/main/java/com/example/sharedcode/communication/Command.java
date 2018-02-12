@@ -69,7 +69,7 @@ public class Command implements ICommand {
                 break;
         }
 
-        if (_paramTypesStringNames.length > 0) {
+        if (_paramTypesStringNames != null && _paramTypesStringNames.length > 0) {
             Class<?>[] paramTypes = new Class<?>[_paramTypesStringNames.length];
             for (int i = 0; i < _paramTypesStringNames.length; i++) {
                 String classStringName = _paramTypesStringNames[i];
@@ -80,9 +80,10 @@ public class Command implements ICommand {
 
             Method method = receiver.getMethod(_methodName, paramTypes);
             method.invoke(null, _paramValues);
-        } else { 
+        } else {
+            Object[] paramVals = new Object[0];
             Method method = receiver.getMethod(_methodName, null);
-            method.invoke(null, null);
+            method.invoke(null, paramVals);
         }
     }
 }

@@ -44,7 +44,7 @@ public class AndroidSocketTest {
     @Test
     public void testRegister()
     {
-        ServerProxyLoginFacade.instance().register("test2", "test");
+        ServerProxyLobbyFacade.instance().createGame();
     }
     @Test
     public void testLogin()
