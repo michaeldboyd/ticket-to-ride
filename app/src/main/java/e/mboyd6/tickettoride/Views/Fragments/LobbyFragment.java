@@ -30,8 +30,11 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
 
     private View mLayout;
     private Button mLogOutButton;
+    private Button mStartNewGameButton;
     private ILobbyFragment mListener;
     private GameListAdapter mGameListAdapter;
+    private boolean disableInputs = false;
+    private Button currentPressedButton = null;
 
     public LobbyFragment() {
         // Required empty public constructor
@@ -60,7 +63,8 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
         // Inflate the layout for this fragment
         mLayout = inflater.inflate(R.layout.fragment_lobby, container, false);
         mLogOutButton = mLayout.findViewById(R.id.lobby_fragment_back_button);
-        mGameListAdapter = new GameListAdapter(getContext(), ClientModel.getInstance().getGames());
+        mStartNewGameButton = mLayout.findViewById(R.id.lobby_fragment_start_new_game_button);
+        mGameListAdapter = new GameListAdapter(getContext(), ClientModel.getInstance().getGames(), this);
         ListView listView = mLayout.findViewById(R.id.lobby_fragment_list_view);
         listView.setAdapter(mGameListAdapter);
 
@@ -68,6 +72,12 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
             @Override
             public void onClick(View v) {
                 onLobbyFragmentLogOutButton();
+            }
+        });
+        mStartNewGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLobbyFragmentStartNewGameButton();
             }
         });
         return mLayout;
@@ -97,24 +107,47 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
         if (mGameListAdapter != null) {
             mGameListAdapter.clear();
             mGameListAdapter.addAll(newList);
+            mGameListAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void onLobbyFragmentLogOutButton() {
-        if (mListener != null) {
+        if (mListener != null && !disableInputs) {
             mListener.onLobbyFragmentLogOutButton();
+            currentPressedButton = mLogOutButton;
         }
     }
 
     @Override
-    public void onLobbyFragmentStartNewGameButton() {
+    public void onLogOutSent() {
+        disableInputs = true;
+        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+    }
 
+    @Override
+    public void onLogOutResponse(String message) {
+        disableInputs = false;
+        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+    }
+
+    public void onGameListAdapterJoinButton(Game game, Button button) {
+        onLobbyFragmentJoinGameButton(game);
+        currentPressedButton = button;
+    }
+
+    @Override
+    public void onLobbyFragmentStartNewGameButton() {
+        if (mListener != null && !disableInputs) {
+            mListener.onLobbyFragmentStartNewGameButton();
+            currentPressedButton = mStartNewGameButton;
+        }
     }
 
     @Override
     public void onStartNewGameSent() {
-
+        disableInputs = true;
+        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
     }
 
     @Override
@@ -126,11 +159,13 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
 
     @Override
     public void onGameJoinedSent() {
-
+        disableInputs = true;
+        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
     }
 
     @Override
-    public void onGameJoinedResponse() {
-
+    public void onGameJoinedResponse(String message) {
+        disableInputs = false;
+        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
     }
 }

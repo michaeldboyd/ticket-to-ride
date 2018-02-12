@@ -73,6 +73,9 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
 
     private ArrayList<Player> players;
 
+    private Button mBackOutButton;
+    private Button mStartGameButton;
+
     public WaitroomFragment() {
         // Required empty public constructor
     }
@@ -104,8 +107,8 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_waitroom, container, false);
 
-        Button backOutButton = v.findViewById(R.id.waitroom_fragment_back_out_button);
-        backOutButton.setOnClickListener(new View.OnClickListener() {
+        mBackOutButton = v.findViewById(R.id.waitroom_fragment_back_out_button);
+        mBackOutButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -113,13 +116,28 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             }
         });
 
-        updatePlayerList(ClientModel.getInstance().getCurrentGame().getPlayers());
+        mStartGameButton = v.findViewById(R.id.waitroom_fragment_start_game_button);
+        mStartGameButton.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                onWaitroomFragmentStartGameButton();
+            }
+        });
+
+        updatePlayerList(ClientModel.getInstance().getCurrentGame().getPlayers());
         colorSelection1 = v.findViewById(R.id.color_selection_1);
         colorSelection2 = v.findViewById(R.id.color_selection_2);
         colorSelection3 = v.findViewById(R.id.color_selection_3);
         colorSelection4 = v.findViewById(R.id.color_selection_4);
         colorSelection5 = v.findViewById(R.id.color_selection_5);
+
+        playersInLobby = v.findViewById(R.id.players_in_lobby);
+
+        return v;
+    }
+
+    public void redrawPlayers() {
 
         int playerCount = players.size();
         for (int i = 0; i < 5; i++) {
@@ -195,10 +213,8 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             }
         }
 
-        playersInLobby = v.findViewById(R.id.players_in_lobby);
         String playersInLobbyText = playerCount + " " + getString(R.string.players_in_lobby);
         playersInLobby.setText(playersInLobbyText);
-        return v;
     }
 
     @Override
@@ -221,22 +237,29 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
     @Override
     public void updatePlayerList(ArrayList<Player> newList) {
         players = newList;
+        redrawPlayers();
         //Change layout to have updated players
     }
 
     @Override
     public void onWaitroomFragmentStartGameButton() {
-
+        if (mListener != null) {
+            mListener.onWaitroomFragmentStartGameButton();
+        }
     }
 
     @Override
     public void onStartGameSent() {
-
+        mStartGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        mStartGameButton.setEnabled(false);
+        mBackOutButton.setEnabled(false);
     }
 
     @Override
-    public void onStartGameResponse() {
-
+    public void onStartGameResponse(String message) {
+        mStartGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        mStartGameButton.setEnabled(true);
+        mBackOutButton.setEnabled(true);
     }
 
     @Override
@@ -260,12 +283,16 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
 
     @Override
     public void onBackOutSent() {
-
+        mBackOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        mStartGameButton.setEnabled(false);
+        mBackOutButton.setEnabled(false);
     }
 
     @Override
     public void onBackoutResponse(String message) {
-
+        mBackOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        mStartGameButton.setEnabled(true);
+        mBackOutButton.setEnabled(true);
     }
 
 }

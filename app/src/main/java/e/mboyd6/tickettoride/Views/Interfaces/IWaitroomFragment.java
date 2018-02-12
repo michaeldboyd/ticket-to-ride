@@ -26,7 +26,7 @@ public interface IWaitroomFragment {
 
     void onWaitroomFragmentStartGameButton();
     void onStartGameSent();
-    void onStartGameResponse();
+    void onStartGameResponse(String message);
 
     void onWaitroomFragmentBackoutButton();
     void onBackOutSent();
