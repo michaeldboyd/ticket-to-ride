@@ -69,18 +69,21 @@ public class Command implements ICommand {
                 break;
         }
 
-        Class<?>[] paramTypes = new Class<?>[_paramTypesStringNames.length];
-        for (int i = 0; i < _paramTypesStringNames.length; i++) {
-            String classStringName = _paramTypesStringNames[i];
-            String className = classStringName.replace("class ", "");
+        if (_paramTypesStringNames.length > 0) {
+            Class<?>[] paramTypes = new Class<?>[_paramTypesStringNames.length];
+            for (int i = 0; i < _paramTypesStringNames.length; i++) {
+                String classStringName = _paramTypesStringNames[i];
+                String className = classStringName.replace("class ", "");
 
-            paramTypes[i] = Class.forName(className);
+                paramTypes[i] = Class.forName(className);
+            }
+
+            Method method = receiver.getMethod(_methodName, paramTypes);
+            method.invoke(null, _paramValues);
+        } else { 
+            Method method = receiver.getMethod(_methodName, null);
+            method.invoke(null, null);
         }
-
-
-
-        Method method = receiver.getMethod(_methodName, paramTypes);
-        method.invoke(null, _paramValues);
     }
 }
 

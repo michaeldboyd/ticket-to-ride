@@ -54,7 +54,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     @Override
     public void createGame() {
         // Don't need to check for existence of a new game because this should only be called when creating a brand new game
-        String id = UUID.randomUUID().toString()
+        String id = UUID.randomUUID().toString();
         Game newGame = new Game();
         newGame.setGameID(id);
         ServerModel.instance().games.put(id, newGame);
