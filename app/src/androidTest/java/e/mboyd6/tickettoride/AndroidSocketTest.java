@@ -21,13 +21,13 @@ public class AndroidSocketTest {
 
         try {
             //Thread.sleep(5000);
-            Thread.sleep(3000);
+            //Thread.sleep(3000);
             WebSocketClient client = new SocketClient(new URI("ws://192.168.255.178:8080/echo/"));
 
 
             ClientModel.getInstance().setSocket(client);
 
-        } catch (URISyntaxException | InterruptedException e) {
+        } catch (URISyntaxException  e) { //| InterruptedException
 
             e.printStackTrace();
         }
@@ -40,7 +40,6 @@ public class AndroidSocketTest {
             System.out.println("Yo, your socket didn't connect correctly... Sorry broseph");
         }
     }
-
 
     @Test
     public void test()
