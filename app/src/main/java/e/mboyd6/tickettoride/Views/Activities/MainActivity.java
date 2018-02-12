@@ -432,14 +432,21 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onRegisterResponse(String message) {
-    Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
-    if (currentFragment != null && currentFragment instanceof IRegisterFragment) {
-      IRegisterFragment registerFragment = (IRegisterFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
-      registerFragment.onRegisterResponse(message);
-      if (!handleError(message)) {
-        transitionToLobbyFromLoginAndRegister();
+    final String mess = message;
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        if (currentFragment != null && currentFragment instanceof IRegisterFragment) {
+          IRegisterFragment registerFragment = (IRegisterFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+          registerFragment.onRegisterResponse(mess);
+          if (!handleError(mess)) {
+            transitionToLobbyFromLoginAndRegister();
+          }
+        }
       }
-    }
+    });
+
   }
 
   @Override
