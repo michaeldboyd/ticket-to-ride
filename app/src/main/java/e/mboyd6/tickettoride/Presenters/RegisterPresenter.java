@@ -106,7 +106,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
 
         switch (updateType){
             case REGISTERRESPONSE:
-                registerResponse(ClientModel.getInstance().getLoginResponse());
+                registerResponse(ClientModel.getInstance().getResponse());
                 break;
             default:
                 break;
