@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
     WebSocketImpl.DEBUG = true;
     WebSocketClient client = null;
     try {
-      client = new SocketClient(new URI("ws://10.0.2.2:8080/echo/"));
+      client = new SocketClient(new URI("ws://192.168.255.178:8080/echo/"));
 
     } catch (URISyntaxException e) {
       handleError("Yo, your socket didn't connect correctly... Sorry broseph. Error: " + e.getMessage());

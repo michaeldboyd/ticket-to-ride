@@ -35,9 +35,7 @@ public class Game {
     * */
     public boolean addPlayer(Player player){
         if(players.size() >= 5){
-
             return false;
-
         }
         if(!players.contains(player)) {
 

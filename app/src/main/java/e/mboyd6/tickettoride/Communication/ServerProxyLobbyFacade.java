@@ -3,6 +3,8 @@ package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
+import com.google.gson.Gson;
+
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -21,12 +23,14 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     public void createGame() {
         Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "createGame", null, null);
 
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
     }
 
     @Override
     public void getGames() {
         Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "getGames", null, null);
 
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
     }
 
     //TODO: Should I be passing userID to this? userID is never stored in the client. I think we should be passing the authToekn.
@@ -38,6 +42,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         Command joinGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "joinGame", paramTypes, paramValues);
 
         // TODO - Send joinGameCommand to Server via socket
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(joinGameCommand));
     }
 
     @Override
@@ -48,6 +53,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         Command leaveGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "leaveGame", paramTypes, paramValues);
 
         // TODO - Send leaveGameCommand to Server via socket
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(leaveGameCommand));
     }
 
     @Override
@@ -58,6 +64,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
 
         // TODO - Send startGameCommand to Server via socket
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(startGameCommand));
     }
 
     @Override
@@ -68,5 +75,6 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         Command getPlayersForGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "getPlayersForGame", paramTypes, paramValues);
 
         // TODO - Send getPlayersForGameCommand to Server via socket
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(getPlayersForGameCommand));
     }
 }

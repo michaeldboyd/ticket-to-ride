@@ -34,16 +34,12 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
 
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
         String[] paramValues = {authToken, message};
-        Command loginClientCommand = CommandFactory.createCommand("ClientLoginFacade", "_loginReceived", paramTypes, paramValues);
+        Command loginClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_loginReceived", paramTypes, paramValues);
 
         // TODO - Send loginCommand to Client via socket
 
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
-        try {
-            sess.getRemote().sendString(new Gson().toJson(loginClientCommand));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Sender.sendCommand(loginClientCommand, sess);
     }
 
     @Override
@@ -57,10 +53,6 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
 
         // TODO - Send registerCommand to Client via socket
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
-        try {
-            sess.getRemote().sendString(new Gson().toJson(registerClientCommand));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Sender.sendCommand(registerClientCommand, sess);
     }
 }

@@ -8,27 +8,33 @@ import org.junit.Test;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class AndroidSocketTest {
-    WebSocketClient client;
+
     @Before
     public void init()
     {
-        this.client = null;
-        try {
-            client = new SocketClient(new URI("ws://192.168.255.178:8080/echo/"));
 
-        } catch (URISyntaxException e) {
+        try {
+            //Thread.sleep(5000);
+            Thread.sleep(3000);
+            WebSocketClient client = new SocketClient(new URI("ws://192.168.255.178:8080/echo/"));
+
+
+            ClientModel.getInstance().setSocket(client);
+
+        } catch (URISyntaxException | InterruptedException e) {
 
             e.printStackTrace();
         }
-        if(client != null)
+        if(ClientModel.getInstance().getSocket() != null)
         {
-            client.connect();
-            ClientModel.getInstance().setSocket(client);
+            ClientModel.getInstance().getSocket().connect();
+
         } else
         {
             System.out.println("Yo, your socket didn't connect correctly... Sorry broseph");
@@ -39,7 +45,13 @@ public class AndroidSocketTest {
     @Test
     public void test()
     {
-        ServerProxyLoginFacade.instance().register("test1", "test");
+        ServerProxyLoginFacade.instance().register("test2", "test");
+        ServerProxyLoginFacade.instance().login("test1", "test");
+        ServerProxyLobbyFacade.instance().getGames();
+        ServerProxyLobbyFacade.instance().createGame();
+        ServerProxyLobbyFacade.instance().startGame("asdf");
+        ServerProxyLobbyFacade.instance().getPlayersForGame("asdf");
+
 
     }
 
