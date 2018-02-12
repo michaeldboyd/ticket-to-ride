@@ -8,7 +8,7 @@ public interface ILobbyPresenter {
 
     void joinGame(String gameID);
 
-    boolean createGame(String name, int numOfPlayers);
+    void createGame();
 
     //Observer Methods
     void updateGameList();

@@ -67,7 +67,8 @@ public class LoginPresenter implements ILoginPresenter, Observer{
         ServerProxyLoginFacade.instance().login(username, password);
     }
 
-    private void loginResponse(String message){
+    @Override
+    public void loginResponse(String message){
         //mainActivity.onLoginResponse(message);
     }
 

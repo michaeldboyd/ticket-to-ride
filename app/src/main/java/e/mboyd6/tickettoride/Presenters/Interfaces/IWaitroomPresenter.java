@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride.Presenters.Interfaces;
 
+import com.example.sharedcode.model.PlayerColors;
+
 /**
  * Created by jonathanlinford on 2/2/18.
  */
@@ -7,9 +9,16 @@ package e.mboyd6.tickettoride.Presenters.Interfaces;
 public interface IWaitroomPresenter {
 
 
-    void updateReadyPlayers();
+    void changePlayerColor(PlayerColors color);
 
     void startGame();
+
+    void leaveGame();
+
+    //Observer methods
+
+    void updateReadyPlayers();
+
 
 
 }

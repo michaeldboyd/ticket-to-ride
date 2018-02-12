@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
+import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
  * Created by eric on 2/7/18.
@@ -10,18 +11,25 @@ import com.example.sharedcode.interfaces.IServerLobbyFacade;
 
 public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
+    private static ServerProxyLobbyFacade _instance = new ServerProxyLobbyFacade();
+
+    private ServerProxyLobbyFacade() {}
+
+    public static ServerProxyLobbyFacade instance() {return _instance;}
+
     @Override
     public void createGame() {
         Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "createGame", null, null);
+
     }
 
     @Override
     public void getGames() {
         Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "getGames", null, null);
 
-        // TODO - Send getGamesCommand to Server via socket
     }
 
+    //TODO: Should I be passing userID to this? userID is never stored in the client. I think we should be passing the authToekn.
     @Override
     public void joinGame(String gameID, String userID) {
         String[] paramTypes = {gameID.getClass().toString(), userID.getClass().toString()};
@@ -46,8 +54,8 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     public void startGame(String gameID) {
         String[] paramTypes = {gameID.getClass().toString()};
         String[] paramValues = {gameID};
-
         Command startGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "startGame", paramTypes, paramValues);
+
 
         // TODO - Send startGameCommand to Server via socket
     }

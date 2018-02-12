@@ -29,7 +29,7 @@
         android:drawableEnd="@drawable/user"
         android:ems="8"
         android:fontFamily="@font/dense"
-        android:hint="Username"
+        android:hint="@string/Username"
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

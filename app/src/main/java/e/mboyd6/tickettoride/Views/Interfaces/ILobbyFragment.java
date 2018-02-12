@@ -22,5 +22,9 @@ import java.util.ArrayList;
 public interface ILobbyFragment {
     void updateGameList(ArrayList<Game> newList);
     void onLobbyFragmentLogOutButton();
+    void onLobbyFragmentStartNewGameButton();
+    void onStartNewGameSent();
     void onLobbyFragmentJoinGameButton(Game game);
+    void onGameJoinedSent();
+    void onGameJoinedResponse();
 }

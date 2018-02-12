@@ -4,11 +4,13 @@ import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
 
+import org.java_websocket.client.WebSocketClient;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.websocket.Session;
+
 
 /**
  * Created by jonathanlinford on 2/5/18.
@@ -18,22 +20,20 @@ public class ClientModel extends Observable {
 
     //Game data
     private ArrayList<Game> games = new ArrayList<>();
+    private Game currentGame = null;
     private ArrayList<Player> players = new ArrayList<>();
 
     //Current player data
-    private Player currentPlayer = new Player("0", "NO PLAYER YET", PlayerColors.RED);
+    private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
     private String authToken;
     private String loginResponse;
+    private WebSocketClient socket;
 
-    public Session getSession() {
-        return session;
+    public WebSocketClient getSocket() {
+        return socket;
     }
+    //TODO: put all this in the socket manager
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
-    private Session session;
     private static final ClientModel ourInstance = new ClientModel();
 
     public static ClientModel getInstance() {
@@ -70,6 +70,7 @@ public class ClientModel extends Observable {
     }
 
     public String getAuthToken() {
+
         return authToken;
     }
 
@@ -91,6 +92,16 @@ public class ClientModel extends Observable {
     }
 
 
+    public void setSocket(WebSocketClient socket) {
+        this.socket = socket;
+    }
 
+    public Game getCurrentGame() {
+        return currentGame;
+    }
+
+    public void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
+    }
 }
 

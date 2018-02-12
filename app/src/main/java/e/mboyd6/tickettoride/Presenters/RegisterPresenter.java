@@ -1,11 +1,15 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.content.Context;
+
 import java.util.Observable;
 import java.util.Observer;
 
+import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
+import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 /**
  * Created by jonathanlinford on 2/2/18.
@@ -13,6 +17,13 @@ import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
 
 public class RegisterPresenter implements IRegisterPresenter, Observer {
 
+    MainActivity mainActivity;
+
+    public RegisterPresenter(Context context) {
+        mainActivity = (MainActivity) context;
+
+        ClientModel.getInstance().addObserver(this);
+    }
 
     /**
      * Used to check whether a username is valid.
@@ -68,18 +79,24 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
 
 
     /**
-     * This method
+     * This method calls the register on the proxy. It doesn't return anything.
      *
      * @param username
      * @param password
-     * @return
      */
     @Override
-    public boolean register(String username, String password) {
-        return false;
+    public void register(String username, String password) {
+        ServerProxyLoginFacade.instance().register(username, password);
     }
 
-    private void registerResponse(String message){
+
+    /**
+     * This should be called as a response is received by the client from the server.
+     * @param message - if null, register was successful. If not null, register was unsuccessful
+     *                and the message is contained
+     */
+    @Override
+    public void registerResponse(String message){
         //mainActivity.onRegisterUpdate(message);
     }
 

@@ -27,7 +27,6 @@ dependencies {
 
 
     compile group: 'org.eclipse.jetty.websocket', name: 'javax-websocket-client-impl', version: '9.4.8.v20171121'
-    compile group: 'org.eclipse.jetty.websocket', name: 'javax-websocket-server-impl', version: '9.4.8.v20171121'
     // https://mvnrepository.com/artifact/org.glassfish.tyrus.bundles/tyrus-standalone-client
     //compile group: 'org.glassfish.tyrus.bundles', name: 'tyrus-standalone-client', version: '1.13.1'
 // https://mvnrepository.com/artifact/org.glassfish.tyrus.bundles/websocket-ri-bundle
