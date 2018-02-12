@@ -26,8 +26,7 @@ public class ClientModel extends Observable {
     //Current player data
     private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
     private String authToken;
-    private String loginResponse;
-    private String registerResponse;
+    private String response;
     private WebSocketClient socket;
 
     public WebSocketClient getSocket() {
@@ -77,31 +76,28 @@ public class ClientModel extends Observable {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
+        notifyObservers(UpdateType.REGISTERRESPONSE);
     }
 
-    public String getLoginResponse() {
-        return loginResponse;
-    }
-
-    public void setLoginResponse(String loginResponse) {
-        this.loginResponse = loginResponse;
-
+    public void setLoginResponse(String authToken, String message) {
+        this.authToken = authToken;
+        this.response = message;
         notifyObservers(UpdateType.LOGINRESPONSE);
     }
 
-    public String getRegisterResponse() {
-        return registerResponse;
+    public void setRegisterResponse(String authToken, String message) {
+        this.authToken = authToken;
+        this.response = message;
+        notifyObservers(UpdateType.REGISTERRESPONSE);
     }
 
-    public void setRegisterResponse(String registerResponse) {
-        this.registerResponse = registerResponse;
-
-        notifyObservers(UpdateType.REGISTERRESPONSE);
+    public String getResponse() {
+        return response;
     }
 
     @Override
     public synchronized void addObserver(Observer o) {
-        super.addObserver(o);
+            super.addObserver(o);
     }
 
 
