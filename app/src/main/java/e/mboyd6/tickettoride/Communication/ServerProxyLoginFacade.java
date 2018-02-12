@@ -45,8 +45,13 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
     }
 
     @Override
-    public void logout(String username) {
+    public void logout(String authToken) {
+        String[] paramTypes = {authToken.getClass().toString()};
+        String[] paramValues = {authToken};
+        Command logoutCommand = CommandFactory.createCommand("ServerLoginFacade", "_logout", paramTypes, paramValues);
 
+        // TODO - Put sender functions into socket manager
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(logoutCommand));
     }
 
 }

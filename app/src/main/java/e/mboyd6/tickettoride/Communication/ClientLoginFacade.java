@@ -62,5 +62,7 @@ public class ClientLoginFacade implements IClientLoginFacade {
     @Override
     public void logout(String message) {
         System.out.println("logout was called");
+
+        ClientModel.getInstance().setLogoutResponse(message);
     }
 }

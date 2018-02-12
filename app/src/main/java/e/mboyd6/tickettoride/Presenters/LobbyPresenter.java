@@ -39,7 +39,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
     //TODO: Implement logOut method
     @Override
     public void logOut() {
-        //ServerProxyLoginFacade.instance()
+        ServerProxyLoginFacade.instance().logout(ClientModel.getInstance().getAuthToken());
     }
 
     @Override
@@ -58,6 +58,11 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         ServerProxyLobbyFacade.instance().createGame();
     }
 
+    @Override
+    public void logoutResponse(String message){
+        mainActivity.onLogOutResponse(message);
+    }
+
     /**
      * Handles the when the game lists changes
      *
@@ -73,6 +78,9 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         switch(updateType){
             case GAMELIST:
                 updateGameList();
+                break;
+            case LOGOUTRESPONSE:
+                logoutResponse(ClientModel.getInstance().getResponse());
                 break;
             default:
                 System.out.println("ENUM ERROR");
