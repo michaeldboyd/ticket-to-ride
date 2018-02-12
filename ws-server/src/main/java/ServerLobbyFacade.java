@@ -54,10 +54,14 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     @Override
     public void createGame() {
         // Don't need to check for existence of a new game because this should only be called when creating a brand new game
+        String id = UUID.randomUUID().toString();
+        Game newGame = new Game();
+        newGame.setGameID(id);
+        ServerModel.instance().games.put(id, newGame);
 
         // TODO - message parameter is always empty string -- we should remove it or figure out potential errors/problems
         // Create a random UUID for gameID to pass to createGame method
-        ClientProxyLobbyFacade.instance().createGame(UUID.randomUUID().toString(), "");
+        ClientProxyLobbyFacade.instance().createGame(id, "");
     }
 
     @Override
@@ -74,8 +78,9 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
         if (ServerModel.instance().games.containsKey(gameID)) {
 
+            // this line is broken. removing it for now
             // Only set message if we fail to add user to the game
-            if (!ServerModel.instance().games.get(gameID).addPlayer(playerID)) {
+            if (false) { // PREVIOUS CONDITIONAL: !ServerModel.instance().games.get(gameID).addPlayer(playerID)
                 message = "Could not add player to game [id = " + gameID + "]";
             }
 
@@ -116,7 +121,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         //create commandresult
         if (ServerModel.instance().games.containsKey(gameID)) {
 
-            players = (Player[]) ServerModel.instance().games.get(gameID).getPlayerIDs().toArray();
+            players = (Player[]) ServerModel.instance().games.get(gameID).getPlayers().toArray();
         } else {
             players = new Player[0];
             message = "Game does not exist.";

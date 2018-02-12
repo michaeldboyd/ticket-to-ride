@@ -130,10 +130,22 @@ public class LoginFragment extends Fragment implements ILoginFragment {
         }
     }
 
+    //Receives this from MainActivity
     @Override
-    public void onLoginSuccessful() {
-
+    public void onLoginSent() {
+        mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        mLoginButton.setEnabled(false);
+        mSignUpButton.setEnabled(false);
     }
+
+    //Calls main activity
+    @Override
+    public void onLoginResponse(String message) {
+        mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0, 0,0);
+        mLoginButton.setEnabled(true);
+        mSignUpButton.setEnabled(true);
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

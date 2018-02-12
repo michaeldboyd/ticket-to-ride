@@ -31,7 +31,7 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
         String[] paramValues = {username, password};
         Command loginCommand = CommandFactory.createCommand("ServerLoginFacade", "_login", paramTypes, paramValues);
         // TODO - send login to Server via socket
-
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(loginCommand));
     }
 
     @Override

@@ -33,10 +33,12 @@ public class GameListAdapter extends ArrayAdapter<Game> {
     private View lobbyItemCard5;
     private Button joinButton;
     private Context context;
+    private ILobbyFragment lobbyFragment;
 
-    public GameListAdapter(Context context, ArrayList<Game> games) {
+    public GameListAdapter(Context context, ArrayList<Game> games, ILobbyFragment lobbyFragment) {
         super(context, 0, games);
         this.context = context;
+        this.lobbyFragment = lobbyFragment;
     }
 
     @Override
@@ -118,15 +120,13 @@ public class GameListAdapter extends ArrayAdapter<Game> {
             joinButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (context instanceof ILobbyFragment)
+                    if (lobbyFragment != null && lobbyFragment instanceof ILobbyFragment)
                     {
-                        ILobbyFragment lobbyFragment = (ILobbyFragment) context;
-                        lobbyFragment.onLobbyFragmentJoinGameButton(game);
+                        lobbyFragment.onGameListAdapterJoinButton(game, joinButton);
                     }
                 }
             });
         }
-
         return convertView;
     }
 

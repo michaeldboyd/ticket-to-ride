@@ -1,6 +1,8 @@
 package e.mboyd6.tickettoride.Views.Activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +16,7 @@ import android.transition.TransitionInflater;
 import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.sharedcode.model.Game;
@@ -28,6 +31,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Communication.SocketClient;
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.Presenters.LoginPresenter;
@@ -39,7 +43,9 @@ import e.mboyd6.tickettoride.Views.Fragments.LoginFragment;
 import e.mboyd6.tickettoride.Views.Fragments.RegisterFragment;
 import e.mboyd6.tickettoride.Views.Fragments.WaitroomFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -51,7 +57,7 @@ public class MainActivity extends AppCompatActivity
   private Handler mDelayedTransactionHandler = new Handler();
   private Runnable mRunnableTransitionToRegister = new Runnable() {
     public void run() {
-      //transitionToRegister();
+      //transitionToRegisterFromLogin();
     }
   };
   private Runnable mRunnableTransitionToLogin = new Runnable() {
@@ -67,51 +73,36 @@ public class MainActivity extends AppCompatActivity
 
   private LoginPresenter mLoginPresenter = new LoginPresenter(this);
   private RegisterPresenter mRegisterPresenter = new RegisterPresenter(this);
-  private LobbyPresenter mLobbyPresenter;
-  private WaitroomPresenter waitroomPresenter;
+  private LobbyPresenter mLobbyPresenter = new LobbyPresenter(this);
+  private WaitroomPresenter mWaitroomPresenter = new WaitroomPresenter(this);
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    
+    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null)
       actionBar.hide();
 
     mFragmentManager = getSupportFragmentManager();
     loadLoginFragmentFirstTime();
-    WebSocketImpl.DEBUG = true;
-    WebSocketClient client = null;
-    try {
-      client = new SocketClient(new URI("ws://10.0.2.2:8080/echo/"));
-
-    } catch (URISyntaxException e) {
-      handleError("Yo, your socket didn't connect correctly... Sorry broseph. Error: " + e.getMessage());
-      e.printStackTrace();
-    }
-    if(client != null)
-    {
-      client.connect();
-      ClientModel.getInstance().setSocket(client);
-    } else
-    {
-      handleError("Yo, your socket didn't connect correctly... Sorry broseph");
-    }
-
+    SocketManager.ConnectSocket("this will be the URI once implemented"); //ws://192.168.255.178:8080/echo/
   }
 
   public void loadLoginFragmentFirstTime() {
-    String usernameData = getResources().getString(R.string.Username);
-    String passwordData = getResources().getString(R.string.Password);
+    String usernameData = "";//getResources().getString(R.string.Username);
+    String passwordData = "";//getResources().getString(R.string.Password);
     loadLoginFragment(usernameData, passwordData);
   }
 
   public void loadLoginFragment(String usernameData, String passwordData) {
     Fragment initialFragment = LoginFragment.newInstance(usernameData, passwordData);
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-    fragmentTransaction.replace(R.id.main_activity_fragment_container, initialFragment);
+    fragmentTransaction.replace(R.id.main_activity_fragment_container, initialFragment, "CURRENT_FRAGMENT");
     fragmentTransaction.commit();
   }
 
@@ -250,8 +241,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     Fragment previousFragment = mFragmentManager.findFragmentById(R.id.main_activity_fragment_container);
-    String usernameData = getResources().getString(R.string.Username);
-    String passwordData = getResources().getString(R.string.Password);
+    String usernameData = "";//getResources().getString(R.string.Username);
+    String passwordData = "";//getResources().getString(R.string.Password);
     Fragment nextFragment = LoginFragment.newInstance(usernameData, passwordData);
 
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -362,7 +353,7 @@ public class MainActivity extends AppCompatActivity
     ArrayList<Game> fakeGames = new ArrayList<Game>();
     Game game2 = new Game();
     game2.addPlayer(new Player("001", "Michael", PlayerColors.TURQUOISE));
-    game2.addPlayer(new Player("002", "Michael", PlayerColors.BLUE));
+    game2.addPlayer(new Player("002", "Alli", PlayerColors.BLUE));
     game2.addPlayer(new Player("003", "Eric", PlayerColors.RED));
     fakeGames.add(game2);
     Game game1 = new Game();
@@ -385,7 +376,6 @@ public class MainActivity extends AppCompatActivity
   @Override
 
   protected void onDestroy()
-
   {
     super.onDestroy();
     mDelayedTransactionHandler.removeCallbacks(mRunnableTransitionToRegister);
@@ -393,7 +383,7 @@ public class MainActivity extends AppCompatActivity
 
   public boolean handleError(String message)
   {
-    if (message == null)
+    if (message == null || message.equals(""))
       return false;
 
     Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
@@ -418,34 +408,60 @@ public class MainActivity extends AppCompatActivity
     else if(!mRegisterPresenter.validPassword(passwordData)) {
       message = "Invalid password";
     }
-    else
-    {
+    else {
       mRegisterPresenter.register(usernameData, passwordData);
     }
 
     if (handleError(message)) {
       return;
     } else {
-      transitionToLobbyFromLoginAndRegister();
+      onRegisterSent();
     }
   }
 
   @Override
-  public void onRegisterSuccessful() {
+  public void onRegisterSent() {
+    if (mFragmentManager != null) {
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof IRegisterFragment) {
+        IRegisterFragment registerFragment = (IRegisterFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        registerFragment.onRegisterSent();
+      }
+    }
+  }
 
+  @Override
+  public void onRegisterResponse(String message) {
+    Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+    if (currentFragment != null && currentFragment instanceof IRegisterFragment) {
+      IRegisterFragment registerFragment = (IRegisterFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      registerFragment.onRegisterResponse(message);
+      if (!handleError(message)) {
+        transitionToLobbyFromLoginAndRegister();
+      }
+    }
   }
 
   @Override
   public void onLoginFragmentSignUpButton(String usernameData, String passwordData) {
     //mDelayedTransactionHandler.post(mRunnableTransitionToRegister);
-    transitionToRegisterFromLogin(usernameData, passwordData);
+    final String usernameDataRunnableArg = usernameData;
+    final String passwordDataRunnableArg = passwordData;
+    Runnable transitionToRegisterFromLogin = new Runnable() {
+      @Override
+      public void run()
+      {
+        transitionToRegisterFromLogin(usernameDataRunnableArg, passwordDataRunnableArg);
+      }
+    };
+    mDelayedTransactionHandler.post(transitionToRegisterFromLogin);
   }
 
   @Override
   public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
+
     String message = "";
-    if (usernameData.equals("Guest") && passwordData.equals("Password"))
-    {
+    if (usernameData.equals("Guest") && passwordData.equals("Password")) {
       GuestLogin();
     }
     else if(mLoginPresenter == null)
@@ -460,15 +476,38 @@ public class MainActivity extends AppCompatActivity
       mLoginPresenter.login(usernameData, passwordData);
     }
     if (handleError(message)) {
+
       return;
     } else {
-      transitionToLobbyFromLoginAndRegister();
+
+      onLoginSent();
     }
   }
 
   @Override
-  public void onLoginSuccessful() {
+  public void onLoginSent() {
+    if (mFragmentManager == null) {
+      mFragmentManager = getSupportFragmentManager();
+    }
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof ILoginFragment)
+      {
+        ILoginFragment loginFragment = (ILoginFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        loginFragment.onLoginSent();
+      }
+  }
 
+  @Override
+  public void onLoginResponse(String message) {
+    Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+    if (currentFragment != null && currentFragment instanceof ILoginFragment)
+    {
+      ILoginFragment loginFragment = (ILoginFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      loginFragment.onLoginResponse(message);
+      if (!handleError(message)) {
+        transitionToLobbyFromLoginAndRegister();
+      }
+    }
   }
 
   @Override
@@ -485,13 +524,93 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onLobbyFragmentLogOutButton() {
-    transitionToLoginFromLobby();
+    mLobbyPresenter.logOut();
+  }
+
+  @Override
+  public void onLogOutSent() {
+    if (mFragmentManager == null) {
+      mFragmentManager = getSupportFragmentManager();
+    }
+    Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+    if (currentFragment != null && currentFragment instanceof ILobbyFragment)
+    {
+      ILobbyFragment lobbyFragment = (ILobbyFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      lobbyFragment.onLogOutSent();
+    }
+  }
+
+  @Override
+  public void onLogOutResponse(String message) {
+      if (mFragmentManager == null) {
+        mFragmentManager = getSupportFragmentManager();
+      }
+      Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (currentFragment != null && currentFragment instanceof ILobbyFragment) {
+        ILobbyFragment lobbyFragment = (ILobbyFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        lobbyFragment.onLogOutResponse(message);
+        if (!handleError(message)) {
+          transitionToLoginFromLobby();
+        }
+      }
+  }
+
+  @Override
+  public void onLobbyFragmentStartNewGameButton() {
+    mLobbyPresenter.createGame();
+  }
+
+  @Override
+  public void onStartNewGameSent() {
+    if (mFragmentManager == null) {
+      mFragmentManager = getSupportFragmentManager();
+    }
+    Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+    if (currentFragment != null && currentFragment instanceof ILobbyFragment)
+    {
+      ILobbyFragment lobbyFragment = (ILobbyFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      lobbyFragment.onStartNewGameSent();
+    }
+  }
+
+  //Should not be implemented in the IMainActivity
+  @Override
+  public void onGameListAdapterJoinButton(Game game, Button button) {
+    //
   }
 
   @Override
   public void onLobbyFragmentJoinGameButton(Game game) {
-    ClientModel.getInstance().setCurrentGame(game);
-    transitionToWaitroomFromLobby();
+    mLobbyPresenter.joinGame(game.getGameID());
+  }
+
+  @Override
+  public void onGameJoinedSent() {
+    if (mFragmentManager == null) {
+      mFragmentManager = getSupportFragmentManager();
+    }
+    Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+    if (currentFragment != null && currentFragment instanceof ILobbyFragment)
+    {
+      ILobbyFragment lobbyFragment = (ILobbyFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      lobbyFragment.onGameJoinedSent();
+    }
+  }
+
+  @Override
+  public void onGameJoinedResponse(String message) {
+    if (mFragmentManager == null) {
+      mFragmentManager = getSupportFragmentManager();
+    }
+    Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+    if (currentFragment != null && currentFragment instanceof ILobbyFragment)
+    {
+      ILobbyFragment lobbyFragment = (ILobbyFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      lobbyFragment.onGameJoinedResponse(message);
+      if (!handleError(message)) {
+        transitionToWaitroomFromLobby();
+      }
+    }
   }
 
   @Override
@@ -500,6 +619,37 @@ public class MainActivity extends AppCompatActivity
       IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
       if (waitroomFragment != null) {
         waitroomFragment.updatePlayerList(newList);
+      }
+    }
+  }
+
+  @Override
+  public void onWaitroomFragmentStartGameButton() {
+    mWaitroomPresenter.startGame();
+  }
+
+  @Override
+  public void onStartGameSent() {
+    if (mFragmentManager != null) {
+      IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (waitroomFragment != null) {
+        waitroomFragment.onStartGameSent();
+      }
+    }
+  }
+
+  @Override
+  public void onStartGameResponse(String message) {
+    if (mFragmentManager == null) {
+      mFragmentManager = getSupportFragmentManager();
+    }
+    Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+    if (currentFragment != null && currentFragment instanceof IWaitroomFragment)
+    {
+      IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      waitroomFragment.onStartGameResponse(message);
+      if (!handleError(message)) {
+        handleError("Successfully started game. Congrats!");
       }
     }
   }
@@ -516,13 +666,40 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void onWaitroomFragmentColorPicked(int color) {
+  public void onWaitroomFragmentColorPicked(PlayerColors playerColor) {
     //Calls waitroomPresenter
+    mWaitroomPresenter.changePlayerColor(playerColor);
   }
+
 
   @Override
   public void onWaitroomFragmentBackoutButton() {
-    ClientModel.getInstance().setCurrentGame(null);
-    transitionToLobbyFromWaitroom();
+    mWaitroomPresenter.leaveGame();
+  }
+
+  @Override
+  public void onBackOutSent() {
+    if (mFragmentManager != null) {
+      IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      if (waitroomFragment != null) {
+        waitroomFragment.onBackOutSent();
+      }
+    }
+  }
+
+  @Override
+  public void onBackoutResponse(String message) {
+    if (mFragmentManager == null) {
+      mFragmentManager = getSupportFragmentManager();
+    }
+    Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+    if (currentFragment != null && currentFragment instanceof IWaitroomFragment)
+    {
+      IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+      waitroomFragment.onBackoutResponse(message);
+      if (!handleError(message)) {
+        transitionToLobbyFromWaitroom();
+      }
+    }
   }
 }

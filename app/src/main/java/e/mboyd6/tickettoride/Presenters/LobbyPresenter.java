@@ -35,6 +35,12 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         mainActivity.updateGameList(ClientModel.getInstance().getGames());
     }
 
+    //TODO: Implement logOut method
+    @Override
+    public void logOut() {
+
+    }
+
     @Override
     public void joinGame(String gameID) {
         ServerProxyLobbyFacade.instance().joinGame(gameID, null);

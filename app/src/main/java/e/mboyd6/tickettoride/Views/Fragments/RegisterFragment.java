@@ -137,8 +137,16 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
     }
 
     @Override
-    public void onRegisterSuccessful() {
-        System.out.println("[RegisterFragment/onRegisterSuccessful says:] Register was successful! ");
+    public void onRegisterSent() {
+        mSignUpButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        mSignUpButton.setEnabled(false);
+        mBackButton.setEnabled(false);
     }
 
+    @Override
+    public void onRegisterResponse(String message) {
+        mSignUpButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        mSignUpButton.setEnabled(true);
+        mBackButton.setEnabled(true);
+    }
 }
