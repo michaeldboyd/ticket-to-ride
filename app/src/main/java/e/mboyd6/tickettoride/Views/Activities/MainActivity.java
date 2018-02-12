@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity
 
   private LoginPresenter mLoginPresenter = new LoginPresenter(this);
   private RegisterPresenter mRegisterPresenter = new RegisterPresenter(this);
-  private LobbyPresenter mLobbyPresenter;
-  private WaitroomPresenter mWaitroomPresenter;
+  private LobbyPresenter mLobbyPresenter = new LobbyPresenter(this);
+  private WaitroomPresenter mWaitroomPresenter = new WaitroomPresenter(this);
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
