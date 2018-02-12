@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity
     ArrayList<Game> fakeGames = new ArrayList<Game>();
     Game game2 = new Game();
     game2.addPlayer(new Player("001", "Michael", PlayerColors.TURQUOISE));
-    game2.addPlayer(new Player("002", "Michael", PlayerColors.BLUE));
+    game2.addPlayer(new Player("002", "Alli", PlayerColors.BLUE));
     game2.addPlayer(new Player("003", "Eric", PlayerColors.RED));
     fakeGames.add(game2);
     Game game1 = new Game();
