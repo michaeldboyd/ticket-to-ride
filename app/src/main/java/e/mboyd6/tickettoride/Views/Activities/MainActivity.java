@@ -1,6 +1,8 @@
 package e.mboyd6.tickettoride.Views.Activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity
   private Handler mDelayedTransactionHandler = new Handler();
   private Runnable mRunnableTransitionToRegister = new Runnable() {
     public void run() {
-      //transitionToRegister();
+      //transitionToRegisterFromLogin();
     }
   };
   private Runnable mRunnableTransitionToLogin = new Runnable() {
@@ -77,7 +79,9 @@ public class MainActivity extends AppCompatActivity
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    
+    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null)
       actionBar.hide();
@@ -458,7 +462,16 @@ public class MainActivity extends AppCompatActivity
   @Override
   public void onLoginFragmentSignUpButton(String usernameData, String passwordData) {
     //mDelayedTransactionHandler.post(mRunnableTransitionToRegister);
-    transitionToRegisterFromLogin(usernameData, passwordData);
+    final String usernameDataRunnableArg = usernameData;
+    final String passwordDataRunnableArg = passwordData;
+    Runnable transitionToRegisterFromLogin = new Runnable() {
+      @Override
+      public void run()
+      {
+        transitionToRegisterFromLogin(usernameDataRunnableArg, passwordDataRunnableArg);
+      }
+    };
+    mDelayedTransactionHandler.post(transitionToRegisterFromLogin);
   }
 
   @Override
