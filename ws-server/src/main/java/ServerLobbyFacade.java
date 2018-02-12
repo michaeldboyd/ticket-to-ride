@@ -54,10 +54,14 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     @Override
     public void createGame() {
         // Don't need to check for existence of a new game because this should only be called when creating a brand new game
+        String id = UUID.randomUUID().toString()
+        Game newGame = new Game();
+        newGame.setGameID(id);
+        ServerModel.instance().games.put(id, newGame);
 
         // TODO - message parameter is always empty string -- we should remove it or figure out potential errors/problems
         // Create a random UUID for gameID to pass to createGame method
-        ClientProxyLobbyFacade.instance().createGame(UUID.randomUUID().toString(), "");
+        ClientProxyLobbyFacade.instance().createGame(id, "");
     }
 
     @Override

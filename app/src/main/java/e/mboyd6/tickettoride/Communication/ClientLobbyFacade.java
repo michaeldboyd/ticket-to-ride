@@ -50,6 +50,7 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
 
     //***** THESE METHODS ARE NOT CALLED FROM THE CLIENT PROXY--ONLY FROM THE CORRESPONDING STATIC METHODS *****
 
+    //Must be called after a user creates a new game.
     @Override
     public void createGame(String gameID, String message) {
         System.out.println("createGame called on CLF");

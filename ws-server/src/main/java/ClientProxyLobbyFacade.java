@@ -31,16 +31,17 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
 
     @Override
     public void createGame(String gameID, String message) {
-        Game newGame = new Game();
+    //Michael put this code in the ServerLobbyFacade because it interacts with the model.
+     /*    Game newGame = new Game();
         newGame.setGameID(gameID);
-        ServerModel.instance().games.put(gameID, newGame);
+        ServerModel.instance().games.put(gameID, newGame);*/
 
         // This is called after the Server has attempted to get all games
         // If successful, message == "" [empty string]
 
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         String[] paramValues = {gameID, message};
-        Command createGameClientCommand = CommandFactory.createCommand("ClientLobbyFacade", "_createGameReceived", paramTypes, paramValues);
+        Command createGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_createGameReceived", paramTypes, paramValues);
 
         // TODO - Send createGameClientCommand to Client via socket
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
