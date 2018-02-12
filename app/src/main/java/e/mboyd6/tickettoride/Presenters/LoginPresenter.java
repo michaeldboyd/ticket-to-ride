@@ -69,7 +69,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
 
     @Override
     public void loginResponse(String message){
-        //mainActivity.onLoginResponse(message);
+        mainActivity.onLoginResponse(message);
     }
 
     @Override
