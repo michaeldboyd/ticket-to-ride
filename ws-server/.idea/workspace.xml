@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ede5aef-8775-4afa-b577-ce1894ab3962" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Model/ClientModel.java" afterPath="$PROJECT_DIR$/../app/src/main/java/e/mboyd6/tickettoride/Model/ClientModel.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -726,12 +727,12 @@
       <workItem from="1518309969152" duration="137000" />
       <workItem from="1518451520686" duration="4056000" />
       <workItem from="1518468804230" duration="1464000" />
-      <workItem from="1518471176702" duration="987000" />
+      <workItem from="1518471176702" duration="1281000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29531000" />
+    <option name="totallyTimeSpent" value="29825000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1060" extended-state="6" />
