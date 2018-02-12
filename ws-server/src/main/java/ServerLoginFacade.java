@@ -34,6 +34,10 @@ public class ServerLoginFacade implements IServerLoginFacade {
         instance().register(username, password);
     }
 
+    public static void _logout(String username) {
+        instance().logout(username);
+    }
+
 
     /**
      * Checks to see if user is already logged in. If so, returns error message.
@@ -49,7 +53,6 @@ public class ServerLoginFacade implements IServerLoginFacade {
      */
     @Override
     public void login(String username, String password) {
-        //New command result
         String authToken = "";
         String message = "";
         if (ServerModel.instance().loggedInUsers.containsKey(username)) {
@@ -92,7 +95,6 @@ public class ServerLoginFacade implements IServerLoginFacade {
      */
     @Override
     public void register(String username, String password) {
-        //New command result
         String authToken = "";
         String message = "";
 
@@ -112,6 +114,17 @@ public class ServerLoginFacade implements IServerLoginFacade {
         }
 
         ClientProxyLoginFacade.instance().register(authToken, message);
+    }
+
+    @Override
+    public void logout(String username){
+        String message = "";
+        if (ServerModel.instance().loggedInUsers.containsKey(username)) {
+            ServerModel.instance().loggedInUsers.remove(username);
+            message = "User logged out.";
+        }
+
+        ClientProxyLoginFacade.instance().logout(message);
     }
 
 }

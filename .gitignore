@@ -44,6 +44,12 @@ captures/
 .idea/dictionaries
 .idea/libraries
 
+ws-server/.idea/workspace.xml
+ws-server/.idea/tasks.xml
+ws-server/.idea/gradle.xml
+ws-server/dictionaries
+ws-server/libraries
+
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 
