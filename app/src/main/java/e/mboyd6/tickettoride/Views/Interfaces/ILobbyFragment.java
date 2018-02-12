@@ -4,6 +4,8 @@ package e.mboyd6.tickettoride.Views.Interfaces;
  * Created by jonathanlinford on 2/2/18.
  */
 
+import android.widget.Button;
+
 import com.example.sharedcode.model.Game;
 
 import java.util.ArrayList;
@@ -22,9 +24,12 @@ import java.util.ArrayList;
 public interface ILobbyFragment {
     void updateGameList(ArrayList<Game> newList);
     void onLobbyFragmentLogOutButton();
+    void onLogOutSent();
+    void onLogOutResponse(String message);
     void onLobbyFragmentStartNewGameButton();
     void onStartNewGameSent();
+    void onGameListAdapterJoinButton(Game game, Button button);
     void onLobbyFragmentJoinGameButton(Game game);
     void onGameJoinedSent();
-    void onGameJoinedResponse();
+    void onGameJoinedResponse(String message);
 }

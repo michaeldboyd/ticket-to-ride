@@ -6,6 +6,7 @@ package e.mboyd6.tickettoride.Presenters.Interfaces;
 
 public interface ILobbyPresenter {
 
+    void logOut();
     void joinGame(String gameID);
 
     void createGame();

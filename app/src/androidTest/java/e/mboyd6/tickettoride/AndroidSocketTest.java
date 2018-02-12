@@ -42,17 +42,37 @@ public class AndroidSocketTest {
     }
 
     @Test
-    public void test()
+    public void testRegister()
     {
-        ServerProxyLoginFacade.instance().register("test2", "test");
-        ServerProxyLoginFacade.instance().login("test1", "test");
-        ServerProxyLobbyFacade.instance().getGames();
         ServerProxyLobbyFacade.instance().createGame();
+    }
+    @Test
+    public void testLogin()
+    {
+        ServerProxyLoginFacade.instance().login("test1", "test");
+        ServerProxyLobbyFacade.instance().createGame();
+        ServerProxyLobbyFacade.instance().getGames();
+        ServerProxyLobbyFacade.instance().joinGame("asdf", "asdf");
         ServerProxyLobbyFacade.instance().startGame("asdf");
         ServerProxyLobbyFacade.instance().getPlayersForGame("asdf");
-
+        ServerProxyLobbyFacade.instance().leaveGame("asdf", "asdf");
+    }
+    /*public void testCreateGame()
+    {
 
     }
+    public void testJoinGame()
+    {
+
+    }
+    public void testStartGame()
+    {
+
+    }
+    public void testCreateGame()
+    {
+
+    }*/
 
     @After
     public void close()

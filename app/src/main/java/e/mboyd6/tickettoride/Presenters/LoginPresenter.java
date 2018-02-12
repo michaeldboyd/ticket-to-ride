@@ -79,7 +79,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
 
         switch (updateType){
             case LOGINRESPONSE:
-                loginResponse(ClientModel.getInstance().getLoginResponse());
+                loginResponse(ClientModel.getInstance().getResponse());
                 break;
             default:
                 break;
