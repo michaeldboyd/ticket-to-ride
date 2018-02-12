@@ -55,4 +55,15 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         Sender.sendCommand(registerClientCommand, sess);
     }
+
+    @Override
+    public void logout(String message){
+        String[] paramTypes = {message.getClass().toString()};
+        String[] paramValues = {message};
+        Command logoutClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_logoutReceived", paramTypes, paramValues);
+
+        // TODO - Send registerCommand to Client via socket
+        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
+        Sender.sendCommand(logoutClientCommand, sess);
+    }
 }

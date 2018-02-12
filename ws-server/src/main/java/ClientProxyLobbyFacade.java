@@ -29,6 +29,13 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     private ClientProxyLobbyFacade() {}
 
 
+    /**
+     * Creates the new game and adds to server model.
+     * Creates command and sends it back to client.
+     *
+     * @param gameID
+     * @param message
+     */
     @Override
     public void createGame(String gameID, String message) {
         Game newGame = new Game();
