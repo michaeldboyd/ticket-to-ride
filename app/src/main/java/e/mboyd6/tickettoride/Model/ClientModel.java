@@ -7,6 +7,7 @@ import com.example.sharedcode.model.PlayerColors;
 import org.java_websocket.client.WebSocketClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -49,7 +50,6 @@ public class ClientModel extends Observable {
 
     public void setGames(ArrayList<Game> games) {
         this.games = games;
-        notifyObservers(UpdateType.GAMELIST);
     }
 
     public ArrayList<Player> getPlayers() {
@@ -91,6 +91,67 @@ public class ClientModel extends Observable {
         this.response = message;
         this.setChanged();
         notifyObservers(UpdateType.REGISTERRESPONSE);
+    }
+
+    public void setCreateGameResponse(String gameID, String message){
+
+    }
+
+    public void setUpdateGamesResponse(Game[] games, String message){
+        this.games = new ArrayList<>(Arrays.asList(games));
+        this.response = message;
+        this.setChanged();
+        notifyObservers(UpdateType.GAMELIST);
+    }
+
+    public void setJoinGameResponse(String gameID, String message){
+
+        if(joinGame(gameID)) {
+            this.response = message;
+        } else{
+            response = "Game not found.";
+        }
+
+        this.setChanged();
+        notifyObservers(UpdateType.GAMESTARTED);
+        System.out.println(response);
+    }
+
+
+    private boolean joinGame(String gameID){
+        for(Game g: games){
+            if(g.getGameID().equals(gameID)){
+                //GameID is set as currentGame
+                this.setCurrentGame(g);
+                this.games = null; //Other games not needed, remove the game
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void setStartGameResponse(String gameID, String message){
+        this.response = message;
+
+
+
+        for(Game g: games){
+            if(g.getGameID().equals(gameID)){
+                //GameID is set as currentGame
+                this.setCurrentGame(g);
+                this.games = null; //Other games not needed, remove the game
+                this.setChanged();
+                notifyObservers(UpdateType.GAMESTARTED);
+                return;
+            }
+        }
+
+        response = "Game not found.";
+        this.setChanged();
+        notifyObservers(UpdateType.GAMESTARTED);
+        System.out.println(response);
+
     }
 
     public String getResponse() {

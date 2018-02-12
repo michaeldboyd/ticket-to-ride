@@ -11,6 +11,7 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
+import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
@@ -38,7 +39,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
     //TODO: Implement logOut method
     @Override
     public void logOut() {
-
+        //ServerProxyLoginFacade.instance()
     }
 
     @Override

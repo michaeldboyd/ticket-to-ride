@@ -5,6 +5,11 @@ import com.example.sharedcode.interfaces.IServerLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import e.mboyd6.tickettoride.Model.ClientModel;
+
 /**
  * Created by mboyd6 on 2/1/2018.
  */
@@ -54,21 +59,30 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     @Override
     public void createGame(String gameID, String message) {
         System.out.println("createGame called on CLF");
+
+        ClientModel.getInstance().setCreateGameResponse(gameID, message);
+
     }
 
     @Override
     public void updateGames(Game[] games, String message) {
         System.out.println("updateGames called on CLF");
+
+        ClientModel.getInstance().setUpdateGamesResponse(games, message);
     }
 
     @Override
     public void joinGame(String gameID, String message) {
         System.out.println("joinGame called on CLF");
+
+        ClientModel.getInstance().setJoinGameResponse(gameID, message);
     }
 
     @Override
     public void startGame(String gameID, String message) {
         System.out.println("startGame called on CLF");
+
+        ClientModel.getInstance().setStartGameResponse(gameID, message);
     }
 
     @Override

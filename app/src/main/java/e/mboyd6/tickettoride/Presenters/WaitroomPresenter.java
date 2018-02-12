@@ -44,8 +44,8 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     }
 
     @Override
-    public void startGame() {
-
+    public void startGame(String message) {
+        mainActivity.onStartGameResponse(message);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
                 updateReadyPlayers();
                 break;
             case GAMESTARTED:
-                startGame();
+                startGame(ClientModel.getInstance().getResponse());
                 break;
             default:
                 System.out.println("ENUM ERROR");
