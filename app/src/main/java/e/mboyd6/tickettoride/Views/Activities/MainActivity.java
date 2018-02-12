@@ -624,6 +624,7 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onGameJoinedResponse(String message) {
+    final String mess = message;
     runOnUiThread(new Runnable() {
       @Override
       public void run() {
@@ -633,8 +634,8 @@ public class MainActivity extends AppCompatActivity
         Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
         if (currentFragment != null && currentFragment instanceof ILobbyFragment) {
           ILobbyFragment lobbyFragment = (ILobbyFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
-          lobbyFragment.onGameJoinedResponse(message);
-          if (!handleError(message)) {
+          lobbyFragment.onGameJoinedResponse(mess);
+          if (!handleError(mess)) {
             transitionToWaitroomFromLobby();
           }
         }
