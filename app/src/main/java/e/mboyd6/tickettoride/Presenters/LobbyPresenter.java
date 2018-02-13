@@ -2,8 +2,6 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.content.Context;
 
-import com.example.sharedcode.model.Game;
-
 import java.util.Observable;
 import java.util.Observer;
 
@@ -41,7 +39,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     @Override
     public void joinGame(String gameID) {
-        ServerProxyLobbyFacade.instance().joinGame(gameID, null);
+        ServerProxyLobbyFacade.instance().joinGame(ClientModel.getInstance().getAuthToken(), null, gameID, );
     }
 
     /**

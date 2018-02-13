@@ -75,7 +75,7 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     //start the game
     @Override
     public void startGame(String gameID, String message) {
-        System.out.println("startGame called on CLF");
+        System.out.println("startGameResponse called on CLF");
 
         ClientModel.getInstance().setStartGameResponse(gameID, message);
     }
@@ -85,7 +85,7 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     public void leaveGame(String gameID, String message) {
         System.out.println("leaveGame called on CLF");
 
-        ClientModel.getInstance().setLeaveGameResponse(gameID, message)
+        ClientModel.getInstance().setLeaveGameResponse(gameID, message);
     }
 
     @Override

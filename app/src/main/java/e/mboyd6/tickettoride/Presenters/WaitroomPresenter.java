@@ -35,9 +35,9 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     @Override
     public void leaveGame() {
-        ServerProxyLobbyFacade.instance().leaveGame(
-                ClientModel.getInstance().getCurrentGame().getGameID(),
-                ClientModel.getInstance().getCurrentPlayer().getPlayerID());
+        ServerProxyLobbyFacade.instance().leaveGame(ClientModel.getInstance().getAuthToken(),
+                ClientModel.getInstance().getCurrentPlayer().getPlayerID(),
+                ClientModel.getInstance().getCurrentGame().getGameID());
     }
 
     //Called by the observer
@@ -51,7 +51,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     }
 
     @Override
-    public void startGame(String message) {
+    public void startGameResponse(String message) {
         mainActivity.onStartGameResponse(message);
     }
 
@@ -79,7 +79,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
                 updatePlayerList();
                 break;
             case GAMESTARTED:
-                startGame(ClientModel.getInstance().getResponse());
+                startGameResponse(ClientModel.getInstance().getResponse());
                 break;
             case GAMELEFT:
                 leaveGameResponse(ClientModel.getInstance().getResponse());

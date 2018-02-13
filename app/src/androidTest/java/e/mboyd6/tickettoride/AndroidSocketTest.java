@@ -52,10 +52,10 @@ public class AndroidSocketTest {
         ServerProxyLoginFacade.instance().login("test1", "test");
         ServerProxyLobbyFacade.instance().createGame();
         ServerProxyLobbyFacade.instance().getGames();
-        ServerProxyLobbyFacade.instance().joinGame("asdf", "asdf");
-        ServerProxyLobbyFacade.instance().startGame("asdf");
-        ServerProxyLobbyFacade.instance().getPlayersForGame("asdf");
-        ServerProxyLobbyFacade.instance().leaveGame("asdf", "asdf");
+        ServerProxyLobbyFacade.instance().joinGame(, "asdf", "asdf", );
+        ServerProxyLobbyFacade.instance().startGame(, "asdf", );
+        ServerProxyLobbyFacade.instance().getPlayersForGame(, "asdf");
+        ServerProxyLobbyFacade.instance().leaveGame(, "asdf", "asdf", );
     }
     /*public void testCreateGame()
     {

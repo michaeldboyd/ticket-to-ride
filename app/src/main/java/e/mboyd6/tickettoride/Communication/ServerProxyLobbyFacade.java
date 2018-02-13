@@ -29,7 +29,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void getGames() {
+    public void getGames(String authToken) {
         Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getGames", null, null);
 
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
@@ -37,7 +37,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
     //TODO: Should I be passing userID to this? userID is never stored in the client. I think we should be passing the authToekn.
     @Override
-    public void joinGame(String gameID, String userID) {
+    public void joinGame(String authToken, String gameID) {
         String[] paramTypes = {gameID.getClass().toString(), userID.getClass().toString()};
         String[] paramValues = {gameID, userID};
 
@@ -48,7 +48,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void leaveGame(String gameID, String userID) {
+    public void leaveGame(String authToken, String userID, String gameID) {
         String[] paramTypes = {gameID.getClass().toString(), userID.getClass().toString()};
         String[] paramValues = {gameID, userID};
 
@@ -59,7 +59,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void startGame(String gameID) {
+    public void startGame(String authToken, String gameID) {
         String[] paramTypes = {gameID.getClass().toString()};
         String[] paramValues = {gameID};
         Command startGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_startGame", paramTypes, paramValues);
@@ -70,7 +70,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void getPlayersForGame(String gameID) {
+    public void getPlayersForGame(String authToken, String gameID) {
         String[] paramTypes = {gameID.getClass().toString()};
         String[] paramValues = {gameID};
 

@@ -6,12 +6,10 @@ package com.example.sharedcode.interfaces;
 
 public interface IServerLobbyFacade {
 
-    void createGame(String authtoken); //join game for creator and update list
-    void getGames();
-    void joinGame(String gameID, String playerID);
-    void leaveGame(String gameID, String playerID);
-    void startGame(String gameID);
-    void getPlayersForGame(String gameID);
-
-
+    void createGame(String authToken); //join game for creator and update list
+    void getGames(String authToken);
+    void joinGame(String authToken, String gameID);
+    void leaveGame(String authToken, String playerID, String gameID);
+    void startGame(String authToken, String gameID);
+    void getPlayersForGame(String authToken, String gameID);
 }
