@@ -47,7 +47,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         instance().getPlayersForGame(authToken, gameID);
     }
 
-    public static void _playerColorChanged(String authToken, String playerID, String gameID, PlayerColors color) {
+    public static void _playerColorChanged(String authToken, String playerID, String gameID, int color) {
         instance().playerColorChanged(authToken, playerID, gameID, color);
     }
 
