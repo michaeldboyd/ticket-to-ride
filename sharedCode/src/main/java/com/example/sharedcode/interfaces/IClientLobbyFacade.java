@@ -9,7 +9,7 @@ import com.example.sharedcode.model.Player;
 
 public interface IClientLobbyFacade {
 
-    void createGame(String gameName, String message);
+    void createGame(Game newGame);
     void updateGames(Game[] games, String message);
     void joinGame(String gameID, String message);
     void startGame(String gameID, String message);

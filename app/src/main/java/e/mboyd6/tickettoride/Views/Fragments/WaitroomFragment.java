@@ -125,7 +125,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             }
         });
 
-        updatePlayerList(ClientModel.getInstance().getCurrentGame().getPlayers());
+
         colorSelection1 = v.findViewById(R.id.color_selection_1);
         colorSelection2 = v.findViewById(R.id.color_selection_2);
         colorSelection3 = v.findViewById(R.id.color_selection_3);
@@ -134,6 +134,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
 
         playersInLobby = v.findViewById(R.id.players_in_lobby);
 
+        updatePlayerListFirstTime();
         return v;
     }
 
@@ -265,6 +266,13 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
     @Override
     public void updateChat() {
         //Change layout to have updated chat
+    }
+
+    @Override
+    public void updatePlayerListFirstTime() {
+        if (mListener != null) {
+            mListener.updatePlayerListFirstTime();
+        }
     }
 
     @Override

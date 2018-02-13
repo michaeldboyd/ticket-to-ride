@@ -2,7 +2,6 @@ import com.example.sharedcode.interfaces.IServerLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
-import org.eclipse.jetty.server.Server;
 
 import java.util.UUID;
 
@@ -24,8 +23,8 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     }
 
 
-    public static void _createGame() {
-        instance().createGame();
+    public static void _createGame(String authToken) {
+        instance().createGame(authToken);
     }
 
     public static void _getGames() {
@@ -53,18 +52,16 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     int playerLimit = 5;
 
     // Creates command to create game and send back to the client
+    //Everyone needs to know that there is a new game. Send over the game to everyone
     @Override
-    public void createGame() {
+    public void createGame(String authToken) {
         // Don't need to check for existence of a new game because this should only be called when creating a brand new game
         String id = UUID.randomUUID().toString();
         Game newGame = new Game();
         newGame.setGameID(id);
         ServerModel.instance().games.put(id, newGame);
-
-        // TODO - message parameter is always empty string -- we should remove it or figure out potential errors/problems
         // Create a random UUID for gameID to pass to createGame method
-        ClientProxyLobbyFacade.instance().createGame(id, "");
-        getGames();
+        ClientProxyLobbyFacade.instance().joinGame(id, "");
     }
 
     @Override
@@ -72,9 +69,11 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
 
         // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
-        ClientProxyLobbyFacade.instance().updateGames(games, null);
+        //send this to all the clients
+        ClientProxyLobbyFacade.instance().updateGames(games, "");
     }
 
+    //add caller to waiting room, send updated games list to everyone else.
     @Override
     public void joinGame(String gameID, String username) {
         String message = null;
@@ -91,9 +90,11 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         }
 
         ClientProxyLobbyFacade.instance().joinGame(gameID, message);
-        getPlayersForGame(gameID);
     }
 
+    // If the game
+    //removes player from list of joined game, then sends that to everyone
+    //send everyone the updated games
     @Override
     public void leaveGame(String gameID, String playerID) {
         String message = "";
@@ -104,10 +105,9 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         }
 
         ClientProxyLobbyFacade.instance().leaveGame(gameID, message);
-        getPlayersForGame(gameID);
     }
 
-
+    //tell everyone to start the game who is in it, andupdate the games list for everyone else
     @Override
     public void startGame(String gameID) {
         String message = "";
