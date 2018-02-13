@@ -8,7 +8,7 @@ import java.awt.Color;
 
 public class Player {
 
-    public Player(String playerID, String name, PlayerColors color) {
+    public Player(String playerID, String name, int color) {
         this.playerID = playerID;
         this.name = name;
         this.color = color;
@@ -16,7 +16,7 @@ public class Player {
 
     private String playerID;
     private String name;
-    private PlayerColors color;
+    private int color;
 
     public String getPlayerID() {
         return playerID;
@@ -34,11 +34,11 @@ public class Player {
         this.name = name;
     }
 
-    public PlayerColors getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(PlayerColors color) {
+    public void setColor(int color) {
         this.color = color;
     }
 }
