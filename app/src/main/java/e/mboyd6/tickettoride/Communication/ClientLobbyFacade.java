@@ -95,7 +95,7 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     }
 
     @Override
-    public void playerColorChanged(String gameID, String playerID, PlayerColors color) {
+    public void playerColorChanged(String gameID, String playerID, int color) {
         // Don't do anything
         // Game list will be updated automatically
     }
