@@ -11,7 +11,8 @@ import java.util.Map;
 
 public class Sender {
     private static Gson gson = new Gson();
-    public static boolean sendCommand(Command command, Session sess){
+    public static boolean sendCommand(Command command, String authToken){
+        Session sess = ServerModel.instance().loggedInSessions.get(authToken);
         try {
             sess.getRemote().sendString(gson.toJson(command));
             return true;
@@ -22,10 +23,14 @@ public class Sender {
     }
 
     public static void sendBroadcast(Command command) {
-        Map<String, Session> sessions = ServerModel.getLoggedInSessions();
+        Map<String, Session> sessions = ServerModel.instance().loggedInSessions;
         for(Session s : sessions.values())
         {
-                Sender.sendCommand(command, s);
+            try {
+                s.getRemote().sendString(gson.toJson(command));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
