@@ -139,7 +139,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void playerColorChanged(String authToken, String gameID, String playerID, PlayerColors color) {
+    public void playerColorChanged(String authToken, String gameID, String playerID, int color) {
         Game game = ServerModel.instance().games.get(gameID);
 
         Boolean success = false;
