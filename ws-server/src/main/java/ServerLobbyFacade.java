@@ -65,7 +65,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         newGame.setGameID(id);
         ServerModel.instance().games.put(id, newGame);
         // Create a random UUID for gameID to pass to createGame method
-        ClientProxyLobbyFacade.instance().joinGame(id, "");
+        ClientProxyLobbyFacade.instance().joinGame(authToken, id, "");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
         // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
         //send this to all the clients
-        ClientProxyLobbyFacade.instance().updateGames(games, "");
+        ClientProxyLobbyFacade.instance().updateGames(authToken, games, "");
     }
 
     //add caller to waiting room, send updated games list to everyone else.
@@ -92,7 +92,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
             }
         }
 
-        ClientProxyLobbyFacade.instance().joinGame(gameID, message);
+        ClientProxyLobbyFacade.instance().joinGame(authToken, gameID, message);
     }
 
     // If the game
@@ -107,7 +107,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
             message = "Could not remove player because is not in the game";
         }
 
-        ClientProxyLobbyFacade.instance().leaveGame(gameID, message);
+        ClientProxyLobbyFacade.instance().leaveGame(authToken, gameID, message);
     }
 
     //tell everyone to start the game who is in it, andupdate the games list for everyone else
@@ -119,7 +119,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
             message = "Game doesn't exist.";
         }
 
-        ClientProxyLobbyFacade.instance().startGame(gameID, message);
+        ClientProxyLobbyFacade.instance().startGame(authToken, gameID, message);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
             message = "Game does not exist.";
         }
 
-        ClientProxyLobbyFacade.instance().getPlayersForGame(gameID, players, message);
+        ClientProxyLobbyFacade.instance().getPlayersForGame(authToken, players, message, gameID);
     }
 
     @Override

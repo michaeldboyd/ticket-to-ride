@@ -10,11 +10,11 @@ import com.example.sharedcode.model.PlayerColors;
 
 public interface IClientLobbyFacade {
 
-    void createGame(Game newGame);
-    void updateGames(Game[] games, String message);
-    void joinGame(String gameID, String message);
-    void startGame(String gameID, String message);
-    void leaveGame(String gameID, String message);
-    void getPlayersForGame(String gameID, Player[] players, String message);
+    void createGame(String authToken, Game newGame);
+    void updateGames(String authToken, Game[] games, String message);
+    void joinGame(String authToken, String message, String gameID);
+    void startGame(String authToken, String message, String gameID);
+    void leaveGame(String authToken, String message, String gameID);
+    void getPlayersForGame(String authToken, Player[] players, String message, String gameID);
     void playerColorChanged(String gameID, String playerID, PlayerColors color);
 }
