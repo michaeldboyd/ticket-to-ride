@@ -65,7 +65,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         newGame.setGameID(id);
         ServerModel.instance().games.put(id, newGame);
         // Create a random UUID for gameID to pass to createGame method
-        ClientProxyLobbyFacade.instance().joinGame(authToken, id, "");
+        ClientProxyLobbyFacade.instance().createGame(authToken, newGame);
     }
 
     @Override

@@ -58,5 +58,6 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
 
         // TODO - Send registerCommand to Client via socket
         Sender.sendCommand(logoutClientCommand, authToken);
+        ServerModel.instance().loggedInSessions.remove(authToken);
     }
 }

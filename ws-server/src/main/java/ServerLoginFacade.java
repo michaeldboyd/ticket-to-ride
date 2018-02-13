@@ -123,7 +123,6 @@ public class ServerLoginFacade implements IServerLoginFacade {
             String username = ServerModel.instance().authTokenToUsername.get(authToken);
             ServerModel.instance().loggedInUsers.remove(username);
             ServerModel.instance().authTokenToUsername.remove(authToken);
-            ServerModel.instance().loggedInSessions.remove(authToken);
         } else  {
             //TODO we aren't sending this message right now.
             message = "Error logging out -- not logged in";
