@@ -23,7 +23,7 @@ dependencies {
     //compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.8.v20171121'
     // https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-server
     compile group: 'org.eclipse.jetty.websocket', name: 'websocket-server', version: '9.4.8.v20171121'
-
+    compile 'com.cedarsoftware:json-io:4.10.0'
 
     //compile group: 'org.eclipse.jetty.websocket', name: 'javax-websocket-client-impl', version: '9.4.8.v20171121'
     // https://mvnrepository.com/artifact/org.glassfish.tyrus.bundles/tyrus-standalone-client
