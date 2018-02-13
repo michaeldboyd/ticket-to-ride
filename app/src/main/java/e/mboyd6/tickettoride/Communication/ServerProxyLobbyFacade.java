@@ -37,7 +37,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
     //TODO: Should I be passing userID to this? userID is never stored in the client. I think we should be passing the authToekn.
     @Override
-    public void joinGame(String authToken, String userID, String gameID) {
+    public void joinGame(String authToken, String gameID) {
         String[] paramTypes = {gameID.getClass().toString(), userID.getClass().toString()};
         String[] paramValues = {gameID, userID};
 
