@@ -2,6 +2,7 @@ import com.example.sharedcode.interfaces.IServerLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
+import org.eclipse.jetty.server.Server;
 
 import java.util.UUID;
 
@@ -63,6 +64,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         // TODO - message parameter is always empty string -- we should remove it or figure out potential errors/problems
         // Create a random UUID for gameID to pass to createGame method
         ClientProxyLobbyFacade.instance().createGame(id, "");
+        getGames();
     }
 
     @Override
@@ -89,6 +91,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         }
 
         ClientProxyLobbyFacade.instance().joinGame(gameID, message);
+        getPlayersForGame(gameID);
     }
 
     @Override
@@ -101,6 +104,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         }
 
         ClientProxyLobbyFacade.instance().leaveGame(gameID, message);
+        getPlayersForGame(gameID);
     }
 
 
