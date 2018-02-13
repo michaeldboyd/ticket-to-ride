@@ -47,11 +47,16 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     //Called by the observer
     @Override
     public void updatePlayerList() {
-        for(Game g:ClientModel.getInstance().getGames()) {
-            if (g.getGameID().equals(ClientModel.getInstance().getCurrentGame().getGameID())) {
-                mainActivity.updatePlayerList(g.getPlayers());
+        Game currentGame = ClientModel.getInstance().getCurrentGame();
+        if(currentGame != null) // if the current game is null, user is still in lobby.
+        {
+            for(Game g:ClientModel.getInstance().getGames()) {
+                if (g.getGameID().equals(currentGame.getGameID())) {
+                    mainActivity.updatePlayerList(g.getPlayers());
+                }
             }
         }
+
     }
 
     @Override

@@ -659,14 +659,21 @@ public class MainActivity extends AppCompatActivity
   public void updatePlayerList(ArrayList<Player> newList) {
     final ArrayList<Player> nL = newList;
     runOnUiThread(new Runnable() {
+// Michael updated this function to match other functions for error andling.
       @Override
       public void run() {
-    if (mFragmentManager != null) {
-      IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
-      if (waitroomFragment != null) {
-        waitroomFragment.updatePlayerList(nL);
+
+        if (mFragmentManager == null) {
+          mFragmentManager = getSupportFragmentManager();
+        }
+        Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        if(currentFragment != null && currentFragment instanceof IWaitroomFragment)
+        {
+          IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+            waitroomFragment.updatePlayerList(nL);
+        }
       }
-    }}});
+    });
   }
 
   @Override

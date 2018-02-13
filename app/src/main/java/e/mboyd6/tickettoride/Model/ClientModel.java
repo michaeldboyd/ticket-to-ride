@@ -84,13 +84,16 @@ public class ClientModel extends Observable {
     }
 
     public void setCreateGameResponse(Game newGame){
-        this.games.add(newGame);
-
-
+        this.games.add(newGame); // add new game to list
+        joinGame(newGame.getGameID()); // join the game
+        this.setChanged();
+        //We need this to be configured\
+        notifyObservers(UpdateType.GAMEJOINED);
     }
 
     public void setUpdateGamesResponse(Game[] games, String message){
         this.games = new ArrayList<>(Arrays.asList(games));
+
         this.response = message;
         this.setChanged();
         notifyObservers(UpdateType.GAMELIST);
@@ -111,11 +114,14 @@ public class ClientModel extends Observable {
 
 
     private boolean joinGame(String gameID){
-        for(Game g: games){
-            if(g.getGameID().equals(gameID)){
-                //GameID is set as currentGame
-                this.setCurrentGame(g);
-                return true;
+        if(games != null)
+        {
+            for(Game g: games){
+                if(g.getGameID().equals(gameID)){
+                    //GameID is set as currentGame
+                    this.setCurrentGame(g);
+                    return true;
+                }
             }
         }
 

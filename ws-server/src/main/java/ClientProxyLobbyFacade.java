@@ -40,14 +40,16 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     public void createGame(String authToken, Game newGame) {
 
         // SEND UPDATED GAMES LIST TO ERRYBODY
-        updateGamesBroadcast();
+
 
         //SEND JOIN GAME COMMAND TO CREATOR OF GAME
-        String[] paramTypes = {"".getClass().toString(), "".getClass().toString(), newGame.getGameID().getClass().toString()};
-        Object[] paramValues = {"", "", newGame.getGameID()};
+        String[] paramTypes = {"".getClass().toString(), newGame.getClass().toString()};
+        Object[] paramValues = {"", newGame};
         Command createGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
-                "_joinGameReceived", paramTypes, paramValues);
+                "_createGameReceived", paramTypes, paramValues);
         Sender.sendCommand(createGameClientCommand, authToken);
+
+        updateGamesBroadcast();
     }
 
     @Override

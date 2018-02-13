@@ -60,6 +60,9 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         String id = UUID.randomUUID().toString();
         Game newGame = new Game();
         newGame.setGameID(id);
+        Player newPlayer = new Player(UUID.randomUUID().toString(),
+                ServerModel.instance().authTokenToUsername.get(authToken), PlayerColors.NO_COLOR);
+        newGame.addPlayer(newPlayer);
         ServerModel.instance().games.put(id, newGame);
         // Create a random UUID for gameID to pass to createGame method
         ClientProxyLobbyFacade.instance().createGame(authToken, newGame);
@@ -77,7 +80,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     //add caller to waiting room, send updated games list to everyone else.
     @Override
     public void joinGame(String authToken, String gameID) {
-        String message = null;
+        String message = "";
 
         if (ServerModel.instance().games.containsKey(gameID)) {
 
