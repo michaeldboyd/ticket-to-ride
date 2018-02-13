@@ -84,7 +84,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void playerColorChanged(String authToken, String playerID, String gameID, PlayerColors color) {
+    public void playerColorChanged(String authToken, String gameID, String playerID, PlayerColors color) {
 
     }
 }
