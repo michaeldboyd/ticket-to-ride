@@ -14,5 +14,5 @@ public interface IServerLobbyFacade {
     void leaveGame(String authToken, String gameID, String playerID);
     void startGame(String authToken, String gameID);
     void getPlayersForGame(String authToken, String gameID);
-    void playerColorChanged(String authToken, String playerID, String gameID, PlayerColors color);
+    void playerColorChanged(String authToken, String gameID, String playerID, PlayerColors color);
 }

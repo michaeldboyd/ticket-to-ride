@@ -136,7 +136,7 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     }
 
     @Override
-    public void playerColorChanged(String playerID, String gameID, PlayerColors color) {
+    public void playerColorChanged(String gameID, String playerID, PlayerColors color) {
         // This will tell the client to
         updateGamesBroadcast();
     }

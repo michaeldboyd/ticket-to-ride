@@ -139,7 +139,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void playerColorChanged(String authToken, String playerID, String gameID, PlayerColors color) {
+    public void playerColorChanged(String authToken, String gameID, String playerID, PlayerColors color) {
         Game game = ServerModel.instance().games.get(gameID);
 
         Boolean success = false;
@@ -153,7 +153,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         }
 
         if (success) {
-            ClientProxyLobbyFacade.instance().playerColorChanged(playerID, gameID, color);
+            ClientProxyLobbyFacade.instance().playerColorChanged(gameID, playerID, color);
         }
     }
 
