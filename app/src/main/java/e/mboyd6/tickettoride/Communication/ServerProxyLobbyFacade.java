@@ -84,7 +84,13 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void playerColorChanged(String authToken, String playerID, String gameID, PlayerColors color) {
+    public void playerColorChanged(String authToken, String gameID, String playerID, int color) {
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), "int"};
+        Object[] paramValues = {authToken, gameID, playerID, color};
 
+        Command getPlayersForGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
+
+        // TODO - Send getPlayersForGameCommand to Server via socket
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(getPlayersForGameCommand));
     }
 }

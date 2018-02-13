@@ -9,7 +9,7 @@ import com.example.sharedcode.model.PlayerColors;
 public interface IWaitroomPresenter {
 
 
-    void changePlayerColor(PlayerColors color);
+    void changePlayerColor(int color);
 
     void startGameResponse(String message);
 
