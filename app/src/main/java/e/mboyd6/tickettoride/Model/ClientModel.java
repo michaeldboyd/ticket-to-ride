@@ -93,7 +93,9 @@ public class ClientModel extends Observable {
         notifyObservers(UpdateType.REGISTERRESPONSE);
     }
 
-    public void setCreateGameResponse(String gameID, String message){
+    public void setCreateGameResponse(Game newGame){
+        this.games.add(newGame);
+
 
     }
 

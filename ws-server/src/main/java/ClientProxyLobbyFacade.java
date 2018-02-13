@@ -6,8 +6,10 @@ import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.google.gson.Gson;
+import org.eclipse.jetty.websocket.api.Session;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -32,28 +34,26 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     /**
      * Creates the new game and adds to server model.
      * Creates command and sends it back to client.
-     *
-     * @param gameID
-     * @param message
      */
     @Override
-    public void createGame(String gameID, String message) {
-    //Michael put this code in the ServerLobbyFacade because it interacts with the model.
-     /*    Game newGame = new Game();
-        newGame.setGameID(gameID);
-        ServerModel.instance().games.put(gameID, newGame);*/
+    public void createGame(Game newGame) {
 
-        // This is called after the Server has attempted to get all games
-        // If successful, message == "" [empty string]
+        // SEND UPDATED GAMES LIST TO ERRYBODY
+        Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
 
-        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
-        String[] paramValues = {gameID, message};
-        Command createGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_createGameReceived", paramTypes, paramValues);
+        String[] paramTypes1 = {games.getClass().toString(), "".getClass().toString()};
+        Object[] paramValues1 = {games, ""};
+        Command updateGamesClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+                "_updateGamesReceived", paramTypes1, paramValues1);
+        Sender.sendBroadcast(updateGamesClientCommand);
 
-        // TODO - Send createGameClientCommand to Client via socket
+        //SEND JOIN GAME COMMAND TO CREATOR OF GAME
+        String[] paramTypes = {newGame.getClass().toString()};
+        Object[] paramValues = {newGame};
+        Command createGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+                "_createGameReceived", paramTypes, paramValues);
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         Sender.sendCommand(createGameClientCommand, sess);
-
     }
 
     @Override
