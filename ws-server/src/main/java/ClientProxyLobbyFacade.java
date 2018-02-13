@@ -43,11 +43,10 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
         updateGamesBroadcast();
 
         //SEND JOIN GAME COMMAND TO CREATOR OF GAME
-        String[] paramTypes = {newGame.getClass().toString()};
-        Object[] paramValues = {newGame};
+        String[] paramTypes = {"".getClass().toString(), "".getClass().toString(), newGame.getGameID().getClass().toString()};
+        Object[] paramValues = {"", "", newGame.getGameID()};
         Command createGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
-                "_createGameReceived", paramTypes, paramValues);
-        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
+                "_joinGameReceived", paramTypes, paramValues);
         Sender.sendCommand(createGameClientCommand, authToken);
     }
 
@@ -144,9 +143,12 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
 
 
     private void updateGamesBroadcast() {
-        Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
-        String[] paramTypes1 = {games.getClass().toString(), "".getClass().toString()};
-        Object[] paramValues1 = {games, ""};
+        Object[] games = ServerModel.instance().games.values().toArray();
+        Game[] g = new Game[games.length];
+        int i=0;
+        for(Object o : games) { g[i++] = (Game)o; }
+        String[] paramTypes1 = {g.getClass().toString(), "".getClass().toString()};
+        Object[] paramValues1 = {g, ""};
         Command updateGamesClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_updateGamesReceived", paramTypes1, paramValues1);
         Sender.sendBroadcast(updateGamesClientCommand);

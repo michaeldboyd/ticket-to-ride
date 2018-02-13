@@ -56,5 +56,6 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
 
         // Send logoutCommand to Client via socket
         Sender.sendCommand(logoutClientCommand, authToken);
+        ServerModel.instance().loggedInSessions.remove(authToken);
     }
 }
