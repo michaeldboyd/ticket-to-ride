@@ -130,6 +130,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
         }
 
         ClientProxyLoginFacade.instance().logout(authToken, message);
+        ServerModel.instance().loggedInSessions.remove(authToken);
     }
 
 }

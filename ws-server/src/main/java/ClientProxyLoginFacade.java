@@ -50,12 +50,11 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
 
     @Override
     public void logout(String authToken, String message){
-        String[] paramTypes = {message.getClass().toString()};
-        String[] paramValues = {message};
+        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
+        String[] paramValues = {authToken, message};
         Command logoutClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_logoutReceived", paramTypes, paramValues);
 
         // Send logoutCommand to Client via socket
         Sender.sendCommand(logoutClientCommand, authToken);
-        ServerModel.instance().loggedInSessions.remove(authToken);
     }
 }

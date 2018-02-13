@@ -150,7 +150,7 @@ public class ClientModel extends Observable {
         this.response = message;
 
         this.setChanged();
-        notifyObservers(UpdateType.GAMESTARTED);
+        notifyObservers(UpdateType.LOGOUTRESPONSE);
     }
 
     public void setLeaveGameResponse(String gameID, String message) {
