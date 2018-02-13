@@ -57,7 +57,8 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     public void createGame(String token, Game newGame) {
         System.out.println("createGame called on CLF");
         ClientModel.getInstance().setCreateGameResponse(newGame);
-
+        ServerProxyLobbyFacade.instance().joinGame(ClientModel.getInstance().getAuthToken(),
+                newGame.getGameID());
     }
 
     @Override
