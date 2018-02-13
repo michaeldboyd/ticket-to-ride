@@ -39,7 +39,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     @Override
     public void joinGame(String gameID) {
-        ServerProxyLobbyFacade.instance().joinGame(ClientModel.getInstance().getAuthToken(), null, gameID, );
+        ServerProxyLobbyFacade.instance().joinGame(ClientModel.getInstance().getAuthToken(), gameID);
     }
 
     /**

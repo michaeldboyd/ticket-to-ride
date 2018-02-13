@@ -31,7 +31,9 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void getGames(String authToken) {
-        Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getGames", null, null);
+        String[] paramTypes = {authToken.getClass().toString()};
+        String[] paramValues = {authToken};
+        Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getGames", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
     }

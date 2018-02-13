@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 
@@ -91,5 +92,11 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     @Override
     public void getPlayersForGame(String gameID, Player[] players, String message) {
         System.out.println("getPlayersForGame called on CLF");
+    }
+
+    @Override
+    public void playerColorChanged(String playerID, String gameID, PlayerColors color) {
+        // Don't do anything
+        // Game list will be updated automatically
     }
 }
