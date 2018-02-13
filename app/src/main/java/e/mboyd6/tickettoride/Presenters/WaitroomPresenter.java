@@ -36,8 +36,8 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     @Override
     public void leaveGame() {
         ServerProxyLobbyFacade.instance().leaveGame(
-                ClientModel.getInstance().getCurrentGame().getGameID(),
-                ClientModel.getInstance().getCurrentPlayer().getPlayerID());
+                , ClientModel.getInstance().getCurrentPlayer().getPlayerID(), ClientModel.getInstance().getCurrentGame().getGameID(),
+                );
     }
 
     //Called by the observer

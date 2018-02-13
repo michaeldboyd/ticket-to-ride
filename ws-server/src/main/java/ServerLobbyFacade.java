@@ -27,28 +27,28 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         instance().createGame(authToken);
     }
 
-    public static void _getGames() {
-        instance().getGames();
+    public static void _getGames(String authToken) {
+        instance().getGames(authToken);
     }
 
-    public static void _joinGame(String gameID, String username) {
-        instance().joinGame(gameID, username);
+    public static void _joinGame(String authToken, String gameID, String username) {
+        instance().joinGame(authToken, gameID, username);
     }
 
-    public static void _leaveGame(String gameID, String playerID) {
-        instance().leaveGame(gameID, playerID);
+    public static void _leaveGame(String authToken, String gameID, String playerID) {
+        instance().leaveGame(authToken, gameID, playerID);
     }
 
-    public static void _startGame(String gameID) {
-        instance().startGame(gameID);
+    public static void _startGame(String authToken, String gameID) {
+        instance().startGame(authToken, gameID);
     }
 
-    public static void _getPlayersForGame(String gameID) {
-        instance().getPlayersForGame(gameID);
+    public static void _getPlayersForGame(String authToken, String gameID) {
+        instance().getPlayersForGame(authToken, gameID);
     }
 
-    public static void _playerColorChanged(String playerID, String gameID, PlayerColors color) {
-        instance().playerColorChanged(playerID, gameID, color);
+    public static void _playerColorChanged(String authToken, String playerID, String gameID, PlayerColors color) {
+        instance().playerColorChanged(authToken, playerID, gameID, color);
     }
 
 
@@ -69,7 +69,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void getGames() {
+    public void getGames(String authToken) {
         Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
 
         // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
@@ -79,7 +79,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
     //add caller to waiting room, send updated games list to everyone else.
     @Override
-    public void joinGame(String gameID, String username) {
+    public void joinGame(String authToken, String gameID, String username) {
         String message = null;
 
         if (ServerModel.instance().games.containsKey(gameID)) {
@@ -99,7 +99,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     //removes player from list of joined game, then sends that to everyone
     //send everyone the updated games
     @Override
-    public void leaveGame(String gameID, String playerID) {
+    public void leaveGame(String authToken, String gameID, String playerID) {
         String message = "";
 
         // This returns false if playerID is not part of game
@@ -112,7 +112,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
     //tell everyone to start the game who is in it, andupdate the games list for everyone else
     @Override
-    public void startGame(String gameID) {
+    public void startGame(String authToken, String gameID) {
         String message = "";
 
         if (!ServerModel.instance().games.containsKey(gameID)) {
@@ -123,7 +123,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void getPlayersForGame(String gameID) {
+    public void getPlayersForGame(String authToken, String gameID) {
         String message = "";
         Player[] players;
 
@@ -139,7 +139,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void playerColorChanged(String playerID, String gameID, PlayerColors color) {
+    public void playerColorChanged(String authToken, String playerID, String gameID, PlayerColors color) {
         Game game = ServerModel.instance().games.get(gameID);
 
         Boolean success = false;

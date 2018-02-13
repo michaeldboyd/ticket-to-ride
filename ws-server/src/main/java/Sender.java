@@ -22,7 +22,7 @@ public class Sender {
     }
 
     public static void sendBroadcast(Command command) {
-        Map<String, Session> sessions = ServerModel.getLoggedInSessions();
+        Map<String, Session> sessions = ServerModel.instance().loggedInSessions;
         for(Session s : sessions.values())
         {
                 Sender.sendCommand(command, s);

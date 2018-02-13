@@ -32,11 +32,6 @@ public class ServerModel {
 
     //this static map keeps track of all open websockets with key: username val: session instance
     public Map<String, org.eclipse.jetty.websocket.api.Session> loggedInSessions = new HashMap<>();
-
-    public void setSession(org.eclipse.jetty.websocket.api.Session session) {
-        this.session = session;
-    }
-
     public org.eclipse.jetty.websocket.api.Session session;
 
 
