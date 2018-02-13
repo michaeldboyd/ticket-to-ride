@@ -39,13 +39,9 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     public void createGame(Game newGame) {
 
         // SEND UPDATED GAMES LIST TO ERRYBODY
-        Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
 
-        String[] paramTypes1 = {games.getClass().toString(), "".getClass().toString()};
-        Object[] paramValues1 = {games, ""};
-        Command updateGamesClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
-                "_updateGamesReceived", paramTypes1, paramValues1);
-        Sender.sendBroadcast(updateGamesClientCommand);
+
+        updateGamesBroadcast();
 
         //SEND JOIN GAME COMMAND TO CREATOR OF GAME
         String[] paramTypes = {newGame.getClass().toString()};
@@ -75,6 +71,7 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
 
+        updateGamesBroadcast();
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
 
@@ -89,7 +86,7 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     public void startGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
-
+        updateGamesBroadcast();
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
 
@@ -104,7 +101,7 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     public void leaveGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
-
+        updateGamesBroadcast();
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
 
@@ -130,4 +127,15 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         Sender.sendCommand(getPlayersForGameClientCommand, sess);
     }
+
+    private void updateGamesBroadcast()
+    {
+        Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
+        String[] paramTypes1 = {games.getClass().toString(), "".getClass().toString()};
+        Object[] paramValues1 = {games, ""};
+        Command updateGamesClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+                "_updateGamesReceived", paramTypes1, paramValues1);
+        Sender.sendBroadcast(updateGamesClientCommand);
+    }
+
 }
