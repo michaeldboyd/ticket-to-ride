@@ -14,6 +14,7 @@ public interface ILobbyPresenter {
     //Observer Methods
     void updateGameList();
 
-
     void logoutResponse(String message);
+
+    void gameJoined(String message);
 }

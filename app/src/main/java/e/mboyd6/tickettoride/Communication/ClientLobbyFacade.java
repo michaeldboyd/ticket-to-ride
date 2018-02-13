@@ -84,6 +84,8 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     @Override
     public void leaveGame(String gameID, String message) {
         System.out.println("leaveGame called on CLF");
+
+        ClientModel.getInstance().setLeaveGameResponse(gameID, message)
     }
 
     @Override
