@@ -648,6 +648,11 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
+  public void updateGameListForFirstTime() {
+    mLobbyPresenter.updateGameList();
+  }
+
+  @Override
   public void updatePlayerList(ArrayList<Player> newList) {
     final ArrayList<Player> nL = newList;
     runOnUiThread(new Runnable() {

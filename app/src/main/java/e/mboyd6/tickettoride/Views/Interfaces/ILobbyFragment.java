@@ -32,4 +32,5 @@ public interface ILobbyFragment {
     void onLobbyFragmentJoinGameButton(Game game);
     void onGameJoinedSent();
     void onGameJoinedResponse(String message);
+    void updateGameListForFirstTime();
 }

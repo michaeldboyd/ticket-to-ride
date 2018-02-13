@@ -20,6 +20,5 @@ public interface IWaitroomPresenter {
     void updatePlayerList();
 
 
-
-
+    void leaveGameResponse(String message);
 }
