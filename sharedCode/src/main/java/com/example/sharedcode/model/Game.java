@@ -41,14 +41,12 @@ public class Game {
 
             players.add(player);
             return true;
-
         }
         else {
-
             return false;
-
         }
     }
+
 
     /*
    * Checks if value is in list.
@@ -58,16 +56,21 @@ public class Game {
    *
    * */
     public boolean removePlayer(String playerID){
-        int beforeSize = players.size();
+        boolean success = false;
+
         for(int i = 0; i < players.size(); i++)
         {
-            if (players.get(i).getPlayerID().equals(playerID))
+            if (players.get(i).getPlayerID().equals(playerID)) {
                 players.remove(i);
+                success = true;
+                break;
+            }
         }
-        return (beforeSize > players.size());
+
+        return success;
     }
 
-    public void startGame(){
+    public void startGame() {
 
     }
 

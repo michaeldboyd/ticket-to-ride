@@ -5,6 +5,7 @@ import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 
@@ -39,8 +40,6 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     public void createGame(Game newGame) {
 
         // SEND UPDATED GAMES LIST TO ERRYBODY
-
-
         updateGamesBroadcast();
 
         //SEND JOIN GAME COMMAND TO CREATOR OF GAME
@@ -77,7 +76,6 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
 
         Command joinGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_joinGameReceived", paramTypes, paramValues);
 
-        // TODO - Send joinGameClientCommand to Client via socket
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         Sender.sendCommand(joinGameClientCommand, sess);
     }
@@ -92,7 +90,6 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
 
         Command startGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_startGameReceived", paramTypes, paramValues);
 
-        // TODO - Send startGameClientCommand to Client via socket
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         Sender.sendCommand(startGameClientCommand, sess);
     }
@@ -101,15 +98,20 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     public void leaveGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
-        updateGamesBroadcast();
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
 
         Command leaveGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_leaveGameReceived", paramTypes, paramValues);
-        // TODO - Send leaveGameClientCommand to Client via socket
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         Sender.sendCommand(leaveGameClientCommand, sess);
 
+        Game game = ServerModel.instance().games.get(gameID);
+
+        if (game.getPlayers().size() == 0) {
+            ServerModel.instance().games.remove(gameID);
+        }
+
+        updateGamesBroadcast();
     }
 
     @Override
@@ -123,13 +125,19 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
 
         Command getPlayersForGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_getPlayersForGameReceived", paramTypes, paramValues);
 
-        // TODO - Send getPlayersForGameClientCommand to Client via socket
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         Sender.sendCommand(getPlayersForGameClientCommand, sess);
     }
 
-    private void updateGamesBroadcast()
-    {
+    @Override
+    public void playerColorChanged(String playerID, String gameID, PlayerColors color) {
+        // This will tell the client to
+        updateGamesBroadcast();
+    }
+
+
+
+    private void updateGamesBroadcast() {
         Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
         String[] paramTypes1 = {games.getClass().toString(), "".getClass().toString()};
         Object[] paramValues1 = {games, ""};

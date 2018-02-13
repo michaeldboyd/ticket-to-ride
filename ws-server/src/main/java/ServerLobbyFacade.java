@@ -47,6 +47,10 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         instance().getPlayersForGame(gameID);
     }
 
+    public static void _playerColorChanged(String playerID, String gameID, PlayerColors color) {
+        instance().playerColorChanged(playerID, gameID, color);
+    }
+
 
 
     int playerLimit = 5;
@@ -84,9 +88,8 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
             // Only set message if we fail to add user to the game
             if (!ServerModel.instance().games.get(gameID).addPlayer(newPlayer)) {
-                message = "Could not add player to game [id = " + gameID + "]";
+                message = "Could not add player to game because it is already full";
             }
-
         }
 
         ClientProxyLobbyFacade.instance().joinGame(gameID, message);
@@ -101,7 +104,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
         // This returns false if playerID is not part of game
         if (!ServerModel.instance().games.get(gameID).removePlayer(playerID)) {
-            message = "couldn't remove player because wasn't in game yet";
+            message = "Could not remove player because is not in the game";
         }
 
         ClientProxyLobbyFacade.instance().leaveGame(gameID, message);
@@ -122,9 +125,8 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     @Override
     public void getPlayersForGame(String gameID) {
         String message = "";
-        Player[] players = null;
+        Player[] players;
 
-        //create commandresult
         if (ServerModel.instance().games.containsKey(gameID)) {
 
             players = (Player[]) ServerModel.instance().games.get(gameID).getPlayers().toArray();
@@ -135,5 +137,25 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
         ClientProxyLobbyFacade.instance().getPlayersForGame(gameID, players, message);
     }
+
+    @Override
+    public void playerColorChanged(String playerID, String gameID, PlayerColors color) {
+        Game game = ServerModel.instance().games.get(gameID);
+
+        Boolean success = false;
+        for (Player player :
+                game.getPlayers()) {
+            if (player.getPlayerID().equals(playerID)) {
+                player.setColor(color);
+                success = true;
+                break;
+            }
+        }
+
+        if (success) {
+            ClientProxyLobbyFacade.instance().playerColorChanged(playerID, gameID, color);
+        }
+    }
+
 
 }
