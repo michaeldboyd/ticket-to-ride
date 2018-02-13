@@ -31,8 +31,8 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         instance().getGames(authToken);
     }
 
-    public static void _joinGame(String authToken, String gameID, String username) {
-        instance().joinGame(authToken, gameID, username);
+    public static void _joinGame(String authToken, String gameID) {
+        instance().joinGame(authToken, gameID);
     }
 
     public static void _leaveGame(String authToken, String gameID, String playerID) {
@@ -79,12 +79,12 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
     //add caller to waiting room, send updated games list to everyone else.
     @Override
-    public void joinGame(String authToken, String gameID, String username) {
+    public void joinGame(String authToken, String gameID) {
         String message = null;
 
         if (ServerModel.instance().games.containsKey(gameID)) {
 
-            Player newPlayer = new Player(UUID.randomUUID().toString(), username, PlayerColors.NO_COLOR);
+            Player newPlayer = new Player(UUID.randomUUID().toString(), ServerModel.instance().authTokenToUsername.get(authToken), PlayerColors.NO_COLOR);
 
             // Only set message if we fail to add user to the game
             if (!ServerModel.instance().games.get(gameID).addPlayer(newPlayer)) {
