@@ -22,7 +22,6 @@ public class ClientModel extends Observable {
     //Game data
     private ArrayList<Game> games = new ArrayList<>();
     private Game currentGame = null;
-    private ArrayList<Player> players = new ArrayList<>();
 
     //Current player data
     private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
@@ -50,15 +49,6 @@ public class ClientModel extends Observable {
 
     public void setGames(ArrayList<Game> games) {
         this.games = games;
-    }
-
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-        notifyObservers(UpdateType.PLAYERLIST);
     }
 
     public Player getCurrentPlayer() {
@@ -115,7 +105,7 @@ public class ClientModel extends Observable {
         }
 
         this.setChanged();
-        notifyObservers(UpdateType.GAMESTARTED);
+        notifyObservers(UpdateType.GAMEJOINED);
         System.out.println(response);
     }
 
@@ -125,7 +115,6 @@ public class ClientModel extends Observable {
             if(g.getGameID().equals(gameID)){
                 //GameID is set as currentGame
                 this.setCurrentGame(g);
-                this.games = null; //Other games not needed, remove the game
                 return true;
             }
         }
@@ -153,7 +142,7 @@ public class ClientModel extends Observable {
             //preserve the socket and restart the model
             WebSocketClient tempSocket = this.socket;
 
-            ClientModel.ourInstance = new ClientModel();
+            ourInstance = new ClientModel();
 
             this.socket = tempSocket;
         }
@@ -162,6 +151,17 @@ public class ClientModel extends Observable {
 
         this.setChanged();
         notifyObservers(UpdateType.GAMESTARTED);
+    }
+
+    public void setLeaveGameResponse(String gameID, String message) {
+        if(message == null || message.length() == 0){
+            currentGame = null;
+        }
+
+        this.response = message;
+
+        this.setChanged();
+        notifyObservers(UpdateType.GAMELEFT);
     }
 
     public String getResponse() {
@@ -185,5 +185,7 @@ public class ClientModel extends Observable {
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
     }
+
+
 }
 

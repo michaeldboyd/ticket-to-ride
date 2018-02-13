@@ -2,6 +2,8 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.content.Context;
 
+import com.example.sharedcode.model.Game;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -58,6 +60,11 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         mainActivity.onLogOutResponse(message);
     }
 
+    @Override
+    public void gameJoined(String message){
+        mainActivity.onGameJoinedResponse(message);
+    }
+
     /**
      * Handles the when the game lists changes
      *
@@ -76,6 +83,9 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
                 break;
             case LOGOUTRESPONSE:
                 logoutResponse(ClientModel.getInstance().getResponse());
+                break;
+            case GAMEJOINED:
+                gameJoined(ClientModel.getInstance().getResponse());
                 break;
             default:
                 System.out.println("ENUM ERROR");

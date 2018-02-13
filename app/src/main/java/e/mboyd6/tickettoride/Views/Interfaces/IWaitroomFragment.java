@@ -31,4 +31,5 @@ public interface IWaitroomFragment {
     void onBackoutResponse(String message);
     void onWaitroomFragmentColorPicked(PlayerColors playerColor);
     void updateChat();
+    void updatePlayerListFirstTime();
 }
