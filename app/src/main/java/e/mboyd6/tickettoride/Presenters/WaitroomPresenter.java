@@ -70,7 +70,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         UpdateType updateType = (UpdateType) o;
 
         switch(updateType) {
-            case PLAYERLIST:
+            case GAMELIST:
                 updatePlayerList();
                 break;
             case GAMESTARTED:
