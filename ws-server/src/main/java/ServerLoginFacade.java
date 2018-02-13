@@ -70,6 +70,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
                     ServerModel.instance().loggedInSessions.put(authToken, ServerModel.instance().session);
                     ServerModel.instance().allUsers.get(username).setAuthtoken(authToken);
                     ServerModel.instance().loggedInUsers.put(user.getUsername(), user);
+                    ServerModel.instance().authTokenToUsername.put(authToken, username);
                 } else {
                     message = "Incorrect password.";
                 }
@@ -123,13 +124,13 @@ public class ServerLoginFacade implements IServerLoginFacade {
             String username = ServerModel.instance().authTokenToUsername.get(authToken);
             ServerModel.instance().loggedInUsers.remove(username);
             ServerModel.instance().authTokenToUsername.remove(authToken);
-            ServerModel.instance().loggedInSessions.remove(authToken);
         } else  {
             //TODO we aren't sending this message right now.
             message = "Error logging out -- not logged in";
         }
 
         ClientProxyLoginFacade.instance().logout(authToken, message);
+        ServerModel.instance().loggedInSessions.remove(authToken);
     }
 
 }

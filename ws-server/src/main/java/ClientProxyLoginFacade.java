@@ -31,9 +31,7 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
         String[] paramValues = {authToken, message};
         Command loginClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_loginReceived", paramTypes, paramValues);
 
-        // TODO - Send loginCommand to Client via socket
-
-        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
+        // Send loginCommand to Client via socket
         Sender.sendCommand(loginClientCommand, authToken);
     }
 
@@ -46,17 +44,17 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
         String[] paramValues = {authToken, message};
         Command registerClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_registerReceived", paramTypes, paramValues);
 
-        // TODO - Send registerCommand to Client via socket
+        // Send registerCommand to Client via socket
         Sender.sendCommand(registerClientCommand, authToken);
     }
 
     @Override
     public void logout(String authToken, String message){
-        String[] paramTypes = {message.getClass().toString()};
-        String[] paramValues = {message};
+        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
+        String[] paramValues = {authToken, message};
         Command logoutClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_logoutReceived", paramTypes, paramValues);
 
-        // TODO - Send registerCommand to Client via socket
+        // Send logoutCommand to Client via socket
         Sender.sendCommand(logoutClientCommand, authToken);
     }
 }

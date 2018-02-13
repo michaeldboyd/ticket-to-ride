@@ -15,6 +15,8 @@ public interface IWaitroomPresenter {
 
     void leaveGame();
 
+    void startGame();
+
     //Observer methods
 
     void updatePlayerList();

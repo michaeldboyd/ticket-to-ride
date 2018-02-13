@@ -22,7 +22,7 @@ public class AndroidSocketTest {
         try {
             //Thread.sleep(5000);
             //Thread.sleep(3000);
-            WebSocketClient client = new SocketClient(new URI("ws://192.168.255.178:8080/echo/"));
+            WebSocketClient client = new SocketClient(new URI("ws://localhost:8080/echo/"));
 
 
             ClientModel.getInstance().setSocket(client);
@@ -42,20 +42,20 @@ public class AndroidSocketTest {
     }
 
     @Test
-    public void testRegister()
+    public void testCreateGame()
     {
-        ServerProxyLobbyFacade.instance().createGame();
+        ServerProxyLobbyFacade.instance().createGame("");
     }
     @Test
     public void testLogin()
     {
         ServerProxyLoginFacade.instance().login("test1", "test");
-        ServerProxyLobbyFacade.instance().createGame();
-        ServerProxyLobbyFacade.instance().getGames();
-        ServerProxyLobbyFacade.instance().joinGame(, "asdf", "asdf", );
-        ServerProxyLobbyFacade.instance().startGame(, "asdf", );
-        ServerProxyLobbyFacade.instance().getPlayersForGame(, "asdf");
-        ServerProxyLobbyFacade.instance().leaveGame(, "asdf", "asdf", );
+        ServerProxyLobbyFacade.instance().createGame("");
+        ServerProxyLobbyFacade.instance().getGames("");
+        ServerProxyLobbyFacade.instance().joinGame("", "asdf");
+        ServerProxyLobbyFacade.instance().startGame("", "asdf");
+        ServerProxyLobbyFacade.instance().getPlayersForGame("asdf", "");
+        ServerProxyLobbyFacade.instance().leaveGame("", "asdf", "asdf");
     }
     /*public void testCreateGame()
     {

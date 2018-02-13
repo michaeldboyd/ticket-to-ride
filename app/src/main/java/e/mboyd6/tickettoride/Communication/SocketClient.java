@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Communication;
 /**
  * Created by mboyd6 on 2/10/2018.
  */
+import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
 import com.google.gson.Gson;
 
@@ -39,8 +40,7 @@ public class SocketClient extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         System.out.println("received message: " + message);
-        Gson gson = new Gson();
-        Command res = gson.fromJson(message, Command.class);
+        Command res = (Command) JsonReader.jsonToJava(message);
         try {
             res.execute();
         } catch (InvocationTargetException e) {

@@ -1,7 +1,6 @@
 package e.mboyd6.tickettoride.Views.Activities;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,18 +20,10 @@ import android.widget.Toast;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
-import com.example.sharedcode.model.PlayerColors;
 
-import org.java_websocket.WebSocketImpl;
-import org.java_websocket.client.WebSocketClient;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Communication.SocketManager;
-import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.Presenters.LoginPresenter;
 import e.mboyd6.tickettoride.Presenters.RegisterPresenter;
@@ -605,6 +596,27 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
+  @Override
+  public void onStartNewGameResponse(String message) {
+    final String mess = message;
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        if (mFragmentManager == null) {
+          mFragmentManager = getSupportFragmentManager();
+        }
+        if (mFragmentManager == null) {
+          mFragmentManager = getSupportFragmentManager();
+        }
+        Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        if (currentFragment != null && currentFragment instanceof ILobbyFragment) {
+          ILobbyFragment lobbyFragment = (ILobbyFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+          lobbyFragment.onStartNewGameResponse(mess);
+        }
+      }
+    });
+  }
+
   //Should not be implemented in the IMainActivity
   @Override
   public void onGameListAdapterJoinButton(Game game, Button button) {
@@ -659,20 +671,27 @@ public class MainActivity extends AppCompatActivity
   public void updatePlayerList(ArrayList<Player> newList) {
     final ArrayList<Player> nL = newList;
     runOnUiThread(new Runnable() {
+// Michael updated this function to match other functions for error andling.
       @Override
       public void run() {
-    if (mFragmentManager != null) {
-      IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
-      if (waitroomFragment != null) {
-        waitroomFragment.updatePlayerList(nL);
+
+        if (mFragmentManager == null) {
+          mFragmentManager = getSupportFragmentManager();
+        }
+        Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+        if(currentFragment != null && currentFragment instanceof IWaitroomFragment)
+        {
+          IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
+            waitroomFragment.updatePlayerList(nL);
+        }
       }
-    }}});
+    });
   }
 
   @Override
   public void onWaitroomFragmentStartGameButton() {
     //TODO: This is not implemented
-    //mWaitroomPresenter.startGameResponse();
+    mWaitroomPresenter.startGame();
     onStartGameSent();
   }
 

@@ -10,6 +10,7 @@ public interface ILobbyPresenter {
     void joinGame(String gameID);
 
     void createGame();
+    void gameCreated(String response);
 
     //Observer Methods
     void updateGameList();

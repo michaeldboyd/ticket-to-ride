@@ -41,17 +41,28 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     public void leaveGame() {
         ServerProxyLobbyFacade.instance().leaveGame(ClientModel.getInstance().getAuthToken(),
                 ClientModel.getInstance().getCurrentGame().getGameID(),
-                ClientModel.getInstance().getCurrentPlayer().getPlayerID());
+                ClientModel.getInstance().getPlayerID());
+    }
+
+    @Override
+    public void startGame() {
+        ServerProxyLobbyFacade.instance().startGame(ClientModel.getInstance().getAuthToken(),
+                ClientModel.getInstance().getCurrentGame().getGameID());
     }
 
     //Called by the observer
     @Override
     public void updatePlayerList() {
-        for(Game g:ClientModel.getInstance().getGames()) {
-            if (g.getGameID().equals(ClientModel.getInstance().getCurrentGame().getGameID())) {
-                mainActivity.updatePlayerList(g.getPlayers());
+        Game currentGame = ClientModel.getInstance().getCurrentGame();
+        if(currentGame != null) // if the current game is null, user is still in lobby.
+        {
+            for(Game g:ClientModel.getInstance().getGames()) {
+                if (g.getGameID().equals(currentGame.getGameID())) {
+                    mainActivity.updatePlayerList(g.getPlayers());
+                }
             }
         }
+
     }
 
     @Override

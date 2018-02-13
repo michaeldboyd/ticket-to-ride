@@ -52,9 +52,6 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     }
 
 
-
-    int playerLimit = 5;
-
     // Creates command to create game and send back to the client
     //Everyone needs to know that there is a new game. Send over the game to everyone
     @Override
@@ -63,9 +60,15 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
         String id = UUID.randomUUID().toString();
         Game newGame = new Game();
         newGame.setGameID(id);
+        /*
+        newGame.setGameID(id);
+        Player newPlayer = new Player(UUID.randomUUID().toString(),
+                ServerModel.instance().authTokenToUsername.get(authToken), PlayerColors.NO_COLOR);
+        newGame.addPlayer(newPlayer);
+        */
         ServerModel.instance().games.put(id, newGame);
         // Create a random UUID for gameID to pass to createGame method
-        ClientProxyLobbyFacade.instance().joinGame(authToken, id, "");
+        ClientProxyLobbyFacade.instance().createGame(authToken, newGame);
     }
 
     @Override
@@ -80,8 +83,9 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     //add caller to waiting room, send updated games list to everyone else.
     @Override
     public void joinGame(String authToken, String gameID) {
-        String message = null;
+        String message = "";
 
+        String playerID = "";
         if (ServerModel.instance().games.containsKey(gameID)) {
 
             Player newPlayer = new Player(UUID.randomUUID().toString(), ServerModel.instance().authTokenToUsername.get(authToken), PlayerColors.NO_COLOR);
@@ -89,10 +93,12 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
             // Only set message if we fail to add user to the game
             if (!ServerModel.instance().games.get(gameID).addPlayer(newPlayer)) {
                 message = "Could not add player to game because it is already full";
+            } else {
+                playerID = newPlayer.getPlayerID();
             }
         }
 
-        ClientProxyLobbyFacade.instance().joinGame(authToken, gameID, message);
+        ClientProxyLobbyFacade.instance().joinGame(authToken, message, playerID, gameID);
     }
 
     // If the game
@@ -119,7 +125,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
             message = "Game doesn't exist.";
         }
 
-        ClientProxyLobbyFacade.instance().startGame(authToken, gameID, message);
+        ClientProxyLobbyFacade.instance().startGame(authToken, message, gameID);
     }
 
     @Override
