@@ -50,7 +50,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
      */
     @Override
     public void createGame() {
-        ServerProxyLobbyFacade.instance().createGame();
+        ServerProxyLobbyFacade.instance().createGame(ClientModel.getInstance().getAuthToken());
     }
 
     @Override
