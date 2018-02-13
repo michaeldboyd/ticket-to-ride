@@ -6,7 +6,7 @@ package com.example.sharedcode.interfaces;
 
 public interface IServerLobbyFacade {
 
-    void createGame();
+    void createGame(String authtoken); //join game for creator and update list
     void getGames();
     void joinGame(String gameID, String playerID);
     void leaveGame(String gameID, String playerID);

@@ -352,17 +352,21 @@ public class MainActivity extends AppCompatActivity
     // Implement code that adds a bunch of fake games so you can go to the lobby
     ArrayList<Game> fakeGames = new ArrayList<Game>();
     Game game2 = new Game();
+    game2.setGameID("002");
     game2.addPlayer(new Player("001", "Michael", PlayerColors.TURQUOISE));
     game2.addPlayer(new Player("002", "Alli", PlayerColors.BLUE));
     game2.addPlayer(new Player("003", "Eric", PlayerColors.RED));
     fakeGames.add(game2);
     Game game1 = new Game();
+    game2.setGameID("001");
     game1.addPlayer(new Player("001", "Alli", PlayerColors.BLUE));
     game1.addPlayer(new Player("002", "Michael", PlayerColors.RED));
     fakeGames.add(game1);
     Game game3 = new Game();
+    game2.setGameID("003");
     fakeGames.add(game3);
     Game game4 = new Game();
+    game2.setGameID("004");
     game4.addPlayer(new Player("001", "Michael", PlayerColors.RED));
     game4.addPlayer(new Player("002", "Alli", PlayerColors.TURQUOISE));
     game4.addPlayer(new Player("003", "Eric", PlayerColors.ORANGE));
@@ -378,7 +382,7 @@ public class MainActivity extends AppCompatActivity
   protected void onDestroy()
   {
     super.onDestroy();
-    mLobbyPresenter.logOut();
+    //mLobbyPresenter.logOut();
     mDelayedTransactionHandler.removeCallbacks(mRunnableTransitionToRegister);
   }
 
@@ -659,7 +663,8 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onWaitroomFragmentStartGameButton() {
-    mWaitroomPresenter.startGame();
+    //TODO: This is not implemented
+    //mWaitroomPresenter.startGame();
     onStartGameSent();
   }
 
@@ -702,6 +707,11 @@ public class MainActivity extends AppCompatActivity
         waitroomFragment.updateChat();
       }
     }
+  }
+
+  @Override
+  public void updatePlayerListFirstTime() {
+    mWaitroomPresenter.updatePlayerList();
   }
 
   @Override

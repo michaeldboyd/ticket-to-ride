@@ -2,15 +2,11 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.content.Context;
 
-import com.example.sharedcode.model.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
+import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
@@ -23,8 +19,6 @@ import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 public class LobbyPresenter implements ILobbyPresenter, Observer{
 
      MainActivity mainActivity;
-
-    List<Player> players = new ArrayList<>();
 
     public LobbyPresenter(Context context) {
         this.mainActivity = (MainActivity) context;
@@ -40,7 +34,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
     //TODO: Implement logOut method
     @Override
     public void logOut() {
-
+        ServerProxyLoginFacade.instance().logout(ClientModel.getInstance().getAuthToken());
     }
 
     @Override
@@ -56,7 +50,12 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
      */
     @Override
     public void createGame() {
-        ServerProxyLobbyFacade.instance().createGame();
+        ServerProxyLobbyFacade.instance().createGame(ClientModel.getInstance().getAuthToken());
+    }
+
+    @Override
+    public void logoutResponse(String message){
+        mainActivity.onLogOutResponse(message);
     }
 
     /**
@@ -74,6 +73,9 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         switch(updateType){
             case GAMELIST:
                 updateGameList();
+                break;
+            case LOGOUTRESPONSE:
+                logoutResponse(ClientModel.getInstance().getResponse());
                 break;
             default:
                 System.out.println("ENUM ERROR");

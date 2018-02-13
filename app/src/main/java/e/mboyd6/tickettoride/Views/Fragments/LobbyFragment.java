@@ -122,13 +122,13 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
     @Override
     public void onLogOutSent() {
         disableInputs = true;
-        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
     }
 
     @Override
     public void onLogOutResponse(String message) {
         disableInputs = false;
-        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
     }
 
     public void onGameListAdapterJoinButton(Game game, Button button) {
@@ -147,12 +147,12 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
     @Override
     public void onStartNewGameSent() {
         disableInputs = true;
-        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
     }
 
     @Override
     public void onLobbyFragmentJoinGameButton(Game game) {
-        if (mListener != null) {
+        if (mListener != null && !disableInputs) {
             mListener.onLobbyFragmentJoinGameButton(game);
         }
     }
@@ -160,12 +160,12 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
     @Override
     public void onGameJoinedSent() {
         disableInputs = true;
-        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        //currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
     }
 
     @Override
     public void onGameJoinedResponse(String message) {
         disableInputs = false;
-        currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        //currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
     }
 }
