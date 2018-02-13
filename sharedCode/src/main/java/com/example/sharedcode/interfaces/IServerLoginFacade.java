@@ -8,6 +8,6 @@ public interface IServerLoginFacade {
 
   void login(String username, String password);
   void register(String username, String password);
-  void logout(String username);
+  void logout(String authToken);
 
 }
