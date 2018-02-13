@@ -22,6 +22,7 @@ public class ClientModel extends Observable {
     //Game data
     private ArrayList<Game> games = new ArrayList<>();
     private Game currentGame = null;
+    private String playerID = "";
 
     //Current player data
     private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
@@ -99,13 +100,15 @@ public class ClientModel extends Observable {
         notifyObservers(UpdateType.GAMELIST);
     }
 
-    public void setJoinGameResponse(String gameID, String message){
+    public void setJoinGameResponse(String gameID, String playerID, String message){
 
         if(joinGame(gameID)) {
             this.response = message;
         } else{
             response = "Game not found.";
         }
+
+        this.playerID = playerID;
 
         this.setChanged();
         notifyObservers(UpdateType.GAMEJOINED);
@@ -193,5 +196,12 @@ public class ClientModel extends Observable {
     }
 
 
+    public String getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(String playerID) {
+        this.playerID = playerID;
+    }
 }
 

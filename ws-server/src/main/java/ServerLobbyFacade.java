@@ -82,6 +82,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     public void joinGame(String authToken, String gameID) {
         String message = "";
 
+        String playerID = "";
         if (ServerModel.instance().games.containsKey(gameID)) {
 
             Player newPlayer = new Player(UUID.randomUUID().toString(), ServerModel.instance().authTokenToUsername.get(authToken), PlayerColors.NO_COLOR);
@@ -89,10 +90,12 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
             // Only set message if we fail to add user to the game
             if (!ServerModel.instance().games.get(gameID).addPlayer(newPlayer)) {
                 message = "Could not add player to game because it is already full";
+            } else {
+                playerID = newPlayer.getPlayerID();
             }
         }
 
-        ClientProxyLobbyFacade.instance().joinGame(authToken, gameID, message);
+        ClientProxyLobbyFacade.instance().joinGame(authToken, message, playerID, gameID);
     }
 
     // If the game
@@ -119,7 +122,7 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
             message = "Game doesn't exist.";
         }
 
-        ClientProxyLobbyFacade.instance().startGame(authToken, gameID, message);
+        ClientProxyLobbyFacade.instance().startGame(authToken, message, gameID);
     }
 
     @Override

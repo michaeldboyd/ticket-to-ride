@@ -32,8 +32,8 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
         instance().updateGames(token, games, message);
     }
 
-    public static void _joinGameReceived(String token, String gameID, String message) {
-        instance().joinGame(token, gameID, message);
+    public static void _joinGameReceived(String token, String gameID, String playerID, String message) {
+        instance().joinGame(token, gameID, playerID, message);
     }
 
     public static void _startGameReceived(String token, String gameID, String message) {
@@ -67,10 +67,10 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     }
 
     @Override
-    public void joinGame(String token, String gameID, String message) {
+    public void joinGame(String token, String gameID, String playerID, String message) {
         System.out.println("joinGame called on CLF");
 
-        ClientModel.getInstance().setJoinGameResponse(gameID, message);
+        ClientModel.getInstance().setJoinGameResponse(gameID, playerID, message);
     }
 
     //start the game

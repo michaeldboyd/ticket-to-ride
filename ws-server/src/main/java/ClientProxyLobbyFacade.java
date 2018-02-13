@@ -68,13 +68,13 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     }
 
     @Override
-    public void joinGame(String authToken, String message, String gameID) {
+    public void joinGame(String authToken, String message, String playerID, String gameID) {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
 
         updateGamesBroadcast();
-        String[] paramTypes = {"".getClass().toString(), gameID.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {"", gameID, message};
+        String[] paramTypes = {"".getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {"", gameID, playerID, message};
 
         Command joinGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_joinGameReceived", paramTypes, paramValues);

@@ -679,7 +679,7 @@ public class MainActivity extends AppCompatActivity
   @Override
   public void onWaitroomFragmentStartGameButton() {
     //TODO: This is not implemented
-    //mWaitroomPresenter.startGameResponse();
+    mWaitroomPresenter.startGame();
     onStartGameSent();
   }
 
