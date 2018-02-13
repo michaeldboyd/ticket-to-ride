@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
+import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
@@ -29,8 +30,11 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     }
 
     @Override
-    public void changePlayerColor(PlayerColors color){
-
+    public void changePlayerColor(int color){
+        String gameID = ClientModel.getInstance().getCurrentGame().getGameID();
+        String playerID = ClientModel.getInstance().getCurrentPlayer().getPlayerID();
+        ServerProxyLobbyFacade.instance().playerColorChanged(ClientModel.getInstance().getAuthToken(),
+                gameID, playerID, color);
     }
 
     @Override

@@ -10,13 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
 
 import java.util.ArrayList;
 
-import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
@@ -31,13 +29,13 @@ import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 public class WaitroomFragment extends Fragment implements IWaitroomFragment {
     public class SelectedColor
     {
-        PlayerColors playerColor;
+        int playerColor;
         int background;
         int backgroundFaded;
         boolean shown;
         boolean chosen;
 
-        public SelectedColor(PlayerColors playerColor, int background, int backgroundFaded, boolean shown, boolean chosen) {
+        public SelectedColor(int playerColor, int background, int backgroundFaded, boolean shown, boolean chosen) {
             this.playerColor = playerColor;
             this.background = background;
             this.backgroundFaded = backgroundFaded;
@@ -151,7 +149,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             String colorSelectionText = "CHOOSE";
 
             if (i < playerCount) {
-                PlayerColors playerColor = players.get(i).getColor();
+                int playerColor = players.get(i).getColor();
                 colorSelectionText = players.get(i).getName();
                 if (playerColor != PlayerColors.NO_COLOR) {
                     for (SelectedColor selectedColor : selectedColors) {
@@ -276,7 +274,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
     }
 
     @Override
-    public void onWaitroomFragmentColorPicked(PlayerColors playerColor) {
+    public void onWaitroomFragmentColorPicked(int playerColor) {
         if (mListener != null) {
             mListener.onWaitroomFragmentColorPicked(playerColor);
         }

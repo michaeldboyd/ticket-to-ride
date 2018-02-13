@@ -47,7 +47,6 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
         Command registerClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_registerReceived", paramTypes, paramValues);
 
         // TODO - Send registerCommand to Client via socket
-        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         Sender.sendCommand(registerClientCommand, authToken);
     }
 

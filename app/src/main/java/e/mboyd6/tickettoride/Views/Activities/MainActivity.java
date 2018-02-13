@@ -350,6 +350,8 @@ public class MainActivity extends AppCompatActivity
 
   private void GuestLogin() {
     // Implement code that adds a bunch of fake games so you can go to the lobby
+
+    /*
     ArrayList<Game> fakeGames = new ArrayList<Game>();
     Game game2 = new Game();
     game2.setGameID("002");
@@ -375,6 +377,7 @@ public class MainActivity extends AppCompatActivity
     fakeGames.add(game4);
     ClientModel.getInstance().setGames(fakeGames);
     transitionToLobbyFromLoginAndRegister();
+    */
   }
 
   @Override
@@ -720,7 +723,7 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void onWaitroomFragmentColorPicked(PlayerColors playerColor) {
+  public void onWaitroomFragmentColorPicked(int playerColor) {
     //Calls waitroomPresenter
     mWaitroomPresenter.changePlayerColor(playerColor);
   }
