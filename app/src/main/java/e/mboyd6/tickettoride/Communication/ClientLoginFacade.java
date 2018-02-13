@@ -32,10 +32,10 @@ public class ClientLoginFacade implements IClientLoginFacade {
         instance().register(authToken, message);
     }
 
-    public static void _logoutReceived(String token, String message)
+    public static void _logoutReceived(String authToken, String message)
     {
         System.out.println("_logoutReceived");
-        instance().logout(token, message);
+        instance().logout(authToken, message);
     }
 
 

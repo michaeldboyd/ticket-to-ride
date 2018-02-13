@@ -52,9 +52,6 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     }
 
 
-
-    int playerLimit = 5;
-
     // Creates command to create game and send back to the client
     //Everyone needs to know that there is a new game. Send over the game to everyone
     @Override

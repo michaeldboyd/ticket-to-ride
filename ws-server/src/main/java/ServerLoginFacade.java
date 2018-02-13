@@ -70,6 +70,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
                     ServerModel.instance().loggedInSessions.put(authToken, ServerModel.instance().session);
                     ServerModel.instance().allUsers.get(username).setAuthtoken(authToken);
                     ServerModel.instance().loggedInUsers.put(user.getUsername(), user);
+                    ServerModel.instance().authTokenToUsername.put(authToken, username);
                 } else {
                     message = "Incorrect password.";
                 }
