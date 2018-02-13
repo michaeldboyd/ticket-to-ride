@@ -85,11 +85,16 @@ public class ClientModel extends Observable {
     }
 
     public void setCreateGameResponse(Game newGame){
+
+        /*
         this.games.add(newGame); // add new game to list
         joinGame(newGame.getGameID()); // join the game
         this.setChanged();
         //We need this to be configured\
-        notifyObservers(UpdateType.GAMEJOINED);
+        */
+        this.setChanged();
+        notifyObservers(UpdateType.GAMECREATED);
+
     }
 
     public void setUpdateGamesResponse(Game[] games, String message){
