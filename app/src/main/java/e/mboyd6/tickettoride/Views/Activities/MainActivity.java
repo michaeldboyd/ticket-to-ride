@@ -710,6 +710,11 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
+  public void updatePlayerListFirstTime() {
+    mWaitroomPresenter.updatePlayerList();
+  }
+
+  @Override
   public void onWaitroomFragmentColorPicked(PlayerColors playerColor) {
     //Calls waitroomPresenter
     mWaitroomPresenter.changePlayerColor(playerColor);
