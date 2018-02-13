@@ -144,13 +144,16 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
 
     private void updateGamesBroadcast() {
         Object[] games = ServerModel.instance().games.values().toArray();
-        Game[] g = new Game[games.length];
+        Game[] gs = new Game[games.length];
         int i=0;
-        for(Object o : games) { g[i++] = (Game)o; }
-        String[] paramTypes1 = {g.getClass().toString(), "".getClass().toString()};
-        Object[] paramValues1 = {g, ""};
+        for(Object o : games) { gs[i++] = (Game)o; }
+        for(Game g:gs) {
+            System.out.println(g.getGameID());
+        }
+        String[] paramTypes = {"".getClass().toString(), gs.getClass().toString(), "".getClass().toString()};
+        Object[] paramValues = {"", gs, ""};
         Command updateGamesClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
-                "_updateGamesReceived", paramTypes1, paramValues1);
+                "_updateGamesReceived", paramTypes, paramValues);
         Sender.sendBroadcast(updateGamesClientCommand);
     }
 

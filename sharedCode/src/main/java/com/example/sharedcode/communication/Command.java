@@ -1,8 +1,12 @@
 package com.example.sharedcode.communication;
 
+import com.example.sharedcode.model.Game;
+
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Ali on 2/2/2018.
@@ -70,12 +74,29 @@ public class Command implements ICommand {
         }
 
         if (_paramTypesStringNames != null && _paramTypesStringNames.length > 0) {
+            boolean isGameList = false;
             Class<?>[] paramTypes = new Class<?>[_paramTypesStringNames.length];
             for (int i = 0; i < _paramTypesStringNames.length; i++) {
                 String classStringName = _paramTypesStringNames[i];
                 String className = classStringName.replace("class ", "");
 
-                paramTypes[i] = Class.forName(className);
+                Class paramClass = Class.forName(className);
+                paramTypes[i] = paramClass;
+                if (paramClass == Game[].class) {
+
+                    Game[] games = (Game[]) _paramValues[i];
+                    _paramValues[i] = games;
+                    //Game[] gameList = new Game[games.size()];/*Arrays.copyOf(games.toArray(), games.size(), Game[].class);*/
+
+                    //for (int j = 0; j < games.size(); j++) {
+                     //   gameList[j] = (Game)games.get(j);
+                    //}
+
+                   // _paramValues[i] = gameList;
+                    Method method = receiver.getMethod(_methodName, paramTypes);
+                    method.invoke(null, _paramValues);
+                    break;
+                }
             }
 
             Method method = receiver.getMethod(_methodName, paramTypes);
