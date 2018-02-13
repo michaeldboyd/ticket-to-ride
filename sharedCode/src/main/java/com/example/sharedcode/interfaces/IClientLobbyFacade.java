@@ -14,7 +14,7 @@ public interface IClientLobbyFacade {
     void updateGames(String authToken, Game[] games, String message);
     void joinGame(String authToken, String message, String gameID);
     void startGame(String authToken, String message, String gameID);
-    void leaveGame(String authToken, String message, String gameID);
+    void leaveGame(String authToken, String gameID, String message);
     void getPlayersForGame(String authToken, Player[] players, String message, String gameID);
     void playerColorChanged(String gameID, String playerID, int color);
 }
