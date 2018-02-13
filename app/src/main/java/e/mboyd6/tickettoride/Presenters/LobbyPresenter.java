@@ -2,14 +2,9 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.content.Context;
 
-import com.example.sharedcode.model.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ClientLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;

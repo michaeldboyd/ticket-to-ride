@@ -22,7 +22,6 @@ public class ClientModel extends Observable {
     //Game data
     private ArrayList<Game> games = new ArrayList<>();
     private Game currentGame = null;
-    private ArrayList<Player> players = new ArrayList<>();
 
     //Current player data
     private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
@@ -50,15 +49,6 @@ public class ClientModel extends Observable {
 
     public void setGames(ArrayList<Game> games) {
         this.games = games;
-    }
-
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-        notifyObservers(UpdateType.PLAYERLIST);
     }
 
     public Player getCurrentPlayer() {

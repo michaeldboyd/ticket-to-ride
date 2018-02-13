@@ -5,7 +5,6 @@ import android.content.Context;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.PlayerColors;
 
-import java.io.Console;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -38,9 +37,12 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     //Called by the observer
     @Override
-    public void updateReadyPlayers() {
-        ClientModel.getInstance().getPlayers();
-
+    public void updatePlayerList() {
+        for(Game g:ClientModel.getInstance().getGames()) {
+            if (g.getGameID().equals(ClientModel.getInstance().getCurrentGame().getGameID())) {
+                mainActivity.updatePlayerList(g.getPlayers());
+            }
+        }
     }
 
     @Override
@@ -69,7 +71,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
         switch(updateType) {
             case PLAYERLIST:
-                updateReadyPlayers();
+                updatePlayerList();
                 break;
             case GAMESTARTED:
                 startGame(ClientModel.getInstance().getResponse());
