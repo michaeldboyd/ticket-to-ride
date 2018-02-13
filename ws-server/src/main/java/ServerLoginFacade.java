@@ -67,7 +67,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
                     //Do we want to reset authtoken each time?
                     UUID uuid = UUID.randomUUID();
                     authToken = uuid.toString();
-                    ServerModel.instance().loggedInSessions.put(username, ServerModel.instance().session);
+                    ServerModel.instance().loggedInSessions.put(authToken, ServerModel.instance().session);
                     ServerModel.instance().allUsers.get(username).setAuthtoken(authToken);
                     ServerModel.instance().loggedInUsers.put(user.getUsername(), user);
                 } else {
@@ -107,7 +107,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
             user.setAuthtoken(authToken);
             user.setUsername(username);
             user.setPassword(password);
-            ServerModel.instance().loggedInSessions.put(username, ServerModel.instance().session);
+            ServerModel.instance().loggedInSessions.put(authToken, ServerModel.instance().session);
             ServerModel.instance().allUsers.put(username, user);
             ServerModel.instance().loggedInUsers.put(username, user);
             ServerModel.instance().authTokenToUsername.put(authToken, username);
@@ -123,7 +123,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
             String username = ServerModel.instance().authTokenToUsername.get(authToken);
             ServerModel.instance().loggedInUsers.remove(username);
             ServerModel.instance().authTokenToUsername.remove(authToken);
-            ServerModel.instance().loggedInSessions.remove(username);
+            ServerModel.instance().loggedInSessions.remove(authToken);
         } else  {
             //TODO we aren't sending this message right now.
             message = "Error logging out -- not logged in";
