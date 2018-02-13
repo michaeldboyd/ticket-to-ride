@@ -20,8 +20,10 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     public static ServerProxyLobbyFacade instance() {return _instance;}
 
     @Override
-    public void createGame() {
-        Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "_createGame", null, null);
+    public void createGame(String authToken) {
+        String[] paramTypes = {authToken.getClass().toString()};
+        String[] paramValues = {authToken};
+        Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "_createGame", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
     }
