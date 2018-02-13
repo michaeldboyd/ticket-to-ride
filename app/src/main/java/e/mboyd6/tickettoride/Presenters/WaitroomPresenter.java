@@ -33,7 +33,12 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     }
 
-
+    @Override
+    public void leaveGame() {
+        ServerProxyLobbyFacade.instance().leaveGame(
+                ClientModel.getInstance().getCurrentGame().getGameID(),
+                ClientModel.getInstance().getCurrentPlayer().getPlayerID());
+    }
 
     //Called by the observer
     @Override
@@ -51,11 +56,11 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     }
 
     @Override
-    public void leaveGame() {
-        ServerProxyLobbyFacade.instance().leaveGame(
-                ClientModel.getInstance().getCurrentGame().getGameID(),
-                ClientModel.getInstance().getCurrentPlayer().getPlayerID());
+    public void leaveGameResponse(String message){
+        mainActivity.onBackoutResponse(message);
     }
+
+
 
 
     /**
@@ -70,12 +75,14 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         UpdateType updateType = (UpdateType) o;
 
         switch(updateType) {
-            case PLAYERLIST:
+            case GAMELIST:
                 updatePlayerList();
                 break;
             case GAMESTARTED:
                 startGame(ClientModel.getInstance().getResponse());
                 break;
+            case GAMELEFT:
+                leaveGameResponse(ClientModel.getInstance().getResponse());
             default:
                 System.out.println("ENUM ERROR");
                 break;

@@ -103,7 +103,7 @@ public class ClientModel extends Observable {
         }
 
         this.setChanged();
-        notifyObservers(UpdateType.GAMESTARTED);
+        notifyObservers(UpdateType.GAMEJOINED);
         System.out.println(response);
     }
 
@@ -113,7 +113,6 @@ public class ClientModel extends Observable {
             if(g.getGameID().equals(gameID)){
                 //GameID is set as currentGame
                 this.setCurrentGame(g);
-                this.games = null; //Other games not needed, remove the game
                 return true;
             }
         }
@@ -141,7 +140,7 @@ public class ClientModel extends Observable {
             //preserve the socket and restart the model
             WebSocketClient tempSocket = this.socket;
 
-            ClientModel.ourInstance = new ClientModel();
+            ourInstance = new ClientModel();
 
             this.socket = tempSocket;
         }
@@ -150,6 +149,17 @@ public class ClientModel extends Observable {
 
         this.setChanged();
         notifyObservers(UpdateType.GAMESTARTED);
+    }
+
+    public void setLeaveGameResponse(String gameID, String message) {
+        if(message == null || message.length() == 0){
+            currentGame = null;
+        }
+
+        this.response = message;
+
+        this.setChanged();
+        notifyObservers(UpdateType.GAMELEFT);
     }
 
     public String getResponse() {
@@ -173,5 +183,7 @@ public class ClientModel extends Observable {
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
     }
+
+
 }
 
