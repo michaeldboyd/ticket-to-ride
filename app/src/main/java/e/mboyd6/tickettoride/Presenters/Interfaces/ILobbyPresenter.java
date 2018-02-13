@@ -15,4 +15,5 @@ public interface ILobbyPresenter {
     void updateGameList();
 
 
+    void logoutResponse(String message);
 }
