@@ -11,7 +11,7 @@ public interface IWaitroomPresenter {
 
     void changePlayerColor(PlayerColors color);
 
-    void startGame();
+    void startGame(String message);
 
     void leaveGame();
 
