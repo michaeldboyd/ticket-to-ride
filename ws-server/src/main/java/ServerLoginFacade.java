@@ -3,6 +3,7 @@
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 import com.example.sharedcode.model.User;
 import com.sun.xml.internal.ws.api.ha.StickyFeature;
+import org.eclipse.jetty.websocket.api.Session;
 
 import java.util.UUID;
 

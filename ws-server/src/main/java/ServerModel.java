@@ -27,8 +27,11 @@ public class ServerModel {
     public Map<String, User> loggedInUsers = new HashMap<>();
     public Map<String, User> allUsers = new HashMap<>();
     public Map<String, Game> games = new HashMap<>();
-    public Set<Session> sessionSet = new HashSet<Session>();
+    public static Map<String, Session> sessionMap = new HashMap<>();
+
     public org.eclipse.jetty.websocket.api.Session session;
+
+
 
 
 
