@@ -2,8 +2,6 @@
 
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 import com.example.sharedcode.model.User;
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
-import org.eclipse.jetty.websocket.api.Session;
 
 import java.util.UUID;
 
@@ -69,7 +67,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
                     //Do we want to reset authtoken each time?
                     UUID uuid = UUID.randomUUID();
                     authToken = uuid.toString();
-
+                    ServerModel.instance().getLoggedInSessions().put(username, ServerModel.instance().session);
                     ServerModel.instance().allUsers.get(username).setAuthtoken(authToken);
                     ServerModel.instance().loggedInUsers.put(user.getUsername(), user);
                 } else {
@@ -109,7 +107,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
             user.setAuthtoken(authToken);
             user.setUsername(username);
             user.setPassword(password);
-
+            ServerModel.instance().getLoggedInSessions().put(username, ServerModel.instance().session);
             ServerModel.instance().allUsers.put(username, user);
             ServerModel.instance().loggedInUsers.put(username, user);
         }
@@ -121,8 +119,9 @@ public class ServerLoginFacade implements IServerLoginFacade {
     public void logout(String username){
         String message = "";
         if (ServerModel.instance().loggedInUsers.containsKey(username)) {
-            ServerModel.instance().loggedInUsers.remove(username);
+            User user = ServerModel.instance().loggedInUsers.remove(username);
             message = "User logged out.";
+            ServerModel.instance().getLoggedInSessions().remove(username);
         }
 
         ClientProxyLoginFacade.instance().logout(message);
