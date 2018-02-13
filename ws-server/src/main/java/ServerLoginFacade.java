@@ -111,17 +111,21 @@ public class ServerLoginFacade implements IServerLoginFacade {
 
             ServerModel.instance().allUsers.put(username, user);
             ServerModel.instance().loggedInUsers.put(username, user);
+            ServerModel.instance().authTokenToUsername.put(authToken, username);
         }
 
         ClientProxyLoginFacade.instance().register(authToken, message);
     }
 
     @Override
-    public void logout(String username){
+    public void logout(String authToken){
         String message = "";
-        if (ServerModel.instance().loggedInUsers.containsKey(username)) {
+        if (ServerModel.instance().authTokenToUsername.containsKey(authToken)) {
+            String username = ServerModel.instance().authTokenToUsername.get(authToken);
             ServerModel.instance().loggedInUsers.remove(username);
-            message = "User logged out.";
+            ServerModel.instance().authTokenToUsername.remove(authToken);
+        } else  {
+            message = "Error logging out -- not logged in";
         }
 
         ClientProxyLoginFacade.instance().logout(message);
