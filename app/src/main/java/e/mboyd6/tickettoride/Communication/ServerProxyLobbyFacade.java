@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
+import com.example.sharedcode.model.PlayerColors;
 import com.google.gson.Gson;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
@@ -30,7 +31,9 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void getGames(String authToken) {
-        Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getGames", null, null);
+        String[] paramTypes = {authToken.getClass().toString()};
+        String[] paramValues = {authToken};
+        Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getGames", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
     }
@@ -38,8 +41,8 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     //TODO: Should I be passing userID to this? userID is never stored in the client. I think we should be passing the authToekn.
     @Override
     public void joinGame(String authToken, String gameID) {
-        String[] paramTypes = {gameID.getClass().toString(), userID.getClass().toString()};
-        String[] paramValues = {gameID, userID};
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
+        String[] paramValues = {authToken, gameID};
 
         Command joinGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_joinGame", paramTypes, paramValues);
 
@@ -48,9 +51,9 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     }
 
     @Override
-    public void leaveGame(String authToken, String userID, String gameID) {
-        String[] paramTypes = {gameID.getClass().toString(), userID.getClass().toString()};
-        String[] paramValues = {gameID, userID};
+    public void leaveGame(String authToken, String gameID, String playerID) {
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString()};
+        String[] paramValues = {authToken, gameID, playerID};
 
         Command leaveGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_leaveGame", paramTypes, paramValues);
 
@@ -60,8 +63,8 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void startGame(String authToken, String gameID) {
-        String[] paramTypes = {gameID.getClass().toString()};
-        String[] paramValues = {gameID};
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
+        String[] paramValues = {authToken, gameID};
         Command startGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_startGame", paramTypes, paramValues);
 
 
@@ -71,12 +74,17 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
     @Override
     public void getPlayersForGame(String authToken, String gameID) {
-        String[] paramTypes = {gameID.getClass().toString()};
-        String[] paramValues = {gameID};
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
+        String[] paramValues = {authToken, gameID};
 
         Command getPlayersForGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
 
         // TODO - Send getPlayersForGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getPlayersForGameCommand));
+    }
+
+    @Override
+    public void playerColorChanged(String authToken, String gameID, String playerID, PlayerColors color) {
+
     }
 }

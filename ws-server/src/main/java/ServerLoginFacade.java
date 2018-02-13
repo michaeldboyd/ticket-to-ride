@@ -125,10 +125,11 @@ public class ServerLoginFacade implements IServerLoginFacade {
             ServerModel.instance().authTokenToUsername.remove(authToken);
             ServerModel.instance().loggedInSessions.remove(username);
         } else  {
+            //TODO we aren't sending this message right now.
             message = "Error logging out -- not logged in";
         }
 
-        ClientProxyLoginFacade.instance().logout(message);
+        ClientProxyLoginFacade.instance().logout(authToken, message);
     }
 
 }

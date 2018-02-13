@@ -2,12 +2,7 @@
 
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
-import com.example.sharedcode.communication.CommandMessage;
 import com.example.sharedcode.interfaces.IClientLoginFacade;
-import com.google.gson.Gson;
-
-import javax.websocket.Session;
-import java.io.IOException;
 
 /**
  * Created by eric on 2/7/18.
@@ -39,7 +34,7 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
         // TODO - Send loginCommand to Client via socket
 
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
-        Sender.sendCommand(loginClientCommand, sess);
+        Sender.sendCommand(loginClientCommand, authToken);
     }
 
     @Override
@@ -53,17 +48,16 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
 
         // TODO - Send registerCommand to Client via socket
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
-        Sender.sendCommand(registerClientCommand, sess);
+        Sender.sendCommand(registerClientCommand, authToken);
     }
 
     @Override
-    public void logout(String message){
+    public void logout(String authToken, String message){
         String[] paramTypes = {message.getClass().toString()};
         String[] paramValues = {message};
         Command logoutClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_logoutReceived", paramTypes, paramValues);
 
         // TODO - Send registerCommand to Client via socket
-        org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
-        Sender.sendCommand(logoutClientCommand, sess);
+        Sender.sendCommand(logoutClientCommand, authToken);
     }
 }

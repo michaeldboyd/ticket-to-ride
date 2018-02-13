@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 
@@ -23,27 +24,27 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     }
 
 
-    public static void _createGameReceived(Game newGame) {
-        instance().createGame(newGame);
+    public static void _createGameReceived(String token, Game newGame) {
+        instance().createGame(token, newGame);
     }
 
-    public static void _updateGamesReceived(Game[] games, String message) {
-        instance().updateGames(games, message);
+    public static void _updateGamesReceived(String token, Game[] games, String message) {
+        instance().updateGames(token, games, message);
     }
 
-    public static void _joinGameReceived(String gameID, String message) {
-        instance().joinGame(gameID, message);
+    public static void _joinGameReceived(String token, String gameID, String message) {
+        instance().joinGame(token, gameID, message);
     }
 
-    public static void _startGameReceived(String gameID, String message) {
-        instance().startGame(gameID, message);
+    public static void _startGameReceived(String token, String gameID, String message) {
+        instance().startGame(token, gameID, message);
     }
 
-    public static void _leaveGameReceived(String gameID, String message) {
-        instance().leaveGame(gameID, message);
+    public static void _leaveGameReceived(String token, String gameID, String message) {
+        instance().leaveGame(token, gameID, message);
     }
-    static void _getPlayersForGameReceived(String gameID, Player[] players, String message) {
-        instance().getPlayersForGame(gameID, players, message);
+    static void _getPlayersForGameReceived(String token, String gameID, Player[] players, String message) {
+        instance().getPlayersForGame(token, players, gameID, message);
     }
 
 
@@ -53,20 +54,20 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
 
     //Must be called after a user creates a new game. this won't be called now
     @Override
-    public void createGame(Game newGame) {
+    public void createGame(String token, Game newGame) {
         System.out.println("createGame called on CLF");
         ClientModel.getInstance().setCreateGameResponse(newGame);
 
     }
 
     @Override
-    public void updateGames(Game[] games, String message) {
+    public void updateGames(String token, Game[] games, String message) {
         System.out.println("updateGames called on CLF");
         ClientModel.getInstance().setUpdateGamesResponse(games, message);
     }
 
     @Override
-    public void joinGame(String gameID, String message) {
+    public void joinGame(String token, String gameID, String message) {
         System.out.println("joinGame called on CLF");
 
         ClientModel.getInstance().setJoinGameResponse(gameID, message);
@@ -74,7 +75,7 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
 
     //start the game
     @Override
-    public void startGame(String gameID, String message) {
+    public void startGame(String token, String gameID, String message) {
         System.out.println("startGameResponse called on CLF");
 
         ClientModel.getInstance().setStartGameResponse(gameID, message);
@@ -82,14 +83,20 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
 
     //leave the game
     @Override
-    public void leaveGame(String gameID, String message) {
+    public void leaveGame(String token, String gameID, String message) {
         System.out.println("leaveGame called on CLF");
 
         ClientModel.getInstance().setLeaveGameResponse(gameID, message);
     }
 
     @Override
-    public void getPlayersForGame(String gameID, Player[] players, String message) {
+    public void getPlayersForGame(String authToken, Player[] players, String gameID, String message) {
         System.out.println("getPlayersForGame called on CLF");
+    }
+
+    @Override
+    public void playerColorChanged(String gameID, String playerID, PlayerColors color) {
+        // Don't do anything
+        // Game list will be updated automatically
     }
 }

@@ -2,6 +2,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 public class ServerLobbyFacadeTest {
@@ -15,18 +17,18 @@ public class ServerLobbyFacadeTest {
     }
 
     @Test
-    public void _createGame() {
-        ServerLobbyFacade.instance()._createGame();
+    public void createGame() {
+        ServerLobbyFacade.instance()._createGame(UUID.randomUUID().toString());
 
         assertTrue(ServerModel.instance().games.size() > 0);
     }
 
     @Test
-    public void _getGames() {
+    public void getGames() {
 
-        ServerLobbyFacade.instance()._createGame();
-        ServerLobbyFacade.instance()._createGame();
-        ServerLobbyFacade.instance()._createGame();
+        ServerLobbyFacade.instance()._createGame(UUID.randomUUID().toString());
+        ServerLobbyFacade.instance()._createGame(UUID.randomUUID().toString());
+        ServerLobbyFacade.instance()._createGame(UUID.randomUUID().toString());
 
 
         assertTrue(ServerModel.instance().games.size() >= 3);
@@ -34,20 +36,20 @@ public class ServerLobbyFacadeTest {
     }
 
     @Test
-    public void _joinGame() {
+    public void joinGame() {
 
     }
 
     @Test
-    public void _leaveGame() {
+    public void leaveGame() {
 
     }
 
     @Test
-    public void _startGame() {
+    public void startGame() {
     }
 
     @Test
-    public void _getPlayersForGame() {
+    public void getPlayersForGame() {
     }
 }
