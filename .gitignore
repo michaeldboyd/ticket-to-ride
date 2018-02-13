@@ -49,7 +49,7 @@ ws-server/.idea/tasks.xml
 ws-server/.idea/gradle.xml
 ws-server/dictionaries
 ws-server/libraries
-
+ws-server/log.txt*
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 

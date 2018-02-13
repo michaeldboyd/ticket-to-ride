@@ -32,6 +32,11 @@ public class ClientLoginFacade implements IClientLoginFacade {
         instance().register(authToken, message);
     }
 
+    public static void _logoutReceived(String token, String message)
+    {
+        System.out.println("_logoutReceived");
+        instance().logout(token, message);
+    }
 
 
     //***** THESE METHODS ARE NOT CALLED FROM THE CLIENT PROXY--ONLY FROM THE CORRESPONDING STATIC METHODS *****
@@ -60,7 +65,7 @@ public class ClientLoginFacade implements IClientLoginFacade {
     }
 
     @Override
-    public void logout(String message) {
+    public void logout(String token, String message) {
         System.out.println("logout was called");
 
         ClientModel.getInstance().setLogoutResponse(message);
