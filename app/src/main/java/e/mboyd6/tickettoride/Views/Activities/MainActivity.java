@@ -691,8 +691,13 @@ public class MainActivity extends AppCompatActivity
   @Override
   public void onWaitroomFragmentStartGameButton() {
     //TODO: This is not implemented
-    mWaitroomPresenter.startGame();
-    onStartGameSent();
+
+    if(mWaitroomPresenter.gameReady()) {
+      mWaitroomPresenter.startGame();
+      onStartGameSent();
+    } else{
+      handleError("Not enough players! Find some friends.");
+    }
   }
 
   @Override

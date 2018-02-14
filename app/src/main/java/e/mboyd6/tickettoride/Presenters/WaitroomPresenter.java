@@ -50,6 +50,11 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
                 ClientModel.getInstance().getCurrentGame().getGameID());
     }
 
+    public boolean gameReady(){
+        return ClientModel.getInstance().getCurrentGame().getPlayers().size() >= 2;
+
+    }
+
     //Called by the observer
     @Override
     public void updatePlayerList() {
