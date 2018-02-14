@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Model;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
+import com.example.sharedcode.model.UpdateType;
 
 import org.java_websocket.client.WebSocketClient;
 

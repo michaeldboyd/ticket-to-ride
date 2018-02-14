@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Model;
+package com.example.sharedcode.model;
 
 /**
  * Created by jonathanlinford on 2/9/18.

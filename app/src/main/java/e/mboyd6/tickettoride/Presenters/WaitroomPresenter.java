@@ -3,15 +3,13 @@ package e.mboyd6.tickettoride.Presenters;
 import android.content.Context;
 
 import com.example.sharedcode.model.Game;
-import com.example.sharedcode.model.PlayerColors;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
-import e.mboyd6.tickettoride.Model.UpdateType;
+import com.example.sharedcode.model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
