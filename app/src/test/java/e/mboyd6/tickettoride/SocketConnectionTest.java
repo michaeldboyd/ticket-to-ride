@@ -49,7 +49,7 @@ public class SocketConnectionTest {
     @Test
     public void testLogin()
     {
-        ServerProxyLoginFacade.instance().login("test1", "test");
+        ServerProxyLoginFacade.instance().login("test1", "test", );
         ServerProxyLobbyFacade.instance().createGame("");
         ServerProxyLobbyFacade.instance().getGames("");
         ServerProxyLobbyFacade.instance().joinGame("", "asdf");

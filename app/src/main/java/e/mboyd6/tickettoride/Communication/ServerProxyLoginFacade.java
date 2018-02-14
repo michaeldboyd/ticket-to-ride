@@ -5,9 +5,6 @@ import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.net.URI;
-
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 
@@ -26,18 +23,18 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
 
 
     @Override
-    public void login(String username, String password) {
-        String[] paramTypes = {username.getClass().toString(), password.getClass().toString()};
-        String[] paramValues = {username, password};
+    public void login(String username, String password, String socketID) {
+        String[] paramTypes = {username.getClass().toString(), password.getClass().toString(), socketID.getClass().toString()};
+        String[] paramValues = {username, password, socketID};
         Command loginCommand = CommandFactory.createCommand("ServerLoginFacade", "_login", paramTypes, paramValues);
         // TODO - send login to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(loginCommand));
     }
 
     @Override
-    public void register(String username, String password) {
-        String[] paramTypes = {username.getClass().toString(), password.getClass().toString()};
-        String[] paramValues = {username, password};
+    public void register(String username, String password, String socketID) {
+        String[] paramTypes = {username.getClass().toString(), password.getClass().toString(), socketID.getClass().toString()};
+        String[] paramValues = {username, password, socketID};
         Command registerCommand = CommandFactory.createCommand("ServerLoginFacade", "_register", paramTypes, paramValues);
 
         // TODO - Put sender functions into socket manager

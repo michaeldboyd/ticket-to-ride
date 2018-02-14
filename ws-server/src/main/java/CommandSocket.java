@@ -1,5 +1,6 @@
 import com.example.sharedcode.communication.Command;
 import com.google.gson.Gson;
+import org.eclipse.jetty.server.session.DefaultSessionCache;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
 
 import javax.websocket.ClientEndpoint;
@@ -11,6 +12,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
 
 
 @ServerEndpoint(value="/echo/")
@@ -56,6 +58,11 @@ public class CommandSocket implements WebSocketListener
 
     @Override
     public void onWebSocketConnect(org.eclipse.jetty.websocket.api.Session session) {
-        ServerModel.instance().session = session;
+        //We need to save the session locally until the user is logged in...
+        // make an authToken then send it back to the serve
+        String ID = UUID.randomUUID().toString();
+        ServerModel.instance().allSessions.put(ID, session);
+        ClientProxyLoginFacade.instance().initSocket(ID);
+
     }
 }

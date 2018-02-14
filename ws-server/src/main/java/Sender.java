@@ -27,6 +27,17 @@ public class Sender {
         }
     }
 
+    public static void initialSocketConnect(Command command, String id){
+        Map args = new HashMap();
+        args.put(JsonWriter.TYPE, true);
+        Session sess = ServerModel.instance().allSessions.get(id);
+        try {
+            String resp = JsonWriter.objectToJson(command, args);
+            sess.getRemote().sendString(resp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void sendBroadcast(Command command) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
