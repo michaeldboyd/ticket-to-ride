@@ -8,6 +8,8 @@ import com.example.sharedcode.interfaces.IServerLoginFacade;
 
 public class ServerLoginFacadeTest {
 
+    String message = "";
+
     @Before
     public void setUp() throws Exception {
 
@@ -46,5 +48,23 @@ public class ServerLoginFacadeTest {
         ServerLoginFacade.instance()._register(username, password);
 
         assertTrue(ServerModel.instance().allUsers.size() == 1);
+    }
+
+    @Test
+    public void _register2(){
+        String username = "alibub";
+        String password = "password";
+        //ClientLoginTest.register(username, password);
+
+    }
+
+    @Test
+    public void _login2(){
+
+    }
+
+    public String didItWork(String message){
+        this.message = message;
+        return message;
     }
 }
