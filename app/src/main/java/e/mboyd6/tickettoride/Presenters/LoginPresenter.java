@@ -64,7 +64,8 @@ public class LoginPresenter implements ILoginPresenter, Observer{
      */
     @Override
     public void login(String username, String password) {
-        ServerProxyLoginFacade.instance().login(username, password);
+        String socketID = ClientModel.getInstance().getSocketID();
+        ServerProxyLoginFacade.instance().login(username, password, socketID);
     }
 
     @Override

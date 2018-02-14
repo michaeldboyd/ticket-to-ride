@@ -2,6 +2,7 @@
 
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 import com.example.sharedcode.model.User;
+import org.eclipse.jetty.websocket.api.Session;
 
 import java.util.UUID;
 
@@ -25,12 +26,12 @@ public class ServerLoginFacade implements IServerLoginFacade {
     private ServerLoginFacade() {}
 
 
-    public static void _login(String username, String password) {
-        instance().login(username, password);
+    public static void _login(String username, String password, String socketID) {
+        instance().login(username, password, socketID);
     }
 
-    public static void _register(String username, String password) {
-        instance().register(username, password);
+    public static void _register(String username, String password, String socketID) {
+        instance().register(username, password, socketID);
     }
 
     public static void _logout(String username) {
@@ -51,7 +52,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
      * @return
      */
     @Override
-    public void login(String username, String password) {
+    public void login(String username, String password, String socketID) {
         String authToken = "";
         String message = "";
         if (ServerModel.instance().loggedInUsers.containsKey(username)) {
@@ -67,10 +68,11 @@ public class ServerLoginFacade implements IServerLoginFacade {
                     //Do we want to reset authtoken each time?
                     UUID uuid = UUID.randomUUID();
                     authToken = uuid.toString();
-                    ServerModel.instance().loggedInSessions.put(authToken, ServerModel.instance().session);
+                    ServerModel.instance().authTokenToUsername.put(authToken, username);
                     ServerModel.instance().allUsers.get(username).setAuthtoken(authToken);
                     ServerModel.instance().loggedInUsers.put(user.getUsername(), user);
-                    ServerModel.instance().authTokenToUsername.put(authToken, username);
+                    matchSocketToAuthToken(socketID, authToken);
+
                 } else {
                     message = "Incorrect password.";
                 }
@@ -80,6 +82,13 @@ public class ServerLoginFacade implements IServerLoginFacade {
         }
 
         ClientProxyLoginFacade.instance().login(authToken, message);
+    }
+
+    private void matchSocketToAuthToken(String socketID, String authToken) {
+        if(!ServerModel.instance().loggedInSessions.containsKey(authToken)){
+            Session sess = ServerModel.instance().allSessions.get(socketID);
+            ServerModel.instance().loggedInSessions.put(authToken, sess);
+        }
     }
 
 
@@ -94,7 +103,7 @@ public class ServerLoginFacade implements IServerLoginFacade {
      * @return
      */
     @Override
-    public void register(String username, String password) {
+    public void register(String username, String password, String socketID) {
         String authToken = "";
         String message = "";
 
@@ -108,10 +117,11 @@ public class ServerLoginFacade implements IServerLoginFacade {
             user.setAuthtoken(authToken);
             user.setUsername(username);
             user.setPassword(password);
-            ServerModel.instance().loggedInSessions.put(authToken, ServerModel.instance().session);
             ServerModel.instance().allUsers.put(username, user);
             ServerModel.instance().loggedInUsers.put(username, user);
             ServerModel.instance().authTokenToUsername.put(authToken, username);
+
+            matchSocketToAuthToken(socketID, authToken);
         }
 
         ClientProxyLoginFacade.instance().register(authToken, message);

@@ -21,7 +21,10 @@ public class ClientLoginFacade implements IClientLoginFacade {
         return loginFacade;
     }
 
-
+    public static void _initSocket(String id)
+    {
+        instance().initSocket(id);
+    }
     public static void _loginReceived(String authToken, String message) {
         System.out.println("_loginReceived");
         instance().login(authToken, message);
@@ -69,5 +72,10 @@ public class ClientLoginFacade implements IClientLoginFacade {
         System.out.println("logout was called");
 
         ClientModel.getInstance().setLogoutResponse(message);
+    }
+
+    @Override
+    public void initSocket(String id) {
+        ClientModel.getInstance().setSocketID(id);
     }
 }

@@ -30,6 +30,11 @@ public class ClientModel extends Observable {
     private String response;
     private WebSocketClient socket;
 
+    public String getSocketID() {
+        return socketID;
+    }
+
+    private String socketID;
     public WebSocketClient getSocket() {
         return socket;
     }
@@ -207,6 +212,10 @@ public class ClientModel extends Observable {
 
     public void setPlayerID(String playerID) {
         this.playerID = playerID;
+    }
+
+    public void setSocketID(String socketID) {
+        this.socketID = socketID;
     }
 }
 
