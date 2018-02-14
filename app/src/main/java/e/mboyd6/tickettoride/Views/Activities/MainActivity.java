@@ -20,10 +20,12 @@ import android.widget.Toast;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Communication.SocketManager;
+import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.Presenters.LoginPresenter;
 import e.mboyd6.tickettoride.Presenters.RegisterPresenter;
@@ -42,8 +44,8 @@ import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 public class MainActivity extends AppCompatActivity
         implements IMainActivity
 {
-  private static final long MOVE_DEFAULT_TIME = 1000;
-  private static final long SLIDE_DEFAULT_TIME = 500;
+  private static final long MOVE_DEFAULT_TIME = 500;
+  private static final long SLIDE_DEFAULT_TIME = 250;
   private FragmentManager mFragmentManager;
   private Handler mDelayedTransactionHandler = new Handler();
   private Runnable mRunnableTransitionToRegister = new Runnable() {
@@ -342,7 +344,7 @@ public class MainActivity extends AppCompatActivity
   private void GuestLogin() {
     // Implement code that adds a bunch of fake games so you can go to the lobby
 
-    /*
+
     ArrayList<Game> fakeGames = new ArrayList<Game>();
     Game game2 = new Game();
     game2.setGameID("002");
@@ -368,7 +370,7 @@ public class MainActivity extends AppCompatActivity
     fakeGames.add(game4);
     ClientModel.getInstance().setGames(fakeGames);
     transitionToLobbyFromLoginAndRegister();
-    */
+
   }
 
   @Override
