@@ -54,6 +54,11 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
     }
 
     @Override
+    public void gameCreated(String response) {
+        mainActivity.onStartNewGameResponse(response);
+    }
+
+    @Override
     public void logoutResponse(String message){
         mainActivity.onLogOutResponse(message);
     }
@@ -81,6 +86,9 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
                 break;
             case LOGOUTRESPONSE:
                 logoutResponse(ClientModel.getInstance().getResponse());
+                break;
+            case GAMECREATED:
+                gameCreated(ClientModel.getInstance().getResponse());
                 break;
             case GAMEJOINED:
                 gameJoined(ClientModel.getInstance().getResponse());

@@ -13,7 +13,6 @@ import com.example.sharedcode.model.Game;
 
 import java.util.ArrayList;
 
-import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Adapters.GameListAdapter;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
@@ -130,7 +129,7 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
     @Override
     public void onLogOutResponse(String message) {
         disableInputs = false;
-        mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.back_arrow,0);
     }
 
     public void onGameListAdapterJoinButton(Game game, Button button) {
@@ -150,6 +149,12 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
     public void onStartNewGameSent() {
         disableInputs = true;
         mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+    }
+
+    @Override
+    public void onStartNewGameResponse(String message) {
+        disableInputs = false;
+        mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.plus,0);
     }
 
     @Override
