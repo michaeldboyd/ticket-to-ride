@@ -2,7 +2,10 @@ import com.example.sharedcode.interfaces.IServerLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
+import com.example.sharedcode.model.User;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 
 
@@ -123,8 +126,23 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
 
         if (!ServerModel.instance().games.containsKey(gameID)) {
             message = "Game doesn't exist.";
+        }else{
+            Game game = ServerModel.instance().games.get(gameID);
+            ArrayList<Player> players = game.getPlayers();
+            Collection<String> authTokens = new ArrayList<>();
+            if( players != null) {
+                for(Player p : players)
+                {
+                    User user = ServerModel.instance().allUsers.get(p.getName());
+                    if(user != null)
+                    {
+                        authTokens.add(user.getAuthtoken());
+                    }
+                }
+                ClientProxyLobbyFacade.instance().notifyPlayersOfGameStarted(authTokens, message, gameID);
+            }
         }
-
+        // find the players auth tokens in the game.
         ClientProxyLobbyFacade.instance().startGame(authToken, message, gameID);
     }
 

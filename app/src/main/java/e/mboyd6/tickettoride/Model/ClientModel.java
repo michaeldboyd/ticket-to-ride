@@ -160,9 +160,9 @@ public class ClientModel extends Observable {
         if(message == null || message.length() == 0){
             //preserve the socket and restart the model
             WebSocketClient tempSocket = this.socket;
-
+            String socketID = this.socketID;
             ourInstance = new ClientModel();
-
+            this.socketID = socketID;
             this.socket = tempSocket;
         }
 

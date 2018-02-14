@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
 
 
@@ -88,17 +89,29 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     public void startGame(String authToken, String message, String gameID) {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
-        updateGamesBroadcast();
         String[] paramTypes = {"".getClass().toString(), gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {"", gameID, message};
 
-        Command startGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_startGameReceived", paramTypes, paramValues);
+        Command startGameClientCommand = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+                "_startGameReceived", paramTypes, paramValues);
 
         // TODO - Send startGameClientCommand to Client via socket
         org.eclipse.jetty.websocket.api.Session sess = ServerModel.instance().session;
         Sender.sendCommand(startGameClientCommand, authToken);
+        updateGamesBroadcast();
     }
 
+    public void notifyPlayersOfGameStarted(Collection<String> tokens, String message, String gameID)
+    {
+        String[] paramTypes = {"".getClass().toString(), message.getClass().toString(), gameID.getClass().toString()};
+        Object[] paramValues = {"", gameID, message};
+        Command command = CommandFactory.createCommand("e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+                "_startGameReceived", paramTypes, paramValues);
+        for(String token : tokens)
+        {
+            Sender.sendCommand(command, token);
+        }
+    }
     @Override
     public void leaveGame(String authToken, String gameID, String message) {
         // This is called after the Server has attempted to join game
@@ -143,7 +156,6 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     }
 
 
-
     private void updateGamesBroadcast() {
         Object[] games = ServerModel.instance().games.values().toArray();
         Game[] gs = new Game[games.length];
@@ -158,5 +170,4 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
                 "_updateGamesReceived", paramTypes, paramValues);
         Sender.sendBroadcast(updateGamesClientCommand);
     }
-
 }
