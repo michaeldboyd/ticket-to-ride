@@ -75,7 +75,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     @Override
     public void leaveGameResponse(String message){
-        mainActivity.onBackoutResponse(message);
+        mainActivity.onLeaveGameResponse(message);
     }
 
 

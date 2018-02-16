@@ -105,12 +105,12 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_waitroom, container, false);
 
-        mBackOutButton = v.findViewById(R.id.waitroom_fragment_back_out_button);
+        mBackOutButton = v.findViewById(R.id.waitroom_fragment_leave_game_button);
         mBackOutButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                onWaitroomFragmentBackoutButton();
+                onWaitroomFragmentLeaveGameButton();
             }
         });
 
@@ -281,21 +281,21 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
     }
 
     @Override
-    public void onWaitroomFragmentBackoutButton() {
+    public void onWaitroomFragmentLeaveGameButton() {
         if (mListener != null) {
-            mListener.onWaitroomFragmentBackoutButton();
+            mListener.onWaitroomFragmentLeaveGameButton();
         }
     }
 
     @Override
-    public void onBackOutSent() {
+    public void onLeaveGameSent() {
         mBackOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
         mStartGameButton.setEnabled(false);
         mBackOutButton.setEnabled(false);
     }
 
     @Override
-    public void onBackoutResponse(String message) {
+    public void onLeaveGameResponse(String message) {
         mBackOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
         mStartGameButton.setEnabled(true);
         mBackOutButton.setEnabled(true);

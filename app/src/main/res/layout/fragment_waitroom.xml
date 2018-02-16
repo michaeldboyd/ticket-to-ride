@@ -8,8 +8,8 @@
     tools:context="e.mboyd6.tickettoride.Views.Activities.MainActivity">
 
     <Button
-        android:id="@+id/waitroom_fragment_back_out_button"
-        android:layout_width="128dp"
+        android:id="@+id/waitroom_fragment_leave_game_button"
+        android:layout_width="140dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -18,7 +18,7 @@
         android:fontFamily="@font/dense"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/back_out"
+        android:text="@string/leave_game"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"

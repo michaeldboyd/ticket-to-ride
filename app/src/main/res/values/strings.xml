@@ -20,5 +20,7 @@
     <string name="choose_color">CHOOSE A COLOR BELOW</string>
     <string name="players_in_lobby"> PLAYERS IN LOBBY</string>
     <string name="choose">CHOOSE</string>
+    <string name="create_game">Create Game</string>
+    <string name="leave_game">Leave Game</string>
 
 </resources>
