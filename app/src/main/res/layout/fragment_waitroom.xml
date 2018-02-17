@@ -95,7 +95,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rectangle_at_the_top"
         android:orientation="horizontal"
         android:weightSum="5">
-        <Button
+        <e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView
             android:id="@+id/color_selection_1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -110,7 +110,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
             android:layout_weight="1" />
-        <Button
+        <e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView
             android:id="@+id/color_selection_2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -125,7 +125,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
             android:layout_weight="1" />
-        <Button
+        <e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView
             android:id="@+id/color_selection_3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -140,7 +140,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
             android:layout_weight="1" />
-        <Button
+        <e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView
             android:id="@+id/color_selection_4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -155,7 +155,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
             android:layout_weight="1" />
-        <Button
+        <e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView
             android:id="@+id/color_selection_5"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

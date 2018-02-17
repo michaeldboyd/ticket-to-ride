@@ -16,6 +16,7 @@ import com.example.sharedcode.model.PlayerColors;
 import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
 import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
 /**
@@ -43,12 +44,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             this.chosen = chosen;
         }
     }
-    SelectedColor[] selectedColors = {new SelectedColor(PlayerColors.RED, R.drawable.color_red, R.drawable.color_red_faded,false, false),
-            new SelectedColor(PlayerColors.TURQUOISE, R.drawable.color_turquoise, R.drawable.color_turquoise_faded, false,false),
-            new SelectedColor(PlayerColors.ORANGE, R.drawable.color_orange, R.drawable.color_orange_faded,false, false),
-            new SelectedColor(PlayerColors.BLUE, R.drawable.color_blue, R.drawable.color_blue_faded,false, false),
-            new SelectedColor(PlayerColors.PURPLE, R.drawable.color_purple, R.drawable.color_purple_faded,false, false)
-    };
+    SelectedColor[] selectedColors;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,11 +57,11 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
 
     private IWaitroomFragment mListener;
 
-    private Button colorSelection1;
-    private Button colorSelection2;
-    private Button colorSelection3;
-    private Button colorSelection4;
-    private Button colorSelection5;
+    private ColorSelectionView colorSelection1;
+    private ColorSelectionView colorSelection2;
+    private ColorSelectionView colorSelection3;
+    private ColorSelectionView colorSelection4;
+    private ColorSelectionView colorSelection5;
 
     private TextView playersInLobby;
 
@@ -123,7 +119,6 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             }
         });
 
-
         colorSelection1 = v.findViewById(R.id.color_selection_1);
         colorSelection2 = v.findViewById(R.id.color_selection_2);
         colorSelection3 = v.findViewById(R.id.color_selection_3);
@@ -136,7 +131,16 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
         return v;
     }
 
+    public SelectedColor[] refreshSelectedColors() {
+        return new SelectedColor[]{new SelectedColor(PlayerColors.RED, R.drawable.color_red, R.drawable.color_red_faded,false, false),
+                new SelectedColor(PlayerColors.TURQUOISE, R.drawable.color_turquoise, R.drawable.color_turquoise_faded, false,false),
+                new SelectedColor(PlayerColors.ORANGE, R.drawable.color_orange, R.drawable.color_orange_faded,false, false),
+                new SelectedColor(PlayerColors.BLUE, R.drawable.color_blue, R.drawable.color_blue_faded,false, false),
+                new SelectedColor(PlayerColors.PURPLE, R.drawable.color_purple, R.drawable.color_purple_faded,false, false)};
+    }
     public void redrawPlayers() {
+
+        selectedColors = refreshSelectedColors();
 
         int playerCount = players.size();
         for (int i = 0; i < 5; i++) {
