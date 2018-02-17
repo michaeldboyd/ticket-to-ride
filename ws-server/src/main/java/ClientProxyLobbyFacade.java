@@ -38,12 +38,12 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
      * Creates command and sends it back to client.
      */
     @Override
-    public void createGame(String authToken, Game newGame) {
+    public void createGame(Game newGame) {
 
     }
 
     @Override
-    public void updateGames(String authToken, Game[] games, String message) {
+    public void updateGames(Game[] games, String message) {
         // This is called after the Server has attempted to get all games
         // If successful, message == "" [empty string]
 
@@ -51,7 +51,7 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     }
 
     @Override
-    public void joinGame(String authToken, String message, String playerID, String gameID) {
+    public void joinGame(String message, String playerID, String gameID) {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
 
@@ -59,7 +59,7 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
     }
 
     @Override
-    public void startGame(String authToken, String message, String gameID) {
+    public void startGame(String message, String gameID) {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
 
@@ -67,14 +67,14 @@ public class ClientProxyLobbyFacade implements IClientLobbyFacade {
 
 
     @Override
-    public void leaveGame(String authToken, String gameID, String message) {
+    public void leaveGame(String gameID, String message) {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
 
     }
 
     @Override
-    public void getPlayersForGame(String authToken, Player[] players, String message, String gameID) {
+    public void getPlayersForGame(Player[] players, String message, String gameID) {
         // This is called after the Server has attempted to join game
         // If successful, message == "" [empty string]
 
