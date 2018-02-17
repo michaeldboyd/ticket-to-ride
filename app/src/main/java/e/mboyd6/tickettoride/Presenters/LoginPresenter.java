@@ -79,7 +79,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
         UpdateType updateType = (UpdateType) o;
 
         switch (updateType){
-            case LOGINRESPONSE:
+            case LOGIN_RESPONSE:
                 loginResponse(ClientModel.getInstance().getResponse());
                 break;
             default:

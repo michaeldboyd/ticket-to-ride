@@ -15,8 +15,8 @@ public class ServerLoginFacadeTest {
 
     @After
     public void tearDown() throws Exception {
-    ServerModel.instance().loggedInUsers.clear();
-    ServerModel.instance().allUsers.clear();
+    ServerModel.instance().getLoggedInUsers().clear();
+    ServerModel.instance().getAllUsers().clear();
 
     }
 
@@ -25,11 +25,11 @@ public class ServerLoginFacadeTest {
         String username = "alibub";
         String password = "password";
 
-        ServerLoginFacade.instance()._register(username, password);
+        ServerLoginFacade.instance()._register(username, password, null);
 
-        ServerLoginFacade.instance()._login(username, password);
+        ServerLoginFacade.instance()._login(username, password, null);
 
-        assertTrue(ServerModel.instance().loggedInUsers.containsKey(username));
+        assertTrue(ServerModel.instance().getLoggedInUsers().containsKey(username));
 
     }
 
@@ -39,12 +39,12 @@ public class ServerLoginFacadeTest {
         String username = "alibub";
         String password = "password";
 
-        ServerLoginFacade.instance()._register(username, password);
+        ServerLoginFacade.instance()._register(username, password, null);
 
-        assertTrue(ServerModel.instance().allUsers.containsKey(username));
+        assertTrue(ServerModel.instance().getAllUsers().containsKey(username));
 
-        ServerLoginFacade.instance()._register(username, password);
+        ServerLoginFacade.instance()._register(username, password, null);
 
-        assertTrue(ServerModel.instance().allUsers.size() == 1);
+        assertTrue(ServerModel.instance().getAllUsers().size() == 1);
     }
 }

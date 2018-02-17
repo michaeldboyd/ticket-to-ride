@@ -61,7 +61,7 @@ public class CommandSocket implements WebSocketListener
         //We need to save the session locally until the user is logged in...
         // make an authToken then send it back to the serve
         String ID = UUID.randomUUID().toString();
-        ServerModel.instance().allSessions.put(ID, session);
+        ServerModel.instance().getAllSessions().put(ID, session);
         ClientProxyLoginFacade.instance().initSocket(ID);
 
     }

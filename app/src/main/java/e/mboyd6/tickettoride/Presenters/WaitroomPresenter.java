@@ -93,13 +93,13 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         UpdateType updateType = (UpdateType) o;
 
         switch(updateType) {
-            case GAMELIST:
+            case GAME_LIST:
                 updatePlayerList();
                 break;
-            case GAMESTARTED:
+            case GAME_STARTED:
                 startGameResponse(ClientModel.getInstance().getResponse());
                 break;
-            case GAMELEFT:
+            case GAME_LEFT:
                 leaveGameResponse(ClientModel.getInstance().getResponse());
             default:
                 System.out.println("ENUM ERROR");

@@ -20,7 +20,7 @@ public class ServerLobbyFacadeTest {
     public void createGame() {
         ServerLobbyFacade.instance()._createGame(UUID.randomUUID().toString());
 
-        assertTrue(ServerModel.instance().games.size() > 0);
+        assertTrue(ServerModel.instance().getGames().size() > 0);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class ServerLobbyFacadeTest {
         ServerLobbyFacade.instance()._createGame(UUID.randomUUID().toString());
 
 
-        assertTrue(ServerModel.instance().games.size() >= 3);
+        assertTrue(ServerModel.instance().getGames().size() >= 3);
 
     }
 

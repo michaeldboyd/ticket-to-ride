@@ -81,16 +81,16 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         UpdateType updateType = (UpdateType) o;
 
         switch(updateType){
-            case GAMELIST:
+            case GAME_LIST:
                 updateGameList();
                 break;
-            case LOGOUTRESPONSE:
+            case LOGOUT_RESPONSE:
                 logoutResponse(ClientModel.getInstance().getResponse());
                 break;
-            case GAMECREATED:
+            case GAME_CREATED:
                 gameCreated(ClientModel.getInstance().getResponse());
                 break;
-            case GAMEJOINED:
+            case GAME_JOINED:
                 gameJoined(ClientModel.getInstance().getResponse());
                 break;
             default:

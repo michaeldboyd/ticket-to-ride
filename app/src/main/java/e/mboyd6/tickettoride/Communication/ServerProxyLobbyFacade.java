@@ -24,7 +24,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     public void createGame(String authToken) {
         String[] paramTypes = {authToken.getClass().toString()};
         String[] paramValues = {authToken};
-        Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "_createGame", paramTypes, paramValues);
+        Command getGamesCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_createGame", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
     }
@@ -33,7 +33,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     public void getGames(String authToken) {
         String[] paramTypes = {authToken.getClass().toString()};
         String[] paramValues = {authToken};
-        Command getGamesCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getGames", paramTypes, paramValues);
+        Command getGamesCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_getGames", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
     }
@@ -44,7 +44,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
         String[] paramValues = {authToken, gameID};
 
-        Command joinGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_joinGame", paramTypes, paramValues);
+        Command joinGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_joinGame", paramTypes, paramValues);
 
         // TODO - Send joinGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(joinGameCommand));
@@ -55,7 +55,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString()};
         String[] paramValues = {authToken, gameID, playerID};
 
-        Command leaveGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_leaveGame", paramTypes, paramValues);
+        Command leaveGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_leaveGame", paramTypes, paramValues);
 
         // TODO - Send leaveGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(leaveGameCommand));
@@ -65,7 +65,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     public void startGame(String authToken, String gameID) {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
         String[] paramValues = {authToken, gameID};
-        Command startGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_startGame", paramTypes, paramValues);
+        Command startGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_startGame", paramTypes, paramValues);
 
 
         // TODO - Send startGameCommand to Server via socket
@@ -77,7 +77,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
         String[] paramValues = {authToken, gameID};
 
-        Command getPlayersForGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
+        Command getPlayersForGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
 
         // TODO - Send getPlayersForGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getPlayersForGameCommand));
@@ -88,7 +88,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), "int"};
         Object[] paramValues = {authToken, gameID, playerID, color};
 
-        Command getPlayersForGameCommand = CommandFactory.createCommand("ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
+        Command getPlayersForGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
 
         // TODO - Send getPlayersForGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getPlayersForGameCommand));

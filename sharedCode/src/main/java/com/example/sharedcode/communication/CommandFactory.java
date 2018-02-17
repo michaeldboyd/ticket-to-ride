@@ -1,6 +1,7 @@
 package com.example.sharedcode.communication;
 
 import com.example.sharedcode.communication.Command;
+import com.example.sharedcode.model.UpdateType;
 
 /**
  * Created by eric on 2/5/18.
@@ -8,8 +9,8 @@ import com.example.sharedcode.communication.Command;
 
 public class CommandFactory {
 
-    public static Command createCommand(String className, String methodName, String[] paramTypesStringNames, Object[] paramValues) {
-        return new Command(className, methodName, paramTypesStringNames, paramValues);
+    public static Command createCommand(String authToken, String className, String methodName, String[] paramTypesStringNames, Object[] paramValues) {
+        return new Command(authToken, className, methodName, paramTypesStringNames, paramValues);
     }
 
 }

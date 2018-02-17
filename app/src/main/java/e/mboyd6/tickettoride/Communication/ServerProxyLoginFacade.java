@@ -26,7 +26,7 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
     public void login(String username, String password, String socketID) {
         String[] paramTypes = {username.getClass().toString(), password.getClass().toString(), socketID.getClass().toString()};
         String[] paramValues = {username, password, socketID};
-        Command loginCommand = CommandFactory.createCommand("ServerLoginFacade", "_login", paramTypes, paramValues);
+        Command loginCommand = CommandFactory.createCommand(null, "ServerLoginFacade", "_login", paramTypes, paramValues);
         // TODO - send login to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(loginCommand));
     }
@@ -35,7 +35,7 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
     public void register(String username, String password, String socketID) {
         String[] paramTypes = {username.getClass().toString(), password.getClass().toString(), socketID.getClass().toString()};
         String[] paramValues = {username, password, socketID};
-        Command registerCommand = CommandFactory.createCommand("ServerLoginFacade", "_register", paramTypes, paramValues);
+        Command registerCommand = CommandFactory.createCommand(null, "ServerLoginFacade", "_register", paramTypes, paramValues);
 
         // TODO - Put sender functions into socket manager
         ClientModel.getInstance().getSocket().send(new Gson().toJson(registerCommand));
@@ -45,7 +45,7 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
     public void logout(String authToken) {
         String[] paramTypes = {authToken.getClass().toString()};
         String[] paramValues = {authToken};
-        Command logoutCommand = CommandFactory.createCommand("ServerLoginFacade", "_logout", paramTypes, paramValues);
+        Command logoutCommand = CommandFactory.createCommand(null, "ServerLoginFacade", "_logout", paramTypes, paramValues);
 
         // TODO - Put sender functions into socket manager
         ClientModel.getInstance().getSocket().send(new Gson().toJson(logoutCommand));

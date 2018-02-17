@@ -73,21 +73,21 @@ public class ClientModel extends Observable {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
-        notifyObservers(UpdateType.REGISTERRESPONSE);
+        notifyObservers(UpdateType.REGISTER_RESPONSE);
     }
 
     public void setLoginResponse(String authToken, String message) {
         this.authToken = authToken;
         this.response = message;
         this.setChanged();
-        notifyObservers(UpdateType.LOGINRESPONSE);
+        notifyObservers(UpdateType.LOGIN_RESPONSE);
     }
 
     public void setRegisterResponse(String authToken, String message) {
         this.authToken = authToken;
         this.response = message;
         this.setChanged();
-        notifyObservers(UpdateType.REGISTERRESPONSE);
+        notifyObservers(UpdateType.REGISTER_RESPONSE);
     }
 
     public void setCreateGameResponse(Game newGame){
@@ -99,7 +99,7 @@ public class ClientModel extends Observable {
         //We need this to be configured\
         */
         this.setChanged();
-        notifyObservers(UpdateType.GAMECREATED);
+        notifyObservers(UpdateType.GAME_CREATED);
 
     }
 
@@ -108,7 +108,7 @@ public class ClientModel extends Observable {
 
         this.response = message;
         this.setChanged();
-        notifyObservers(UpdateType.GAMELIST);
+        notifyObservers(UpdateType.GAME_LIST);
     }
 
     public void setJoinGameResponse(String gameID, String playerID, String message){
@@ -122,7 +122,7 @@ public class ClientModel extends Observable {
         this.playerID = playerID;
 
         this.setChanged();
-        notifyObservers(UpdateType.GAMEJOINED);
+        notifyObservers(UpdateType.GAME_JOINED);
         System.out.println(response);
     }
 
@@ -152,7 +152,7 @@ public class ClientModel extends Observable {
         }
 
         this.setChanged();
-        notifyObservers(UpdateType.GAMESTARTED);
+        notifyObservers(UpdateType.GAME_STARTED);
         System.out.println(response);
 
     }
@@ -170,7 +170,7 @@ public class ClientModel extends Observable {
         this.response = message;
 
         this.setChanged();
-        notifyObservers(UpdateType.LOGOUTRESPONSE);
+        notifyObservers(UpdateType.LOGOUT_RESPONSE);
     }
 
     public void setLeaveGameResponse(String gameID, String message) {
@@ -181,7 +181,7 @@ public class ClientModel extends Observable {
         this.response = message;
 
         this.setChanged();
-        notifyObservers(UpdateType.GAMELEFT);
+        notifyObservers(UpdateType.GAME_LEFT);
     }
 
     public String getResponse() {

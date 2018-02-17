@@ -7,16 +7,14 @@ import org.eclipse.jetty.websocket.api.Session;
 
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class Sender {
+public class Sender implements Observer {
     private static Gson gson = new Gson();
-    public static boolean sendCommand(Command command, String authToken){
+    public static boolean sendCommand(Command command){
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
-        Session sess = ServerModel.instance().loggedInSessions.get(authToken);
+        Session sess = ServerModel.instance().getLoggedInSessions().get(command.get_authToken());
         try {
             String resp = JsonWriter.objectToJson(command, args);
             sess.getRemote().sendString(resp);
@@ -30,7 +28,7 @@ public class Sender {
     public static void initialSocketConnect(Command command, String id){
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
-        Session sess = ServerModel.instance().allSessions.get(id);
+        Session sess = ServerModel.instance().getAllSessions().get(id);
         try {
             String resp = JsonWriter.objectToJson(command, args);
             sess.getRemote().sendString(resp);
@@ -42,7 +40,7 @@ public class Sender {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
 
-        Map<String, Session> sessions = ServerModel.instance().loggedInSessions;
+        Map<String, Session> sessions = ServerModel.instance().getLoggedInSessions();
         for(Session s : sessions.values())
         {
             try {
@@ -54,5 +52,18 @@ public class Sender {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    // *** OBSERVER ***
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg.getClass() != Command.class) {
+            return;
+        }
+
+        Command command = (Command)arg;
+        Sender.sendCommand(command);
     }
 }
