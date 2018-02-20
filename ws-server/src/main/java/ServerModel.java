@@ -105,7 +105,9 @@ public class ServerModel extends Observable {
 
         String[] paramTypes = {message.getClass().toString()};
         String[] paramValues = {message};
-        Command loginClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_loginReceived", paramTypes, paramValues);
+        Command loginClientCommand = CommandFactory.createCommand(authToken,
+                "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
+                "_loginReceived", paramTypes, paramValues);
         notifyObserversForUpdate(loginClientCommand);
     }
 
@@ -123,7 +125,9 @@ public class ServerModel extends Observable {
 
         String[] paramTypes = {message.getClass().toString()};
         String[] paramValues = {message};
-        Command logoutClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_logoutReceived", paramTypes, paramValues);
+        Command logoutClientCommand = CommandFactory.createCommand(authToken,
+                "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
+                "_logoutReceived", paramTypes, paramValues);
         notifyObserversForUpdate(logoutClientCommand);
     }
 

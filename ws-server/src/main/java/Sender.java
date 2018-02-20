@@ -14,6 +14,7 @@ public class Sender implements Observer {
     public static boolean sendCommand(Command command){
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
+        //TODO this line below could throw a null exception. handle that ish, michael
         Session sess = ServerModel.instance().getLoggedInSessions().get(command.get_authToken());
         try {
             String resp = JsonWriter.objectToJson(command, args);
