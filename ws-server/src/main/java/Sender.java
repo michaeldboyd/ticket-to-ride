@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Sender implements Observer {
-    public static Sender _instance;
+    private static Sender _instance;
 
     public static Sender instance() {
 

@@ -11,7 +11,7 @@ import java.util.*;
 
 public class ServerModel extends Observable {
 
-    public static ServerModel _instance;
+    private static ServerModel _instance;
 
     public static ServerModel instance() {
 
