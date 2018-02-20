@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
-
+//TODO this class is effectively dead. Delete when ready
 /**
  * Created by eric on 2/7/18.
  */

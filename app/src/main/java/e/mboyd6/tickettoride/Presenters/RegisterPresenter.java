@@ -87,6 +87,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
     @Override
     public void register(String username, String password) {
         String id = ClientModel.getInstance().getSocketID();
+        assert(id != null);
         ServerProxyLoginFacade.instance().register(username, password, id);
     }
 
