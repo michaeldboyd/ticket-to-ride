@@ -10,6 +10,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class Sender implements Observer {
+    private static Sender sender = new Sender();
+
+    public static Sender instance() { return sender; }
+
+    private Sender() {
+        ServerModel.instance().addObserver(this);
+    }
     private static Gson gson = new Gson();
     public static boolean sendCommand(Command command){
         Map args = new HashMap();

@@ -47,7 +47,7 @@ public class SocketConnectionTest {
         ServerProxyLobbyFacade.instance().createGame("");
     }
     @Test
-    public void testLogin()
+    public void testRegister()
     {
         ServerProxyLoginFacade.instance().login("test1", "test", );
         ServerProxyLobbyFacade.instance().createGame("");

@@ -2,7 +2,6 @@ package e.mboyd6.tickettoride.Communication;
 
 
 import com.example.sharedcode.interfaces.IClientLoginFacade;
-import com.example.sharedcode.interfaces.IServerLoginFacade;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 
@@ -35,10 +34,10 @@ public class ClientLoginFacade implements IClientLoginFacade {
         instance().register(authToken, message);
     }
 
-    public static void _logoutReceived(String authToken, String message)
+    public static void _logoutReceived(String message)
     {
         System.out.println("_logoutReceived");
-        instance().logout(authToken, message);
+        instance().logout(message);
     }
 
 
@@ -68,7 +67,7 @@ public class ClientLoginFacade implements IClientLoginFacade {
     }
 
     @Override
-    public void logout(String token, String message) {
+    public void logout(String message) {
         System.out.println("logout was called");
 
         ClientModel.getInstance().setLogoutResponse(message);

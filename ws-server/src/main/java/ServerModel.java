@@ -34,6 +34,11 @@ public class ServerModel extends Observable {
     private Map<String, org.eclipse.jetty.websocket.api.Session> allSessions = new HashMap<>();
 
 
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
+    }
+
     private void notifyObserversForUpdate(Command command) {
         this.setChanged();
         this.notifyObservers(command);
@@ -66,8 +71,8 @@ public class ServerModel extends Observable {
             matchSocketToAuthToken(socketID, authToken);
         }
 
-        String[] paramTypes = {message.getClass().toString()};
-        String[] paramValues = {message};
+        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
+        String[] paramValues = {authToken, message};
         Command registerClientCommand = CommandFactory.createCommand(authToken,"e.mboyd6.tickettoride.Communication.ClientLoginFacade","_registerReceived", paramTypes, paramValues);
 
         notifyObserversForUpdate(registerClientCommand);
@@ -103,8 +108,8 @@ public class ServerModel extends Observable {
             }
         }
 
-        String[] paramTypes = {message.getClass().toString()};
-        String[] paramValues = {message};
+        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
+        String[] paramValues = {authToken, message};
         Command loginClientCommand = CommandFactory.createCommand(authToken,
                 "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
                 "_loginReceived", paramTypes, paramValues);
@@ -319,15 +324,13 @@ public class ServerModel extends Observable {
 
 
     private void updateGamesBroadcast() {
+        //TODO is there a better way to send the games over the server?
         Object[] games = ServerModel.instance().games.values().toArray();
         Game[] gs = new Game[games.length];
         int i=0;
         for(Object o : games) { gs[i++] = (Game)o; }
-        for(Game g:gs) {
-            System.out.println(g.getGameID());
-        }
-        String[] paramTypes = {"".getClass().toString(), gs.getClass().toString(), "".getClass().toString()};
-        Object[] paramValues = {"", gs, ""};
+        String[] paramTypes = {gs.getClass().toString(), "".getClass().toString()};
+        Object[] paramValues = {gs, ""};
         Command updateGamesClientCommand = CommandFactory.createCommand(null, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_updateGamesReceived", paramTypes, paramValues);
         Sender.sendBroadcast(updateGamesClientCommand);
