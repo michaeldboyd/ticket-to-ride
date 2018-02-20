@@ -82,21 +82,6 @@ public class Command implements ICommand {
 
                 Class paramClass = Class.forName(className);
                 paramTypes[i] = paramClass;
-                /*if (paramClass == Game[].class) {
-
-                    Game[] games = (Game[]) _paramValues[i];
-                    _paramValues[i] = games;
-                    //Game[] gameList = new Game[games.size()];*//*Arrays.copyOf(games.toArray(), games.size(), Game[].class);*//*
-
-                    //for (int j = 0; j < games.size(); j++) {
-                     //   gameList[j] = (Game)games.get(j);
-                    //}
-
-                   // _paramValues[i] = gameList;
-                    Method method = receiver.getMethod(_methodName, paramTypes);
-                    method.invoke(null, _paramValues);
-                    break;
-                }*/
             }
 
             Method method = receiver.getMethod(_methodName, paramTypes);
