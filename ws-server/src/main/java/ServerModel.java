@@ -72,8 +72,8 @@ public class ServerModel extends Observable {
             matchSocketToAuthToken(socketID, authToken);
         }
 
-        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
-        String[] paramValues = {authToken, message};
+        String[] paramTypes = {message.getClass().toString()};
+        String[] paramValues = {message};
         Command registerClientCommand = CommandFactory.createCommand(authToken,"e.mboyd6.tickettoride.Communication.ClientLoginFacade","_registerReceived", paramTypes, paramValues);
 
         notifyObserversForUpdate(registerClientCommand);
@@ -109,8 +109,8 @@ public class ServerModel extends Observable {
             }
         }
 
-        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
-        String[] paramValues = {authToken, message};
+        String[] paramTypes = {message.getClass().toString()};
+        String[] paramValues = {message};
         Command loginClientCommand = CommandFactory.createCommand(authToken,
                 "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
                 "_loginReceived", paramTypes, paramValues);
