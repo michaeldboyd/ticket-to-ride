@@ -1,15 +1,12 @@
 import com.example.sharedcode.communication.Command;
+import com.example.sharedcode.communication.CommandFactory;
 import com.google.gson.Gson;
-import org.eclipse.jetty.server.session.DefaultSessionCache;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
-
-import javax.websocket.ClientEndpoint;
+import org.eclipse.jetty.websocket.api.Session;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
@@ -56,13 +53,24 @@ public class CommandSocket implements WebSocketListener
     @Override
     public void onWebSocketClose(int statusCode, String reason) {}
 
+    /**
+     *
+     * @param session
+     */
     @Override
-    public void onWebSocketConnect(org.eclipse.jetty.websocket.api.Session session) {
-        //We need to save the session locally until the user is logged in...
-        // make an authToken then send it back to the serve
-        String ID = UUID.randomUUID().toString();
-        ServerModel.instance().getAllSessions().put(ID, session);
-        ClientProxyLoginFacade.instance().initSocket(ID);
+    public void onWebSocketConnect(Session session) {
+        //create ID for socket.
+        String id = UUID.randomUUID().toString();
+        ServerModel.instance().getAllSessions().put(id, session);
+
+        //send command back to client.
+        String[] paramTypes = {id.getClass().toString()};
+        String[] paramValues = {id};
+        Command initCommand = CommandFactory.createCommand(null,
+                "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
+                "_initSocket", paramTypes, paramValues);
+        // Send logoutCommand to Client via socket
+        Sender.initialSocketConnect(initCommand, id);
 
     }
 }

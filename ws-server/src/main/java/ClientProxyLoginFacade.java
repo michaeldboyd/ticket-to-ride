@@ -47,12 +47,7 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
 
     @Override
     public void initSocket(String id) {
-        String[] paramTypes = {id.getClass().toString()};
-        String[] paramValues = {id};
-        Command initCommand = CommandFactory.createCommand(null, "e.mboyd6.tickettoride.Communication.ClientLoginFacade", "_initSocket", paramTypes, paramValues);
-
-        // Send logoutCommand to Client via socket
-        Sender.initialSocketConnect(initCommand, id);
+       //
     }
 
 
