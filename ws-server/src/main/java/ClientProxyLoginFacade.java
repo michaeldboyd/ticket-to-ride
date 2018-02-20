@@ -41,7 +41,7 @@ public class ClientProxyLoginFacade implements IClientLoginFacade {
     }
 
     @Override
-    public void logout(String authToken, String message){
+    public void logout(String message){
         // Send logoutCommand to Client via socket
     }
 

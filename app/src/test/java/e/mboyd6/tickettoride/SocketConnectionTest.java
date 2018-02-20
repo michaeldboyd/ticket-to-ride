@@ -20,24 +20,11 @@ public class SocketConnectionTest {
     {
 
         try {
-            //Thread.sleep(5000);
-            //Thread.sleep(3000);
             WebSocketClient client = new SocketClient(new URI("ws://localhost:8080/echo/"));
-
-
             ClientModel.getInstance().setSocket(client);
-
-        } catch (URISyntaxException  e) { //| InterruptedException
-
-            e.printStackTrace();
-        }
-        if(ClientModel.getInstance().getSocket() != null)
-        {
             ClientModel.getInstance().getSocket().connect();
-
-        } else
-        {
-            System.out.println("Yo, your socket didn't connect correctly... Sorry broseph");
+        } catch (URISyntaxException  e) {
+            e.printStackTrace();
         }
     }
 
