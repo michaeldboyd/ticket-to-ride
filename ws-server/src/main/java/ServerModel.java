@@ -17,6 +17,7 @@ public class ServerModel extends Observable {
 
         if (_instance == null){
             _instance = new ServerModel();
+            _instance.addObserver(Sender.instance());
         }
 
         return _instance;

@@ -25,7 +25,7 @@ public class ClientModel extends Observable {
     private Game currentGame = null;
     private String playerID = "";
 
-    //Current player data
+    // Current player data
     private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
     private String authToken;
     private String response;

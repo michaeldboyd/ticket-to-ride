@@ -1,8 +1,5 @@
 import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
-import com.example.sharedcode.communication.CommandFactory;
-import com.example.sharedcode.model.Game;
-import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 
 
@@ -10,8 +7,23 @@ import java.io.IOException;
 import java.util.*;
 
 public class Sender implements Observer {
-    private static Gson gson = new Gson();
+    public static Sender _instance;
+
+    public static Sender instance() {
+
+        if (_instance == null){
+            _instance = new Sender();
+        }
+
+        return _instance;
+    }
+
+
     public static boolean sendCommand(Command command){
+        return _instance._sendCommand(command);
+    }
+
+    private boolean _sendCommand(Command command) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
         Session sess = ServerModel.instance().getLoggedInSessions().get(command.get_authToken());
@@ -25,7 +37,12 @@ public class Sender implements Observer {
         }
     }
 
+
     public static void initialSocketConnect(Command command, String id){
+        _instance._initialSocketConnect(command, id);
+    }
+
+    private void _initialSocketConnect(Command command, String id) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
         Session sess = ServerModel.instance().getAllSessions().get(id);
@@ -36,7 +53,13 @@ public class Sender implements Observer {
             e.printStackTrace();
         }
     }
+
+
     public static void sendBroadcast(Command command) {
+        _instance._sendBroadcast(command);
+    }
+
+    private void _sendBroadcast(Command command) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
 
@@ -53,6 +76,8 @@ public class Sender implements Observer {
             }
         }
     }
+
+
 
 
     // *** OBSERVER ***

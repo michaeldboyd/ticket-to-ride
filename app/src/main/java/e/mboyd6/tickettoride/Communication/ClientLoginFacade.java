@@ -25,14 +25,15 @@ public class ClientLoginFacade implements IClientLoginFacade {
     {
         instance().initSocket(id);
     }
-    public static void _loginReceived(String authToken, String message) {
-        System.out.println("_loginReceived");
-        instance().login(authToken, message);
-    }
 
     public static void _registerReceived(String authToken, String message) {
         System.out.println("_registerReceived");
         instance().register(authToken, message);
+    }
+
+    public static void _loginReceived(String authToken, String message) {
+        System.out.println("_loginReceived");
+        instance().login(authToken, message);
     }
 
     public static void _logoutReceived(String authToken, String message)
