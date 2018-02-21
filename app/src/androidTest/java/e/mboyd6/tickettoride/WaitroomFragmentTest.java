@@ -92,11 +92,11 @@ public class WaitroomFragmentTest {
     ClientModel.getInstance().setPlayerID("001");
     generateFakeGames();
     ClientModel.getInstance().setGames(fakeGames);
-    waitForSecond();
+    waitForSeconds(1);
 
     ClientModel.getInstance().setJoinGameResponse(game1.getGameID(),"001", "");
     testingActivity.getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_fragment_container, new WaitroomFragment(), "CURRENT_FRAGMENT").commit();
-    waitForSecond();
+    waitForSeconds(1);
 
     Fragment currentFragment = testingActivity.getSupportFragmentManager().findFragmentByTag("CURRENT_FRAGMENT");
 
@@ -106,28 +106,24 @@ public class WaitroomFragmentTest {
     WaitroomFragment testWaitroomFragment = (WaitroomFragment) currentFragment;
 
     ClientModel.getInstance().setGames(fakeGames);
-    waitForSecond();
+    waitForSeconds(1);
 
     ColorSelectionView colorSelection = testWaitroomFragment.getView().findViewById(R.id.color_selection_1);
     assertTrue(compareBackgrounds(colorSelection, R.drawable.color_turquoise_faded));
 
     changeFakeGames();
     ClientModel.getInstance().setUpdateGamesResponse(fakeGames.toArray(new Game[fakeGames.size()]), "");
-    waitForSecond();
-    waitForSecond();
-    waitForSecond();
+    waitForSeconds(1);
+    waitForSeconds(1);
+    waitForSeconds(1);
 
     assertTrue(compareBackgrounds(colorSelection, R.drawable.color_orange_faded));
-    waitForSecond();
+    waitForSeconds(1);
 
-    /*
-    colorSelection = testWaitroomFragment.getView().findViewById(R.id.color_selection_2);
-    assertTrue(colorSelection != null);
-    background = colorSelection.getBackground();
-    Drawable orangeFaded = ContextCompat.getDrawable(testingActivity, R.drawable.color_orange_faded);
-    assertTrue(background.equals(orangeFaded));
-    */
+
   }
+
+
 
   public boolean compareBackgrounds(ColorSelectionView colorSelectionView, int resourceID) {
     if (colorSelectionView == null) return false;
@@ -136,9 +132,10 @@ public class WaitroomFragmentTest {
     return backgroundID == backgroundResourceID;
   }
 
-  public void waitForSecond() {
+  public void waitForSeconds(float multiplier) {
     try{
-      Thread.sleep(1000);
+      long amount = 1000 * (long) multiplier;
+      Thread.sleep(amount);
     } catch (Exception e) {
 
     }

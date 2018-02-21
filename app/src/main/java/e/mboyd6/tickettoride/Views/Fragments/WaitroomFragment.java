@@ -57,12 +57,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
 
     private IWaitroomFragment mListener;
 
-    private ColorSelectionView colorSelection1;
-    private ColorSelectionView colorSelection2;
-    private ColorSelectionView colorSelection3;
-    private ColorSelectionView colorSelection4;
-    private ColorSelectionView colorSelection5;
-
+    private ArrayList<ColorSelectionView> colorSelectionViews = new ArrayList<>();
     private TextView playersInLobby;
 
     private ArrayList<Player> players;
@@ -119,11 +114,12 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             }
         });
 
-        colorSelection1 = v.findViewById(R.id.color_selection_1);
-        colorSelection2 = v.findViewById(R.id.color_selection_2);
-        colorSelection3 = v.findViewById(R.id.color_selection_3);
-        colorSelection4 = v.findViewById(R.id.color_selection_4);
-        colorSelection5 = v.findViewById(R.id.color_selection_5);
+        colorSelectionViews.clear();
+        colorSelectionViews.add((ColorSelectionView) v.findViewById(R.id.color_selection_1));
+        colorSelectionViews.add((ColorSelectionView) v.findViewById(R.id.color_selection_2));
+        colorSelectionViews.add((ColorSelectionView) v.findViewById(R.id.color_selection_3));
+        colorSelectionViews.add((ColorSelectionView) v.findViewById(R.id.color_selection_4));
+        colorSelectionViews.add((ColorSelectionView) v.findViewById(R.id.color_selection_5));
 
         playersInLobby = v.findViewById(R.id.players_in_lobby);
 
@@ -138,6 +134,10 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
                 new SelectedColor(PlayerColors.BLUE, R.drawable.color_blue, R.drawable.color_blue_faded,false, false),
                 new SelectedColor(PlayerColors.PURPLE, R.drawable.color_purple, R.drawable.color_purple_faded,false, false)};
     }
+
+    //TODO: The player name shouldn't appear unless they have chosen that color
+    //TODO: Make the colorSelectionViews into an arrayList that is iterated over
+    //TODO: Implement the onClickListeners (each one will call one function that takes in the index of the colorSelectionView, and can do the logic to figure out whether it should send a color change or not)
     public void redrawPlayers() {
 
         selectedColors = refreshSelectedColors();
@@ -151,17 +151,21 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             int fadedText = ContextCompat.getColor((Context) mListener, R.color.gray);
             int textColor = normalText;
             String colorSelectionText = "CHOOSE";
+            int playerColorToSelect = 0;
+            boolean chosen = false;
 
             if (i < playerCount) {
                 int playerColor = players.get(i).getColor();
-                colorSelectionText = players.get(i).getName();
                 if (playerColor != PlayerColors.NO_COLOR) {
                     for (SelectedColor selectedColor : selectedColors) {
                         if (playerColor == selectedColor.playerColor) {
                             selectedColor.chosen = true;
+                            chosen = true;
+                            colorSelectionText = players.get(i).getName();
                             selectedColor.shown = true;
                             background = selectedColor.backgroundFaded;
                             textColor = fadedText;
+                            playerColorToSelect = selectedColor.playerColor;
                             break;
                         }
                     }
@@ -170,6 +174,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
                         if (!selectedColor.chosen && !selectedColor.shown) {
                             selectedColor.shown = true;
                             background = selectedColor.background;
+                            playerColorToSelect = selectedColor.playerColor;
                             break;
                         }
                     }
@@ -179,41 +184,29 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
                     if (!selectedColor.chosen && !selectedColor.shown) {
                         selectedColor.shown = true;
                         background = selectedColor.background;
+                        playerColorToSelect = selectedColor.playerColor;
                         break;
                     }
                 }
             }
 
-            //TODO: Refactor this to an array of color selections, and iterate through it concurrently with playerlist
-            switch (i) {
-                case 0:
-                    colorSelection1.setBackgroundResource(background);
-                    colorSelection1.setTextColor(textColor);
-                    colorSelection1.setText(colorSelectionText);
-                    break;
-                case 1:
-                    colorSelection2.setBackgroundResource(background);
-                    colorSelection2.setTextColor(textColor);
-                    colorSelection2.setText(colorSelectionText);
-                    break;
-                case 2:
-                    colorSelection3.setBackgroundResource(background);
-                    colorSelection3.setTextColor(textColor);
-                    colorSelection3.setText(colorSelectionText);
-                    break;
-                case 3:
-                    colorSelection4.setBackgroundResource(background);
-                    colorSelection4.setTextColor(textColor);
-                    colorSelection4.setText(colorSelectionText);
-                    break;
-                case 4:
-                    colorSelection5.setBackgroundResource(background);
-                    colorSelection5.setTextColor(textColor);
-                    colorSelection5.setText(colorSelectionText);
-                    break;
-                default:
-                    break;
-            }
+            colorSelectionViews.get(i).setBackgroundResource(background);
+            colorSelectionViews.get(i).setTextColor(textColor);
+            colorSelectionViews.get(i).setText(colorSelectionText);
+
+            final int playerIndex = i;
+            final int playerColorToSelectFinal = playerColorToSelect;
+            final boolean chosenFinal = chosen;
+            colorSelectionViews.get(i).setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (!chosenFinal) {
+                        onWaitroomFragmentColorPicked(playerColorToSelectFinal);
+                    }
+                }
+            });
+            //colorSelectionViews.get(i).setOnClickListener(null);
         }
 
         String playersInLobbyText = playerCount + " " + getString(R.string.players_in_lobby);
