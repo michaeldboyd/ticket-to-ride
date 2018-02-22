@@ -80,23 +80,24 @@ public class Command implements ICommand {
                 String classStringName = _paramTypesStringNames[i];
                 String className = classStringName.replace("class ", "");
 
-                Class paramClass = Class.forName(className);
+                Class paramClass;
+                switch (className) {
+                    case "int":
+                        paramClass = int.class;
+                        // This is necessary because JSON turns all numbers into doubles
+                        int castValue = ((Double) _paramValues[i]).intValue();
+                        _paramValues[i] = castValue;
+                        break;
+
+                    case "boolean":
+                        paramClass = boolean.class;
+                        break;
+
+                    default:
+                        paramClass = Class.forName(className);
+                        break;
+                }
                 paramTypes[i] = paramClass;
-                /*if (paramClass == Game[].class) {
-
-                    Game[] games = (Game[]) _paramValues[i];
-                    _paramValues[i] = games;
-                    //Game[] gameList = new Game[games.size()];*//*Arrays.copyOf(games.toArray(), games.size(), Game[].class);*//*
-
-                    //for (int j = 0; j < games.size(); j++) {
-                     //   gameList[j] = (Game)games.get(j);
-                    //}
-
-                   // _paramValues[i] = gameList;
-                    Method method = receiver.getMethod(_methodName, paramTypes);
-                    method.invoke(null, _paramValues);
-                    break;
-                }*/
             }
 
             Method method = receiver.getMethod(_methodName, paramTypes);

@@ -30,7 +30,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     @Override
     public void changePlayerColor(int color){
         String gameID = ClientModel.getInstance().getCurrentGame().getGameID();
-        String playerID = ClientModel.getInstance().getCurrentPlayer().getPlayerID();
+        String playerID = ClientModel.getInstance().getPlayerID();
         ServerProxyLobbyFacade.instance().playerColorChanged(ClientModel.getInstance().getAuthToken(),
                 gameID, playerID, color);
     }
@@ -75,7 +75,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     @Override
     public void leaveGameResponse(String message){
-        mainActivity.onBackoutResponse(message);
+        mainActivity.onLeaveGameResponse(message);
     }
 
 

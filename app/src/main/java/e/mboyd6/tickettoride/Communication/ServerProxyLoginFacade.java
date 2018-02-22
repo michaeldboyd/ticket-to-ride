@@ -33,7 +33,7 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
 
     @Override
     public void register(String username, String password, String socketID) {
-        String[] paramTypes = {username.getClass().toString(), password.getClass().toString(), socketID.getClass().toString()};
+        String[] paramTypes = {"".getClass().toString(), "".getClass().toString(), "".getClass().toString()};
         String[] paramValues = {username, password, socketID};
         Command registerCommand = CommandFactory.createCommand("ServerLoginFacade", "_register", paramTypes, paramValues);
 
