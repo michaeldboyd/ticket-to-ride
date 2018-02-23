@@ -94,7 +94,23 @@ public class Command implements ICommand {
                 String classStringName = _paramTypesStringNames[i];
                 String className = classStringName.replace("class ", "");
 
-                Class paramClass = Class.forName(className);
+                Class paramClass;
+                switch (className) {
+                    case "int":
+                        paramClass = int.class;
+                        // This is necessary because JSON turns all numbers into doubles
+                        int castValue = ((Double) _paramValues[i]).intValue();
+                        _paramValues[i] = castValue;
+                        break;
+
+                    case "boolean":
+                        paramClass = boolean.class;
+                        break;
+
+                    default:
+                        paramClass = Class.forName(className);
+                        break;
+                }
                 paramTypes[i] = paramClass;
             }
 

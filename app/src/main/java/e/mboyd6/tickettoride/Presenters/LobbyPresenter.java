@@ -55,7 +55,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     @Override
     public void gameCreated(String response) {
-        mainActivity.onStartNewGameResponse(response);
+        mainActivity.onCreateGameResponse(response);
     }
 
     @Override

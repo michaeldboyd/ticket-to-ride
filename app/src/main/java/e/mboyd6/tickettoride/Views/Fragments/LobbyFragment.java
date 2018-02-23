@@ -62,7 +62,7 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
         // Inflate the layout for this fragment
         mLayout = inflater.inflate(R.layout.fragment_lobby, container, false);
         mLogOutButton = mLayout.findViewById(R.id.lobby_fragment_back_button);
-        mStartNewGameButton = mLayout.findViewById(R.id.lobby_fragment_start_new_game_button);
+        mStartNewGameButton = mLayout.findViewById(R.id.lobby_fragment_create_game_button);
         mGameListAdapter = new GameListAdapter(getContext(), new ArrayList<Game>(), this);
         ListView listView = mLayout.findViewById(R.id.lobby_fragment_list_view);
         listView.setAdapter(mGameListAdapter);
@@ -76,7 +76,7 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
         mStartNewGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onLobbyFragmentStartNewGameButton();
+                onLobbyFragmentCreateGameButton();
             }
         });
 
@@ -138,21 +138,21 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
     }
 
     @Override
-    public void onLobbyFragmentStartNewGameButton() {
+    public void onLobbyFragmentCreateGameButton() {
         if (mListener != null && !disableInputs) {
-            mListener.onLobbyFragmentStartNewGameButton();
+            mListener.onLobbyFragmentCreateGameButton();
             currentPressedButton = mStartNewGameButton;
         }
     }
 
     @Override
-    public void onStartNewGameSent() {
+    public void onCreateGameSent() {
         disableInputs = true;
         mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
     }
 
     @Override
-    public void onStartNewGameResponse(String message) {
+    public void onCreateGameResponse(String message) {
         disableInputs = false;
         mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.plus,0);
     }

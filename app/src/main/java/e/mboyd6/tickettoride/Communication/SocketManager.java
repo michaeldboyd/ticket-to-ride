@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride.Communication;
 
+import android.support.v7.app.AppCompatActivity;
+
 import org.java_websocket.WebSocketImpl;
 import org.java_websocket.client.WebSocketClient;
 
@@ -7,6 +9,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.R;
 
 /**
  * Created by mboyd6 on 2/12/2018.

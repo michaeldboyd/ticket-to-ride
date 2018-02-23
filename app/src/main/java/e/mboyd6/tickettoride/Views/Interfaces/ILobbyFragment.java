@@ -26,9 +26,9 @@ public interface ILobbyFragment {
     void onLobbyFragmentLogOutButton();
     void onLogOutSent();
     void onLogOutResponse(String message);
-    void onLobbyFragmentStartNewGameButton();
-    void onStartNewGameSent();
-    void onStartNewGameResponse(String message);
+    void onLobbyFragmentCreateGameButton();
+    void onCreateGameSent();
+    void onCreateGameResponse(String message);
     void onGameListAdapterJoinButton(Game game, Button button);
     void onLobbyFragmentJoinGameButton(Game game);
     void onGameJoinedSent();

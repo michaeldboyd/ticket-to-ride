@@ -3,7 +3,6 @@ package e.mboyd6.tickettoride.Communication;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
-import com.example.sharedcode.model.PlayerColors;
 import com.google.gson.Gson;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
@@ -85,11 +84,11 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     @Override
     public void playerColorChanged(String authToken, String gameID, String playerID, int color) {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), "int"};
-        Object[] paramValues = {authToken, gameID, playerID, color};
+        Object[] paramValues = {authToken, gameID, playerID, Integer.valueOf(color)};
 
-        Command getPlayersForGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
+        Command playerColorChangedCommand = CommandFactory.createCommand("ServerLobbyFacade", "_playerColorChanged", paramTypes, paramValues);
 
         // TODO - Send getPlayersForGameCommand to Server via socket
-        ClientModel.getInstance().getSocket().send(new Gson().toJson(getPlayersForGameCommand));
+        ClientModel.getInstance().getSocket().send(new Gson().toJson(playerColorChangedCommand));
     }
 }
