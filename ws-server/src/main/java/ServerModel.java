@@ -72,8 +72,8 @@ public class ServerModel extends Observable {
             matchSocketToAuthToken(socketID, authToken);
         }
 
-        String[] paramTypes = {message.getClass().toString()};
-        String[] paramValues = {message};
+        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
+        String[] paramValues = {authToken, message};
         Command registerClientCommand = CommandFactory.createCommand(authToken,"e.mboyd6.tickettoride.Communication.ClientLoginFacade","_registerReceived", paramTypes, paramValues);
 
         notifyObserversForUpdate(registerClientCommand);
@@ -109,8 +109,8 @@ public class ServerModel extends Observable {
             }
         }
 
-        String[] paramTypes = {message.getClass().toString()};
-        String[] paramValues = {message};
+        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
+        String[] paramValues = {authToken, message};
         Command loginClientCommand = CommandFactory.createCommand(authToken,
                 "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
                 "_loginReceived", paramTypes, paramValues);
@@ -159,8 +159,8 @@ public class ServerModel extends Observable {
 
         // SEND UPDATED GAMES LIST TO ERRYBODY
         // SEND JOIN GAME COMMAND TO CREATOR OF GAME
-        String[] paramTypes = {"".getClass().toString(), newGame.getClass().toString()};
-        Object[] paramValues = {"", newGame};
+        String[] paramTypes = {newGame.getClass().toString()};
+        Object[] paramValues = {newGame};
         Command createGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_createGameReceived", paramTypes, paramValues);
         notifyObserversForUpdate(createGameClientCommand);
@@ -173,8 +173,10 @@ public class ServerModel extends Observable {
 
         // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
 
-        String[] paramTypes = {games.getClass().toString(), "".getClass().toString()};
-        Object[] paramValues = {games, ""};
+        // Message is empty
+        String message= "";
+        String[] paramTypes = {games.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {games, message};
 
         Command updateGamesClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_updateGamesReceived", paramTypes, paramValues);
@@ -199,8 +201,8 @@ public class ServerModel extends Observable {
             }
         }
 
-        String[] paramTypes = {"".getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {"", gameID, playerID, message};
+        String[] paramTypes = {gameID.getClass().toString(), playerID.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gameID, playerID, message};
 
         Command joinGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_joinGameReceived", paramTypes, paramValues);
@@ -220,8 +222,8 @@ public class ServerModel extends Observable {
         // Commented out because we should not need to do this before and after making the update to this Game
 //        updateGamesBroadcast();
 
-        String[] paramTypes = {"".getClass().toString(), gameID.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {"", gameID, message};
+        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gameID, message};
 
         Command leaveGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_leaveGameReceived", paramTypes, paramValues);
 
@@ -259,8 +261,8 @@ public class ServerModel extends Observable {
             }
         }
 
-        String[] paramTypes = {"".getClass().toString(), gameID.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {"", gameID, message};
+        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gameID, message};
 
         Command startGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_startGameReceived", paramTypes, paramValues);
@@ -271,8 +273,8 @@ public class ServerModel extends Observable {
 
     private void notifyPlayersOfGameStarted(Collection<String> tokens, String message, String gameID)
     {
-        String[] paramTypes = {"".getClass().toString(), message.getClass().toString(), gameID.getClass().toString()};
-        Object[] paramValues = {"", gameID, message};
+        String[] paramTypes = {message.getClass().toString(), gameID.getClass().toString()};
+        Object[] paramValues = {gameID, message};
         Command command = CommandFactory.createCommand("", "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_startGameReceived", paramTypes, paramValues);
         for(String token : tokens)
@@ -329,9 +331,14 @@ public class ServerModel extends Observable {
         Object[] games = ServerModel.instance().games.values().toArray();
         Game[] gs = new Game[games.length];
         int i=0;
-        for(Object o : games) { gs[i++] = (Game)o; }
-        String[] paramTypes = {gs.getClass().toString(), "".getClass().toString()};
-        Object[] paramValues = {gs, ""};
+        for(Object o : games) {
+            gs[i++] = (Game)o;
+        }
+
+        // Message is blank
+        String message = "";
+        String[] paramTypes = {gs.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gs, message};
         Command updateGamesClientCommand = CommandFactory.createCommand(null, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_updateGamesReceived", paramTypes, paramValues);
         Sender.sendBroadcast(updateGamesClientCommand);
