@@ -37,8 +37,8 @@ public class ServerLoginFacade implements IServerLoginFacade {
         instance().register(username, password, socketID);
     }
 
-    public static void _logout(String username) {
-        instance().logout(username);
+    public static void _logout(String authToken) {
+        instance().logout(authToken);
     }
 
 

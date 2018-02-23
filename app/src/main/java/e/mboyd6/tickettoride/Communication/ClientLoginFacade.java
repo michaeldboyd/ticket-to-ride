@@ -5,6 +5,7 @@ import com.example.sharedcode.interfaces.IClientLoginFacade;
 
 import e.mboyd6.tickettoride.BuildConfig;
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Utility.Assert;
 
 /**
  * Created by mboyd6 on 2/1/2018.
@@ -27,16 +28,16 @@ public class ClientLoginFacade implements IClientLoginFacade {
     }
     public static void _loginReceived(String authToken, String message) {
         System.out.println("_loginReceived");
-        if(BuildConfig.DEBUG)
-            if(authToken == null)
-                throw new AssertionError("_loginReceived was passed a null authToken");
-            if(message == null)
-                throw new AssertionError("_loginReceived was passed a null message");
+
+        Assert.notNull(authToken, "_loginReceived was sent a null authToken");
+        Assert.notNull(message, "_loginReceived was sent a null message");
 
         instance().login(authToken, message);
     }
 
     public static void _registerReceived(String authToken, String message) {
+        Assert.notNull(authToken, "_registerReceived was sent a null authToken");
+        Assert.notNull(message, "_registerReceived was sent a null message");
         System.out.println("_registerReceived");
         instance().register(authToken, message);
     }
@@ -44,6 +45,7 @@ public class ClientLoginFacade implements IClientLoginFacade {
     public static void _logoutReceived(String message)
     {
         System.out.println("_logoutReceived");
+        Assert.notNull(message, "_loginReceived was sent a null message");
         instance().logout(message);
     }
 

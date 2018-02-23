@@ -4,8 +4,9 @@ import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.model.*;
 import com.example.sharedcode.communication.Command;
 import com.sun.xml.internal.ws.api.ha.StickyFeature;
+import org.eclipse.jetty.websocket.api.Session;
 
-import javax.websocket.Session;
+
 import java.util.*;
 
 
@@ -31,8 +32,8 @@ public class ServerModel extends Observable {
     private Map<String, Game> games = new HashMap<>(); // <gameID, Game>
 
     //this static map keeps track of all open websockets with key: username val: session instance
-    private Map<String, org.eclipse.jetty.websocket.api.Session> loggedInSessions = new HashMap<>();
-    private Map<String, org.eclipse.jetty.websocket.api.Session> allSessions = new HashMap<>();
+    private Map<String, Session> loggedInSessions = Collections.synchronizedMap(new HashMap<>());
+    private Map<String, Session> allSessions = Collections.synchronizedMap(new HashMap<>());
 
 
     @Override
@@ -109,6 +110,7 @@ public class ServerModel extends Observable {
             }
         }
 
+        //make command
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
         String[] paramValues = {authToken, message};
         Command loginClientCommand = CommandFactory.createCommand(authToken,
@@ -135,12 +137,13 @@ public class ServerModel extends Observable {
                 "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
                 "_logoutReceived", paramTypes, paramValues);
         notifyObserversForUpdate(logoutClientCommand);
+        loggedInSessions.remove(authToken);
     }
 
 
     private void matchSocketToAuthToken(String socketID, String authToken) {
         if(!loggedInUsers.containsKey(authToken)){
-            org.eclipse.jetty.websocket.api.Session session = allSessions.get(socketID);
+            Session session = allSessions.get(socketID);
             loggedInSessions.put(authToken, session);
         }
     }
@@ -364,11 +367,11 @@ public class ServerModel extends Observable {
         return games;
     }
 
-    public Map<String, org.eclipse.jetty.websocket.api.Session> getLoggedInSessions() {
+    public Map<String, Session> getLoggedInSessions() {
         return loggedInSessions;
     }
 
-    public Map<String, org.eclipse.jetty.websocket.api.Session> getAllSessions() {
+    public Map<String, Session> getAllSessions() {
         return allSessions;
     }
 

@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride;
 
+import android.util.Log;
+
 import org.java_websocket.client.WebSocketClient;
 import org.junit.After;
 import org.junit.Before;
@@ -45,10 +47,60 @@ public class SocketConnectionTest {
 
         ServerProxyLoginFacade.instance().register("michael", "pass", id);
 
-        assert(ClientModel.getInstance().getAuthToken() != null);
-        assert(ClientModel.getInstance().)
+        String authToken = ClientModel.getInstance().getAuthToken();
+
+        assert(authToken != null);
+        System.out.println(String.format("Test Register Succeeded: %s ", authToken));
+    }
+
+    @Test
+    public void testLogout()
+    {
+        try {
+            Thread.sleep(1000);
+            String id = ClientModel.getInstance().getSocketID();
+            WebSocketClient socket = ClientModel.getInstance().getSocket();
+
+            assert(id != null);
+            assert( socket != null);
+
+            ServerProxyLoginFacade.instance().register("m", "pass", id);
+            Thread.sleep(1000);
+            String authToken = ClientModel.getInstance().getAuthToken();
+            assert(authToken != null);
+
+            ServerProxyLoginFacade.instance().logout(authToken);
+            Thread.sleep(1000);
+            authToken = ClientModel.getInstance().getAuthToken();
+            socket = ClientModel.getInstance().getSocket();
+
+            assert(authToken == null);
+            assert(socket != null);
+            assert(id.equals(ClientModel.getInstance().getSocketID()));
+
+            System.out.println("Test Logout Succeeded");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
+
+    @Test
+    public void testLogin()
+    {
+        String id = ClientModel.getInstance().getSocketID();
+
+        assert(id != null);
+        assert(ClientModel.getInstance().getSocket() != null);
+
+        ServerProxyLoginFacade.instance().login("michael", "pass", id);
+
+        String authToken = ClientModel.getInstance().getAuthToken();
+
+        assert(authToken != null);
+        System.out.println(String.format("Test Register Succeeded: %s ", authToken));
+    }
+
    /* ServerProxyLoginFacade.instance().login("test1", "test", "test");
         ServerProxyLobbyFacade.instance().createGame("");
         ServerProxyLobbyFacade.instance().getGames("");
@@ -59,6 +111,7 @@ public class SocketConnectionTest {
     @After
     public void close()
     {
-
+        ClientModel.getInstance().getSocket().close();
+        ClientModel.getInstance().re_init_model_for_TEST_ONLY();
     }
 }

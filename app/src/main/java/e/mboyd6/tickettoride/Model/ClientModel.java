@@ -30,12 +30,12 @@ public class ClientModel extends Observable {
     private String authToken;
     private String response;
     private WebSocketClient socket;
-
+    private String socketID;
     public String getSocketID() {
         return socketID;
     }
 
-    private String socketID;
+
     public WebSocketClient getSocket() {
         return socket;
     }
@@ -161,10 +161,10 @@ public class ClientModel extends Observable {
         if(message == null || message.length() == 0){
             //preserve the socket and restart the model
             WebSocketClient tempSocket = this.socket;
-            String socketID = this.socketID;
-            ourInstance = new ClientModel();
-            this.socketID = socketID;
-            this.socket = tempSocket;
+            String sock = this.socketID;
+            ClientModel.ourInstance = new ClientModel();
+            ClientModel.getInstance().setSocketID(sock);
+            ClientModel.getInstance().setSocket(tempSocket);
         }
 
         this.response = message;
@@ -218,5 +218,7 @@ public class ClientModel extends Observable {
     public void setSocketID(String socketID) {
         this.socketID = socketID;
     }
+
+    public void re_init_model_for_TEST_ONLY() {ClientModel.ourInstance = new ClientModel(); }
 }
 

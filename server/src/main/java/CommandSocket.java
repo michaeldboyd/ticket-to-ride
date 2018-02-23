@@ -51,7 +51,8 @@ public class CommandSocket implements WebSocketListener
     @Override
     public void onWebSocketBinary(byte[] payload, int offset, int len) {}
     @Override
-    public void onWebSocketClose(int statusCode, String reason) {}
+    public void onWebSocketClose(int statusCode, String reason) {
+    }
 
     /**
      *
@@ -70,7 +71,7 @@ public class CommandSocket implements WebSocketListener
                 "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
                 "_initSocket", paramTypes, paramValues);
         // Send logoutCommand to Client via socket
-        Sender.initialSocketConnect(initCommand, id);
+        Sender.connectBySocketId(initCommand, id);
 
     }
 }
