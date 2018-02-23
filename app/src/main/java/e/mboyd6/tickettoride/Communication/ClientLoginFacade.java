@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Communication;
 
 import com.example.sharedcode.interfaces.IClientLoginFacade;
 
+import e.mboyd6.tickettoride.BuildConfig;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -26,6 +27,12 @@ public class ClientLoginFacade implements IClientLoginFacade {
     }
     public static void _loginReceived(String authToken, String message) {
         System.out.println("_loginReceived");
+        if(BuildConfig.DEBUG)
+            if(authToken == null)
+                throw new AssertionError("_loginReceived was passed a null authToken");
+            if(message == null)
+                throw new AssertionError("_loginReceived was passed a null message");
+
         instance().login(authToken, message);
     }
 

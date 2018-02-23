@@ -33,34 +33,29 @@ public class SocketConnectionTest {
     {
         ServerProxyLobbyFacade.instance().createGame("");
     }
+
     @Test
     public void testRegister()
     {
-        ServerProxyLoginFacade.instance().login("test1", "test", );
+
+        String id = ClientModel.getInstance().getSocketID();
+
+        assert(id != null);
+        assert(ClientModel.getInstance().getSocket() != null);
+
+        ServerProxyLoginFacade.instance().register("michael", "pass", id);
+
+        assert(ClientModel.getInstance().getAuthToken() != null);
+        assert(ClientModel.getInstance().)
+
+    }
+   /* ServerProxyLoginFacade.instance().login("test1", "test", "test");
         ServerProxyLobbyFacade.instance().createGame("");
         ServerProxyLobbyFacade.instance().getGames("");
         ServerProxyLobbyFacade.instance().joinGame("", "asdf");
         ServerProxyLobbyFacade.instance().startGame("", "asdf");
         ServerProxyLobbyFacade.instance().getPlayersForGame("asdf", "");
-        ServerProxyLobbyFacade.instance().leaveGame("", "asdf", "asdf");
-    }
-    /*public void testCreateGame()
-    {
-
-    }
-    public void testJoinGame()
-    {
-
-    }
-    public void testStartGame()
-    {
-
-    }
-    public void testCreateGame()
-    {
-
-    }*/
-
+        ServerProxyLobbyFacade.instance().leaveGame("", "asdf", "asdf");*/
     @After
     public void close()
     {

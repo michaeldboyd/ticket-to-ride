@@ -24,8 +24,10 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
 
     @Override
     public void login(String username, String password, String socketID) {
+
         String[] paramTypes = {username.getClass().toString(), password.getClass().toString(), socketID.getClass().toString()};
         String[] paramValues = {username, password, socketID};
+        // the authToken is null because when logging in we don't have an auth token.
         Command loginCommand = CommandFactory.createCommand(null, "ServerLoginFacade", "_login", paramTypes, paramValues);
         // TODO - send login to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(loginCommand));
