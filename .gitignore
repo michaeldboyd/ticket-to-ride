@@ -119,6 +119,9 @@ obj/
 .idea/dynamic.xml
 .idea/uiDesigner.xml
 
+server/.idea/modules.xml
+server/.idea/workspace.xml
+
 # OS-specific files
 .DS_Store
 .DS_Store?
