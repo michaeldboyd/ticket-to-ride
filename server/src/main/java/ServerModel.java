@@ -13,6 +13,7 @@ import java.util.*;
 public class ServerModel extends Observable {
 
     private static ServerModel _instance;
+    private String testPassword = "thisisoursupersecrettestpassword";
 
     public static ServerModel instance() {
 
@@ -347,6 +348,14 @@ public class ServerModel extends Observable {
         Sender.sendBroadcast(updateGamesClientCommand);
     }
 
+    //*** Utilities / Testing functions***//
+    public void getTestInstance(String superSecretPassword)
+    {
+        if(superSecretPassword.equals(this.testPassword))
+        {
+            // add a test server instance
+        }
+    }
 
 
     //*** Getters ***
