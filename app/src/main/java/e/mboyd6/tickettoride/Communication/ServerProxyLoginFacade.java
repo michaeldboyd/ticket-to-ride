@@ -32,7 +32,6 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
         // TODO - send login to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(loginCommand));
     }
-
     @Override
     public void register(String username, String password, String socketID) {
         String[] paramTypes = {"".getClass().toString(), "".getClass().toString(), "".getClass().toString()};
