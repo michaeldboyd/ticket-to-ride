@@ -9,11 +9,15 @@ import org.junit.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Utility.UtilityFacade;
 
 public class LoginCommandsTest {
 
@@ -26,6 +30,8 @@ public class LoginCommandsTest {
             ClientModel.getInstance().setSocket(client);
             ClientModel.getInstance().getSocket().connect();
             Thread.sleep(1000);
+            //UtilityFacade.instance().clearServer("thisisoursupersecrettestpassword");
+            Thread.sleep(1500);
 
         } catch (URISyntaxException | InterruptedException  e) {
             e.printStackTrace();
@@ -40,13 +46,19 @@ public class LoginCommandsTest {
 
             assert(id != null);
             assert(ClientModel.getInstance().getSocket() != null);
+            Map<String, String> tokens = new TreeMap<String, String>();
+            String[] names = {"michael", "johnny", "ali", "eric", "bekah", "rodham"};
 
-            ServerProxyLoginFacade.instance().register("michael", "pass", id);
-            Thread.sleep(1000);
+            for(String n : names)
+            {
+                ServerProxyLoginFacade.instance().register(n, "pass", id);
+                Thread.sleep(1000);
+                String authToken = ClientModel.getInstance().getAuthToken();
+                assert(authToken != null);
+                tokens.put(n, authToken);
+            }
 
-            String authToken = ClientModel.getInstance().getAuthToken();
 
-            assert(authToken != null);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

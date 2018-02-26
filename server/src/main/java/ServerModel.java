@@ -354,6 +354,8 @@ public class ServerModel extends Observable {
         if(superSecretPassword.equals(this.testPassword))
         {
             // add a test server instance
+            //for now I'm just nuking it...
+            _instance = new ServerModel();
         }
     }
 
