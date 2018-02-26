@@ -19,7 +19,7 @@ public class RegisterPresenterTest{
 
     @Before
     public void setup(){
-        registerPresenter = new RegisterPresenter();
+        registerPresenter = new RegisterPresenter(null);
     }
 
     @Test

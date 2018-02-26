@@ -1,6 +1,7 @@
 package com.example.sharedcode.communication;
 
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.UpdateType;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
@@ -23,6 +24,7 @@ public class Command implements ICommand {
     private String _methodName;
     private String[] _paramTypesStringNames;
     private Object[] _paramValues;
+    private String _authToken;
 
 
     /**
@@ -38,13 +40,25 @@ public class Command implements ICommand {
      *
      * @throws ClassNotFoundException - thrown if improper class name is passed in
      */
-    public Command(String className, String methodName,
+    public Command(String authToken, String className, String methodName,
                    String[] paramTypesStringNames, Object[] paramValues) {
+        _authToken = authToken;
+
         _className = className;
         _methodName = methodName;
         _paramTypesStringNames = paramTypesStringNames;
         _paramValues = paramValues;
     }
+
+    public String get_authToken() {
+        return _authToken;
+    }
+
+    public void set_authToken(String _authToken) {
+        this._authToken = _authToken;
+    }
+
+
 
     /**
      *
@@ -74,29 +88,30 @@ public class Command implements ICommand {
         }
 
         if (_paramTypesStringNames != null && _paramTypesStringNames.length > 0) {
-            boolean isGameList = false;
             Class<?>[] paramTypes = new Class<?>[_paramTypesStringNames.length];
+
             for (int i = 0; i < _paramTypesStringNames.length; i++) {
                 String classStringName = _paramTypesStringNames[i];
                 String className = classStringName.replace("class ", "");
 
-                Class paramClass = Class.forName(className);
+                Class paramClass;
+                switch (className) {
+                    case "int":
+                        paramClass = int.class;
+                        // This is necessary because JSON turns all numbers into doubles
+                        int castValue = ((Double) _paramValues[i]).intValue();
+                        _paramValues[i] = castValue;
+                        break;
+
+                    case "boolean":
+                        paramClass = boolean.class;
+                        break;
+
+                    default:
+                        paramClass = Class.forName(className);
+                        break;
+                }
                 paramTypes[i] = paramClass;
-                /*if (paramClass == Game[].class) {
-
-                    Game[] games = (Game[]) _paramValues[i];
-                    _paramValues[i] = games;
-                    //Game[] gameList = new Game[games.size()];*//*Arrays.copyOf(games.toArray(), games.size(), Game[].class);*//*
-
-                    //for (int j = 0; j < games.size(); j++) {
-                     //   gameList[j] = (Game)games.get(j);
-                    //}
-
-                   // _paramValues[i] = gameList;
-                    Method method = receiver.getMethod(_methodName, paramTypes);
-                    method.invoke(null, _paramValues);
-                    break;
-                }*/
             }
 
             Method method = receiver.getMethod(_methodName, paramTypes);

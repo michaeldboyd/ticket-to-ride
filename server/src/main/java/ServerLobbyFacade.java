@@ -59,49 +59,18 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     //Everyone needs to know that there is a new game. Send over the game to everyone
     @Override
     public void createGame(String authToken) {
-        // Don't need to check for existence of a new game because this should only be called when creating a brand new game
-        String id = UUID.randomUUID().toString();
-        Game newGame = new Game();
-        newGame.setGameID(id);
-        /*
-        newGame.setGameID(id);
-        Player newPlayer = new Player(UUID.randomUUID().toString(),
-                ServerModel.instance().authTokenToUsername.get(authToken), PlayerColors.NO_COLOR);
-        newGame.addPlayer(newPlayer);
-        */
-        ServerModel.instance().games.put(id, newGame);
-        // Create a random UUID for gameID to pass to createGame method
-        ClientProxyLobbyFacade.instance().createGame(authToken, newGame);
+       ServerModel.instance().createGame(authToken);
     }
 
     @Override
     public void getGames(String authToken) {
-        Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
-
-        // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
-        //send this to all the clients
-        ClientProxyLobbyFacade.instance().updateGames(authToken, games, "");
+        ServerModel.instance().getAllGames(authToken);
     }
 
     //add caller to waiting room, send updated games list to everyone else.
     @Override
     public void joinGame(String authToken, String gameID) {
-        String message = "";
-
-        String playerID = "";
-        if (ServerModel.instance().games.containsKey(gameID)) {
-
-            Player newPlayer = new Player(UUID.randomUUID().toString(), ServerModel.instance().authTokenToUsername.get(authToken), PlayerColors.NO_COLOR);
-
-            // Only set message if we fail to add user to the game
-            if (!ServerModel.instance().games.get(gameID).addPlayer(newPlayer)) {
-                message = "Could not add player to game because it is already full";
-            } else {
-                playerID = newPlayer.getPlayerID();
-            }
-        }
-
-        ClientProxyLobbyFacade.instance().joinGame(authToken, message, playerID, gameID);
+        ServerModel.instance().joinGame(authToken, gameID);
     }
 
     // If the game
@@ -109,76 +78,23 @@ public class ServerLobbyFacade implements IServerLobbyFacade {
     //send everyone the updated games
     @Override
     public void leaveGame(String authToken, String gameID, String playerID) {
-        String message = "";
-
-        // This returns false if playerID is not part of game
-        if (!ServerModel.instance().games.get(gameID).removePlayer(playerID)) {
-            message = "Could not remove player because is not in the game";
-        }
-
-        ClientProxyLobbyFacade.instance().leaveGame(authToken, gameID, message);
+        ServerModel.instance().leaveGame(authToken, gameID, playerID);
     }
 
     //tell everyone to start the game who is in it, andupdate the games list for everyone else
     @Override
     public void startGame(String authToken, String gameID) {
-        String message = "";
-
-        if (!ServerModel.instance().games.containsKey(gameID)) {
-            message = "Game doesn't exist.";
-        }else{
-            Game game = ServerModel.instance().games.get(gameID);
-            ArrayList<Player> players = game.getPlayers();
-            Collection<String> authTokens = new ArrayList<>();
-            if( players != null) {
-                for(Player p : players)
-                {
-                    User user = ServerModel.instance().allUsers.get(p.getName());
-                    if(user != null)
-                    {
-                        authTokens.add(user.getAuthtoken());
-                    }
-                }
-                ClientProxyLobbyFacade.instance().notifyPlayersOfGameStarted(authTokens, message, gameID);
-            }
-        }
-        // find the players auth tokens in the game.
-        ClientProxyLobbyFacade.instance().startGame(authToken, message, gameID);
+        ServerModel.instance().startGame(authToken, gameID);
     }
 
     @Override
     public void getPlayersForGame(String authToken, String gameID) {
-        String message = "";
-        Player[] players;
-
-        if (ServerModel.instance().games.containsKey(gameID)) {
-
-            players = (Player[]) ServerModel.instance().games.get(gameID).getPlayers().toArray();
-        } else {
-            players = new Player[0];
-            message = "Game does not exist.";
-        }
-
-        ClientProxyLobbyFacade.instance().getPlayersForGame(authToken, players, message, gameID);
+        ServerModel.instance().getPlayersForGame(authToken, gameID);
     }
 
     @Override
     public void playerColorChanged(String authToken, String gameID, String playerID, int color) {
-        Game game = ServerModel.instance().games.get(gameID);
-
-        Boolean success = false;
-        for (Player player :
-                game.getPlayers()) {
-            if (player.getPlayerID().equals(playerID)) {
-                player.setColor(color);
-                success = true;
-                break;
-            }
-        }
-
-        if (success) {
-            ClientProxyLobbyFacade.instance().playerColorChanged(gameID, playerID, color);
-        }
+        ServerModel.instance().playerColorChanged(authToken, gameID, playerID, color);
     }
 
 

@@ -2,9 +2,10 @@ package e.mboyd6.tickettoride.Communication;
 
 
 import com.example.sharedcode.interfaces.IClientLoginFacade;
-import com.example.sharedcode.interfaces.IServerLoginFacade;
 
+import e.mboyd6.tickettoride.BuildConfig;
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Utility.Assert;
 
 /**
  * Created by mboyd6 on 2/1/2018.
@@ -27,18 +28,25 @@ public class ClientLoginFacade implements IClientLoginFacade {
     }
     public static void _loginReceived(String authToken, String message) {
         System.out.println("_loginReceived");
+
+        Assert.notNull(authToken, "_loginReceived was sent a null authToken");
+        Assert.notNull(message, "_loginReceived was sent a null message");
+
         instance().login(authToken, message);
     }
 
     public static void _registerReceived(String authToken, String message) {
+        Assert.notNull(authToken, "_registerReceived was sent a null authToken");
+        Assert.notNull(message, "_registerReceived was sent a null message");
         System.out.println("_registerReceived");
         instance().register(authToken, message);
     }
 
-    public static void _logoutReceived(String authToken, String message)
+    public static void _logoutReceived(String message)
     {
         System.out.println("_logoutReceived");
-        instance().logout(authToken, message);
+        Assert.notNull(message, "_loginReceived was sent a null message");
+        instance().logout(message);
     }
 
 
@@ -68,7 +76,7 @@ public class ClientLoginFacade implements IClientLoginFacade {
     }
 
     @Override
-    public void logout(String token, String message) {
+    public void logout(String message) {
         System.out.println("logout was called");
 
         ClientModel.getInstance().setLogoutResponse(message);

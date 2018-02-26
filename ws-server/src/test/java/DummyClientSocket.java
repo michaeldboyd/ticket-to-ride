@@ -1,8 +1,3 @@
-package e.mboyd6.tickettoride.Communication;
-
-/**
- * Created by mboyd6 on 2/10/2018.
- */
 import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
 
@@ -14,13 +9,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.nio.ByteBuffer;
 
-public class SocketClient extends WebSocketClient {
+public class DummyClientSocket extends WebSocketClient{
 
-    public SocketClient(URI serverUri, Draft draft) {
+    public DummyClientSocket(URI serverUri, Draft draft) {
         super(serverUri, draft);
     }
 
-    public SocketClient(URI serverURI) {
+    public DummyClientSocket(URI serverURI) {
         super(serverURI);
     }
 

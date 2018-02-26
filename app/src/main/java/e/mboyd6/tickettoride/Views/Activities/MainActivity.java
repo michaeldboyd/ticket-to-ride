@@ -20,10 +20,12 @@ import android.widget.Toast;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 
 import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Communication.SocketManager;
+import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.Presenters.LoginPresenter;
 import e.mboyd6.tickettoride.Presenters.RegisterPresenter;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         implements IMainActivity
 {
   private static final long MOVE_DEFAULT_TIME = 1000;
-  private static final long SLIDE_DEFAULT_TIME = 500;
+  private static final long SLIDE_DEFAULT_TIME = 200;
   private FragmentManager mFragmentManager;
   private Handler mDelayedTransactionHandler = new Handler();
   private Runnable mRunnableTransitionToRegister = new Runnable() {
@@ -342,7 +344,7 @@ public class MainActivity extends AppCompatActivity
   private void GuestLogin() {
     // Implement code that adds a bunch of fake games so you can go to the lobby
 
-    /*
+
     ArrayList<Game> fakeGames = new ArrayList<Game>();
     Game game2 = new Game();
     game2.setGameID("002");
@@ -368,7 +370,7 @@ public class MainActivity extends AppCompatActivity
     fakeGames.add(game4);
     ClientModel.getInstance().setGames(fakeGames);
     transitionToLobbyFromLoginAndRegister();
-    */
+
   }
 
   @Override
@@ -467,7 +469,7 @@ public class MainActivity extends AppCompatActivity
   public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
 
     String message = "";
-    if (usernameData.equals("Guest") && passwordData.equals("Password")) {
+    if (usernameData.equals("guest") && passwordData.equals("pass")) {
       GuestLogin();
     }
     else if(mLoginPresenter == null)
@@ -578,13 +580,13 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void onLobbyFragmentStartNewGameButton() {
+  public void onLobbyFragmentCreateGameButton() {
     mLobbyPresenter.createGame();
-    onStartNewGameSent();
+    onCreateGameSent();
   }
 
   @Override
-  public void onStartNewGameSent() {
+  public void onCreateGameSent() {
     if (mFragmentManager == null) {
       mFragmentManager = getSupportFragmentManager();
     }
@@ -592,12 +594,12 @@ public class MainActivity extends AppCompatActivity
     if (currentFragment != null && currentFragment instanceof ILobbyFragment)
     {
       ILobbyFragment lobbyFragment = (ILobbyFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
-      lobbyFragment.onStartNewGameSent();
+      lobbyFragment.onCreateGameSent();
     }
   }
 
   @Override
-  public void onStartNewGameResponse(String message) {
+  public void onCreateGameResponse(String message) {
     final String mess = message;
     runOnUiThread(new Runnable() {
       @Override
@@ -611,7 +613,7 @@ public class MainActivity extends AppCompatActivity
         Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
         if (currentFragment != null && currentFragment instanceof ILobbyFragment) {
           ILobbyFragment lobbyFragment = (ILobbyFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
-          lobbyFragment.onStartNewGameResponse(mess);
+          lobbyFragment.onCreateGameResponse(mess);
         }
       }
     });
@@ -754,23 +756,23 @@ public class MainActivity extends AppCompatActivity
 
 
   @Override
-  public void onWaitroomFragmentBackoutButton() {
+  public void onWaitroomFragmentLeaveGameButton() {
     mWaitroomPresenter.leaveGame();
-    onBackOutSent();
+    onLeaveGameSent();
   }
 
   @Override
-  public void onBackOutSent() {
+  public void onLeaveGameSent() {
     if (mFragmentManager != null) {
       IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
       if (waitroomFragment != null) {
-        waitroomFragment.onBackOutSent();
+        waitroomFragment.onLeaveGameSent();
       }
     }
   }
 
   @Override
-  public void onBackoutResponse(String message) {
+  public void onLeaveGameResponse(String message) {
     final String mess = message;
     runOnUiThread(new Runnable() {
       @Override
@@ -781,7 +783,7 @@ public class MainActivity extends AppCompatActivity
         Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
         if (currentFragment != null && currentFragment instanceof IWaitroomFragment) {
           IWaitroomFragment waitroomFragment = (IWaitroomFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
-          waitroomFragment.onBackoutResponse(mess);
+          waitroomFragment.onLeaveGameResponse(mess);
           if (!handleError(mess)) {
             transitionToLobbyFromWaitroom();
           }

@@ -8,7 +8,7 @@ public interface IClientLoginFacade {
 
     void login(String authToken, String message);
     void register(String authToken, String message);
-    void logout(String authToken, String message);
+    void logout(String message);
 
     void initSocket(String id);
 }

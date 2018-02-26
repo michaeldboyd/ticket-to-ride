@@ -15,7 +15,7 @@ import e.mboyd6.tickettoride.R;
  * Created by mboyd6 on 2/12/2018.
  */
 
-public class SocketManager extends AppCompatActivity{
+public class SocketManager {
 
     public static String ConnectSocket(String url)
     {

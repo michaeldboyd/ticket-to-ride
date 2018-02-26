@@ -24,27 +24,27 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     }
 
 
-    public static void _createGameReceived(String token, Game newGame) {
-        instance().createGame(token, newGame);
+    public static void _createGameReceived(Game newGame) {
+        instance().createGame(newGame);
     }
 
-    public static void _updateGamesReceived(String token, Game[] games, String message) {
-        instance().updateGames(token, games, message);
+    public static void _updateGamesReceived(Game[] games, String message) {
+        instance().updateGames(games, message);
     }
 
-    public static void _joinGameReceived(String token, String gameID, String playerID, String message) {
-        instance().joinGame(token, gameID, playerID, message);
+    public static void _joinGameReceived(String gameID, String playerID, String message) {
+        instance().joinGame(gameID, playerID, message);
     }
 
-    public static void _startGameReceived(String token, String gameID, String message) {
-        instance().startGame(token, gameID, message);
+    public static void _startGameReceived(String gameID, String message) {
+        instance().startGame(gameID, message);
     }
 
-    public static void _leaveGameReceived(String token, String gameID, String message) {
-        instance().leaveGame(token, gameID, message);
+    public static void _leaveGameReceived(String gameID, String message) {
+        instance().leaveGame(gameID, message);
     }
-    static void _getPlayersForGameReceived(String token, String gameID, Player[] players, String message) {
-        instance().getPlayersForGame(token, players, gameID, message);
+    static void _getPlayersForGameReceived(String gameID, Player[] players, String message) {
+        instance().getPlayersForGame(players, gameID, message);
     }
 
 
@@ -54,7 +54,7 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
 
     //Must be called after a user creates a new game. this won't be called now
     @Override
-    public void createGame(String token, Game newGame) {
+    public void createGame(Game newGame) {
         System.out.println("createGame called on CLF");
         ClientModel.getInstance().setCreateGameResponse(newGame);
         ServerProxyLobbyFacade.instance().joinGame(ClientModel.getInstance().getAuthToken(),
@@ -62,13 +62,13 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
     }
 
     @Override
-    public void updateGames(String token, Game[] games, String message) {
+    public void updateGames(Game[] games, String message) {
         System.out.println("updateGames called on CLF");
         ClientModel.getInstance().setUpdateGamesResponse(games, message);
     }
 
     @Override
-    public void joinGame(String token, String gameID, String playerID, String message) {
+    public void joinGame(String gameID, String playerID, String message) {
         System.out.println("joinGame called on CLF");
 
         ClientModel.getInstance().setJoinGameResponse(gameID, playerID, message);
@@ -76,7 +76,7 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
 
     //start the game
     @Override
-    public void startGame(String token, String gameID, String message) {
+    public void startGame(String gameID, String message) {
         System.out.println("startGameResponse called on CLF");
 
         ClientModel.getInstance().setStartGameResponse(gameID, message);
@@ -84,14 +84,14 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
 
     //leave the game
     @Override
-    public void leaveGame(String token, String gameID, String message) {
+    public void leaveGame(String gameID, String message) {
         System.out.println("leaveGame called on CLF");
 
         ClientModel.getInstance().setLeaveGameResponse(gameID, message);
     }
 
     @Override
-    public void getPlayersForGame(String authToken, Player[] players, String gameID, String message) {
+    public void getPlayersForGame(Player[] players, String gameID, String message) {
         System.out.println("getPlayersForGame called on CLF");
     }
 

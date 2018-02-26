@@ -87,6 +87,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
     @Override
     public void register(String username, String password) {
         String id = ClientModel.getInstance().getSocketID();
+        assert(id != null);
         ServerProxyLoginFacade.instance().register(username, password, id);
     }
 
@@ -106,7 +107,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
         UpdateType updateType = (UpdateType) o;
 
         switch (updateType){
-            case REGISTERRESPONSE:
+            case REGISTER_RESPONSE:
                 registerResponse(ClientModel.getInstance().getResponse());
                 break;
             default:
