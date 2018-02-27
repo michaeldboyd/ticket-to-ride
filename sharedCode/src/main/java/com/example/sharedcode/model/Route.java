@@ -12,4 +12,43 @@ public class Route {
     private String color; //also not sure if we're using enums still for this
     private int length;
 
+    public String getStartCity() {
+        return startCity;
+    }
+
+    public void setStartCity(String startCity) {
+        this.startCity = startCity;
+    }
+
+    public String getEndCity() {
+        return endCity;
+    }
+
+    public void setEndCity(String endCity) {
+        this.endCity = endCity;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
 }
