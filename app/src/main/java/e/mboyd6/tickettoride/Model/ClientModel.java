@@ -71,12 +71,13 @@ public class ClientModel extends Observable {
         return authToken;
     }
 
-    public void setAuthToken(String authToken) {
+    public void setAuthToken(String authToken, UpdateType type) {
         this.authToken = authToken;
-        notifyObservers(UpdateType.REGISTER_RESPONSE);
+        this.setChanged();
+        notifyObservers(type);
     }
-
-    public void setLoginResponse(String authToken, String message) {
+    
+    /*public void setLoginResponse(String authToken, String message) {
         this.authToken = authToken;
         this.response = message;
         this.setChanged();
@@ -88,7 +89,7 @@ public class ClientModel extends Observable {
         this.response = message;
         this.setChanged();
         notifyObservers(UpdateType.REGISTER_RESPONSE);
-    }
+    }*/
 
     public void setCreateGameResponse(Game newGame){
 
@@ -220,5 +221,12 @@ public class ClientModel extends Observable {
     }
 
     public void re_init_model_for_TEST_ONLY() {ClientModel.ourInstance = new ClientModel(); }
+
+    public void sendUpdate(UpdateType type) {
+
+    }
+
+    public void sencErrorUpdate(String message, UpdateType type) {
+    }
 }
 

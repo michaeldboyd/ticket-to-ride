@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Communication;
 
 
 import com.example.sharedcode.interfaces.IClientLoginFacade;
+import com.example.sharedcode.model.UpdateType;
 
 import e.mboyd6.tickettoride.BuildConfig;
 import e.mboyd6.tickettoride.Model.ClientModel;
@@ -54,36 +55,39 @@ public class ClientLoginFacade implements IClientLoginFacade {
 
     @Override
     public void login(String authToken, String message) {
-        // Received the command that said a user attempted to log in
-        // If successful, message == "" (empty string)
-        ClientModel.getInstance().setLoginResponse(authToken, message);
-        System.out.println("Cient Logged in called: " + authToken);
-
-
-        // Essentially, we need to update the Client-side model so that the UI will update properly
-
+        UpdateType type = UpdateType.LOGIN_RESPONSE;
+        if(!handleError(message, type)){
+            ClientModel.getInstance().setAuthToken(authToken, type);
+        }
     }
 
     @Override
     public void register(String authToken, String message) {
-        // Received the command that said a user attempted to register
-        // If successful, message == "" (empty string)
-        System.out.println("Register was called. Auth token: " + authToken);
-        ClientModel.getInstance().setRegisterResponse(authToken, message);
-
-        //System.out.println("Client has registered Successfully! (And websockets now work)");
-        // Essentially, we need to update the Client-side model so that the UI will update properly
+        UpdateType type = UpdateType.REGISTER_RESPONSE;
+        if(!handleError(message, type)) {
+            ClientModel.getInstance().setAuthToken(authToken, UpdateType.REGISTER_RESPONSE);
+        }
     }
 
     @Override
     public void logout(String message) {
-        System.out.println("logout was called");
-
-        ClientModel.getInstance().setLogoutResponse(message);
+        UpdateType type = UpdateType.LOGOUT_RESPONSE;
+        if(!handleError(message, type))
+        ClientModel.getInstance().sendUpdate(type);
     }
 
     @Override
     public void initSocket(String id) {
         ClientModel.getInstance().setSocketID(id);
+    }
+
+    private boolean handleError(String message, UpdateType type){
+        if(message == null || message.equals(""))
+            return false;
+        else {
+            ClientModel.getInstance().sendErrorUpdate(message, type);
+            return true;
+        }
+
     }
 }

@@ -74,11 +74,17 @@ public class ServerModel extends Observable {
             matchSocketToAuthToken(socketID, authToken);
         }
 
-        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
-        String[] paramValues = {authToken, message};
-        Command registerClientCommand = CommandFactory.createCommand(authToken,"e.mboyd6.tickettoride.Communication.ClientLoginFacade","_registerReceived", paramTypes, paramValues);
+        if(message.equals(""))
+        {
+            String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
+            String[] paramValues = {authToken, message};
+            Command registerClientCommand = CommandFactory.createCommand(authToken,
+                    "e.mboyd6.tickettoride.Communication.ClientLoginFacade","_registerReceived", paramTypes, paramValues);
+            notifyObserversForUpdate(registerClientCommand);
+        } else {
+            sendLoginError(UpdateType.REGISTER_RESPONSE, message, socketID);
+        }
 
-        notifyObserversForUpdate(registerClientCommand);
     }
 
     public void loginUser(String username, String password, String socketID) {
@@ -86,7 +92,6 @@ public class ServerModel extends Observable {
         String message = "";
         if (loggedInUsers.containsKey(username)) {
             message = "User already logged in.";
-            sendLoginError(UpdateType.LOGIN_RESPONSE, message, socketID);
         } else {
 
             if (allUsers.containsKey(username)) {
@@ -112,14 +117,19 @@ public class ServerModel extends Observable {
             }
         }
 
-        //make command
-        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
-        String[] paramValues = {authToken, message};
-        Command loginClientCommand = CommandFactory.createCommand(authToken,
-                "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
-                "_loginReceived", paramTypes, paramValues);
-        notifyObserversForUpdate(loginClientCommand);
-    }
+        if(message.equals("")) {
+            //make command
+            String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
+            String[] paramValues = {authToken, message};
+            Command loginClientCommand = CommandFactory.createCommand(authToken,
+                    "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
+                    "_loginReceived", paramTypes, paramValues);
+            notifyObserversForUpdate(loginClientCommand);
+
+        } else {
+            sendLoginError(UpdateType.LOGIN_RESPONSE, message, socketID);
+        }
+       }
 
 
     public void logout(String authToken) {
@@ -129,8 +139,9 @@ public class ServerModel extends Observable {
             loggedInUsers.remove(username);
             authTokenToUsername.remove(authToken);
         } else  {
-            //TODO we aren't sending this message right now.
             message = "Error logging out -- not logged in";
+            instance().sendError(UpdateType.LOGOUT_RESPONSE, message, authToken);
+            return;
         }
 
         String[] paramTypes = {message.getClass().toString()};
