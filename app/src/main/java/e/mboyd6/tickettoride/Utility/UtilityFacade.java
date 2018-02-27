@@ -11,7 +11,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 /**
  * Created by mboyd6 on 2/23/2018.
  */
-
+/*
 public class UtilityFacade implements IUtility {
     private static UtilityFacade _instance = new UtilityFacade();
 
@@ -27,4 +27,4 @@ public class UtilityFacade implements IUtility {
         // TODO - send login to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(loginCommand));
     }
-}
+}*/

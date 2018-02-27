@@ -86,6 +86,7 @@ public class ServerModel extends Observable {
         String message = "";
         if (loggedInUsers.containsKey(username)) {
             message = "User already logged in.";
+            sendLoginError(UpdateType.LOGIN_RESPONSE, message, socketID);
         } else {
 
             if (allUsers.containsKey(username)) {
@@ -281,6 +282,7 @@ public class ServerModel extends Observable {
         Object[] paramValues = {gameID, message};
         Command command = CommandFactory.createCommand("", "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_startGameReceived", paramTypes, paramValues);
+        //TODO this eventually should be changed so it only sends the command to the people in the right game.
         for(String token : tokens)
         {
             command.set_authToken(token);
@@ -345,10 +347,39 @@ public class ServerModel extends Observable {
         Object[] paramValues = {gs, message};
         Command updateGamesClientCommand = CommandFactory.createCommand(null, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_updateGamesReceived", paramTypes, paramValues);
-        Sender.sendBroadcast(updateGamesClientCommand);
+        Sender.instance().sendBroadcast(updateGamesClientCommand);
     }
 
     //*** Utilities / Testing functions***//
+
+    /**
+     * If the user is logged in, use this message to send an error back to the client if something goes wrong.
+     * @param responseType
+     * @param message
+     * @param authToken
+     */
+    public void sendError(UpdateType responseType, String message, String authToken) {
+        String[] paramTypes = {responseType.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {responseType, message};
+        Command errorCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.UtilityFacade",
+                "_handleError", paramTypes, paramValues);
+        notifyObserversForUpdate(errorCommand);
+    }
+
+    /**
+     * If the user is logging in or registering, use this error to send a command back to client.
+     * @param responseType
+     * @param message
+     * @param socketID
+     */
+    public void sendLoginError(UpdateType responseType, String message, String socketID) {
+        String[] paramTypes = {responseType.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {responseType, message};
+        Command errorCommand = CommandFactory.createCommand(null, "e.mboyd6.tickettoride.Communication.UtilityFacade",
+                "_handleLoginError", paramTypes, paramValues);
+        Sender.instance().sendBySocketId(errorCommand, socketID);
+    }
+
     public void getTestInstance(String superSecretPassword)
     {
         if(superSecretPassword.equals(this.testPassword))
