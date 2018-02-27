@@ -39,7 +39,6 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
         String[] paramValues = {username, password, socketID};
         Command registerCommand = CommandFactory.createCommand(null, "ServerLoginFacade", "_register", paramTypes, paramValues);
 
-        // TODO - Put sender functions into socket manager
         ClientModel.getInstance().getSocket().send(new Gson().toJson(registerCommand));
     }
 
@@ -49,7 +48,6 @@ public class ServerProxyLoginFacade implements IServerLoginFacade {
         String[] paramValues = {authToken};
         Command logoutCommand = CommandFactory.createCommand(null, "ServerLoginFacade", "_logout", paramTypes, paramValues);
 
-        // TODO - Put sender functions into socket manager
         ClientModel.getInstance().getSocket().send(new Gson().toJson(logoutCommand));
     }
 
