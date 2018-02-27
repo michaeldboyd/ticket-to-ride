@@ -15,8 +15,8 @@ public class ServerLoginFacadeTest {
 
     @After
     public void tearDown() throws Exception {
-    ServerModel.instance().loggedInUsers.clear();
-    ServerModel.instance().allUsers.clear();
+    ServerModel.instance().getLoggedInUsers().clear();
+    ServerModel.instance().getAllUsers().clear();
 
     }
 //

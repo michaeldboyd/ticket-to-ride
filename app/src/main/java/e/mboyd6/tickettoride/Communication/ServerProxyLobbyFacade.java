@@ -15,9 +15,19 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
     private static ServerProxyLobbyFacade _instance = new ServerProxyLobbyFacade();
 
+    public static ServerProxyLobbyFacade instance() {
+
+        if (_instance == null){
+            _instance = new ServerProxyLobbyFacade();
+        }
+
+        return _instance;
+    }
+
     private ServerProxyLobbyFacade() {}
 
-    public static ServerProxyLobbyFacade instance() {return _instance;}
+
+
 
     @Override
     public void createGame(String authToken) {

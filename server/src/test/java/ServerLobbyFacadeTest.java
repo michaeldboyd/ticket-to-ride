@@ -14,13 +14,13 @@ public class ServerLobbyFacadeTest {
 
     @Before
     public void setUp() throws Exception {
-        try {
-            WebSocketClient client = new DummyClientSocket(new URI("ws://localhost:8080/echo/"));
-            DummyClient.instance().setSocket(client);
-            DummyClient.instance().getSocket().connect();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            WebSocketClient client = new DummyClientSocket(new URI("ws://localhost:8080/echo/"));
+//            DummyClient.instance().setSocket(client);
+//            DummyClient.instance().getSocket().connect();
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @After
