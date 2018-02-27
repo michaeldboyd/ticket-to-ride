@@ -19,5 +19,5 @@ public interface IRegisterFragment {
     void onRegisterFragmentBackButton(String usernameData, String passwordData);
     void onRegisterFragmentSignUpButton(String usernameData, String passwordData);
     void onRegisterSent();
-    void onRegisterResponse(String message);
+    void onRegisterResponse(boolean message);
 }

@@ -433,15 +433,15 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onRegisterResponse(String message) {
-    final String mess = message;
+    final boolean succ = success;
     runOnUiThread(new Runnable() {
       @Override
       public void run() {
         Fragment currentFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
         if (currentFragment != null && currentFragment instanceof IRegisterFragment) {
           IRegisterFragment registerFragment = (IRegisterFragment) mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT");
-          registerFragment.onRegisterResponse(mess);
-          if (!handleError(mess)) {
+          registerFragment.onRegisterResponse(succ);
+          if (succ) {
             transitionToLobbyFromLoginAndRegister();
           }
         }
