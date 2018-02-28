@@ -8,8 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sharedcode.model.ChatMessage;
+
+import java.util.ArrayList;
+
 import e.mboyd6.tickettoride.Presenters.ChatPresenter;
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 
 /**
@@ -19,10 +24,10 @@ import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
  * Use the {@link ChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements IChatFragment {
 
     private IMainActivity mListener;
-    private ChatPresenter mChatPresenter = new ChatPresenter(this);
+    private ChatPresenter mChatPresenter = new ChatPresenter( this);
 
     public ChatFragment() {
         // Required empty public constructor
@@ -69,5 +74,20 @@ public class ChatFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void updateChat(ArrayList<ChatMessage> messages) {
+
+    }
+
+    @Override
+    public void updateTyping(boolean isUpdated, String name) {
+
+    }
+
+    @Override
+    public void sendMessage(String message) {
+
     }
 }

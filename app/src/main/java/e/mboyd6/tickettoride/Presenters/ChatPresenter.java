@@ -1,7 +1,10 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.UpdateType;
+
+import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -23,7 +26,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
     IGameActivity gameActivity;
 
     public ChatPresenter(Object o) {
-        if(o.equals(IGameActivity.class))
+        if(o instanceof IGameActivity)
             this.gameActivity = (IGameActivity) o;
         else
             this.chatFragment = (IChatFragment) o;
@@ -78,9 +81,11 @@ public class ChatPresenter implements IChatPresenter, Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        UpdateType updateType = (UpdateType) o;
 
-        switch(updateType){
+        Assert.assertEquals(o.getClass(), UpdateArgs.class);
+        UpdateArgs args = (UpdateArgs) o;
+
+        switch(args.type){
             case CHAT_RECEIVED:
                 chatReceived();
                 break;
