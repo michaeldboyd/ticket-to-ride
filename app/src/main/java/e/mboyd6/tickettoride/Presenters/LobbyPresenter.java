@@ -8,7 +8,12 @@ import java.util.Observer;
 import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
+
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.UpdateType;
+
+import junit.framework.Assert;
+
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
@@ -78,20 +83,20 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
      */
     @Override
     public void update(Observable observable, Object o) {
-        UpdateType updateType = (UpdateType) o;
-
-        switch(updateType){
+        Assert.assertEquals(o.getClass(), UpdateArgs.class);
+        UpdateArgs args = (UpdateArgs) o;
+        switch(args.type){
             case GAME_LIST:
                 updateGameList();
                 break;
             case LOGOUT_RESPONSE:
-                logoutResponse(ClientModel.getInstance().getResponse());
+                logoutResponse(args.error);
                 break;
             case GAME_CREATED:
-                gameCreated(ClientModel.getInstance().getResponse());
+                gameCreated(args.error);
                 break;
             case GAME_JOINED:
-                gameJoined(ClientModel.getInstance().getResponse());
+                gameJoined(args.error);
                 break;
             default:
                 System.out.println("ENUM ERROR");

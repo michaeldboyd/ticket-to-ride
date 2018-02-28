@@ -7,7 +7,12 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
+
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.UpdateType;
+
+import junit.framework.Assert;
+
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
@@ -75,12 +80,11 @@ public class LoginPresenter implements ILoginPresenter, Observer{
 
     @Override
     public void update(Observable observable, Object o) {
-
-        UpdateType updateType = (UpdateType) o;
-
-        switch (updateType){
+        Assert.assertEquals(o.getClass(), UpdateArgs.class);
+        UpdateArgs args = (UpdateArgs) o;
+        switch (args.type){
             case LOGIN_RESPONSE:
-                loginResponse(ClientModel.getInstance().getResponse());
+                loginResponse(args.error);
                 break;
             default:
                 break;

@@ -10,6 +10,9 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 
 import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.UpdateType;
+
+import junit.framework.Assert;
+
 import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
@@ -109,14 +112,8 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        UpdateArgs args = null;
-        if(o.getClass() == UpdateArgs.class)
-            args = (UpdateArgs) o;
-        else {
-            //TODO add an error message here.
-            System.out.println("RegisterPresenter's update function was not passed an UpdateArgs Object");
-            return;
-        }
+        Assert.assertEquals(o.getClass(), UpdateArgs.class);
+        UpdateArgs args = (UpdateArgs) o;
         switch (args.type){
             case REGISTER_RESPONSE:
                 registerResponse(args.error);

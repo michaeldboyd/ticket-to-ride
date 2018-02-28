@@ -5,6 +5,8 @@ import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IClientLoginFacade;
 import com.example.sharedcode.model.UpdateType;
 
+import org.java_websocket.client.WebSocketClient;
+
 import e.mboyd6.tickettoride.BuildConfig;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Utility.Assert;
@@ -44,8 +46,6 @@ public class ClientLoginFacade implements IClientLoginFacade {
 
     public static void _logoutReceived(String message)
     {
-        Assert.notNull(message, "_loginReceived was sent a null error");
-
         instance().logout(message);
     }
 
@@ -80,6 +80,16 @@ public class ClientLoginFacade implements IClientLoginFacade {
     public void logout(String message) {
         UpdateType type = UpdateType.LOGOUT_RESPONSE;
         boolean success = isSuccess(message);
+        if(success) {
+            ClientModel model = ClientModel.getInstance();
+            WebSocketClient tempSocket = model.getSocket();
+            String sockID = model.getSocketID();
+            //model.resetInstance();
+            model.clearInstance();
+            model = ClientModel.getInstance();
+            model.setSocket(tempSocket);
+            model.setSocketID(sockID);
+        }
 
         sendUpdate(type, success, message);
     }

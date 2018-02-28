@@ -10,6 +10,7 @@ import org.java_websocket.client.WebSocketClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -32,10 +33,44 @@ public class ClientModel extends Observable {
     private String response;
     private WebSocketClient socket;
     private String socketID;
+
+
+    // ******* USEFUL FUNCTIONS ******//
+    /**
+     * this function sends an update to the presenters subscribed
+     * as observers. It is primarily used by the facades to signal that they are done
+     * modifying the model and ready to update the presenters of their changes.
+     * @param args - includes the UpdateType, boolean success, and an error
+     *             message if applicable (a message of "" means success)
+     */
+    public void sendUpdate(UpdateArgs args) {
+        this.setChanged();
+        this.notifyObservers(args);
+    }
+
+    /**
+     * This function must be kept up to date with any additions of data to the model.
+     * It sets all values of the ClientModel back to default settings. Primarily used by test
+     * cases and the logout feature.
+     * Note: it does not clear the WebSocketClient instance nor the SocketID
+     */
+    public void clearInstance() {
+        games.clear();
+        playerID = "";
+        currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
+        authToken = null;
+        currentGame = null;
+    }
+
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
+    }
+
+    //****** GETTERS & SETTERS *****//
     public String getSocketID() {
         return socketID;
     }
-
 
     public WebSocketClient getSocket() {
         return socket;
@@ -73,106 +108,6 @@ public class ClientModel extends Observable {
         this.authToken = authToken;
     }
 
-    public void setCreateGameResponse(Game newGame){
-
-        /*
-        this.games.add(newGame); // add new game to list
-        joinGame(newGame.getGameID()); // join the game
-        this.setChanged();
-        //We need this to be configured\
-        */
-        this.setChanged();
-        notifyObservers(UpdateType.GAME_CREATED);
-
-    }
-
-    public void setUpdateGamesResponse(Game[] games, String message){
-        this.games = new ArrayList<>(Arrays.asList(games));
-
-        this.response = message;
-        this.setChanged();
-        notifyObservers(UpdateType.GAME_LIST);
-    }
-
-    public void setJoinGameResponse(String gameID, String playerID, String message){
-
-        if(joinGame(gameID)) {
-            this.response = message;
-        } else{
-            response = "Game not found.";
-        }
-
-        this.playerID = playerID;
-
-        this.setChanged();
-        notifyObservers(UpdateType.GAME_JOINED);
-        System.out.println(response);
-    }
-
-
-    private boolean joinGame(String gameID){
-        if(games != null)
-        {
-            for(Game g: games){
-                if(g.getGameID().equals(gameID)){
-                    //GameID is set as currentGame
-                    this.setCurrentGame(g);
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public void setStartGameResponse(String gameID, String message){
-        this.response = message;
-        
-        if(joinGame(gameID)) {
-            this.response = message;
-        } else{
-            response = "Game not found.";
-        }
-
-        this.setChanged();
-        notifyObservers(UpdateType.GAME_STARTED);
-        System.out.println(response);
-
-    }
-
-    public void setLogoutResponse(String message){
-        if(message == null || message.length() == 0){
-            //preserve the socket and restart the model
-            WebSocketClient tempSocket = this.socket;
-            String sock = this.socketID;
-            ClientModel.ourInstance = new ClientModel();
-            ClientModel.getInstance().setSocketID(sock);
-            ClientModel.getInstance().setSocket(tempSocket);
-        }
-
-        this.response = message;
-
-        this.setChanged();
-        notifyObservers(UpdateType.LOGOUT_RESPONSE);
-    }
-
-    public void setLeaveGameResponse(String gameID, String message) {
-        if(message == null || message.length() == 0){
-            currentGame = null;
-        }
-
-        this.response = message;
-
-        this.setChanged();
-        notifyObservers(UpdateType.GAME_LEFT);
-    }
-
-    @Override
-    public synchronized void addObserver(Observer o) {
-            super.addObserver(o);
-    }
-
-
     public void setSocket(WebSocketClient socket) {
         this.socket = socket;
     }
@@ -184,7 +119,6 @@ public class ClientModel extends Observable {
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
     }
-
 
     public String getPlayerID() {
         return playerID;
@@ -198,12 +132,5 @@ public class ClientModel extends Observable {
         this.socketID = socketID;
     }
 
-    // ******* UTILITY FUNCTIONS ******//
-    public void re_init_model_for_TEST_ONLY() {ClientModel.ourInstance = new ClientModel(); }
-
-    public void sendUpdate(UpdateArgs args) {
-        this.setChanged();
-        this.notifyObservers(args);
-    }
 }
 

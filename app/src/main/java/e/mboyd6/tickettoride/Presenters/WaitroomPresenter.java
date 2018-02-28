@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.content.Context;
 
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.Game;
 
 import java.util.Observable;
@@ -10,6 +11,9 @@ import java.util.Observer;
 import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import com.example.sharedcode.model.UpdateType;
+
+import junit.framework.Assert;
+
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
@@ -89,18 +93,17 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
      */
     @Override
     public void update(Observable observable, Object o) {
-
-        UpdateType updateType = (UpdateType) o;
-
-        switch(updateType) {
+        Assert.assertEquals(o.getClass(), UpdateArgs.class);
+        UpdateArgs args = (UpdateArgs) o;
+        switch(args.type) {
             case GAME_LIST:
                 updatePlayerList();
                 break;
             case GAME_STARTED:
-                startGameResponse(ClientModel.getInstance().getResponse());
+                startGameResponse(args.error);
                 break;
             case GAME_LEFT:
-                leaveGameResponse(ClientModel.getInstance().getResponse());
+                leaveGameResponse(args.error);
             default:
                 System.out.println("ENUM ERROR");
                 break;
