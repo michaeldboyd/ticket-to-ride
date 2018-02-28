@@ -1,6 +1,6 @@
+import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
-import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
 import org.eclipse.jetty.websocket.api.Session;
 import javax.websocket.CloseReason;
@@ -15,7 +15,6 @@ import java.util.UUID;
 @ServerEndpoint(value="/echo/")
 public class CommandSocket implements WebSocketListener
 {
-    Gson gson = new Gson();
 
 
 
@@ -23,9 +22,9 @@ public class CommandSocket implements WebSocketListener
     public void onWebSocketText(String message)
     {
         System.out.println(message);
-        Command res = gson.fromJson(message, Command.class);
+        Command req = (Command) JsonReader.jsonToJava(message);
         try {
-            res.execute();
+            req.execute();
         } catch (InvocationTargetException e) {
             System.out.println(e.getCause().getMessage());
             e.printStackTrace();

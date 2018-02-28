@@ -1,18 +1,19 @@
 package e.mboyd6.tickettoride.Communication;
 
+import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import e.mboyd6.tickettoride.Model.ClientModel;
 
-/**
- * Created by eric on 2/7/18.
- */
 
 public class ServerProxyLobbyFacade implements IServerLobbyFacade {
-
+    private Map args = new HashMap();
     private static ServerProxyLobbyFacade _instance = new ServerProxyLobbyFacade();
 
     public static ServerProxyLobbyFacade instance() {
@@ -24,7 +25,8 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         return _instance;
     }
 
-    private ServerProxyLobbyFacade() {}
+    private ServerProxyLobbyFacade() { args.put(JsonWriter.TYPE, true);}
+
 
 
 
@@ -35,7 +37,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramValues = {authToken};
         Command getGamesCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_createGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
+        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(getGamesCommand, args));
     }
 
     @Override
@@ -44,7 +46,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramValues = {authToken};
         Command getGamesCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_getGames", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(new Gson().toJson(getGamesCommand));
+        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(getGamesCommand, args));
     }
 
     @Override
@@ -54,7 +56,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
         Command joinGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_joinGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(new Gson().toJson(joinGameCommand));
+        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(joinGameCommand, args));
     }
 
     @Override
@@ -64,7 +66,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
         Command leaveGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_leaveGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(new Gson().toJson(leaveGameCommand));
+        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(leaveGameCommand, args));
     }
 
     @Override
@@ -73,7 +75,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramValues = {authToken, gameID};
         Command startGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_startGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(new Gson().toJson(startGameCommand));
+        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(startGameCommand, args));
     }
 
     @Override
@@ -83,7 +85,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
         Command getPlayersForGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(new Gson().toJson(getPlayersForGameCommand));
+        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(getPlayersForGameCommand, args));
     }
 
     @Override
@@ -93,6 +95,6 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
         Command playerColorChangedCommand = CommandFactory.createCommand(null,"ServerLobbyFacade", "_playerColorChanged", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(new Gson().toJson(playerColorChangedCommand));
+        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(playerColorChangedCommand, args));
     }
 }

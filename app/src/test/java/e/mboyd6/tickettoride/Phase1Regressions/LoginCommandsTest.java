@@ -1,4 +1,6 @@
-package e.mboyd6.tickettoride;
+package e.mboyd6.tickettoride.Phase1Regressions;
+
+import com.example.sharedcode.model.Game;
 
 import junit.framework.Assert;
 
@@ -9,9 +11,11 @@ import org.junit.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Communication.UtilityFacade;
@@ -66,15 +70,13 @@ public class LoginCommandsTest {
             }
 
             //LOGIN
-            for(String n : tokens.keySet())
-            {
+            for(String n : tokens.keySet()) {
                 ServerProxyLoginFacade.instance().login(n, "pass", id);
                 Thread.sleep(1000);
                 String authToken = ClientModel.getInstance().getAuthToken();
                 Assert.assertNotNull(authToken);
                 tokens.put(n, authToken);
             }
-
             //LOGOUT AGAIN
             for(String auth : tokens.values())
             {
@@ -97,6 +99,7 @@ public class LoginCommandsTest {
     public void LoginFacade_SocketDisconnect() {
 
     }
+
 
     @After
     public void close()

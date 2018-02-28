@@ -136,5 +136,7 @@ public class ClientModel extends Observable {
         this.socketID = socketID;
     }
 
+    //for testing multiple clients
+    public ClientModel getTestInstance() {return new ClientModel(); }
 }
 
