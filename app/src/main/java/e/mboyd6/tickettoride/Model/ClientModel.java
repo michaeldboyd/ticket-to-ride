@@ -1,5 +1,6 @@
 package e.mboyd6.tickettoride.Model;
 
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
@@ -39,7 +40,6 @@ public class ClientModel extends Observable {
     public WebSocketClient getSocket() {
         return socket;
     }
-    //TODO: put all this in the socket manager
 
     private static ClientModel ourInstance = new ClientModel();
 
@@ -47,8 +47,7 @@ public class ClientModel extends Observable {
         return ourInstance;
     }
 
-    private ClientModel() {
-    }
+    private ClientModel(){}
 
     public ArrayList<Game> getGames() {
         return games;
@@ -67,29 +66,12 @@ public class ClientModel extends Observable {
     }
 
     public String getAuthToken() {
-
         return authToken;
     }
 
-    public void setAuthToken(String authToken, UpdateType type) {
+    public void setAuthToken(String authToken) {
         this.authToken = authToken;
-        this.setChanged();
-        notifyObservers(type);
     }
-    
-    /*public void setLoginResponse(String authToken, String message) {
-        this.authToken = authToken;
-        this.response = message;
-        this.setChanged();
-        notifyObservers(UpdateType.LOGIN_RESPONSE);
-    }
-
-    public void setRegisterResponse(String authToken, String message) {
-        this.authToken = authToken;
-        this.response = message;
-        this.setChanged();
-        notifyObservers(UpdateType.REGISTER_RESPONSE);
-    }*/
 
     public void setCreateGameResponse(Game newGame){
 
@@ -185,10 +167,6 @@ public class ClientModel extends Observable {
         notifyObservers(UpdateType.GAME_LEFT);
     }
 
-    public String getResponse() {
-        return response;
-    }
-
     @Override
     public synchronized void addObserver(Observer o) {
             super.addObserver(o);
@@ -220,13 +198,12 @@ public class ClientModel extends Observable {
         this.socketID = socketID;
     }
 
+    // ******* UTILITY FUNCTIONS ******//
     public void re_init_model_for_TEST_ONLY() {ClientModel.ourInstance = new ClientModel(); }
 
-    public void sendUpdate(UpdateType type) {
-
-    }
-
-    public void sencErrorUpdate(String message, UpdateType type) {
+    public void sendUpdate(UpdateArgs args) {
+        this.setChanged();
+        this.notifyObservers(args);
     }
 }
 

@@ -7,9 +7,13 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
+
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
+
+import static com.example.sharedcode.model.UpdateType.REGISTER_RESPONSE;
 
 /**
  * Created by jonathanlinford on 2/2/18.
@@ -95,20 +99,27 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
     /**
      * This should be called as a response is received by the client from the server.
      * @param message - if null, register was successful. If not null, register was unsuccessful
-     *                and the message is contained
+     *                and the error is contained
      */
     @Override
     public void registerResponse(String message){
+
         mainActivity.onRegisterResponse(message);
     }
 
     @Override
     public void update(Observable observable, Object o) {
-        UpdateType updateType = (UpdateType) o;
-
-        switch (updateType){
+        UpdateArgs args = null;
+        if(o.getClass() == UpdateArgs.class)
+            args = (UpdateArgs) o;
+        else {
+            //TODO add an error message here.
+            System.out.println("RegisterPresenter's update function was not passed an UpdateArgs Object");
+            return;
+        }
+        switch (args.type){
             case REGISTER_RESPONSE:
-                registerResponse(ClientModel.getInstance().getResponse());
+                registerResponse(args.error);
                 break;
             default:
                 break;

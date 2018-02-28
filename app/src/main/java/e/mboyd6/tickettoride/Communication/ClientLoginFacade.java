@@ -1,6 +1,7 @@
 package e.mboyd6.tickettoride.Communication;
 
 
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IClientLoginFacade;
 import com.example.sharedcode.model.UpdateType;
 
@@ -28,25 +29,23 @@ public class ClientLoginFacade implements IClientLoginFacade {
         instance().initSocket(id);
     }
     public static void _loginReceived(String authToken, String message) {
-        System.out.println("_loginReceived");
-
         Assert.notNull(authToken, "_loginReceived was sent a null authToken");
-        Assert.notNull(message, "_loginReceived was sent a null message");
+        Assert.notNull(message, "_loginReceived was sent a null error");
 
         instance().login(authToken, message);
     }
 
     public static void _registerReceived(String authToken, String message) {
         Assert.notNull(authToken, "_registerReceived was sent a null authToken");
-        Assert.notNull(message, "_registerReceived was sent a null message");
-        System.out.println("_registerReceived");
+        Assert.notNull(message, "_registerReceived was sent a null error");
+
         instance().register(authToken, message);
     }
 
     public static void _logoutReceived(String message)
     {
-        System.out.println("_logoutReceived");
-        Assert.notNull(message, "_loginReceived was sent a null message");
+        Assert.notNull(message, "_loginReceived was sent a null error");
+
         instance().logout(message);
     }
 
@@ -56,24 +55,33 @@ public class ClientLoginFacade implements IClientLoginFacade {
     @Override
     public void login(String authToken, String message) {
         UpdateType type = UpdateType.LOGIN_RESPONSE;
-        if(!handleError(message, type)){
-            ClientModel.getInstance().setAuthToken(authToken, type);
-        }
+        boolean success = isSuccess(message);
+
+        if(success)
+            ClientModel.getInstance().setAuthToken(authToken);
+
+        sendUpdate(type, success, message);
+
     }
 
     @Override
     public void register(String authToken, String message) {
         UpdateType type = UpdateType.REGISTER_RESPONSE;
-        if(!handleError(message, type)) {
-            ClientModel.getInstance().setAuthToken(authToken, UpdateType.REGISTER_RESPONSE);
+        boolean success = isSuccess(message);
+
+        if(success) {
+            ClientModel.getInstance().setAuthToken(authToken);
         }
+
+        sendUpdate(type, success, message);
     }
 
     @Override
     public void logout(String message) {
         UpdateType type = UpdateType.LOGOUT_RESPONSE;
-        if(!handleError(message, type))
-        ClientModel.getInstance().sendUpdate(type);
+        boolean success = isSuccess(message);
+
+        sendUpdate(type, success, message);
     }
 
     @Override
@@ -81,13 +89,15 @@ public class ClientLoginFacade implements IClientLoginFacade {
         ClientModel.getInstance().setSocketID(id);
     }
 
-    private boolean handleError(String message, UpdateType type){
+    private boolean isSuccess(String message){
         if(message == null || message.equals(""))
-            return false;
-        else {
-            ClientModel.getInstance().sendErrorUpdate(message, type);
             return true;
-        }
+        else return false;
+    }
 
+    private void sendUpdate(UpdateType type, boolean success, String error)
+    {
+        UpdateArgs args = new UpdateArgs(type, success, error);
+        ClientModel.getInstance().sendUpdate(args);
     }
 }
