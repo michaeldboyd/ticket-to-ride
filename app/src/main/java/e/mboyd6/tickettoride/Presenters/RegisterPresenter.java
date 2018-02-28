@@ -78,6 +78,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
     }
 
 
+    // View -> Facade
     /**
      * This method calls the register on the proxy. It doesn't return anything.
      *
@@ -92,6 +93,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
     }
 
 
+    // Model -> View
     /**
      * This should be called as a response is received by the client from the server.
      * @param message - if null, register was successful. If not null, register was unsuccessful

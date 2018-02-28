@@ -23,10 +23,11 @@ public class ChatPresenter implements IChatPresenter, Observer {
     IGameActivity gameActivity;
 
     public ChatPresenter(Object o) {
-        if(o.getClass().equals(IGameActivity.class))
-            this.chatFragment = (IChatFragment) o;
-        else
+        if(o.equals(IGameActivity.class))
             this.gameActivity = (IGameActivity) o;
+        else
+            this.chatFragment = (IChatFragment) o;
+
 
         ClientModel.getInstance().addObserver(this);
 

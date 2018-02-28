@@ -58,6 +58,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
         return password != null && !password.equals("") && !password.contains(" ");
     }
 
+    // View -> Facade
     /**
      * @param username
      * @param password
@@ -69,6 +70,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
         ServerProxyLoginFacade.instance().login(username, password, socketID);
     }
 
+    //Model -> View
     @Override
     public void loginResponse(String message){
         mainActivity.onLoginResponse(message);

@@ -27,6 +27,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         ClientModel.getInstance().addObserver(this);
     }
 
+    // View -> Facade
     @Override
     public void changePlayerColor(int color){
         String gameID = ClientModel.getInstance().getCurrentGame().getGameID();
@@ -53,7 +54,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     }
 
-    //Called by the observer
+    // Model -> View
     @Override
     public void updatePlayerList() {
         Game currentGame = ClientModel.getInstance().getCurrentGame();

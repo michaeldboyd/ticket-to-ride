@@ -26,12 +26,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         ClientModel.getInstance().addObserver(this);
     }
 
-    @Override
-    public void updateGameList() {
-        mainActivity.updateGameList(ClientModel.getInstance().getGames());
-    }
-
-    //TODO: Implement logOut method
+    // View -> Facade
     @Override
     public void logOut() {
         ServerProxyLoginFacade.instance().logout(ClientModel.getInstance().getAuthToken());
@@ -53,9 +48,15 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         ServerProxyLobbyFacade.instance().createGame(ClientModel.getInstance().getAuthToken());
     }
 
+    // Model -> View
     @Override
     public void gameCreated(String response) {
         mainActivity.onCreateGameResponse(response);
+    }
+
+    @Override
+    public void updateGameList() {
+        mainActivity.updateGameList(ClientModel.getInstance().getGames());
     }
 
     @Override
