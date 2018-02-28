@@ -31,6 +31,10 @@ public class ClientModel extends Observable {
     private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
     private String authToken;
     private String response;
+
+    //TODO:Di
+
+    //TODO: These shoudl be managed in the SocketManage
     private WebSocketClient socket;
     private String socketID;
 

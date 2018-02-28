@@ -31,6 +31,7 @@ public class ServerModel extends Observable {
     private Map<String, User> allUsers = new HashMap<>(); // <username, User>
     private Map<String, String> authTokenToUsername = new HashMap<>(); // <authToken, username>
     private Map<String, Game> games = new HashMap<>(); // <gameID, Game>
+    private Map<String, ArrayList<ChatMessage>> chatMessagesForGame = new HashMap<>(); // <gameID, ChatMessage[]>
 
     //this static map keeps track of all open websockets with key: username val: session instance
     private Map<String, Session> loggedInSessions = Collections.synchronizedMap(new HashMap<>());
@@ -221,9 +222,6 @@ public class ServerModel extends Observable {
             message = "Could not remove player because is not in the game";
         }
 
-        // Commented out because we should not need to do this before and after making the update to this Game
-//        updateGamesBroadcast();
-
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
 
@@ -381,6 +379,24 @@ public class ServerModel extends Observable {
             _instance = new ServerModel();
         }
     }
+
+
+    // *** CHAT ***
+
+    public void addChatToGame(String authToken, String message, String playerName, String gameID) {
+        if (!chatMessagesForGame.containsKey(gameID)) {
+            chatMessagesForGame.put(gameID, new ArrayList<>());
+        }
+
+        ChatMessage newMessage = new ChatMessage(message, playerName);
+        chatMessagesForGame.get(gameID).add(newMessage);
+
+        String[] paramTypes = {newMessage.getClass().toString(), gameID.getClass().toString()};
+        Object[] paramValues = {newMessage, gameID};
+        Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ChatClientFacade", "_chatMessageReceived", paramTypes, paramValues);
+        notifyObserversForUpdate(addChatCommand);
+    }
+
 
 
     //*** Getters ***

@@ -15,9 +15,19 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
     private static ServerProxyLobbyFacade _instance = new ServerProxyLobbyFacade();
 
+    public static ServerProxyLobbyFacade instance() {
+
+        if (_instance == null){
+            _instance = new ServerProxyLobbyFacade();
+        }
+
+        return _instance;
+    }
+
     private ServerProxyLobbyFacade() {}
 
-    public static ServerProxyLobbyFacade instance() {return _instance;}
+
+
 
     @Override
     public void createGame(String authToken) {
@@ -44,7 +54,6 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
         Command joinGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_joinGame", paramTypes, paramValues);
 
-        // TODO - Send joinGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(joinGameCommand));
     }
 
@@ -55,7 +64,6 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
         Command leaveGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_leaveGame", paramTypes, paramValues);
 
-        // TODO - Send leaveGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(leaveGameCommand));
     }
 
@@ -65,8 +73,6 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramValues = {authToken, gameID};
         Command startGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_startGame", paramTypes, paramValues);
 
-
-        // TODO - Send startGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(startGameCommand));
     }
 
@@ -77,7 +83,6 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
         Command getPlayersForGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
 
-        // TODO - Send getPlayersForGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(getPlayersForGameCommand));
     }
 
@@ -88,7 +93,6 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
 
         Command playerColorChangedCommand = CommandFactory.createCommand(null,"ServerLobbyFacade", "_playerColorChanged", paramTypes, paramValues);
 
-        // TODO - Send getPlayersForGameCommand to Server via socket
         ClientModel.getInstance().getSocket().send(new Gson().toJson(playerColorChangedCommand));
     }
 }

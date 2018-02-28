@@ -13,5 +13,9 @@ public enum UpdateType {
     GAME_CREATED,
     GAME_JOINED,
     GAME_LEFT,
-    REGISTER_RESPONSE
+    REGISTER_RESPONSE,
+
+    //Chat
+    CHAT_RECEIVED,
+    TYPING_UPDATED
 }
