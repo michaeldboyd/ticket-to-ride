@@ -37,7 +37,10 @@ public class ServerModel extends Observable {
     private Map<String, Session> loggedInSessions = Collections.synchronizedMap(new HashMap<>());
     private Map<String, Session> allSessions = Collections.synchronizedMap(new HashMap<>());
 
-
+    public void sendUpdate(Command command){
+        this.setChanged();
+        notifyObserversForUpdate(command);
+    }
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);
@@ -83,44 +86,7 @@ public class ServerModel extends Observable {
 
     }
 
-    public void loginUser(String username, String password, String socketID) {
-        String authToken = "";
-        String message = "";
-        if (loggedInUsers.containsKey(username)) {
-            message = "User already logged in.";
-        } else {
 
-            if (allUsers.containsKey(username)) {
-
-                User user = allUsers.get(username);
-
-                if (user.getPassword().equals(password)) {
-
-                    //Do we want to reset authtoken each time?
-                    UUID uuid = UUID.randomUUID();
-                    authToken = uuid.toString();
-
-                    authTokenToUsername.put(authToken, username);
-                    allUsers.get(username).setAuthtoken(authToken);
-                    loggedInUsers.put(username, user);
-
-                    matchSocketToAuthToken(socketID, authToken);
-                } else {
-                    message = "Incorrect password.";
-                }
-            } else {
-                message = "User does not exist.";
-            }
-        }
-
-
-        String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
-        String[] paramValues = {authToken, message};
-        Command loginClientCommand = CommandFactory.createCommand(authToken,
-                "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
-                "_loginReceived", paramTypes, paramValues);
-        notifyObserversForUpdate(loginClientCommand);
-    }
 
 
     public void logout(String authToken) {

@@ -82,4 +82,8 @@ public class ServerLoginFacade implements IServerLoginFacade {
         ServerModel.instance().logout(authToken);
     }
 
+
+    private void sendCommand(Command commmand){
+        ServerModel.instance().sendUpdate(command);
+    }
 }
