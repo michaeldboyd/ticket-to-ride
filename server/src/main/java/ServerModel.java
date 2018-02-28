@@ -172,14 +172,18 @@ public class ServerModel extends Observable {
     }
 
     public void getAllGames(String authToken) {
-        Game[] games = (Game[]) ServerModel.instance().games.values().toArray();
-
+        Object[] games = ServerModel.instance().games.values().toArray();
+        Game[] gs = new Game[games.length];
+        int i=0;
+        for(Object o : games) {
+            gs[i++] = (Game)o;
+        }
         // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
 
         // Message is empty
         String message= "";
-        String[] paramTypes = {games.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {games, message};
+        String[] paramTypes = {gs.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gs, message};
 
         Command updateGamesClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_updateGamesReceived", paramTypes, paramValues);
