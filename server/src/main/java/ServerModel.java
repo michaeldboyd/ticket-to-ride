@@ -50,7 +50,7 @@ public class ServerModel extends Observable {
 
 
 
-    // *** REGISTER / LOGIN ***
+    // *** REGISTER / LOGIN *** //
 
     public void registerUser(String username, String password, String socketID) {
         String authToken = "";
@@ -370,13 +370,18 @@ public class ServerModel extends Observable {
         Sender.instance().sendBySocketId(errorCommand, socketID);
     }*/
 
-    public void getTestInstance(String superSecretPassword)
+    public void clearServer(String superSecretPassword)
     {
         if(superSecretPassword.equals(this.testPassword))
         {
             // add a test server instance
             //for now I'm just nuking it...
-            _instance = new ServerModel();
+            allUsers.clear();
+            loggedInUsers.clear();
+            loggedInSessions.clear();
+            authTokenToUsername.clear();
+            games.clear();
+            chatMessagesForGame.clear();
         }
     }
 
