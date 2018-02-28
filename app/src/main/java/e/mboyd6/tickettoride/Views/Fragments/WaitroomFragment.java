@@ -139,7 +139,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
 
         mChatFragmentContainer = v.findViewById(R.id.chat_fragment_container);
         ChatFragment chatFragment = new ChatFragment();
-        getChildFragmentManager().beginTransaction().replace(R.id.chat_fragment_container, chatFragment);
+        getChildFragmentManager().beginTransaction().replace(R.id.chat_fragment_container, chatFragment).commit();
         return v;
     }
 
