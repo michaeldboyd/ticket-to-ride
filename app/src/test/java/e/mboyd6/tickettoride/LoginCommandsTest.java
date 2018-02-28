@@ -17,7 +17,6 @@ import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Model.ClientModel;
-import e.mboyd6.tickettoride.Utility.UtilityFacade;
 
 public class LoginCommandsTest {
 
@@ -140,6 +139,6 @@ public class LoginCommandsTest {
     public void close()
     {
         ClientModel.getInstance().getSocket().close();
-        ClientModel.getInstance().re_init_model_for_TEST_ONLY();
+        ClientModel.getInstance().clearInstance();
     }
 }
