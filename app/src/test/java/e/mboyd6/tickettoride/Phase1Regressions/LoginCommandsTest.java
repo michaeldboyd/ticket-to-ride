@@ -22,7 +22,7 @@ import e.mboyd6.tickettoride.Communication.UtilityFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class LoginCommandsTest {
-    private final String[] names = {"michael", "johnny", "ali", "eric", "bekah", "rodham"};
+    private final String[] names = {"michael", "santa"};
     @Before
     public void init()
     {
@@ -76,14 +76,6 @@ public class LoginCommandsTest {
                 String authToken = ClientModel.getInstance().getAuthToken();
                 Assert.assertNotNull(authToken);
                 tokens.put(n, authToken);
-            }
-            //LOGOUT AGAIN
-            for(String auth : tokens.values())
-            {
-                ServerProxyLoginFacade.instance().logout(auth);
-                Thread.sleep(1000);
-                String authToken = ClientModel.getInstance().getAuthToken();
-                Assert.assertNull(authToken);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

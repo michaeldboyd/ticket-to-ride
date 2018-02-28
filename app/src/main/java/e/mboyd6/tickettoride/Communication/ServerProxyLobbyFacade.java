@@ -4,7 +4,6 @@ import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
-import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;

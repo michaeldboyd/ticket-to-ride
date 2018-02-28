@@ -1,10 +1,14 @@
 package e.mboyd6.tickettoride.Communication;
 
+import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 
 import com.example.sharedcode.interfaces.IUtility;
-import com.google.gson.Gson;
+
+
+import java.util.HashMap;
+import java.util.Map;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 
@@ -15,8 +19,8 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class UtilityFacade implements IUtility {
     private static UtilityFacade _instance = new UtilityFacade();
-
-    private UtilityFacade() {}
+    private Map args = new HashMap();
+    private UtilityFacade() {args.put(JsonWriter.TYPE, true);}
 
     public static UtilityFacade instance() {return _instance;}
 
@@ -27,7 +31,7 @@ public class UtilityFacade implements IUtility {
         // the authToken is null because when logging in we don't have an auth token.
         Command loginCommand = CommandFactory.createCommand(null, "UtilityFacade", "_clearServer", paramTypes, paramValues);
         // TODO - send login to Server via socket
-        ClientModel.getInstance().getSocket().send(new Gson().toJson(loginCommand));
+        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(loginCommand, args));
     }
 }
 
