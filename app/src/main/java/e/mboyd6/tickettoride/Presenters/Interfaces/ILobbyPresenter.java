@@ -6,13 +6,16 @@ package e.mboyd6.tickettoride.Presenters.Interfaces;
 
 public interface ILobbyPresenter {
 
+    // View -> Facade
     void logOut();
+
     void joinGame(String gameID);
 
     void createGame();
+
+    // Model -> View
     void gameCreated(String response);
 
-    //Observer Methods
     void updateGameList();
 
     void logoutResponse(String message);

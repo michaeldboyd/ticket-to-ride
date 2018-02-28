@@ -36,7 +36,7 @@ public class SocketClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        System.out.println("received message: " + message);
+        System.out.println("received error: " + message);
         Command res = (Command) JsonReader.jsonToJava(message);
         try {
             res.execute();

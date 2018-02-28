@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import e.mboyd6.tickettoride.Presenters.ChatPresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 
@@ -21,6 +22,7 @@ import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 public class ChatFragment extends Fragment {
 
     private IMainActivity mListener;
+    private ChatPresenter mChatPresenter = new ChatPresenter(this);
 
     public ChatFragment() {
         // Required empty public constructor

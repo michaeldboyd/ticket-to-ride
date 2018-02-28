@@ -7,10 +7,14 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
+
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
+
+import junit.framework.Assert;
 
 /**
  * Created by jonathanlinford on 2/2/18.
@@ -58,6 +62,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
         return password != null && !password.equals("") && !password.contains(" ");
     }
 
+    // View -> Facade
     /**
      * @param username
      * @param password
@@ -69,6 +74,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
         ServerProxyLoginFacade.instance().login(username, password, socketID);
     }
 
+    //Model -> View
     @Override
     public void loginResponse(String message){
         loginFragment.onLoginResponse(message);
@@ -81,12 +87,11 @@ public class LoginPresenter implements ILoginPresenter, Observer{
 
     @Override
     public void update(Observable observable, Object o) {
-
-        UpdateType updateType = (UpdateType) o;
-
-        switch (updateType){
+        Assert.assertEquals(o.getClass(), UpdateArgs.class);
+        UpdateArgs args = (UpdateArgs) o;
+        switch (args.type){
             case LOGIN_RESPONSE:
-                loginResponse(ClientModel.getInstance().getResponse());
+                loginResponse(args.error);
                 break;
             default:
                 break;

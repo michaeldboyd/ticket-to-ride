@@ -81,10 +81,11 @@ public class WaitroomFragmentTest {
   @After
   public void tearDown() throws Exception {
     if (ClientModel.getInstance().getCurrentGame() != null) {
-      ClientModel.getInstance().setLeaveGameResponse(ClientModel.getInstance().getCurrentGame().getGameID(), "");
+      // SORRY HUNTER.. PLEAEE FORGIVE ME (editing your code)
+      // ClientModel.getInstance().setLeaveGameResponse(ClientModel.getInstance().getCurrentGame().getGameID(), "");
       ClientModel.getInstance().setCurrentGame(null);
     }
-    ClientModel.getInstance().setLogoutResponse("");
+    ClientModel.getInstance().clearInstance();
   }
 
   @Test
@@ -94,7 +95,7 @@ public class WaitroomFragmentTest {
     ClientModel.getInstance().setGames(fakeGames);
     waitForSeconds(1);
 
-    ClientModel.getInstance().setJoinGameResponse(game1.getGameID(),"001", "");
+    //ClientModel.getInstance().setJoinGameResponse(game1.getGameID(),"001", "");
     testingActivity.getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_fragment_container, new WaitroomFragment(), "CURRENT_FRAGMENT").commit();
     waitForSeconds(1);
 
@@ -112,7 +113,7 @@ public class WaitroomFragmentTest {
     assertTrue(compareBackgrounds(colorSelection, R.drawable.color_turquoise_faded));
 
     changeFakeGames();
-    ClientModel.getInstance().setUpdateGamesResponse(fakeGames.toArray(new Game[fakeGames.size()]), "");
+    ClientModel.getInstance().setGames(fakeGames);
     waitForSeconds(1);
     waitForSeconds(1);
     waitForSeconds(1);

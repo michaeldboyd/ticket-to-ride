@@ -7,10 +7,17 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
+
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.UpdateType;
+
+import junit.framework.Assert;
+
 import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
+
+import static com.example.sharedcode.model.UpdateType.REGISTER_RESPONSE;
 
 /**
  * Created by jonathanlinford on 2/2/18.
@@ -79,6 +86,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
     }
 
 
+    // View -> Facade
     /**
      * This method calls the register on the proxy. It doesn't return anything.
      *
@@ -93,10 +101,11 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
     }
 
 
+    // Model -> View
     /**
      * This should be called as a response is received by the client from the server.
      * @param message - if null, register was successful. If not null, register was unsuccessful
-     *                and the message is contained
+     *                and the error is contained
      */
     @Override
     public void registerResponse(String message){
@@ -109,11 +118,11 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
     }
     @Override
     public void update(Observable observable, Object o) {
-        UpdateType updateType = (UpdateType) o;
-
-        switch (updateType){
+        Assert.assertEquals(o.getClass(), UpdateArgs.class);
+        UpdateArgs args = (UpdateArgs) o;
+        switch (args.type){
             case REGISTER_RESPONSE:
-                registerResponse(ClientModel.getInstance().getResponse());
+                registerResponse(args.error);
                 break;
             default:
                 break;

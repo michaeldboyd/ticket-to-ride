@@ -15,8 +15,10 @@ public interface IRegisterPresenter {
 
     boolean passwordsMatch(String password1, String password2);
 
+    // View -> Facade
     void register(String username, String password);
 
+    // Model -> View
     void registerResponse(String message);
 
     void detachView();

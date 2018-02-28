@@ -71,7 +71,7 @@ public class CommandSocket implements WebSocketListener
                 "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
                 "_initSocket", paramTypes, paramValues);
         // Send logoutCommand to Client via socket
-        Sender.connectBySocketId(initCommand, id);
+        Sender.instance().sendBySocketId(initCommand, id);
 
     }
 }

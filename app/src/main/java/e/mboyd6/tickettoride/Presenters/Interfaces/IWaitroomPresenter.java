@@ -8,20 +8,19 @@ import com.example.sharedcode.model.PlayerColors;
 
 public interface IWaitroomPresenter {
 
-
+    // View -> Facade
     void changePlayerColor(int color);
-
-    void startGameResponse(String message);
 
     void leaveGame();
 
     void startGame();
 
-    //Observer methods
-
+    // Model -> View
     void updatePlayerList();
 
     boolean gameReady();
+
+    void startGameResponse(String message);
 
     void leaveGameResponse(String message);
 

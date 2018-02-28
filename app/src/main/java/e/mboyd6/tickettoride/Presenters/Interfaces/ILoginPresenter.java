@@ -13,8 +13,10 @@ public interface ILoginPresenter {
 
     boolean validPassword(String password);
 
+    // View -> Facade
     void login(String username, String password);
 
+    // Model -> View
     void loginResponse(String message);
 
     void detachView();

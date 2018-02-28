@@ -7,6 +7,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import java.io.IOException;
 import java.util.*;
 
+//TODO this class shouldn't call the server model.
 public class Sender implements Observer {
     private static Sender _instance;
 
@@ -20,11 +21,7 @@ public class Sender implements Observer {
     }
 
 
-    public static boolean sendCommand(Command command, Session session){
-        return _instance._sendCommand(command, session);
-    }
-
-    private boolean _sendCommand(Command command, Session sess) {
+    private boolean sendCommand(Command command, Session sess) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
         command.set_authToken(null);
@@ -43,13 +40,7 @@ public class Sender implements Observer {
             return false;
         }
     }
-
-
-    public static void connectBySocketId(Command command, String id){
-        _instance._connectBySocketId(command, id);
-    }
-
-    private void _connectBySocketId(Command command, String id) {
+    public void sendBySocketId(Command command, String id) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
         Session sess = ServerModel.instance().getAllSessions().get(id);
@@ -64,12 +55,11 @@ public class Sender implements Observer {
         }
     }
 
-
-    public static void sendBroadcast(Command command) {
-        _instance._sendBroadcast(command);
-    }
-
-    private void _sendBroadcast(Command command) {
+    /**
+     * Sends to a list of people. Right now that list is all the logged in users.
+     * @param command
+     */
+    public void sendBroadcast(Command command) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
 
@@ -99,6 +89,6 @@ public class Sender implements Observer {
         }
         Command command = (Command)arg;
         Session sess = ServerModel.instance().getLoggedInSessions().get(command.get_authToken());
-        Sender.sendCommand(command, sess);
+        instance().sendCommand(command, sess);
     }
 }

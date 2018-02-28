@@ -13,6 +13,7 @@ import java.util.*;
 public class ServerModel extends Observable {
 
     private static ServerModel _instance;
+    private String testPassword = "thisisoursupersecrettestpassword";
 
     public static ServerModel instance() {
 
@@ -76,9 +77,10 @@ public class ServerModel extends Observable {
 
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
         String[] paramValues = {authToken, message};
-        Command registerClientCommand = CommandFactory.createCommand(authToken,"e.mboyd6.tickettoride.Communication.ClientLoginFacade","_registerReceived", paramTypes, paramValues);
-
+        Command registerClientCommand = CommandFactory.createCommand(authToken,
+                "e.mboyd6.tickettoride.Communication.ClientLoginFacade","_registerReceived", paramTypes, paramValues);
         notifyObserversForUpdate(registerClientCommand);
+
     }
 
     public void loginUser(String username, String password, String socketID) {
@@ -111,7 +113,7 @@ public class ServerModel extends Observable {
             }
         }
 
-        //make command
+
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
         String[] paramValues = {authToken, message};
         Command loginClientCommand = CommandFactory.createCommand(authToken,
@@ -128,7 +130,6 @@ public class ServerModel extends Observable {
             loggedInUsers.remove(username);
             authTokenToUsername.remove(authToken);
         } else  {
-            //TODO we aren't sending this message right now.
             message = "Error logging out -- not logged in";
         }
 
@@ -161,8 +162,6 @@ public class ServerModel extends Observable {
 
         ServerModel.instance().games.put(id, newGame);
 
-        // SEND UPDATED GAMES LIST TO ERRYBODY
-        // SEND JOIN GAME COMMAND TO CREATOR OF GAME
         String[] paramTypes = {newGame.getClass().toString()};
         Object[] paramValues = {newGame};
         Command createGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
@@ -278,6 +277,7 @@ public class ServerModel extends Observable {
         Object[] paramValues = {gameID, message};
         Command command = CommandFactory.createCommand("", "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_startGameReceived", paramTypes, paramValues);
+        //TODO this eventually should be changed so it only sends the command to the people in the right game.
         for(String token : tokens)
         {
             command.set_authToken(token);
@@ -342,9 +342,43 @@ public class ServerModel extends Observable {
         Object[] paramValues = {gs, message};
         Command updateGamesClientCommand = CommandFactory.createCommand(null, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
                 "_updateGamesReceived", paramTypes, paramValues);
-        Sender.sendBroadcast(updateGamesClientCommand);
+        Sender.instance().sendBroadcast(updateGamesClientCommand);
     }
 
+    //*** Utilities / Testing functions***//
+
+/*    *//**
+     * If the user is logged in, use this message to send an error back to the client if something goes wrong.
+     *//*
+    public void sendError(UpdateType responseType, String message, String authToken) {
+        String[] paramTypes = {responseType.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {responseType, message};
+        Command errorCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.UtilityFacade",
+                "_handleError", paramTypes, paramValues);
+        notifyObserversForUpdate(errorCommand);
+    }
+
+    *//**
+     * If the user is logging in or registering, use this error to send a command back to client.
+
+     *//*
+    public void sendLoginError(UpdateType responseType, String message, String socketID) {
+        String[] paramTypes = {responseType.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {responseType, message};
+        Command errorCommand = CommandFactory.createCommand(null, "e.mboyd6.tickettoride.Communication.UtilityFacade",
+                "_handleLoginError", paramTypes, paramValues);
+        Sender.instance().sendBySocketId(errorCommand, socketID);
+    }*/
+
+    public void getTestInstance(String superSecretPassword)
+    {
+        if(superSecretPassword.equals(this.testPassword))
+        {
+            // add a test server instance
+            //for now I'm just nuking it...
+            _instance = new ServerModel();
+        }
+    }
 
 
     // *** CHAT ***
