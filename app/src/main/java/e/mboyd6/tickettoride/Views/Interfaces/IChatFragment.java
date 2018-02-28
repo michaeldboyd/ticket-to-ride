@@ -6,6 +6,7 @@ package e.mboyd6.tickettoride.Views.Interfaces;
 
 import android.widget.Button;
 
+import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
@@ -25,5 +26,7 @@ import java.util.ArrayList;
 public interface IChatFragment {
     // This allows the mainActivity to inform the presenter of the chatFragment it needs to call
     void updateChatFragment(IChatFragment chatFragment);
-
+    void updateChat(ArrayList<ChatMessage> messages);
+    void sendMessage(String message);
+    void isTypingUpdated(boolean isUpdated);
 }

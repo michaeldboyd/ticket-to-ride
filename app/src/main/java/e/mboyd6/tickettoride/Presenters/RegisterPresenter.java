@@ -10,6 +10,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 import com.example.sharedcode.model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
 
 /**
  * Created by jonathanlinford on 2/2/18.
@@ -17,10 +18,10 @@ import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 public class RegisterPresenter implements IRegisterPresenter, Observer {
 
-    MainActivity mainActivity;
+    IRegisterFragment registerFragment;
 
-    public RegisterPresenter(Context context) {
-        mainActivity = (MainActivity) context;
+    public RegisterPresenter(IRegisterFragment registerFragment) {
+        this.registerFragment = registerFragment;
 
         ClientModel.getInstance().addObserver(this);
     }
@@ -99,9 +100,13 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
      */
     @Override
     public void registerResponse(String message){
-        mainActivity.onRegisterResponse(message);
+        registerFragment.onRegisterResponse(message);
     }
 
+    @Override
+    public void detachView() {
+        ClientModel.getInstance().deleteObserver(this);
+    }
     @Override
     public void update(Observable observable, Object o) {
         UpdateType updateType = (UpdateType) o;

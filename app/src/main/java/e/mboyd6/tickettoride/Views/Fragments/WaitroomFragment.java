@@ -1,5 +1,6 @@
 package e.mboyd6.tickettoride.Views.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,9 +17,12 @@ import com.example.sharedcode.model.PlayerColors;
 
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
+import e.mboyd6.tickettoride.Presenters.WaitroomPresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
 import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
 /**
@@ -29,7 +33,9 @@ import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
  * Use the {@link WaitroomFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WaitroomFragment extends Fragment implements IWaitroomFragment {
+public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMainActivity {
+
+
     public class SelectedColor
     {
         int playerColor;
@@ -57,7 +63,9 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
     private String mParam1;
     private String mParam2;
 
-    private IWaitroomFragment mListener;
+    private Activity activity;
+    private IMainActivity mListener;
+    private IWaitroomPresenter mWaitroomPresenter = new WaitroomPresenter((IWaitroomFragment) this);
 
     private ArrayList<ColorSelectionView> colorSelectionViews = new ArrayList<>();
     private TextView playersInLobby;
@@ -149,7 +157,50 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
     //TODO: The player name shouldn't appear unless they have chosen that color
     //TODO: Make the colorSelectionViews into an arrayList that is iterated over
     //TODO: Implement the onClickListeners (each one will call one function that takes in the index of the colorSelectionView, and can do the logic to figure out whether it should send a color change or not)
-    public void redrawPlayers() {
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (Activity) context;
+        if (context instanceof IMainActivity) {
+            mListener = (IMainActivity) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+        mWaitroomPresenter.detachView();
+        mWaitroomPresenter = null;
+    }
+
+
+    private void onWaitroomFragmentColorPicked(int playerColor) {
+        //Calls waitroomPresenter
+        mWaitroomPresenter.changePlayerColor(playerColor);
+    }
+
+    private void onWaitroomFragmentLeaveGameButton() {
+        mWaitroomPresenter.leaveGame();
+        onLeaveGameSent();
+    }
+
+    private void onWaitroomFragmentStartGameButton() {
+        //TODO: This is not implemented
+
+        if(mWaitroomPresenter.gameReady()) {
+            mWaitroomPresenter.startGame();
+            onStartGameSent();
+        } else {
+            handleError("Not enough players! Find some friends.");
+        }
+    }
+
+    private void redrawPlayers() {
 
         selectedColors = refreshSelectedColors();
 
@@ -158,8 +209,8 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
 
             int background = 0;
 
-            int normalText = ContextCompat.getColor((Context) mListener, R.color.white);
-            int fadedText = ContextCompat.getColor((Context) mListener, R.color.gray);
+            int normalText = activity.getColor(R.color.white);
+            int fadedText = activity.getColor(R.color.gray);
             int textColor = normalText;
             String colorSelectionText = "CHOOSE";
             int playerColorToSelect = 0;
@@ -220,93 +271,132 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
             //colorSelectionViews.get(i).setOnClickListener(null);
         }
 
-        String playersInLobbyText = playerCount + " " + getString(R.string.players_in_lobby);
+        String playersInLobbyText = playerCount + " " + activity.getString(R.string.players_in_lobby);
         playersInLobby.setText(playersInLobbyText);
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof IWaitroomFragment) {
-            mListener = (IWaitroomFragment) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    private void updatePlayerListFirstTime() {
+        mWaitroomPresenter.updatePlayerList();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+
+    private void disableLeaveGameUI() {
+        mBackOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        mStartGameButton.setEnabled(false);
+        mBackOutButton.setEnabled(false);
     }
 
-    @Override
-    public void updatePlayerList(ArrayList<Player> newList) {
-        players = newList;
-        redrawPlayers();
-        //Change layout to have updated players
+    private void enableLeaveGameUI() {
+        mBackOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        mStartGameButton.setEnabled(true);
+        mBackOutButton.setEnabled(true);
     }
 
-    @Override
-    public void onWaitroomFragmentStartGameButton() {
-        if (mListener != null) {
-            mListener.onWaitroomFragmentStartGameButton();
-        }
-    }
-
-    @Override
-    public void onStartGameSent() {
+    private void disableStartGameUI() {
         mStartGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
         mStartGameButton.setEnabled(false);
         mBackOutButton.setEnabled(false);
     }
 
-    @Override
-    public void onStartGameResponse(String message) {
+    private void enableStartGameUI() {
         mStartGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
         mStartGameButton.setEnabled(true);
         mBackOutButton.setEnabled(true);
     }
 
     @Override
-    public void updateChat() {
-        //Change layout to have updated chat
+    public void updatePlayerList(ArrayList<Player> newList) {
+        final ArrayList<Player> nL = newList;
+        activity.runOnUiThread(new Runnable() {
+            // Michael updated this function to match other functions for error andling.
+            @Override
+        public void run() {
+            players = nL;
+            redrawPlayers();
+            }
+        });
+    }
+
+
+    @Override
+    public void onStartGameSent() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableStartGameUI();
+            }
+        });
     }
 
     @Override
-    public void updatePlayerListFirstTime() {
-        if (mListener != null) {
-            mListener.updatePlayerListFirstTime();
-        }
-    }
-
-    @Override
-    public void onWaitroomFragmentColorPicked(int playerColor) {
-        if (mListener != null) {
-            mListener.onWaitroomFragmentColorPicked(playerColor);
-        }
-    }
-
-    @Override
-    public void onWaitroomFragmentLeaveGameButton() {
-        if (mListener != null) {
-            mListener.onWaitroomFragmentLeaveGameButton();
-        }
+    public void onStartGameResponse(String message) {
+        final String mess = message;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                    enableStartGameUI();
+                    if (!handleError(mess)) {
+                        handleError("Successfully started game. Congrats!");
+                    }
+                }});
     }
 
     @Override
     public void onLeaveGameSent() {
-        mBackOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
-        mStartGameButton.setEnabled(false);
-        mBackOutButton.setEnabled(false);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableLeaveGameUI();
+            }
+        });
     }
 
     @Override
     public void onLeaveGameResponse(String message) {
-        mBackOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-        mStartGameButton.setEnabled(true);
-        mBackOutButton.setEnabled(true);
+        final String mess = message;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                    enableLeaveGameUI();
+                    if (!handleError(mess)) {
+                        transitionToLobbyFromWaitroom();
+                    }
+                }
+            });
     }
 
+    @Override
+    public boolean handleError(String message) {
+        return mListener.handleError(message);
+    }
+
+    @Override
+    public void transitionToRegisterFromLogin(String usernameData, String passwordData) {
+        return;
+    }
+
+    @Override
+    public void transitionToLoginFromRegister(String usernameData, String passwordData) {
+        return;
+    }
+
+    @Override
+    public void transitionToLoginFromLobby() {
+        return;
+    }
+
+    @Override
+    public void transitionToWaitroomFromLobby() {
+        return;
+    }
+
+    @Override
+    public void transitionToLobbyFromLoginAndRegister() {
+        return;
+    }
+
+    @Override
+    public void transitionToLobbyFromWaitroom() {
+        mListener.transitionToLobbyFromWaitroom();
+    }
 }

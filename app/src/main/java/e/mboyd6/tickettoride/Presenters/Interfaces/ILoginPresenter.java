@@ -17,4 +17,6 @@ public interface ILoginPresenter {
 
     void loginResponse(String message);
 
+    void detachView();
+
 }

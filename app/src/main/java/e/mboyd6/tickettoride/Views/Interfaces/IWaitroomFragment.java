@@ -21,13 +21,8 @@ import java.util.ArrayList;
 
 public interface IWaitroomFragment {
     void updatePlayerList(ArrayList<Player> newList);
-    void onWaitroomFragmentStartGameButton();
     void onStartGameSent();
     void onStartGameResponse(String message);
-    void onWaitroomFragmentLeaveGameButton();
     void onLeaveGameSent();
     void onLeaveGameResponse(String message);
-    void onWaitroomFragmentColorPicked(int playerColor);
-    void updateChat();
-    void updatePlayerListFirstTime();
 }

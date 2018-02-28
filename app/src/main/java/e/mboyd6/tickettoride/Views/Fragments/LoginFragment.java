@@ -1,7 +1,10 @@
 package e.mboyd6.tickettoride.Views.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +13,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
+
+import java.util.ArrayList;
+
+import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
+import e.mboyd6.tickettoride.Presenters.LoginPresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 
 
 /**
@@ -22,7 +35,7 @@ import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment implements ILoginFragment {
+public class LoginFragment extends Fragment implements ILoginFragment, IMainActivity {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String USERNAME_DATA = "Username Data";
     private static final String PASSWORD_DATA = "Password Data";
@@ -35,7 +48,9 @@ public class LoginFragment extends Fragment implements ILoginFragment {
     private EditText mUsernameField;
     private EditText mPasswordField;
 
-    private ILoginFragment mListener;
+    private Activity activity;
+    private IMainActivity mListener;
+    private ILoginPresenter mLoginPresenter = new LoginPresenter((ILoginFragment) this);
 
     public LoginFragment() {
         // Required empty public constructor
@@ -102,8 +117,9 @@ public class LoginFragment extends Fragment implements ILoginFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ILoginFragment) {
-            mListener = (ILoginFragment) context;
+        activity = (Activity) context;
+        if (context instanceof IMainActivity) {
+            mListener = (IMainActivity) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -114,47 +130,147 @@ public class LoginFragment extends Fragment implements ILoginFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mLoginPresenter.detachView();
+        mLoginPresenter = null;
     }
 
-    @Override
-    public void onLoginFragmentSignUpButton(String usernameData, String passwordData) {
-        if (mListener != null) {
-            mListener.onLoginFragmentSignUpButton(usernameData, passwordData);
+
+    private void onLoginFragmentSignUpButton(String usernameData, String passwordData) {
+        transitionToRegisterFromLogin(usernameData, passwordData);
+    }
+
+    private void onLoginFragmentLoginButton(String usernameData, String passwordData) {
+
+        String message = "";
+        if (usernameData.equals("guest") && passwordData.equals("pass")) {
+            GuestLogin();
         }
-    }
-
-    @Override
-    public void onLoginFragmentLoginButton(String usernameData, String passwordData) {
-        if (mListener != null) {
-            mListener.onLoginFragmentLoginButton(usernameData, passwordData);
+        else if(mLoginPresenter == null)
+            message = "Something went wrong on our end";
+        else if(!mLoginPresenter.validUsername(usernameData)) {
+            message = "Invalid username";
+        }
+        else if(!mLoginPresenter.validPassword(passwordData)) {
+            message = "Invalid password";
+        }
+        else {
+            mLoginPresenter.login(usernameData, passwordData);
+        }
+        if (mListener.handleError(message)) {
+            return;
+        } else {
+            onLoginSent();
         }
     }
 
     //Receives this from MainActivity
-    @Override
-    public void onLoginSent() {
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    public void disableLoginUI() {
         mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
         mLoginButton.setEnabled(false);
         mSignUpButton.setEnabled(false);
     }
 
     //Calls main activity
-    @Override
-    public void onLoginResponse(String message) {
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    public void enableLoginUI(String message) {
         mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0, 0,0);
         mLoginButton.setEnabled(true);
         mSignUpButton.setEnabled(true);
     }
 
+    @Override
+    public boolean handleError(String message) {
+        return mListener.handleError(message);
+    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void transitionToRegisterFromLogin(String usernameData, String passwordData) {
+        mListener.transitionToRegisterFromLogin(usernameData, passwordData);
+    }
+
+    @Override
+    public void transitionToLoginFromRegister(String usernameData, String passwordData) {
+        return;
+    }
+
+    @Override
+    public void transitionToLoginFromLobby() {
+        return;
+    }
+
+    @Override
+    public void transitionToWaitroomFromLobby() {
+        return;
+    }
+
+    @Override
+    public void transitionToLobbyFromLoginAndRegister() {
+        mListener.transitionToLobbyFromLoginAndRegister();
+    }
+
+    @Override
+    public void transitionToLobbyFromWaitroom() {
+        return;
+    }
+
+    //Potentially this could be called by a lower level, which is why it has protection to run on the UI thread
+    @Override
+    public void onLoginSent() {
+
+        activity.runOnUiThread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+            @Override
+            public void run() {
+                disableLoginUI();
+            }
+        });
+    }
+
+    @Override
+    public void onLoginResponse(String message) {
+        final String mess = message;
+        activity.runOnUiThread(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+                @Override
+            public void run() {
+                    enableLoginUI(mess);
+                    if (!handleError(mess)) {
+                        transitionToLobbyFromLoginAndRegister();
+                    }
+                }
+        });
+    }
+
+    private void GuestLogin() {
+        // Implement code that adds a bunch of fake games so you can go to the lobby
+
+
+        ArrayList<Game> fakeGames = new ArrayList<Game>();
+        Game game2 = new Game();
+        game2.setGameID("002");
+        game2.addPlayer(new Player("001", "Michael", PlayerColors.TURQUOISE));
+        game2.addPlayer(new Player("002", "Alli", PlayerColors.BLUE));
+        game2.addPlayer(new Player("003", "Eric", PlayerColors.RED));
+        fakeGames.add(game2);
+        Game game1 = new Game();
+        game2.setGameID("001");
+        game1.addPlayer(new Player("001", "Alli", PlayerColors.BLUE));
+        game1.addPlayer(new Player("002", "Michael", PlayerColors.RED));
+        fakeGames.add(game1);
+        Game game3 = new Game();
+        game2.setGameID("003");
+        fakeGames.add(game3);
+        Game game4 = new Game();
+        game2.setGameID("004");
+        game4.addPlayer(new Player("001", "Michael", PlayerColors.RED));
+        game4.addPlayer(new Player("002", "Alli", PlayerColors.TURQUOISE));
+        game4.addPlayer(new Player("003", "Eric", PlayerColors.ORANGE));
+        game4.addPlayer(new Player("004", "Hunter", PlayerColors.BLUE));
+        game4.addPlayer(new Player("005", "Jonny", PlayerColors.PURPLE));
+        fakeGames.add(game4);
+        ClientModel.getInstance().setGames(fakeGames);
+        transitionToLobbyFromLoginAndRegister();
+
+    }
 }

@@ -1,16 +1,23 @@
 package e.mboyd6.tickettoride.Views.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
+import e.mboyd6.tickettoride.Presenters.RegisterPresenter;
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
 
 
@@ -22,7 +29,7 @@ import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
  * Use the {@link RegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment implements IRegisterFragment {
+public class RegisterFragment extends Fragment implements IRegisterFragment, IMainActivity {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String USERNAME_DATA = "Username Data";
     private static final String PASSWORD_DATA = "Password Data";
@@ -32,7 +39,9 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
     private String mPasswordData;
     private String mConfirmData;
 
-    private IRegisterFragment mListener;
+    private Activity activity;
+    private IMainActivity mListener;
+    private IRegisterPresenter mRegisterPresenter = new RegisterPresenter((IRegisterFragment) this);
 
     private Button mSignUpButton;
     private Button mBackButton;
@@ -108,8 +117,9 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof IRegisterFragment) {
-            mListener = (IRegisterFragment) context;
+        activity = (Activity) context;
+        if (context instanceof IMainActivity) {
+            mListener = (IMainActivity) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -120,33 +130,108 @@ public class RegisterFragment extends Fragment implements IRegisterFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mRegisterPresenter.detachView();
+        mRegisterPresenter = null;
     }
 
-    @Override
     public void onRegisterFragmentBackButton(String usernameData, String passwordData) {
-        if (mListener != null) {
-            mListener.onRegisterFragmentBackButton(usernameData, passwordData);
-        }
+        //mDelayedTransactionHandler.post(mRunnableTransitionToLogin);
+        transitionToLoginFromRegister(usernameData, passwordData);
     }
 
-    @Override
     public void onRegisterFragmentSignUpButton(String usernameData, String passwordData) {
-        if (mListener != null) {
-            mListener.onRegisterFragmentSignUpButton(usernameData, passwordData);
+        String message = null;
+        if(mRegisterPresenter == null)
+            message = "Something went wrong on our end.";
+        else if(!mRegisterPresenter.validUsername(usernameData)) {
+            message = "Invalid username";
+        }
+        else if(!mRegisterPresenter.validPassword(passwordData)) {
+            message = "Invalid password";
+        }
+        else {
+            mRegisterPresenter.register(usernameData, passwordData);
+        }
+
+        if (handleError(message)) {
+            return;
+        } else {
+            onRegisterSent();
         }
     }
 
-    @Override
-    public void onRegisterSent() {
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    public void disableRegisterUI() {
         mSignUpButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
         mSignUpButton.setEnabled(false);
         mBackButton.setEnabled(false);
     }
 
-    @Override
-    public void onRegisterResponse(String message) {
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    public void enableRegisterUI() {
         mSignUpButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
         mSignUpButton.setEnabled(true);
         mBackButton.setEnabled(true);
     }
+
+    @Override
+    public boolean handleError(String message) {
+        return mListener.handleError(message);
+    }
+
+    @Override
+    public void transitionToRegisterFromLogin(String usernameData, String passwordData) {return;
+    }
+
+    @Override
+    public void transitionToLoginFromRegister(String usernameData, String passwordData) {
+        mListener.transitionToLoginFromRegister(usernameData, passwordData);
+    }
+
+    @Override
+    public void transitionToLoginFromLobby() { return;
+    }
+
+    @Override
+    public void transitionToWaitroomFromLobby() {return;
+    }
+
+    @Override
+    public void transitionToLobbyFromLoginAndRegister() {
+        mListener.transitionToLobbyFromLoginAndRegister();
+    }
+
+    @Override
+    public void transitionToLobbyFromWaitroom() {
+        return;
+    }
+
+    // This may be called by outside classes that aren't running on the UI thread, namely the presenter
+    @Override
+    public void onRegisterSent() {
+        activity.runOnUiThread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+            @Override
+            public void run() {
+                disableRegisterUI();
+            }
+        });
+
+    }
+
+    @Override
+    public void onRegisterResponse(String message) {
+        final String mess = message;
+        activity.runOnUiThread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+            @Override
+            public void run() {
+                    enableRegisterUI();
+                    if (!handleError(mess)) {
+                        transitionToLobbyFromLoginAndRegister();
+                    }
+                }
+        });
+    }
+
 }

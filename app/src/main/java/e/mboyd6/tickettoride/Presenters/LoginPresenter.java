@@ -10,6 +10,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 import com.example.sharedcode.model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 
 /**
  * Created by jonathanlinford on 2/2/18.
@@ -17,10 +18,10 @@ import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 public class LoginPresenter implements ILoginPresenter, Observer{
 
-    MainActivity mainActivity;
+    ILoginFragment loginFragment;
 
-    public LoginPresenter(Context context){
-        mainActivity = (MainActivity) context;
+    public LoginPresenter(ILoginFragment loginFragment){
+        this.loginFragment = loginFragment;
 
         ClientModel.getInstance().addObserver(this);
     }
@@ -70,7 +71,12 @@ public class LoginPresenter implements ILoginPresenter, Observer{
 
     @Override
     public void loginResponse(String message){
-        mainActivity.onLoginResponse(message);
+        loginFragment.onLoginResponse(message);
+    }
+
+    @Override
+    public void detachView() {
+        ClientModel.getInstance().deleteObserver(this);
     }
 
     @Override

@@ -8,10 +8,12 @@ import java.util.ArrayList;
  * Created by hunte on 2/7/2018.
  */
 
-public interface IMainActivity extends
-        ILoginFragment,
-        IRegisterFragment,
-        ILobbyFragment,
-        IWaitroomFragment,
-        IChatFragment {
+public interface IMainActivity {
+    boolean handleError(String message);
+    void transitionToRegisterFromLogin(String usernameData, String passwordData);
+    void transitionToLoginFromRegister(String usernameData, String passwordData);
+    void transitionToLoginFromLobby();
+    void transitionToWaitroomFromLobby();
+    void transitionToLobbyFromLoginAndRegister();
+    void transitionToLobbyFromWaitroom();
 }

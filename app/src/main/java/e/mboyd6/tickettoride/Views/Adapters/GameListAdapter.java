@@ -16,6 +16,7 @@ import com.example.sharedcode.model.PlayerColors;
 import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Fragments.LobbyFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
 
 /**
@@ -33,9 +34,9 @@ public class GameListAdapter extends ArrayAdapter<Game> {
     private View lobbyItemCard5;
     private Button joinButton;
     private Context context;
-    private ILobbyFragment lobbyFragment;
+    private LobbyFragment lobbyFragment;
 
-    public GameListAdapter(Context context, ArrayList<Game> games, ILobbyFragment lobbyFragment) {
+    public GameListAdapter(Context context, ArrayList<Game> games, LobbyFragment lobbyFragment) {
         super(context, 0, games);
         this.context = context;
         this.lobbyFragment = lobbyFragment;
@@ -120,9 +121,9 @@ public class GameListAdapter extends ArrayAdapter<Game> {
             joinButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (lobbyFragment != null && lobbyFragment instanceof ILobbyFragment)
+                    if (lobbyFragment != null && lobbyFragment instanceof LobbyFragment)
                     {
-                        lobbyFragment.onGameListAdapterJoinButton(game, joinButton);
+                        lobbyFragment.onLobbyFragmentJoinGameButton(game, joinButton);
                     }
                 }
             });

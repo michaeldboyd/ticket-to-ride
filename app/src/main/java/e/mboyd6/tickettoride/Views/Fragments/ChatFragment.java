@@ -3,14 +3,13 @@ package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import e.mboyd6.tickettoride.R;
-import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,14 +19,8 @@ import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
  * create an instance of this fragment.
  */
 public class ChatFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-
-    private IChatFragment mListener;
+    private IMainActivity mListener;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -44,10 +37,6 @@ public class ChatFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static ChatFragment newInstance(String param1, String param2) {
         ChatFragment fragment = new ChatFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -66,8 +55,8 @@ public class ChatFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof IChatFragment) {
-            mListener = (IChatFragment) context;
+        if (context instanceof IMainActivity) {
+            mListener = (IMainActivity) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

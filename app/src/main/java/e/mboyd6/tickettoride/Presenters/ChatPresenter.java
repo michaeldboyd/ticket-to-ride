@@ -35,6 +35,11 @@ public class ChatPresenter implements IChatPresenter, Observer {
     }
 
     @Override
+    public void detachView() {
+
+    }
+
+    @Override
     public void update(Observable observable, Object o) {
         UpdateType updateType = (UpdateType) o;
 
@@ -46,7 +51,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
                 isTypingUpdated();
                 break;
             default:
-                System.out.println("ENUM ERROR");
+                //System.out.println("ENUM ERROR");
                 break;
         }
     }

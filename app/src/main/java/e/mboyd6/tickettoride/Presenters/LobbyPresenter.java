@@ -11,6 +11,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 import com.example.sharedcode.model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
 
 /**
  * Created by jonathanlinford on 2/3/18.
@@ -18,17 +19,17 @@ import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 public class LobbyPresenter implements ILobbyPresenter, Observer{
 
-     MainActivity mainActivity;
+     ILobbyFragment lobbyFragment;
 
-    public LobbyPresenter(Context context) {
-        this.mainActivity = (MainActivity) context;
+    public LobbyPresenter(ILobbyFragment lobbyFragment) {
+        this.lobbyFragment = lobbyFragment;
 
         ClientModel.getInstance().addObserver(this);
     }
 
     @Override
     public void updateGameList() {
-        mainActivity.updateGameList(ClientModel.getInstance().getGames());
+        lobbyFragment.updateGameList(ClientModel.getInstance().getGames());
     }
 
     //TODO: Implement logOut method
@@ -55,17 +56,22 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     @Override
     public void gameCreated(String response) {
-        mainActivity.onCreateGameResponse(response);
+        lobbyFragment.onCreateGameResponse(response);
     }
 
     @Override
     public void logoutResponse(String message){
-        mainActivity.onLogOutResponse(message);
+        lobbyFragment.onLogOutResponse(message);
     }
 
     @Override
     public void gameJoined(String message){
-        mainActivity.onGameJoinedResponse(message);
+        lobbyFragment.onGameJoinedResponse(message);
+    }
+
+    @Override
+    public void detachView() {
+        ClientModel.getInstance().deleteObserver(this);
     }
 
     /**
@@ -94,7 +100,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
                 gameJoined(ClientModel.getInstance().getResponse());
                 break;
             default:
-                System.out.println("ENUM ERROR");
+                //System.out.println("ENUM ERROR");
                 break;
         }
 

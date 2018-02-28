@@ -18,4 +18,6 @@ public interface IRegisterPresenter {
     void register(String username, String password);
 
     void registerResponse(String message);
+
+    void detachView();
 }

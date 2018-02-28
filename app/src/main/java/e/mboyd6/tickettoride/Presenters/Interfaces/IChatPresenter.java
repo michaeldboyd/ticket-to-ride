@@ -12,4 +12,5 @@ public interface IChatPresenter {
     // Presenter > View
     void chatReceived();
     void isTypingUpdated();
+    void detachView();
 }

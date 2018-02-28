@@ -12,6 +12,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 import com.example.sharedcode.model.UpdateType;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
 /**
  * Created by jonathanlinford on 2/3/18.
@@ -19,10 +20,10 @@ import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 
 public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
-    MainActivity mainActivity;
+    IWaitroomFragment waitroomFragment;
 
-    public WaitroomPresenter(Context context) {
-        this.mainActivity = (MainActivity) context;
+    public WaitroomPresenter(IWaitroomFragment waitroomFragment) {
+        this.waitroomFragment = waitroomFragment;
 
         ClientModel.getInstance().addObserver(this);
     }
@@ -48,6 +49,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
                 ClientModel.getInstance().getCurrentGame().getGameID());
     }
 
+    @Override
     public boolean gameReady(){
         return ClientModel.getInstance().getCurrentGame().getPlayers().size() >= 2;
 
@@ -61,7 +63,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         {
             for(Game g:ClientModel.getInstance().getGames()) {
                 if (g.getGameID().equals(currentGame.getGameID())) {
-                    mainActivity.updatePlayerList(g.getPlayers());
+                    waitroomFragment.updatePlayerList(g.getPlayers());
                 }
             }
         }
@@ -70,16 +72,20 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     @Override
     public void startGameResponse(String message) {
-        mainActivity.onStartGameResponse(message);
+        waitroomFragment.onStartGameResponse(message);
     }
 
     @Override
     public void leaveGameResponse(String message){
-        mainActivity.onLeaveGameResponse(message);
+        waitroomFragment.onLeaveGameResponse(message);
     }
 
 
 
+    @Override
+    public void detachView() {
+        ClientModel.getInstance().deleteObserver(this);
+    }
 
     /**
      * This method handles the update of information in the model
@@ -102,7 +108,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
             case GAME_LEFT:
                 leaveGameResponse(ClientModel.getInstance().getResponse());
             default:
-                System.out.println("ENUM ERROR");
+                //System.out.println("ENUM ERROR");
                 break;
         }
 

@@ -21,6 +21,9 @@ public interface IWaitroomPresenter {
 
     void updatePlayerList();
 
+    boolean gameReady();
 
     void leaveGameResponse(String message);
+
+    void detachView();
 }

@@ -1,5 +1,6 @@
 package e.mboyd6.tickettoride.Views.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,12 @@ import com.example.sharedcode.model.Game;
 
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
+import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Adapters.GameListAdapter;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,15 +29,17 @@ import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
  * Use the {@link LobbyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LobbyFragment extends Fragment implements ILobbyFragment {
+public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActivity {
 
     private View mLayout;
     private Button mLogOutButton;
     private Button mStartNewGameButton;
-    private ILobbyFragment mListener;
     private GameListAdapter mGameListAdapter;
     private boolean disableInputs = false;
-    private Button currentPressedButton = null;
+
+    private Activity activity;
+    private IMainActivity mListener;
+    private ILobbyPresenter mLobbyPresenter = new LobbyPresenter((ILobbyFragment) this);
 
     public LobbyFragment() {
         // Required empty public constructor
@@ -87,8 +93,9 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ILobbyFragment) {
-            mListener = (ILobbyFragment) context;
+        activity = (Activity) context;
+        if (context instanceof IMainActivity) {
+            mListener = (IMainActivity) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -99,87 +106,155 @@ public class LobbyFragment extends Fragment implements ILobbyFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mLobbyPresenter.detachView();
+        mLobbyPresenter = null;
     }
 
+
+    private void onLobbyFragmentLogOutButton() {
+        mLobbyPresenter.logOut();
+        onLogOutSent();
+    }
+
+    private void onLobbyFragmentCreateGameButton() {
+        mLobbyPresenter.createGame();
+        onCreateGameSent();
+    }
+
+    // This is a unique case where the Join Button in the GameListAdapter calls this method directly
+    public void onLobbyFragmentJoinGameButton(Game game, Button joinGameButton) {
+        mLobbyPresenter.joinGame(game.getGameID());
+        onGameJoinedSent();
+    }
+
+    private void updateGameListForFirstTime() {
+        mLobbyPresenter.updateGameList();
+    }
 
     @Override
     public void updateGameList(ArrayList<Game> newList) {
-        //Update current game list with newList
-        if (mGameListAdapter != null) {
-            mGameListAdapter.clear();
-            mGameListAdapter.addAll(newList);
-            mGameListAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onLobbyFragmentLogOutButton() {
-        if (mListener != null && !disableInputs) {
-            mListener.onLobbyFragmentLogOutButton();
-            currentPressedButton = mLogOutButton;
-        }
+        final ArrayList<Game> nl = newList;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //Update current game list with newList
+                if (mGameListAdapter != null) {
+                    mGameListAdapter.clear();
+                    mGameListAdapter.addAll(nl);
+                    mGameListAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override
     public void onLogOutSent() {
-        disableInputs = true;
-        mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableInputs = true;
+                mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+            }
+        });
     }
 
     @Override
     public void onLogOutResponse(String message) {
-        disableInputs = false;
-        mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.back_arrow,0);
-    }
-
-    public void onGameListAdapterJoinButton(Game game, Button button) {
-        onLobbyFragmentJoinGameButton(game);
-        currentPressedButton = button;
-    }
-
-    @Override
-    public void onLobbyFragmentCreateGameButton() {
-        if (mListener != null && !disableInputs) {
-            mListener.onLobbyFragmentCreateGameButton();
-            currentPressedButton = mStartNewGameButton;
-        }
+        final String mess = message;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableInputs = false;
+                if (!handleError(mess)) {
+                    mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.back_arrow,0);
+                    transitionToLoginFromLobby();
+                }
+            }
+        });
     }
 
     @Override
     public void onCreateGameSent() {
-        disableInputs = true;
-        mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableInputs = true;
+                mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+            }
+        });
     }
 
     @Override
     public void onCreateGameResponse(String message) {
-        disableInputs = false;
-        mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.plus,0);
-    }
-
-    @Override
-    public void onLobbyFragmentJoinGameButton(Game game) {
-        if (mListener != null && !disableInputs) {
-            mListener.onLobbyFragmentJoinGameButton(game);
-        }
+        final String mess = message;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableInputs = false;
+                if (!handleError(mess)) {
+                    mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.plus, 0);
+                }
+            }
+        });
     }
 
     @Override
     public void onGameJoinedSent() {
-        disableInputs = true;
-        //currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableInputs = true;
+            }
+        });
     }
 
     @Override
     public void onGameJoinedResponse(String message) {
-        disableInputs = false;
-        //currentPressedButton.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+        final String mess = message;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                disableInputs = false;
+                if (!handleError(mess)) {
+                    transitionToWaitroomFromLobby();
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public boolean handleError(String message) {
+        return ((IMainActivity) getActivity()).handleError(message);
     }
 
     @Override
-    public void updateGameListForFirstTime() {
-        if(mListener != null) {
-            mListener.updateGameListForFirstTime();
-        }
+    public void transitionToRegisterFromLogin(String usernameData, String passwordData) {
+        return;
+    }
+
+    @Override
+    public void transitionToLoginFromRegister(String usernameData, String passwordData) {
+        return;
+    }
+
+    @Override
+    public void transitionToLoginFromLobby() {
+        mListener.transitionToLoginFromLobby();
+    }
+
+    @Override
+    public void transitionToWaitroomFromLobby() {
+        mListener.transitionToWaitroomFromLobby();
+    }
+
+    @Override
+    public void transitionToLobbyFromLoginAndRegister() {
+        return;
+    }
+
+    @Override
+    public void transitionToLobbyFromWaitroom() {
+        return;
     }
 }

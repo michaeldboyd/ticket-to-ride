@@ -18,4 +18,6 @@ public interface ILobbyPresenter {
     void logoutResponse(String message);
 
     void gameJoined(String message);
+
+    void detachView();
 }
