@@ -10,6 +10,6 @@ public interface IChatPresenter {
     void sendMessage(String message);
 
     // Presenter > View
-    void messageReceived();
-    void isTypingChanged();
+    void chatReceived();
+    void isTypingUpdated();
 }

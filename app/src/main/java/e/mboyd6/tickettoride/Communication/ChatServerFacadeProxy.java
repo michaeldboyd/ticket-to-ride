@@ -15,6 +15,22 @@ public class ChatServerFacadeProxy implements IChatServerFacade {
 
     private String CLASS_NAME = "ChatServerFacade";
 
+
+    private static ChatServerFacadeProxy _instance = new ChatServerFacadeProxy();
+
+    public static ChatServerFacadeProxy instance() {
+
+        if (_instance == null){
+            _instance = new ChatServerFacadeProxy();
+        }
+
+        return _instance;
+    }
+
+    private ChatServerFacadeProxy() {}
+
+
+
     @Override
     public void sendChatMessage(String authToken, String message, String playerName, String gameID) {
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString(), playerName.getClass().toString(), gameID.getClass().toString()};

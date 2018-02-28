@@ -30,6 +30,7 @@ public class ClientModel extends Observable {
     private String authToken;
     private String response;
 
+    //TODO:Di
 
     //TODO: These shoudl be managed in the SocketManage
     private WebSocketClient socket;
