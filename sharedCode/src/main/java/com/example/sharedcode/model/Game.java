@@ -17,9 +17,28 @@ public class Game {
     //The plan for this is that if Player is null, the route is not claimed.
     //If we need to change this we totally can.
     private Map<Route, Player> routesClaimed;
+
+    //MemVariables pertaining to chat
     private ArrayList<ChatMessage> chatMessages;
     private boolean isTyping;
+    private String personTyping;
+    private int unreadMessages = 0;
 
+    public String getPersonTyping() {
+        return personTyping;
+    }
+
+    public void setPersonTyping(String personTyping) {
+        this.personTyping = personTyping;
+    }
+
+    public int getUnreadMessages() {
+        return unreadMessages;
+    }
+
+    public void setUnreadMessages(int unreadMessages) {
+        this.unreadMessages = unreadMessages;
+    }
 
     public boolean isTyping() {
         return isTyping;
