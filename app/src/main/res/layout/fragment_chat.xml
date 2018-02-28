@@ -1,0 +1,91 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:gravity="bottom|right">
+<!--
+    <ListView
+        android:id="@+id/chat_fragment_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:orientation="vertical">
+
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_right"/>
+            <include layout="@layout/chat_item_right"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_right"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_right"/>
+            <include layout="@layout/chat_item_right"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_right"/>
+            <include layout="@layout/chat_item_left"/>
+            <include layout="@layout/chat_item_left"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/chat_fragment_someone_typing_field"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#19434343"
+        android:visibility="visible"
+        android:padding="5dp"
+        android:text="@string/someone_is_typing"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/chat_fragment_chat_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_bg"
+            android:fontFamily="@font/dense"
+            android:hint="@string/type_your_message_here"
+            android:inputType="textLongMessage"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/chat_fragment_send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/button_blue_bg"
+            android:drawableEnd="@drawable/send"
+            android:fontFamily="@font/dense"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/send"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

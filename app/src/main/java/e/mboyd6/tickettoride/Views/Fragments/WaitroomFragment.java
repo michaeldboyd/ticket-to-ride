@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.sharedcode.model.Player;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
+import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
 /**
@@ -64,6 +66,8 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
 
     private Button mBackOutButton;
     private Button mStartGameButton;
+
+    private FrameLayout mChatFragmentContainer;
 
     public WaitroomFragment() {
         // Required empty public constructor
@@ -124,6 +128,13 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment {
         playersInLobby = v.findViewById(R.id.players_in_lobby);
 
         updatePlayerListFirstTime();
+
+        mChatFragmentContainer = v.findViewById(R.id.chat_fragment_container);
+        ChatFragment chatFragment = new ChatFragment();
+        if (mListener != null && mListener instanceof IChatFragment) {
+            ((IChatFragment) mListener).updateChatFragment((IChatFragment) chatFragment);
+        }
+        getChildFragmentManager().beginTransaction().replace(R.id.chat_fragment_container, chatFragment);
         return v;
     }
 

@@ -35,6 +35,7 @@ import e.mboyd6.tickettoride.Views.Fragments.LobbyFragment;
 import e.mboyd6.tickettoride.Views.Fragments.LoginFragment;
 import e.mboyd6.tickettoride.Views.Fragments.RegisterFragment;
 import e.mboyd6.tickettoride.Views.Fragments.WaitroomFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
@@ -339,6 +340,10 @@ public class MainActivity extends AppCompatActivity
 
     fragmentTransaction.replace(R.id.main_activity_fragment_container, nextFragment, "CURRENT_FRAGMENT");
     fragmentTransaction.commitAllowingStateLoss();
+  }
+
+  public void UpdateChatFragment(IChatFragment chatFragment) {
+
   }
 
   private void GuestLogin() {

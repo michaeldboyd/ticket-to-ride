@@ -23,7 +23,7 @@ public class SocketManager {
         String error = null;
         WebSocketClient client = null;
         try {
-            client = new SocketClient(new URI("ws://10.0.2.2:8080/echo/"));
+            client = new SocketClient(new URI("ws://10.24.213.28:8080/echo/"));
 
         } catch (URISyntaxException e) {
             error = "Yo, your socket didn't connect correctly... Sorry broseph. Error: " + e.getMessage();

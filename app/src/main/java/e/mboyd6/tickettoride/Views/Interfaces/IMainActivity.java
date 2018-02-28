@@ -12,5 +12,6 @@ public interface IMainActivity extends
         ILoginFragment,
         IRegisterFragment,
         ILobbyFragment,
-        IWaitroomFragment {
+        IWaitroomFragment,
+        IChatFragment {
 }

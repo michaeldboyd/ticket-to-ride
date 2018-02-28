@@ -22,5 +22,8 @@
     <string name="choose">CHOOSE</string>
     <string name="create_game">Create Game</string>
     <string name="leave_game">Leave Game</string>
+    <string name="send">SEND</string>
+    <string name="someone_is_typing">Someone is typing...</string>
+    <string name="type_your_message_here">Type your message here...</string>
 
 </resources>
