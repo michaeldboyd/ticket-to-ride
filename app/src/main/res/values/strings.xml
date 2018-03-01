@@ -26,4 +26,8 @@
     <string name="someone_is_typing">Someone is typing...</string>
     <string name="type_your_message_here">Type your message here...</string>
 
+    <string name="title_activity_game">GameActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
