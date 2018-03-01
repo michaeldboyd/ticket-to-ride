@@ -2,13 +2,18 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:left="-5dp">
+        android:left="-2dp">
         <shape android:shape="rectangle" >
-            <solid android:color="#52bde4" />
+            <gradient
+                android:angle="180"
+                android:startColor="@color/baby_blue_faded"
+                android:endColor="@color/baby_blue"
+                android:type="linear"
+                />
 
             <stroke
-                android:width="5dp"
-                android:color="#000000" />
+                android:width="2dp"
+                android:color="@color/stroke_color" />
         </shape>
     </item>
 

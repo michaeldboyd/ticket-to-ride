@@ -1,6 +1,7 @@
 package e.mboyd6.tickettoride;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
 import e.mboyd6.tickettoride.Presenters.WaitroomPresenter;
+import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
 import e.mboyd6.tickettoride.Views.Fragments.WaitroomFragment;
@@ -124,7 +126,13 @@ public class WaitroomFragmentTest {
 
   }
 
+  @Test
+  public void GameActivityView(){
+    Intent intent = new Intent(testingActivity, GameActivity.class);
+    testingActivity.startActivity(intent);
 
+    waitForSeconds(20);
+  }
 
   public boolean compareBackgrounds(ColorSelectionView colorSelectionView, int resourceID) {
     if (colorSelectionView == null) return false;
