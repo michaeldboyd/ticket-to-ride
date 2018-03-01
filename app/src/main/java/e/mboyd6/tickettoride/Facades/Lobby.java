@@ -106,8 +106,6 @@ public class Lobby implements IClientLobbyFacade {
             //join the game
             boolean joinedGame = joinGame(gameID);
             if(joinedGame) {
-                String name = ClientModel.getInstance().getPlayerID();
-                ClientModel.getInstance().setCurrentPlayer(new Player(name, name, PlayerColors.NO_COLOR));
                 ClientModel.getInstance().setPlayerID(playerID);
 
             } else message = "Game ID wasn't found correctly. Choose another game for now.";
