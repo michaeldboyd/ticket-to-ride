@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Communication;
+package e.mboyd6.tickettoride.Communication.Proxies;
 
 import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
@@ -15,23 +15,23 @@ import e.mboyd6.tickettoride.Model.ClientModel;
  * Created by eric on 2/26/18.
  */
 
-public class ChatServerFacadeProxy implements IChatServerFacade {
+public class ChatProxy implements IChatServerFacade {
 
-    private String CLASS_NAME = "ChatServerFacade";
+    private String CLASS_PATH = "Facades.Chat";
     private Map args = new HashMap();
 
-    private static ChatServerFacadeProxy _instance = new ChatServerFacadeProxy();
+    private static ChatProxy _instance = new ChatProxy();
 
-    public static ChatServerFacadeProxy instance() {
+    public static ChatProxy instance() {
 
         if (_instance == null){
-            _instance = new ChatServerFacadeProxy();
+            _instance = new ChatProxy();
         }
 
         return _instance;
     }
 
-    private ChatServerFacadeProxy() {args.put(JsonWriter.TYPE, true);}
+    private ChatProxy() {args.put(JsonWriter.TYPE, true);}
 
 
 
@@ -40,7 +40,7 @@ public class ChatServerFacadeProxy implements IChatServerFacade {
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString(), playerName.getClass().toString(), gameID.getClass().toString()};
         Object[] paramValues = {authToken, message, playerName, gameID};
 
-        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_NAME, "_sendChatMessage", paramTypes, paramValues);
+        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_sendChatMessage", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
@@ -50,7 +50,7 @@ public class ChatServerFacadeProxy implements IChatServerFacade {
         String[] paramTypes = {authToken.getClass().toString(), playerName.getClass().toString(), isTyping.getClass().toString()};
         Object[] paramValues = {authToken, playerName, isTyping};
 
-        Command isTypingCommand = CommandFactory.createCommand(null, CLASS_NAME, "_sendIsTyping", paramTypes, paramValues);
+        Command isTypingCommand = CommandFactory.createCommand(null, CLASS_PATH, "_sendIsTyping", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(isTypingCommand, args));
     }

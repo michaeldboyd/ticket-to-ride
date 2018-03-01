@@ -8,8 +8,8 @@ import org.junit.Test;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
+import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
@@ -44,18 +44,18 @@ public class AndroidSocketTest {
     @Test
     public void testCreateGame()
     {
-        ServerProxyLobbyFacade.instance().createGame("");
+        LobbyProxy.instance().createGame("");
     }
     @Test
     public void testLogin()
     {
-        ServerProxyLoginFacade.instance().login("test1", "test", "");
-        ServerProxyLobbyFacade.instance().createGame("");
-        ServerProxyLobbyFacade.instance().getGames("");
-        ServerProxyLobbyFacade.instance().joinGame("", "asdf");
-        ServerProxyLobbyFacade.instance().startGame("", "asdf");
-        ServerProxyLobbyFacade.instance().getPlayersForGame("asdf", "");
-        ServerProxyLobbyFacade.instance().leaveGame("", "asdf", "asdf");
+        LoginProxy.instance().login("test1", "test", "");
+        LobbyProxy.instance().createGame("");
+        LobbyProxy.instance().getGames("");
+        LobbyProxy.instance().joinGame("", "asdf");
+        LobbyProxy.instance().startGame("", "asdf");
+        LobbyProxy.instance().getPlayersForGame("asdf", "");
+        LobbyProxy.instance().leaveGame("", "asdf", "asdf");
     }
     /*public void testCreateGame()
     {

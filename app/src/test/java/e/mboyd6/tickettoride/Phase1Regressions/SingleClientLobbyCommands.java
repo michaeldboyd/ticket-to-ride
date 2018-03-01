@@ -13,8 +13,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
+import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Communication.UtilityFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
@@ -39,7 +39,7 @@ public class SingleClientLobbyCommands {
             Thread.sleep(1000);
             Assert.assertNotNull(ClientModel.getInstance().getSocketID());
             String id = ClientModel.getInstance().getSocketID();
-            ServerProxyLoginFacade.instance().register(name, password, id);
+            LoginProxy.instance().register(name, password, id);
             Thread.sleep(1000);
         } catch (URISyntaxException | InterruptedException  e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class SingleClientLobbyCommands {
     public void FullLobbyFlow() {
         //Create a game
         try{
-            ServerProxyLobbyFacade.instance().createGame(ClientModel.getInstance().getAuthToken());
+            LobbyProxy.instance().createGame(ClientModel.getInstance().getAuthToken());
             Thread.sleep(2000);
             //get the game id
             ArrayList<Game> games = ClientModel.getInstance().getGames();
@@ -72,15 +72,15 @@ public class SingleClientLobbyCommands {
             Assert.assertNotNull(ClientModel.getInstance().getCurrentGame());
 
             //Check getGames
-            ServerProxyLobbyFacade.instance().getGames(ClientModel.getInstance().getAuthToken());
+            LobbyProxy.instance().getGames(ClientModel.getInstance().getAuthToken());
             Thread.sleep(1000);
             Assert.assertEquals(1, ClientModel.getInstance().getGames().size());
             //Start the game
             String auth = ClientModel.getInstance().getAuthToken();
-            ServerProxyLobbyFacade.instance().startGame(auth, gameID);
+            LobbyProxy.instance().startGame(auth, gameID);
             Thread.sleep(1000);
 
-            ServerProxyLobbyFacade.instance().leaveGame(auth, gameID, playerID);
+            LobbyProxy.instance().leaveGame(auth, gameID, playerID);
             Thread.sleep(1000);
             Assert.assertNull(ClientModel.getInstance().getCurrentGame());
             Assert.assertEquals(0, ClientModel.getInstance().getGames().size());

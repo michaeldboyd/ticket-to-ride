@@ -1,21 +1,17 @@
 package e.mboyd6.tickettoride.Presenters;
 
-import android.content.Context;
-
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
+import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import com.example.sharedcode.communication.UpdateArgs;
-import com.example.sharedcode.model.UpdateType;
 
 import junit.framework.Assert;
 
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
-import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
 
 /**
@@ -40,12 +36,12 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
     //TODO: Implement logOut method
     @Override
     public void logOut() {
-        ServerProxyLoginFacade.instance().logout(ClientModel.getInstance().getAuthToken());
+        LoginProxy.instance().logout(ClientModel.getInstance().getAuthToken());
     }
 
     @Override
     public void joinGame(String gameID) {
-        ServerProxyLobbyFacade.instance().joinGame(ClientModel.getInstance().getAuthToken(), gameID);
+        LobbyProxy.instance().joinGame(ClientModel.getInstance().getAuthToken(), gameID);
     }
 
     /**
@@ -56,7 +52,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
      */
     @Override
     public void createGame() {
-        ServerProxyLobbyFacade.instance().createGame(ClientModel.getInstance().getAuthToken());
+        LobbyProxy.instance().createGame(ClientModel.getInstance().getAuthToken());
     }
 
     @Override

@@ -1,20 +1,23 @@
+package Facades;
+
+import Model.ServerModel;
 import com.example.sharedcode.interfaces.IChatServerFacade;
 
-public class ChatServerFacade implements IChatServerFacade {
+public class Chat implements IChatServerFacade {
 
-    private static ChatServerFacade chatServerFacade;
+    private static Chat chatServerFacade;
 
-    private static ChatServerFacade instance() {
+    private static Chat instance() {
         if (chatServerFacade == null) {
-            chatServerFacade = new ChatServerFacade();
+            chatServerFacade = new Chat();
         }
 
         return chatServerFacade;
     }
 
-    private ChatServerFacade(){};
+    private Chat(){};
 
-
+    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.Chat";
     public static void _sendChatMessage(String authToken, String message, String playerName, String gameID) {
         instance().sendChatMessage(authToken, message, playerName, gameID);
     }
@@ -31,6 +34,6 @@ public class ChatServerFacade implements IChatServerFacade {
 
     @Override
     public void sendIsTyping(String authToken, String playerName, Boolean isTyping) {
-        // TODO: - Just send a command for the ClientChatFacade directly to Sender because there is nothing to update on the model
+        // TODO: - Just send a command for the ClientChatFacade directly to Communication.SocketManager because there is nothing to update on the model
     }
 }
