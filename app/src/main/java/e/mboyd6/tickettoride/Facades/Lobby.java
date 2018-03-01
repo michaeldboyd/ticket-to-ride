@@ -5,6 +5,7 @@ import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.PlayerColors;
 import com.example.sharedcode.model.UpdateType;
 
 import java.util.ArrayList;
@@ -105,7 +106,10 @@ public class Lobby implements IClientLobbyFacade {
             //join the game
             boolean joinedGame = joinGame(gameID);
             if(joinedGame) {
+                String name = ClientModel.getInstance().getPlayerID();
+                ClientModel.getInstance().setCurrentPlayer(new Player(name, name, PlayerColors.NO_COLOR));
                 ClientModel.getInstance().setPlayerID(playerID);
+
             } else message = "Game ID wasn't found correctly. Choose another game for now.";
         }
 

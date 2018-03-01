@@ -78,7 +78,7 @@ public class LoginCommandsTest {
         }
     }
 
-    
+
     @Test
     public void LoginFacade_IncorrectInput() {
 

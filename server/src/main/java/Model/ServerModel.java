@@ -42,6 +42,13 @@ public class ServerModel extends Observable {
     private Map<String, Session> loggedInSessions = Collections.synchronizedMap(new HashMap<>());
     private Map<String, Session> allSessions = Collections.synchronizedMap(new HashMap<>());
 
+    public void setGames(Map<String, Game> games) {
+        this.games = games;
+    }
+
+    public void setChatMessagesForGame(Map<String, ArrayList<ChatMessage>> chatMessagesForGame) {
+        this.chatMessagesForGame = chatMessagesForGame;
+    }
 
     // *** Observer pattern methods *** //
     @Override

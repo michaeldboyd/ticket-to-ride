@@ -122,7 +122,7 @@ public class Lobby implements IServerLobbyFacade {
             } else {
                 playerID = newPlayer.getPlayerID();
             }
-        }
+        } else message = "could not find game in list";
 
         String[] paramTypes = {gameID.getClass().toString(),
                 playerID.getClass().toString(),
@@ -158,7 +158,7 @@ public class Lobby implements IServerLobbyFacade {
         if (game != null && game.getPlayers() != null && game.getPlayers().size() == 0) {
             games.remove(gameID);
         }
-
+        ServerModel.instance().setGames(games);
         ServerModel.instance().notifyObserversForUpdate(leaveGameClientCommand);
         updateGamesBroadcast();
     }
@@ -172,16 +172,17 @@ public class Lobby implements IServerLobbyFacade {
             message = "Game doesn't exist.";
         } else {
             Game game = games.get(gameID);
-            ArrayList<Player> players = game.getPlayers();
+
             Collection<String> authTokens = new ArrayList<>();
-            if (players != null) {
-                for (Player p : players) {
+            if (game.getPlayers() != null) {
+                for (Player p : game.getPlayers()) {
                     User user = ServerModel.instance().getAllUsers().get(p.getName());
                     if (user != null) {
                         authTokens.add(user.getAuthtoken());
                     }
                 }
-
+                //update the model
+                ServerModel.instance().getGames().put(gameID, game);
                 notifyPlayersOfGameStarted(authTokens, message, gameID);
             }
         }
@@ -224,14 +225,14 @@ public class Lobby implements IServerLobbyFacade {
         Game game = ServerModel.instance().getGames().get(gameID);
 
         Boolean success = false;
-        for (Player player :
-                game.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             if (player.getPlayerID().equals(playerID)) {
                 player.setColor(color);
                 success = true;
                 break;
             }
         }
+        ServerModel.instance().getGames().put(gameID, game);
 
         if (success) {
             updateGamesBroadcast();
