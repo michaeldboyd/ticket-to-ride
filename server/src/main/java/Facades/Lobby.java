@@ -1,6 +1,6 @@
 package Facades;
 
-import Communication.Sender;
+import Communication.SocketManager;
 import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
@@ -240,20 +240,20 @@ public class Lobby implements IServerLobbyFacade {
 
     private void updateGamesBroadcast() {
         //TODO is there a better way to send the games over the server?
+        //just send this to the people in the lobby & waiting room
         Object[] games = ServerModel.instance().getGames().values().toArray();
         Game[] gs = new Game[games.length];
         int i = 0;
         for (Object o : games) {
             gs[i++] = (Game) o;
         }
-
         // Message is blank
         String message = "";
         String[] paramTypes = {gs.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gs, message};
         Command updateGamesClientCommand = CommandFactory.createCommand(null, CLASS_NAME,
                 "_updateGamesReceived", paramTypes, paramValues);
-        Sender.instance().sendBroadcast(updateGamesClientCommand);
+        SocketManager.instance().sendBroadcast(ServerModel.instance().getLoggedInSessions().keySet(), updateGamesClientCommand);
     }
 
     private void notifyPlayersOfGameStarted(Collection<String> tokens, String message, String gameID) {

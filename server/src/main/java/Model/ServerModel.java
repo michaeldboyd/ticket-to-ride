@@ -1,6 +1,6 @@
 package Model;
 
-import Communication.Sender;
+import Communication.SocketManager;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.model.*;
 import com.example.sharedcode.communication.Command;
@@ -21,7 +21,7 @@ public class ServerModel extends Observable {
 
         if (_instance == null){
             _instance = new ServerModel();
-            _instance.addObserver(Sender.instance());
+            _instance.addObserver(SocketManager.instance());
         }
 
         return _instance;

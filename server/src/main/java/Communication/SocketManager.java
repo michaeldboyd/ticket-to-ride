@@ -11,17 +11,18 @@ import java.io.IOException;
 import java.util.*;
 
 //TODO this class shouldn't call the server model.
-public class Sender implements Observer {
-    private static Sender _instance;
+public class SocketManager implements Observer {
+    private static SocketManager _instance;
 
-    public static Sender instance() {
+    public static SocketManager instance() {
 
         if (_instance == null){
-            _instance = new Sender();
+            _instance = new SocketManager();
         }
 
         return _instance;
     }
+
 
 
     private boolean sendCommand(Command command, Session sess) {
@@ -62,17 +63,17 @@ public class Sender implements Observer {
      * Sends to a list of people. Right now that list is all the logged in users.
      * @param command
      */
-    public void sendBroadcast(Command command) {
+    public void sendBroadcast(Collection<String> authTokens, Command command) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
 
         Map<String, Session> sessions = ServerModel.instance().getLoggedInSessions();
-        for(Session s : sessions.values())
-        {
-            assert s != null;
+        for(String auth : authTokens) {
             try {
-                String resp = JsonWriter.objectToJson(command, args);
-                s.getRemote().sendString(resp);
+                if(sessions.containsKey(auth)) {
+                    String resp = JsonWriter.objectToJson(command, args);
+                    sessions.get(auth).getRemote().sendString(resp);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

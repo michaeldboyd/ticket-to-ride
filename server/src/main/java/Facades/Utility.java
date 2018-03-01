@@ -1,6 +1,6 @@
 package Facades;
 
-import Communication.Sender;
+import Communication.SocketManager;
 import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
@@ -45,6 +45,6 @@ public class Utility implements IUtility{
                 "e.mboyd6.tickettoride.Facades.Login",
                 "_initSocket", paramTypes, paramValues);
         // Send logoutCommand to Client via socket
-        Sender.instance().sendBySocketId(initCommand, id);
+        SocketManager.instance().sendBySocketId(initCommand, id);
     }
 }

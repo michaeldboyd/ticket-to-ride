@@ -34,6 +34,6 @@ public class Chat implements IChatServerFacade {
 
     @Override
     public void sendIsTyping(String authToken, String playerName, Boolean isTyping) {
-        // TODO: - Just send a command for the ClientChatFacade directly to Communication.Sender because there is nothing to update on the model
+        // TODO: - Just send a command for the ClientChatFacade directly to Communication.SocketManager because there is nothing to update on the model
     }
 }
