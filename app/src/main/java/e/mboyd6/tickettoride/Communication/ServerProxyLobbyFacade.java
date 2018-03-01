@@ -34,7 +34,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     public void createGame(String authToken) {
         String[] paramTypes = {authToken.getClass().toString()};
         String[] paramValues = {authToken};
-        Command getGamesCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_createGame", paramTypes, paramValues);
+        Command getGamesCommand = CommandFactory.createCommand(null, "Facades.Lobby", "_createGame", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(getGamesCommand, args));
     }
@@ -43,7 +43,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     public void getGames(String authToken) {
         String[] paramTypes = {authToken.getClass().toString()};
         String[] paramValues = {authToken};
-        Command getGamesCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_getGames", paramTypes, paramValues);
+        Command getGamesCommand = CommandFactory.createCommand(null, "Facades.Lobby", "_getGames", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(getGamesCommand, args));
     }
@@ -53,7 +53,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
         String[] paramValues = {authToken, gameID};
 
-        Command joinGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_joinGame", paramTypes, paramValues);
+        Command joinGameCommand = CommandFactory.createCommand(null, "Facades.Lobby", "_joinGame", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(joinGameCommand, args));
     }
@@ -63,7 +63,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString()};
         String[] paramValues = {authToken, gameID, playerID};
 
-        Command leaveGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_leaveGame", paramTypes, paramValues);
+        Command leaveGameCommand = CommandFactory.createCommand(null, "Facades.Lobby", "_leaveGame", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(leaveGameCommand, args));
     }
@@ -72,7 +72,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
     public void startGame(String authToken, String gameID) {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
         String[] paramValues = {authToken, gameID};
-        Command startGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_startGame", paramTypes, paramValues);
+        Command startGameCommand = CommandFactory.createCommand(null, "Facades.Lobby", "_startGame", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(startGameCommand, args));
     }
@@ -82,7 +82,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
         String[] paramValues = {authToken, gameID};
 
-        Command getPlayersForGameCommand = CommandFactory.createCommand(null, "ServerLobbyFacade", "_getPlayersForGame", paramTypes, paramValues);
+        Command getPlayersForGameCommand = CommandFactory.createCommand(null, "Facades.Lobby", "_getPlayersForGame", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(getPlayersForGameCommand, args));
     }
@@ -92,7 +92,7 @@ public class ServerProxyLobbyFacade implements IServerLobbyFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), "int"};
         Object[] paramValues = {authToken, gameID, playerID, Integer.valueOf(color)};
 
-        Command playerColorChangedCommand = CommandFactory.createCommand(null,"ServerLobbyFacade", "_playerColorChanged", paramTypes, paramValues);
+        Command playerColorChangedCommand = CommandFactory.createCommand(null,"Facades.Lobby", "_playerColorChanged", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(playerColorChangedCommand, args));
     }

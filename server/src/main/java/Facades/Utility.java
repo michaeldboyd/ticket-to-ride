@@ -1,10 +1,13 @@
+package Facades;
+
+import Model.ServerModel;
 import com.example.sharedcode.interfaces.IUtility;
 
-public class UtilityFacade implements IUtility{
+public class Utility implements IUtility{
 
     public static void _clearServer(String password)
     {
-        new UtilityFacade().clearServer(password);
+        new Utility().clearServer(password);
     }
     @Override
     public void clearServer(String password) {

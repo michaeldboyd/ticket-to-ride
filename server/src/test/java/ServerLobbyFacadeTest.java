@@ -1,11 +1,10 @@
 
-import org.java_websocket.client.WebSocketClient;
+import Facades.Lobby;
+import Model.ServerModel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -30,16 +29,16 @@ public class ServerLobbyFacadeTest {
 
     @Test
     public void createGame() {
-        ServerLobbyFacade._createGame(UUID.randomUUID().toString());
+        Lobby._createGame(UUID.randomUUID().toString());
         assertTrue(ServerModel.instance().getGames().size() > 0);
     }
 
     @Test
     public void getGames() {
 
-        ServerLobbyFacade._createGame(UUID.randomUUID().toString());
-        ServerLobbyFacade._createGame(UUID.randomUUID().toString());
-        ServerLobbyFacade._createGame(UUID.randomUUID().toString());
+        Lobby._createGame(UUID.randomUUID().toString());
+        Lobby._createGame(UUID.randomUUID().toString());
+        Lobby._createGame(UUID.randomUUID().toString());
 
 
         assertTrue(ServerModel.instance().getGames().size() >= 3);

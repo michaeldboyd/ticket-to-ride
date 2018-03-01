@@ -1,3 +1,7 @@
+package Facades;
+
+import Communication.Sender;
+import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
@@ -16,13 +20,13 @@ import java.util.UUID;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class ServerLobbyFacade implements IServerLobbyFacade {
+public class Lobby implements IServerLobbyFacade {
 
-    private static ServerLobbyFacade lobbyFacade;
+    private static Lobby lobbyFacade;
 
-    public static ServerLobbyFacade instance() {
+    public static Lobby instance() {
         if (lobbyFacade == null) {
-            lobbyFacade = new ServerLobbyFacade();
+            lobbyFacade = new Lobby();
         }
 
         return lobbyFacade;

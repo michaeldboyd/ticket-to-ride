@@ -1,5 +1,6 @@
+package Facades;
 
-
+import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLoginFacade;
@@ -13,20 +14,20 @@ import java.util.UUID;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class ServerLoginFacade implements IServerLoginFacade {
+public class Login implements IServerLoginFacade {
 
 
-    private static ServerLoginFacade loginFacade;
+    private static Login loginFacade;
 
-    public static ServerLoginFacade instance() {
+    public static Login instance() {
         if (loginFacade == null) {
-            loginFacade = new ServerLoginFacade();
+            loginFacade = new Login();
         }
 
         return loginFacade;
     }
 
-    private ServerLoginFacade() {}
+    private Login() {}
 
 
     public static void _login(String username, String password, String socketID) {

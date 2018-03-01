@@ -1,9 +1,9 @@
+package Model;
 
-
+import Communication.Sender;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.model.*;
 import com.example.sharedcode.communication.Command;
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import org.eclipse.jetty.websocket.api.Session;
 
 

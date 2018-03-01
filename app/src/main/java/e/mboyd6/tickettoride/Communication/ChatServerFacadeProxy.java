@@ -17,7 +17,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class ChatServerFacadeProxy implements IChatServerFacade {
 
-    private String CLASS_NAME = "ChatServerFacade";
+    private String CLASS_PATH = "Facades.Chat";
     private Map args = new HashMap();
 
     private static ChatServerFacadeProxy _instance = new ChatServerFacadeProxy();
@@ -40,7 +40,7 @@ public class ChatServerFacadeProxy implements IChatServerFacade {
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString(), playerName.getClass().toString(), gameID.getClass().toString()};
         Object[] paramValues = {authToken, message, playerName, gameID};
 
-        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_NAME, "_sendChatMessage", paramTypes, paramValues);
+        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_sendChatMessage", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
@@ -50,7 +50,7 @@ public class ChatServerFacadeProxy implements IChatServerFacade {
         String[] paramTypes = {authToken.getClass().toString(), playerName.getClass().toString(), isTyping.getClass().toString()};
         Object[] paramValues = {authToken, playerName, isTyping};
 
-        Command isTypingCommand = CommandFactory.createCommand(null, CLASS_NAME, "_sendIsTyping", paramTypes, paramValues);
+        Command isTypingCommand = CommandFactory.createCommand(null, CLASS_PATH, "_sendIsTyping", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(isTypingCommand, args));
     }

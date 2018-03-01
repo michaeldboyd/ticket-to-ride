@@ -1,3 +1,6 @@
+package Communication;
+
+import Model.ServerModel;
 import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;

@@ -1,3 +1,6 @@
+package Communication;
+
+import Model.ServerModel;
 import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
