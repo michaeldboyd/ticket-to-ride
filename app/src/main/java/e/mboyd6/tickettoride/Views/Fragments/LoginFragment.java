@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.sharedcode.model.Game;
@@ -48,6 +49,7 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
     private Button mSignUpButton;
     private EditText mUsernameField;
     private EditText mPasswordField;
+    private ImageView mLogo;
 
     private Activity activity;
     private IMainActivity mListener;
@@ -94,6 +96,7 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
         mPasswordField = layout.findViewById(R.id.login_fragment_password_field);
         mUsernameField.setText(mUsernameData);
         mPasswordField.setText(mPasswordData);
+        mLogo = layout.findViewById(R.id.login_fragment_logo);
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -112,6 +115,29 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
                 onLoginFragmentSignUpButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
             }
         });
+
+        mLogo.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+                String newIP = mUsernameField.getText().toString();
+
+                if(mLoginPresenter.changeIP(newIP)){
+                    handleError("You've made Rodham proud.\nIP successfully changed to " + newIP);
+
+                    mUsernameField.setText("");
+                } else {
+                    handleError("You've disappointed Rodham.\nIP " + newIP + "is invalid. NOT Set.");
+                }
+
+                return false;
+            }
+
+        });
+
+
+
+
         return layout;
     }
 

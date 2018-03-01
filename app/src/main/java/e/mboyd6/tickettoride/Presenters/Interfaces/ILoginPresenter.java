@@ -16,6 +16,8 @@ public interface ILoginPresenter {
     // View -> Facade
     void login(String username, String password);
 
+    boolean changeIP(String ip);
+
     // Model -> View
     void loginResponse(String message);
 

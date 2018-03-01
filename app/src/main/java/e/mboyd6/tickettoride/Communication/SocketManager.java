@@ -17,13 +17,17 @@ import e.mboyd6.tickettoride.R;
 
 public class SocketManager {
 
+    //Default set to own machine
+    public static String ip = "10.0.2.2";
+    //public static String ip = "192.168.1.134";
+
     public static String ConnectSocket(String url)
     {
         WebSocketImpl.DEBUG = true;
         String error = null;
         WebSocketClient client = null;
         try {
-            client = new SocketClient(new URI("ws://10.24.66.50:8080/echo/"));
+            client = new SocketClient(new URI("ws://" + ip + ":8080/echo/"));
 
         } catch (URISyntaxException e) {
             error = "Yo, your socket didn't connect correctly... Sorry broseph. Error: " + e.getMessage();
