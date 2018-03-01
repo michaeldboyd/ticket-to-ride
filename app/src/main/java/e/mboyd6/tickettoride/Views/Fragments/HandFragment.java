@@ -64,7 +64,7 @@ public class HandFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mLayout = inflater.inflate(R.layout.fragment_chat, container, false);
+        mLayout = inflater.inflate(R.layout.fragment_hand, container, false);
         return mLayout;
     }
 

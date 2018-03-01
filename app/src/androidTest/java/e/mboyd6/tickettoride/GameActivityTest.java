@@ -34,12 +34,12 @@ import static org.junit.Assert.assertEquals;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class WaitroomFragmentTest {
+public class GameActivityTest {
 
   @Rule
-  public ActivityTestRule<MainActivity> activityActivityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
+  public ActivityTestRule<GameActivity> activityActivityTestRule = new ActivityTestRule<>(GameActivity.class);
 
-  private MainActivity testingActivity;
+  private GameActivity testingActivity;
   private WaitroomFragment testFragment;
   private ArrayList<Game> fakeGames;
   private Game game1;
@@ -47,7 +47,7 @@ public class WaitroomFragmentTest {
   private Game game3;
   private Game game4;
 
-  public WaitroomFragmentTest() {
+  public GameActivityTest() {
     testingActivity = activityActivityTestRule.getActivity();
   }
 
@@ -68,9 +68,6 @@ public class WaitroomFragmentTest {
     // flags = {@link Intent#FLAG_ACTIVITY_NEW_TASK}
     // All other fields are null or empty.
     testingActivity = activityActivityTestRule.getActivity();
-
-    testFragment = new WaitroomFragment();
-    testingActivity.getSupportFragmentManager().beginTransaction().add(R.id.main_activity_fragment_container,testFragment,null).commit();
   }
 
   @After
@@ -95,50 +92,7 @@ public class WaitroomFragmentTest {
     waitForSeconds(60);
   }
 
-  @Test
-  public void testColorsGame1() {
-    ClientModel.getInstance().setPlayerID("001");
-    generateFakeGames();
-    ClientModel.getInstance().setGames(fakeGames);
-    waitForSeconds(1);
 
-    //ClientModel.getInstance().setJoinGameResponse(game1.getGameID(),"001", "");
-    testingActivity.getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_fragment_container, new WaitroomFragment(), "CURRENT_FRAGMENT").commit();
-    waitForSeconds(1);
-
-    Fragment currentFragment = testingActivity.getSupportFragmentManager().findFragmentByTag("CURRENT_FRAGMENT");
-
-    assertTrue(currentFragment != null);
-    assertTrue(currentFragment instanceof WaitroomFragment);
-
-    WaitroomFragment testWaitroomFragment = (WaitroomFragment) currentFragment;
-
-    ClientModel.getInstance().setGames(fakeGames);
-    waitForSeconds(1);
-
-    ColorSelectionView colorSelection = testWaitroomFragment.getView().findViewById(R.id.color_selection_1);
-    assertTrue(compareBackgrounds(colorSelection, R.drawable.color_turquoise_faded));
-
-    changeFakeGames();
-    ClientModel.getInstance().setGames(fakeGames);
-    waitForSeconds(1);
-    waitForSeconds(1);
-    waitForSeconds(1);
-
-    assertTrue(compareBackgrounds(colorSelection, R.drawable.color_orange_faded));
-    waitForSeconds(1);
-
-
-  }
-
-
-
-  public boolean compareBackgrounds(ColorSelectionView colorSelectionView, int resourceID) {
-    if (colorSelectionView == null) return false;
-    int backgroundID = colorSelectionView.getBackgroundID();
-    int backgroundResourceID = resourceID;
-    return backgroundID == backgroundResourceID;
-  }
 
   public void waitForSeconds(float multiplier) {
     try{

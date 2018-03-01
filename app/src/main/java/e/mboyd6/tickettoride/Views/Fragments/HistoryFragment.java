@@ -64,7 +64,7 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mLayout = inflater.inflate(R.layout.fragment_chat, container, false);
+        mLayout = inflater.inflate(R.layout.fragment_history, container, false);
         return mLayout;
     }
 
