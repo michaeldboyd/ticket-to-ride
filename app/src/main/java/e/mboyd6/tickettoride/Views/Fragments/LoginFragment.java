@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -169,11 +170,20 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
         mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
         mLoginButton.setEnabled(false);
         mSignUpButton.setEnabled(false);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                enableLoginUI();
+                //Do something after 100ms
+            }
+        }, 4000);
     }
 
     //Calls main activity
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-    public void enableLoginUI(String message) {
+    public void enableLoginUI() {
         mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0, 0,0);
         mLoginButton.setEnabled(true);
         mSignUpButton.setEnabled(true);
@@ -234,7 +244,7 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
                 @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
                 @Override
             public void run() {
-                    enableLoginUI(mess);
+                    enableLoginUI();
                     if (!handleError(mess)) {
                         transitionToLobbyFromLoginAndRegister();
                     }
