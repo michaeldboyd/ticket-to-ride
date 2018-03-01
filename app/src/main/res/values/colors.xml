@@ -23,5 +23,8 @@
     <color name="off_white_faded">#8e8787</color>
     <color name="stroke_color">#3d3d3d</color>
 
+    <color name="icon_normal">#64000000</color>
+    <color name="icon_selected">#96000000</color>
+
     <color name="black_overlay">#66000000</color>
 </resources>

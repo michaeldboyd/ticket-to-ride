@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Fragments.ChatFragment;
 import e.mboyd6.tickettoride.Views.Fragments.LobbyFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
 
 /**
  * Created by hunte on 2/8/2018.
@@ -29,9 +30,9 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
     private View convertView;
     private ViewGroup parent;
     private Context context;
-    private ChatFragment chatFragment;
+    private IChatFragment chatFragment;
 
-    public ChatAdapter(Context context, ArrayList<ChatMessage> messages, ChatFragment chatFragment) {
+    public ChatAdapter(Context context, ArrayList<ChatMessage> messages, IChatFragment chatFragment) {
         super(context, 0, messages);
         this.context = context;
         this.chatFragment = chatFragment;

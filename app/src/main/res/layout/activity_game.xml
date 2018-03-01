@@ -11,63 +11,75 @@
         android:layout_height="match_parent"
         android:layout_width="75dp"
         android:orientation="vertical"
-        android:weightSum="5">
+        android:weightSum="5"
+        android:checkedButton="@+id/game_tab">
         <e.mboyd6.tickettoride.Views.Adapters.HighlightedImageRadioButton
-            custom:focusedDrawable="@drawable/forward_arrow"
-            custom:normalDrawable="@drawable/plus"
+            custom:focusedDrawable="@drawable/icon_board_selected"
+            custom:normalDrawable="@drawable/icon_board"
+            android:id="@+id/game_tab_board"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/tabs_off_white_selected"
+            android:background="@drawable/tabs_off_white"
             android:button="@null"
             android:checked="true"
-            android:gravity="center" />
+            android:gravity="center"
+            android:onClick="onTabClicked"/>
 
         <e.mboyd6.tickettoride.Views.Adapters.HighlightedImageRadioButton
-            custom:focusedDrawable="@drawable/forward_arrow"
-            custom:normalDrawable="@drawable/plus"
+            custom:focusedDrawable="@drawable/icon_hand_selected"
+            custom:normalDrawable="@drawable/icon_hand"
+            android:id="@+id/game_tab_hand"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/tabs_salmon"
             android:button="@null"
-            android:checked="true"
-            android:gravity="center" />
+            android:checked="false"
+            android:gravity="center"
+            android:onClick="onTabClicked"/>
 
         <e.mboyd6.tickettoride.Views.Adapters.HighlightedImageRadioButton
-            custom:focusedDrawable="@drawable/forward_arrow"
-            custom:normalDrawable="@drawable/plus"
+            custom:focusedDrawable="@drawable/icon_chat_selected"
+            custom:normalDrawable="@drawable/icon_chat"
+            android:id="@+id/game_tab_chat"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/tabs_goldenrod"
             android:button="@null"
-            android:checked="true"
-            android:gravity="center" />
+            android:checked="false"
+            android:gravity="center"
+            android:onClick="onTabClicked"/>
 
         <e.mboyd6.tickettoride.Views.Adapters.HighlightedImageRadioButton
-            custom:focusedDrawable="@drawable/forward_arrow"
-            custom:normalDrawable="@drawable/plus"
+            custom:focusedDrawable="@drawable/icon_score_selected"
+            custom:normalDrawable="@drawable/icon_score"
+            android:id="@+id/game_tab_score"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/tabs_teal"
             android:button="@null"
-            android:checked="true"
-            android:gravity="center" />
+            android:checked="false"
+            android:gravity="center"
+            android:onClick="onTabClicked"/>
 
         <e.mboyd6.tickettoride.Views.Adapters.HighlightedImageRadioButton
-            custom:focusedDrawable="@drawable/forward_arrow"
-            custom:normalDrawable="@drawable/plus"
+            custom:focusedDrawable="@drawable/icon_history_selected"
+            custom:normalDrawable="@drawable/icon_history"
+            android:id="@+id/game_tab_history"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/tabs_babyblue"
             android:button="@null"
-            android:checked="true"
-            android:gravity="center" />
+            android:checked="false"
+            android:gravity="center"
+            android:onClick="onTabClicked"/>
     </RadioGroup>
     <View
+        android:id="@+id/game_activity_bar"
         android:layout_height="match_parent"
         android:layout_width="10dp"
         android:background="@drawable/tabs_off_white_bar"/>
@@ -78,4 +90,5 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         />
+
 </LinearLayout>

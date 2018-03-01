@@ -2,11 +2,10 @@ package e.mboyd6.tickettoride.Views.Fragments;
 
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,30 +17,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.sharedcode.model.ChatMessage;
-import com.example.sharedcode.model.Game;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
-import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.ChatPresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Adapters.ChatAdapter;
-import e.mboyd6.tickettoride.Views.Adapters.GameListAdapter;
 import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * to handle interaction events.
- * Use the {@link ChatFragment#newInstance} factory method to
+ * Use the {@link GameChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChatFragment extends Fragment implements IChatFragment {
+public class GameChatFragment extends Fragment implements IChatFragment {
 
-    private IMainActivity mListener;
+    private IGameActivity mListener;
     private ChatPresenter mChatPresenter = new ChatPresenter( this);
     private Activity activity;
 
@@ -56,7 +51,7 @@ public class ChatFragment extends Fragment implements IChatFragment {
     private boolean mTypingStarted;
 
 
-    public ChatFragment() {
+    public GameChatFragment() {
         // Required empty public constructor
     }
 
@@ -69,8 +64,8 @@ public class ChatFragment extends Fragment implements IChatFragment {
      * @return A new instance of fragment ChatFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ChatFragment newInstance(String param1, String param2) {
-        ChatFragment fragment = new ChatFragment();
+    public static GameChatFragment newInstance(String param1, String param2) {
+        GameChatFragment fragment = new GameChatFragment();
         return fragment;
     }
 
@@ -130,7 +125,6 @@ public class ChatFragment extends Fragment implements IChatFragment {
         return mLayout;
     }
 
-    @Override
     public String getPlayerID() {
         return mChatPresenter.getPlayerID();
     }
@@ -144,8 +138,8 @@ public class ChatFragment extends Fragment implements IChatFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         activity = (Activity) context;
-        if (context instanceof IMainActivity) {
-            mListener = (IMainActivity) context;
+        if (context instanceof IGameActivity) {
+            mListener = (IGameActivity) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

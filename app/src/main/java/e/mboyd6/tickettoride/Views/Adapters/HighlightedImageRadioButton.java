@@ -40,14 +40,14 @@ public class HighlightedImageRadioButton extends android.support.v7.widget.AppCo
         Drawable focusedDrawable = a.getDrawable(R.styleable.HighlightedImageRadioButton_focusedDrawable);
 
         StateListDrawable stateListDrawable = new StateListDrawable();
-        stateListDrawable.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused}, focusedDrawable);
         stateListDrawable.addState(new int[]{android.R.attr.state_checked, android.R.attr.state_enabled}, focusedDrawable);
         stateListDrawable.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed}, focusedDrawable);
         stateListDrawable.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_selected}, focusedDrawable);
+        stateListDrawable.addState(new int[]{-android.R.attr.state_checked, android.R.attr.state_enabled}, normalDrawable);
         stateListDrawable.addState(new int[]{android.R.attr.state_enabled}, normalDrawable);
 
+
         buttonDrawable = stateListDrawable;
-        setButtonDrawable(R.drawable.forward_arrow);
     }
 
     /**
@@ -63,7 +63,7 @@ public class HighlightedImageRadioButton extends android.support.v7.widget.AppCo
         if (buttonDrawable != null) {
             buttonDrawable.setState(getDrawableState());
             final int verticalGravity = getGravity() & Gravity.VERTICAL_GRAVITY_MASK;
-            final int height = buttonDrawable.getIntrinsicHeight();
+            final int height = (int) ((double) getHeight() * 0.75);//buttonDrawable.getIntrinsicHeight();
 
             int y = 0;
 
@@ -76,7 +76,7 @@ public class HighlightedImageRadioButton extends android.support.v7.widget.AppCo
                     break;
             }
 
-            int buttonWidth = buttonDrawable.getIntrinsicWidth();
+            int buttonWidth = (int) ((double) getWidth() * 0.75);//buttonDrawable.getIntrinsicWidth();
             int buttonLeft = (getWidth() - buttonWidth) / 2;
             buttonDrawable.setBounds(buttonLeft, y, buttonLeft+buttonWidth, y + height);
             buttonDrawable.draw(canvas);
