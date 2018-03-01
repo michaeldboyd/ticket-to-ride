@@ -6,9 +6,10 @@ package e.mboyd6.tickettoride.Presenters.Interfaces;
 
 public interface IChatPresenter {
 
+    String getPlayerID();
     // View -> Presenter
     void sendMessage(String message);
-    void isTypingChanged(boolean isTyping, String name);
+    void isTypingChanged(boolean isTyping);
 
     // View -> Model
     void messagesRead();

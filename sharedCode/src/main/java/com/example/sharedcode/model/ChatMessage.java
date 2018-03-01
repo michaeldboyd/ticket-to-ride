@@ -11,9 +11,9 @@ import java.time.ZonedDateTime;
 
 public class ChatMessage {
 
-    private String message;
-    private String sender;
-    private Timestamp timestamp;
+    public String message;
+    public String sender;
+    public Timestamp timestamp;
 
 
     public ChatMessage(String _message, String _sender) {

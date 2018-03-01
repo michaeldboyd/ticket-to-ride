@@ -28,4 +28,5 @@ public interface IChatFragment {
     void updateChat(ArrayList<ChatMessage> messages);
     void updateTyping(boolean isUpdated, String name);
     void sendMessage(String message);
+    void typingChanged(boolean isUpdated);
 }
