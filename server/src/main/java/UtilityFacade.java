@@ -8,6 +8,16 @@ public class UtilityFacade implements IUtility{
     }
     @Override
     public void clearServer(String password) {
-        ServerModel.instance().clearServer(password);
+        if(password.equals(ServerModel.instance().getTestPassword()))
+        {
+            //Clears the entirety of the root server model
+            ServerModel.instance().getAllUsers().clear();
+            ServerModel.instance().getLoggedInUsers().clear();
+            ServerModel.instance().getLoggedInSessions().clear();
+            ServerModel.instance().getAuthTokenToUsername().clear();
+            ServerModel.instance().getGames().clear();
+            ServerModel.instance().getChatMessagesForGame().clear();
+        }
+
     }
 }
