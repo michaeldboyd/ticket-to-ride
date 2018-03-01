@@ -1,5 +1,6 @@
 package Facades;
 
+import Communication.SocketManager;
 import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
@@ -92,8 +93,10 @@ public class Login implements IServerLoginFacade {
         Command loginClientCommand = CommandFactory.createCommand(authToken,
                 CLASS_NAME,
                 "_loginReceived", paramTypes, paramValues);
+        if(!authToken.equals(""))
+            ServerModel.instance().notifyObserversForUpdate(loginClientCommand);
+        else SocketManager.instance().sendBySocketId(loginClientCommand, socketID);
 
-        ServerModel.instance().notifyObserversForUpdate(loginClientCommand);
     }
 
 
@@ -139,8 +142,9 @@ public class Login implements IServerLoginFacade {
         String[] paramValues = {authToken, message};
         Command registerClientCommand = CommandFactory.createCommand(authToken,
                 CLASS_NAME,"_registerReceived", paramTypes, paramValues);
-
-        ServerModel.instance().notifyObserversForUpdate(registerClientCommand);
+        if(!authToken.equals(""))
+            ServerModel.instance().notifyObserversForUpdate(registerClientCommand);
+        else SocketManager.instance().sendBySocketId(registerClientCommand, socketID);
 
     }
 

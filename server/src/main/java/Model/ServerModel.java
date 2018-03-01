@@ -42,6 +42,13 @@ public class ServerModel extends Observable {
     private Map<String, Session> loggedInSessions = Collections.synchronizedMap(new HashMap<>());
     private Map<String, Session> allSessions = Collections.synchronizedMap(new HashMap<>());
 
+    public void setGames(Map<String, Game> games) {
+        this.games = games;
+    }
+
+    public void setChatMessagesForGame(Map<String, ArrayList<ChatMessage>> chatMessagesForGame) {
+        this.chatMessagesForGame = chatMessagesForGame;
+    }
 
     // *** Observer pattern methods *** //
     @Override
@@ -69,8 +76,12 @@ public class ServerModel extends Observable {
 
         String[] paramTypes = {newMessage.getClass().toString(), gameID.getClass().toString()};
         Object[] paramValues = {newMessage, gameID};
-        Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.Chat", "_chatMessageReceived", paramTypes, paramValues);
-        notifyObserversForUpdate(addChatCommand);
+        for(String auth : loggedInSessions.keySet())
+        {
+            Command addChatCommand = CommandFactory.createCommand(auth, "e.mboyd6.tickettoride.Facades.Chat", "_chatMessageReceived", paramTypes, paramValues);
+            notifyObserversForUpdate(addChatCommand);
+        }
+
     }
 
     //*** Getters ***
