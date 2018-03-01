@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Views.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -281,6 +282,15 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
         mBackOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
         mStartGameButton.setEnabled(false);
         mBackOutButton.setEnabled(false);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                enableLeaveGameUI();
+                //Do something after 100ms
+            }
+        }, 4000);
     }
 
     private void enableLeaveGameUI() {
@@ -293,6 +303,15 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
         mStartGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
         mStartGameButton.setEnabled(false);
         mBackOutButton.setEnabled(false);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                enableStartGameUI();
+                //Do something after 100ms
+            }
+        }, 4000);
     }
 
     private void enableStartGameUI() {
