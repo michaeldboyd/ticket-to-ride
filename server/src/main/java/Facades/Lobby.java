@@ -28,11 +28,10 @@ public class Lobby implements IServerLobbyFacade {
         if (lobbyFacade == null) {
             lobbyFacade = new Lobby();
         }
-
         return lobbyFacade;
     }
 
-
+    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.Lobby";
     public static void _createGame(String authToken) {
         instance().createGame(authToken);
     }
@@ -75,7 +74,7 @@ public class Lobby implements IServerLobbyFacade {
 
         String[] paramTypes = {newGame.getClass().toString()};
         Object[] paramValues = {newGame};
-        Command createGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+        Command createGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_createGameReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(createGameClientCommand);
@@ -98,7 +97,7 @@ public class Lobby implements IServerLobbyFacade {
         String[] paramTypes = {gs.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gs, message};
 
-        Command updateGamesClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+        Command updateGamesClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_updateGamesReceived", paramTypes, paramValues);
 
         //send this to all the clients
@@ -130,7 +129,7 @@ public class Lobby implements IServerLobbyFacade {
                 message.getClass().toString()};
         Object[] paramValues = {gameID, playerID, message};
 
-        Command joinGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+        Command joinGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_joinGameReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(joinGameClientCommand);
@@ -152,7 +151,7 @@ public class Lobby implements IServerLobbyFacade {
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
 
-        Command leaveGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_leaveGameReceived", paramTypes, paramValues);
+        Command leaveGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME, "_leaveGameReceived", paramTypes, paramValues);
 
         Game game = games.get(gameID);
 
@@ -190,7 +189,7 @@ public class Lobby implements IServerLobbyFacade {
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
 
-        Command startGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+        Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_startGameReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(startGameClientCommand);
@@ -214,7 +213,8 @@ public class Lobby implements IServerLobbyFacade {
         Object[] paramValues = {gameID, players, message};
 
 
-        Command getPlayersForGameClientCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade", "_getPlayersForGameReceived", paramTypes, paramValues);
+        Command getPlayersForGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
+                "_getPlayersForGameReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(getPlayersForGameClientCommand);
     }
@@ -251,7 +251,7 @@ public class Lobby implements IServerLobbyFacade {
         String message = "";
         String[] paramTypes = {gs.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gs, message};
-        Command updateGamesClientCommand = CommandFactory.createCommand(null, "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+        Command updateGamesClientCommand = CommandFactory.createCommand(null, CLASS_NAME,
                 "_updateGamesReceived", paramTypes, paramValues);
         Sender.instance().sendBroadcast(updateGamesClientCommand);
     }
@@ -259,7 +259,7 @@ public class Lobby implements IServerLobbyFacade {
     private void notifyPlayersOfGameStarted(Collection<String> tokens, String message, String gameID) {
         String[] paramTypes = {message.getClass().toString(), gameID.getClass().toString()};
         Object[] paramValues = {gameID, message};
-        Command command = CommandFactory.createCommand("", "e.mboyd6.tickettoride.Communication.ClientLobbyFacade",
+        Command command = CommandFactory.createCommand("", CLASS_NAME,
                 "_startGameReceived", paramTypes, paramValues);
         //TODO this eventually should be changed so it only sends the command to the people in the right game.
         for (String token : tokens) {

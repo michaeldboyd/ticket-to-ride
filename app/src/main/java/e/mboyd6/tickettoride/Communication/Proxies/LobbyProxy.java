@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Communication;
+package e.mboyd6.tickettoride.Communication.Proxies;
 
 import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
@@ -11,20 +11,20 @@ import java.util.Map;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 
-public class ServerProxyLobbyFacade implements IServerLobbyFacade {
+public class LobbyProxy implements IServerLobbyFacade {
     private Map args = new HashMap();
-    private static ServerProxyLobbyFacade _instance = new ServerProxyLobbyFacade();
+    private static LobbyProxy _instance = new LobbyProxy();
 
-    public static ServerProxyLobbyFacade instance() {
+    public static LobbyProxy instance() {
 
         if (_instance == null){
-            _instance = new ServerProxyLobbyFacade();
+            _instance = new LobbyProxy();
         }
 
         return _instance;
     }
 
-    private ServerProxyLobbyFacade() { args.put(JsonWriter.TYPE, true);}
+    private LobbyProxy() { args.put(JsonWriter.TYPE, true);}
 
 
 

@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Communication;
+package e.mboyd6.tickettoride.Communication.Proxies;
 
 import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
@@ -15,23 +15,23 @@ import e.mboyd6.tickettoride.Model.ClientModel;
  * Created by eric on 2/26/18.
  */
 
-public class ChatServerFacadeProxy implements IChatServerFacade {
+public class ChatProxy implements IChatServerFacade {
 
     private String CLASS_PATH = "Facades.Chat";
     private Map args = new HashMap();
 
-    private static ChatServerFacadeProxy _instance = new ChatServerFacadeProxy();
+    private static ChatProxy _instance = new ChatProxy();
 
-    public static ChatServerFacadeProxy instance() {
+    public static ChatProxy instance() {
 
         if (_instance == null){
-            _instance = new ChatServerFacadeProxy();
+            _instance = new ChatProxy();
         }
 
         return _instance;
     }
 
-    private ChatServerFacadeProxy() {args.put(JsonWriter.TYPE, true);}
+    private ChatProxy() {args.put(JsonWriter.TYPE, true);}
 
 
 

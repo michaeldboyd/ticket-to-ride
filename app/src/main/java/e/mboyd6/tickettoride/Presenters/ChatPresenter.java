@@ -2,7 +2,6 @@ package e.mboyd6.tickettoride.Presenters;
 
 import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.ChatMessage;
-import com.example.sharedcode.model.UpdateType;
 
 import junit.framework.Assert;
 
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ChatServerFacadeProxy;
+import e.mboyd6.tickettoride.Communication.Proxies.ChatProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IChatPresenter;
 import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
@@ -39,13 +38,13 @@ public class ChatPresenter implements IChatPresenter, Observer {
     // View -> Facade
     @Override
     public void sendMessage(String message) {
-        ChatServerFacadeProxy.instance().sendChatMessage(ClientModel.getInstance().getAuthToken(), message,
+        ChatProxy.instance().sendChatMessage(ClientModel.getInstance().getAuthToken(), message,
                 ClientModel.getInstance().getCurrentPlayer().getName(), ClientModel.getInstance().getCurrentGame().getGameID());
     }
 
     @Override
     public void isTypingChanged(boolean isTyping, String name){
-        ChatServerFacadeProxy.instance().sendIsTyping(ClientModel.getInstance().getAuthToken(),
+        ChatProxy.instance().sendIsTyping(ClientModel.getInstance().getAuthToken(),
                 ClientModel.getInstance().getCurrentPlayer().getName(), isTyping);
     }
 

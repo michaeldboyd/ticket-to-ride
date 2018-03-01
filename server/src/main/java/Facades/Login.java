@@ -18,7 +18,6 @@ public class Login implements IServerLoginFacade {
 
 
     private static Login loginFacade;
-
     public static Login instance() {
         if (loginFacade == null) {
             loginFacade = new Login();
@@ -29,7 +28,7 @@ public class Login implements IServerLoginFacade {
 
     private Login() {}
 
-
+    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.Login";
     public static void _login(String username, String password, String socketID) {
         instance().login(username, password, socketID);
     }
@@ -91,7 +90,7 @@ public class Login implements IServerLoginFacade {
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
         String[] paramValues = {authToken, message};
         Command loginClientCommand = CommandFactory.createCommand(authToken,
-                "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
+                CLASS_NAME,
                 "_loginReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(loginClientCommand);
@@ -139,7 +138,7 @@ public class Login implements IServerLoginFacade {
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
         String[] paramValues = {authToken, message};
         Command registerClientCommand = CommandFactory.createCommand(authToken,
-                "e.mboyd6.tickettoride.Communication.ClientLoginFacade","_registerReceived", paramTypes, paramValues);
+                CLASS_NAME,"_registerReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(registerClientCommand);
 
@@ -164,7 +163,7 @@ public class Login implements IServerLoginFacade {
         String[] paramTypes = {message.getClass().toString()};
         String[] paramValues = {message};
         Command logoutClientCommand = CommandFactory.createCommand(authToken,
-                "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
+                CLASS_NAME,
                 "_logoutReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(logoutClientCommand);

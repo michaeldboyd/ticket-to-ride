@@ -1,21 +1,17 @@
 package e.mboyd6.tickettoride.Presenters;
 
-import android.content.Context;
-
 import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.Game;
 
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
-import com.example.sharedcode.model.UpdateType;
 
 import junit.framework.Assert;
 
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
-import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
 /**
@@ -37,20 +33,20 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     public void changePlayerColor(int color){
         String gameID = ClientModel.getInstance().getCurrentGame().getGameID();
         String playerID = ClientModel.getInstance().getPlayerID();
-        ServerProxyLobbyFacade.instance().playerColorChanged(ClientModel.getInstance().getAuthToken(),
+        LobbyProxy.instance().playerColorChanged(ClientModel.getInstance().getAuthToken(),
                 gameID, playerID, color);
     }
 
     @Override
     public void leaveGame() {
-        ServerProxyLobbyFacade.instance().leaveGame(ClientModel.getInstance().getAuthToken(),
+        LobbyProxy.instance().leaveGame(ClientModel.getInstance().getAuthToken(),
                 ClientModel.getInstance().getCurrentGame().getGameID(),
                 ClientModel.getInstance().getPlayerID());
     }
 
     @Override
     public void startGame() {
-        ServerProxyLobbyFacade.instance().startGame(ClientModel.getInstance().getAuthToken(),
+        LobbyProxy.instance().startGame(ClientModel.getInstance().getAuthToken(),
                 ClientModel.getInstance().getCurrentGame().getGameID());
     }
 

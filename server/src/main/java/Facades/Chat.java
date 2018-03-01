@@ -17,7 +17,7 @@ public class Chat implements IChatServerFacade {
 
     private Chat(){};
 
-
+    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.Chat";
     public static void _sendChatMessage(String authToken, String message, String playerName, String gameID) {
         instance().sendChatMessage(authToken, message, playerName, gameID);
     }

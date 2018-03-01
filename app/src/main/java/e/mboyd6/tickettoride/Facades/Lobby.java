@@ -1,29 +1,29 @@
-package e.mboyd6.tickettoride.Communication;
+package e.mboyd6.tickettoride.Facades;
 
 import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
-import com.example.sharedcode.model.PlayerColors;
 import com.example.sharedcode.model.UpdateType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class ClientLobbyFacade implements IClientLobbyFacade {
+public class Lobby implements IClientLobbyFacade {
 
-    private static ClientLobbyFacade lobbyFacade;
+    private static Lobby lobbyFacade;
 
-    public static ClientLobbyFacade instance() {
+    public static Lobby instance() {
         if (lobbyFacade == null) {
-            lobbyFacade = new ClientLobbyFacade();
+            lobbyFacade = new Lobby();
         }
 
         return lobbyFacade;
@@ -72,7 +72,7 @@ public class ClientLobbyFacade implements IClientLobbyFacade {
 
         String authToken = ClientModel.getInstance().getAuthToken();
         //join the game you just created
-        ServerProxyLobbyFacade.instance()
+        LobbyProxy.instance()
                 .joinGame(authToken, newGame.getGameID());
 
     }

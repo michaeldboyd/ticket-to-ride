@@ -1,17 +1,14 @@
 package e.mboyd6.tickettoride.Presenters;
 
-import android.content.Context;
-
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import com.example.sharedcode.communication.UpdateArgs;
-import com.example.sharedcode.model.UpdateType;
+
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
-import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 
 import junit.framework.Assert;
@@ -71,7 +68,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
     @Override
     public void login(String username, String password) {
         String socketID = ClientModel.getInstance().getSocketID();
-        ServerProxyLoginFacade.instance().login(username, password, socketID);
+        LoginProxy.instance().login(username, password, socketID);
     }
 
     //Model -> View
