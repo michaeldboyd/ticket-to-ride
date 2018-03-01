@@ -57,7 +57,8 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
         TextView chatItemTimeStamp = convertView.findViewById(R.id.chat_item_timestamp);
         final LinearLayout chatItemExtraInfo = convertView.findViewById(R.id.chat_item_extra_info);
 
-        chatItemName.setText(chatMessage.sender.toUpperCase().charAt(0));
+        String smallerName = String.valueOf(chatMessage.sender.toUpperCase().charAt(0));
+        chatItemName.setText(smallerName);
         chatItemFullName.setText(chatMessage.sender);
         chatItemText.setText(chatMessage.message);
         chatItemTimeStamp.setText(chatMessage.timestamp);
