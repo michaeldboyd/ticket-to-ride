@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Communication;
+package e.mboyd6.tickettoride.Facades;
 
 import com.example.sharedcode.interfaces.IChatClientFacade;
 import com.example.sharedcode.model.ChatMessage;
@@ -10,21 +10,21 @@ import e.mboyd6.tickettoride.Model.ClientModel;
  * Created by eric on 2/26/18.
  */
 
-public class ChatClientFacade implements IChatClientFacade {
+public class Chat implements IChatClientFacade {
 
 
-    private static ChatClientFacade _instance = new ChatClientFacade();
+    private static Chat _instance = new Chat();
 
-    public static ChatClientFacade instance() {
+    public static Chat instance() {
 
         if (_instance == null){
-            _instance = new ChatClientFacade();
+            _instance = new Chat();
         }
 
         return _instance;
     }
 
-    private ChatClientFacade() {}
+    private Chat() {}
 
 
 

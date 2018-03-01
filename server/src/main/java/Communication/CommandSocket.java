@@ -1,3 +1,7 @@
+package Communication;
+
+import Facades.Utility;
+import Model.ServerModel;
 import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
@@ -59,18 +63,7 @@ public class CommandSocket implements WebSocketListener
      */
     @Override
     public void onWebSocketConnect(Session session) {
-        //create ID for socket.
-        String id = UUID.randomUUID().toString();
-        ServerModel.instance().getAllSessions().put(id, session);
-
-        //send command back to client.
-        String[] paramTypes = {id.getClass().toString()};
-        String[] paramValues = {id};
-        Command initCommand = CommandFactory.createCommand(null,
-                "e.mboyd6.tickettoride.Communication.ClientLoginFacade",
-                "_initSocket", paramTypes, paramValues);
-        // Send logoutCommand to Client via socket
-        Sender.instance().sendBySocketId(initCommand, id);
+       Utility.instance().initSocket(session);
 
     }
 }

@@ -29,7 +29,7 @@ public class UtilityFacade implements IUtility {
         String[] paramTypes = {superSecretPassword.getClass().toString()};
         String[] paramValues = {superSecretPassword};
         // the authToken is null because when logging in we don't have an auth token.
-        Command loginCommand = CommandFactory.createCommand(null, "UtilityFacade", "_clearServer", paramTypes, paramValues);
+        Command loginCommand = CommandFactory.createCommand(null, "Facades.Utility", "_clearServer", paramTypes, paramValues);
         // TODO - send login to Server via socket
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(loginCommand, args));
     }

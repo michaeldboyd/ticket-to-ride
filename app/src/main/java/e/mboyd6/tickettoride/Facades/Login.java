@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Communication;
+package e.mboyd6.tickettoride.Facades;
 
 
 import com.example.sharedcode.communication.UpdateArgs;
@@ -7,7 +7,6 @@ import com.example.sharedcode.model.UpdateType;
 
 import org.java_websocket.client.WebSocketClient;
 
-import e.mboyd6.tickettoride.BuildConfig;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Utility.Assert;
 
@@ -15,12 +14,12 @@ import e.mboyd6.tickettoride.Utility.Assert;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class ClientLoginFacade implements IClientLoginFacade {
-    private static ClientLoginFacade loginFacade;
+public class Login implements IClientLoginFacade {
+    private static Login loginFacade;
 
-    public static ClientLoginFacade instance() {
+    public static Login instance() {
         if (loginFacade == null) {
-            loginFacade = new ClientLoginFacade();
+            loginFacade = new Login();
         }
 
         return loginFacade;

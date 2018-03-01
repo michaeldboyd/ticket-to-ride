@@ -16,10 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
+import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
-import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Communication.UtilityFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
@@ -64,7 +63,7 @@ public class LobbyCommandsTest {
         Map<String, String> tokens = new TreeMap<String, String>();
         try {
             for (String n : names) {
-                ServerProxyLoginFacade.instance().register(n, "pass", id);
+                LoginProxy.instance().register(n, "pass", id);
                 Thread.sleep(1000);
                 String authToken = ClientModel.getInstance().getAuthToken();
                 Assert.assertNotNull(authToken);
@@ -72,7 +71,7 @@ public class LobbyCommandsTest {
             }
 
             //Create a game
-            ServerProxyLobbyFacade.instance().createGame(tokens.get("michael"));
+            LobbyProxy.instance().createGame(tokens.get("michael"));
 
             //get the game id
             ArrayList<Game> games = ClientModel.getInstance().getGames();
@@ -85,7 +84,7 @@ public class LobbyCommandsTest {
             for (String n : names) {
                 if (n.equals("michael")) // the create game already joins the game
                     continue;
-                ServerProxyLobbyFacade.instance().joinGame(tokens.get(n), gameID);
+                LobbyProxy.instance().joinGame(tokens.get(n), gameID);
                 Thread.sleep(1000);
             }
         } catch (Exception e) {
