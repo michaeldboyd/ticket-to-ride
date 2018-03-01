@@ -69,8 +69,12 @@ public class ServerModel extends Observable {
 
         String[] paramTypes = {newMessage.getClass().toString(), gameID.getClass().toString()};
         Object[] paramValues = {newMessage, gameID};
-        Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.Chat", "_chatMessageReceived", paramTypes, paramValues);
-        notifyObserversForUpdate(addChatCommand);
+        for(String auth : loggedInSessions.keySet())
+        {
+            Command addChatCommand = CommandFactory.createCommand(auth, "e.mboyd6.tickettoride.Facades.Chat", "_chatMessageReceived", paramTypes, paramValues);
+            notifyObserversForUpdate(addChatCommand);
+        }
+
     }
 
     //*** Getters ***

@@ -172,7 +172,8 @@ public class Lobby implements IClientLobbyFacade {
             for(Game g: games){
                 if(g.getGameID().equals(gameID)){
                     //GameID is set as currentGame
-                    g.setChatMessages(new ArrayList<ChatMessage>());
+                   if(g.getChatMessages() == null)
+                        g.setChatMessages(new ArrayList<ChatMessage>());
                     ClientModel.getInstance().setCurrentGame(g);
                     return true;
                 }
