@@ -60,7 +60,7 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
         chatItemName.setText(chatMessage.sender.toUpperCase().charAt(0));
         chatItemFullName.setText(chatMessage.sender);
         chatItemText.setText(chatMessage.message);
-        chatItemTimeStamp.setText(chatMessage.timestamp.toString());
+        chatItemTimeStamp.setText(chatMessage.timestamp);
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

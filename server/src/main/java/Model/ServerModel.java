@@ -7,6 +7,10 @@ import com.example.sharedcode.communication.Command;
 import org.eclipse.jetty.websocket.api.Session;
 
 
+
+import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 
@@ -58,8 +62,9 @@ public class ServerModel extends Observable {
         if (!chatMessagesForGame.containsKey(gameID)) {
             chatMessagesForGame.put(gameID, new ArrayList<>());
         }
-
-        ChatMessage newMessage = new ChatMessage(message, playerName);
+        Timestamp timestamp = new Timestamp(ZonedDateTime.now(ZoneId.of("UTC")).toInstant().toEpochMilli());
+        String stamp = timestamp.toString();
+        ChatMessage newMessage = new ChatMessage(message, playerName, stamp);
         chatMessagesForGame.get(gameID).add(newMessage);
 
         String[] paramTypes = {newMessage.getClass().toString(), gameID.getClass().toString()};

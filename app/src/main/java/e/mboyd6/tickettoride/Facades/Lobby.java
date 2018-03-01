@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Facades;
 
 import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IClientLobbyFacade;
+import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.UpdateType;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Utility.Assert;
 
 /**
  * Created by mboyd6 on 2/1/2018.
@@ -64,6 +66,8 @@ public class Lobby implements IClientLobbyFacade {
         UpdateType type = UpdateType.GAME_CREATED;
         boolean success = true; //no message on this command.. keeping logic just in case
         String message = "";
+        //TODO all empty objects are parsed as null in json serialization. Reinstantiate.
+        newGame.setChatMessages(new ArrayList<ChatMessage>());
 
         List<Game> games = ClientModel.getInstance().getGames();
         games.add(newGame);
@@ -168,6 +172,7 @@ public class Lobby implements IClientLobbyFacade {
             for(Game g: games){
                 if(g.getGameID().equals(gameID)){
                     //GameID is set as currentGame
+                    g.setChatMessages(new ArrayList<ChatMessage>());
                     ClientModel.getInstance().setCurrentGame(g);
                     return true;
                 }
