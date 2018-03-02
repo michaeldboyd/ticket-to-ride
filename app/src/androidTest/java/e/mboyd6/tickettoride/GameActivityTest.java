@@ -89,7 +89,7 @@ public class GameActivityTest {
     Intent intent = new Intent(testingActivity, GameActivity.class);
     testingActivity.startActivity(intent);
 
-    waitForSeconds(60);
+    waitForSeconds(360);
   }
 
 
