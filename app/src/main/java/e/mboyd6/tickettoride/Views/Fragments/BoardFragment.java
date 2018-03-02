@@ -2,20 +2,26 @@ package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import e.mboyd6.tickettoride.R;
@@ -28,7 +34,9 @@ import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
  * Use the {@link BoardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BoardFragment extends Fragment implements OnMapReadyCallback {
+public class BoardFragment extends Fragment implements OnMapReadyCallback,
+        GoogleMap.OnCameraIdleListener,
+        GoogleMap.CancelableCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,6 +50,9 @@ public class BoardFragment extends Fragment implements OnMapReadyCallback {
     private View mLayout;
     private GoogleMap mMap;
     private Activity activity;
+
+    private LatLng mCenter;
+    private CameraPosition mOrigin;
 
     public BoardFragment() {
         // Required empty public constructor
@@ -108,9 +119,50 @@ public class BoardFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Customise the styling of the base map using a JSON object defined
+        // in a string resource file. First create a MapStyleOptions object
+        // from the JSON styles string, then pass this to the setMapStyle
+        // method of the GoogleMap object.
+        boolean success = mMap.setMapStyle(new MapStyleOptions(getResources()
+                .getString(R.string.style_ticket_to_ride)));
+
+        if (!success) {
+            Log.e("MAPPROBLEM", "Style parsing failed.");
+        }
+
+        // Add a marker in Sydney and move the camer
+        // a
+        mCenter = new LatLng(39.23f, -111.41f);
+        mMap.addMarker(new MarkerOptions().position(mCenter).title("Marker in Sydney"));
+        mMap.setMinZoomPreference(6.5f);
+        mMap.setMaxZoomPreference(8);
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(6.5f));
+        mOrigin = CameraPosition.builder().target(mCenter).bearing(90).build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mOrigin));
+        mMap.setOnCameraIdleListener(this);
     }
+
+    @Override
+    public void onCameraIdle() {
+        LatLng cameraPosition = mMap.getCameraPosition().target;
+        double bearing = mMap.getCameraPosition().bearing;
+        System.out.println(cameraPosition.toString());
+        if (cameraPosition.longitude > -109 ||
+                cameraPosition.longitude < -114 ||
+                cameraPosition.latitude > 42 ||
+                cameraPosition.latitude < 37 ||
+                bearing != 90)
+        {
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(mOrigin), 200, this);
+        }
+    }
+
+    @Override
+    public void onFinish() {
+    }
+
+    @Override
+    public void onCancel() {
+    }
+
 }
