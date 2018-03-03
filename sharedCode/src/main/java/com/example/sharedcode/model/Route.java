@@ -6,49 +6,64 @@ package com.example.sharedcode.model;
 
 public class Route {
 
-    private String startCity; //these might be enums, but didn't have those yet
-    private String endCity; //or know if we're using those, so I used strings for now
-    private int points;
-    private String color; //also not sure if we're using enums still for this
-    private int length;
+    private String city1;
+    private String city2;
+    private int numberTrains;
+    private int trainType;
+    private boolean duplicate = false;
 
-    public String getStartCity() {
-        return startCity;
+    public Route(String city1, String city2, int numberTrains, int trainType) {
+        this.city1 = city1;
+        this.city2 = city2;
+        this.numberTrains = numberTrains;
+        this.trainType = trainType;
     }
 
-    public void setStartCity(String startCity) {
-        this.startCity = startCity;
+    public Route(String city1, String city2, int numberTrains, int trainType, boolean duplicate) {
+        this.city1 = city1;
+        this.city2 = city2;
+        this.numberTrains = numberTrains;
+        this.trainType = trainType;
+        this.duplicate = duplicate;
     }
 
-    public String getEndCity() {
-        return endCity;
+    public String getCity1() {
+        return city1;
     }
 
-    public void setEndCity(String endCity) {
-        this.endCity = endCity;
+    public void setCity1(String city1) {
+        this.city1 = city1;
     }
 
-    public int getPoints() {
-        return points;
+    public String getCity2() {
+        return city2;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void setCity2(String city2) {
+        this.city2 = city2;
     }
 
-    public String getColor() {
-        return color;
+    public int getTrainType() {
+        return trainType;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setTrainType(int trainType) {
+        this.trainType = trainType;
     }
 
-    public int getLength() {
-        return length;
+    public boolean isDuplicate() {
+        return duplicate;
     }
 
-    public void setLength(int length) {
-        this.length = length;
+    public void setDuplicate(boolean duplicate) {
+        this.duplicate = duplicate;
+    }
+
+    public int getNumberTrains() {
+        return numberTrains;
+    }
+
+    public void setNumberTrains(int numberTrains) {
+        this.numberTrains = numberTrains;
     }
 }
