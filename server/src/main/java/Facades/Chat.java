@@ -22,8 +22,8 @@ public class Chat implements IChatServerFacade {
         instance().sendChatMessage(authToken, message, playerName, gameID);
     }
 
-    public static void _sendIsTyping(String authToken, String playerName, Boolean isTyping) {
-        instance().sendIsTyping(authToken, playerName, isTyping);
+    public static void _sendIsTyping(String authToken, String gameID, String playerName, Boolean isTyping) {
+        instance().sendIsTyping(authToken, gameID, playerName, isTyping);
     }
 
 
@@ -33,7 +33,13 @@ public class Chat implements IChatServerFacade {
     }
 
     @Override
-    public void sendIsTyping(String authToken, String playerName, Boolean isTyping) {
-        // TODO: - Just send a command for the ClientChatFacade directly to Communication.SocketManager because there is nothing to update on the model
+    public void sendIsTyping(String authToken, String gameID, String playerName, Boolean isTyping) {
+        //TODO:
+        
+        if(isTyping) {
+            ServerModel.instance().getGames().get(gameID).setPersonTyping(playerName);
+        } else {
+            ServerModel.instance().getGames().get(gameID).setPersonTyping(null);
+        }
     }
 }

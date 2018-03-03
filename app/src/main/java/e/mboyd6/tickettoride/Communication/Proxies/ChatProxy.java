@@ -46,9 +46,9 @@ public class ChatProxy implements IChatServerFacade {
     }
 
     @Override
-    public void sendIsTyping(String authToken, String playerName, Boolean isTyping) {
-        String[] paramTypes = {authToken.getClass().toString(), playerName.getClass().toString(), isTyping.getClass().toString()};
-        Object[] paramValues = {authToken, playerName, isTyping};
+    public void sendIsTyping(String authToken, String gameID, String playerName, Boolean isTyping) {
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerName.getClass().toString(), isTyping.getClass().toString()};
+        Object[] paramValues = {authToken, gameID, playerName, isTyping};
 
         Command isTypingCommand = CommandFactory.createCommand(null, CLASS_PATH, "_sendIsTyping", paramTypes, paramValues);
 
