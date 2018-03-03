@@ -80,8 +80,8 @@ public class ServerModel extends Observable {
         Command registerClientCommand = CommandFactory.createCommand(authToken,
                 "e.mboyd6.tickettoride.Communication.ClientLoginFacade","_registerReceived", paramTypes, paramValues);
         notifyObserversForUpdate(registerClientCommand);
-
     }
+
 
     public void loginUser(String username, String password, String socketID) {
         String authToken = "";

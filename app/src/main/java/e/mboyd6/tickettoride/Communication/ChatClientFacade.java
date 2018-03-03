@@ -31,7 +31,8 @@ public class ChatClientFacade implements IChatClientFacade {
     public static void _chatMessageReceived(ChatMessage chatMessage, String gameID) {
         _instance.chatMessageReceived(chatMessage, gameID);
 
-        if(ClientModel.getInstance().getCurrentGame() == null) {      //Game hasn't been started
+        if(ClientModel.getInstance().getCurrentGame() == null) {
+            // Game hasn't been started
             for(Game g : ClientModel.getInstance().getGames()){
                 if(gameID.equals(g.getGameID())){
                     g.getChatMessages().add(chatMessage);
