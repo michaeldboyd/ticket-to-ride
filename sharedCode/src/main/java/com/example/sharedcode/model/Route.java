@@ -8,6 +8,24 @@ public class Route {
 
     private String city1;
     private String city2;
+    private int numberTrains;
+    private int trainType;
+    private boolean duplicate = false;
+
+    public Route(String city1, String city2, int numberTrains, int trainType) {
+        this.city1 = city1;
+        this.city2 = city2;
+        this.numberTrains = numberTrains;
+        this.trainType = trainType;
+    }
+
+    public Route(String city1, String city2, int numberTrains, int trainType, boolean duplicate) {
+        this.city1 = city1;
+        this.city2 = city2;
+        this.numberTrains = numberTrains;
+        this.trainType = trainType;
+        this.duplicate = duplicate;
+    }
 
     public String getCity1() {
         return city1;
@@ -23,5 +41,29 @@ public class Route {
 
     public void setCity2(String city2) {
         this.city2 = city2;
+    }
+
+    public int getTrainType() {
+        return trainType;
+    }
+
+    public void setTrainType(int trainType) {
+        this.trainType = trainType;
+    }
+
+    public boolean isDuplicate() {
+        return duplicate;
+    }
+
+    public void setDuplicate(boolean duplicate) {
+        this.duplicate = duplicate;
+    }
+
+    public int getNumberTrains() {
+        return numberTrains;
+    }
+
+    public void setNumberTrains(int numberTrains) {
+        this.numberTrains = numberTrains;
     }
 }

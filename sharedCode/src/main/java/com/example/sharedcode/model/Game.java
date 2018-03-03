@@ -17,7 +17,7 @@ public class Game {
     //The plan for this is that if Player is null, the route is not claimed.
     //If we need to change this we totally can.
     private Map<Route, Player> routesClaimed;
-    private Map<String, City> cityToCities;
+    private Map<String, City> cities;
 
     //MemVariables pertaining to chat
     private ArrayList<ChatMessage> chatMessages;
@@ -151,4 +151,11 @@ public class Game {
         gameInitializer.initializeGame(this);
     }
 
+    public Map<String, City> getCities() {
+        return cities;
+    }
+
+    public void setCities(Map<String, City> cities) {
+        this.cities = cities;
+    }
 }
