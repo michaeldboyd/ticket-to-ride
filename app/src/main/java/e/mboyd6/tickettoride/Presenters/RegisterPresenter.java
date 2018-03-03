@@ -1,23 +1,17 @@
 package e.mboyd6.tickettoride.Presenters;
 
-import android.content.Context;
-
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import com.example.sharedcode.communication.UpdateArgs;
-import com.example.sharedcode.model.UpdateType;
 
 import junit.framework.Assert;
 
 import e.mboyd6.tickettoride.Presenters.Interfaces.IRegisterPresenter;
-import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IRegisterFragment;
-
-import static com.example.sharedcode.model.UpdateType.REGISTER_RESPONSE;
 
 /**
  * Created by jonathanlinford on 2/2/18.
@@ -97,7 +91,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
     public void register(String username, String password) {
         String id = ClientModel.getInstance().getSocketID();
         assert(id != null);
-        ServerProxyLoginFacade.instance().register(username, password, id);
+        LoginProxy.instance().register(username, password, id);
     }
 
 

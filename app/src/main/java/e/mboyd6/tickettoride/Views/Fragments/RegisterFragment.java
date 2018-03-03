@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -165,6 +166,15 @@ public class RegisterFragment extends Fragment implements IRegisterFragment, IMa
         mSignUpButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
         mSignUpButton.setEnabled(false);
         mBackButton.setEnabled(false);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                enableRegisterUI();
+                //Do something after 100ms
+            }
+        }, 4000);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)

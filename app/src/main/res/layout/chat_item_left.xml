@@ -35,7 +35,7 @@
         android:orientation="vertical"
         android:layout_weight="1">
         <LinearLayout
-            android:id="@+id/name_and_timestamp"
+            android:id="@+id/chat_item_extra_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

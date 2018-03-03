@@ -1,7 +1,5 @@
 package e.mboyd6.tickettoride.Phase1Regressions;
 
-import com.example.sharedcode.model.Game;
-
 import junit.framework.Assert;
 
 import org.java_websocket.client.WebSocketClient;
@@ -11,12 +9,10 @@ import org.junit.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Communication.UtilityFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
@@ -53,7 +49,7 @@ public class LoginCommandsTest {
             //REGISTER
             for(String n : names)
             {
-                ServerProxyLoginFacade.instance().register(n, "pass", id);
+                LoginProxy.instance().register(n, "pass", id);
                 Thread.sleep(1000);
                 String authToken = ClientModel.getInstance().getAuthToken();
                 Assert.assertNotNull(authToken);
@@ -63,7 +59,7 @@ public class LoginCommandsTest {
             //LOGOUT
             for(String auth : tokens.values())
             {
-                ServerProxyLoginFacade.instance().logout(auth);
+                LoginProxy.instance().logout(auth);
                 Thread.sleep(1000);
                 String authToken = ClientModel.getInstance().getAuthToken();
                 Assert.assertNull(authToken);
@@ -71,7 +67,7 @@ public class LoginCommandsTest {
 
             //LOGIN
             for(String n : tokens.keySet()) {
-                ServerProxyLoginFacade.instance().login(n, "pass", id);
+                LoginProxy.instance().login(n, "pass", id);
                 Thread.sleep(1000);
                 String authToken = ClientModel.getInstance().getAuthToken();
                 Assert.assertNotNull(authToken);
@@ -81,6 +77,7 @@ public class LoginCommandsTest {
             e.printStackTrace();
         }
     }
+
 
     @Test
     public void LoginFacade_IncorrectInput() {

@@ -3,6 +3,7 @@ package e.mboyd6.tickettoride.Views.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,6 +111,21 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
         mLobbyPresenter = null;
     }
 
+    private void disableInputs() {
+        disableInputs = true;
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                enableInputs();
+                //Do something after 100ms
+            }
+        }, 4000);
+    }
+
+    private void enableInputs() {
+        disableInputs = false;
+    }
 
     private void onLobbyFragmentLogOutButton() {
         mLobbyPresenter.logOut();
@@ -152,7 +168,7 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                disableInputs = true;
+                disableInputs();
                 mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
             }
         });
@@ -164,7 +180,7 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                disableInputs = false;
+                enableInputs();
                 if (!handleError(mess)) {
                     mLogOutButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.back_arrow,0);
                     transitionToLoginFromLobby();
@@ -178,7 +194,7 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                disableInputs = true;
+                disableInputs();
                 mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
             }
         });
@@ -190,7 +206,7 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                disableInputs = false;
+                enableInputs();
                 if (!handleError(mess)) {
                     mStartNewGameButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.plus, 0);
                 }
@@ -203,7 +219,7 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                disableInputs = true;
+                disableInputs();
             }
         });
     }
@@ -214,7 +230,7 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                disableInputs = false;
+                enableInputs();
                 if (!handleError(mess)) {
                     transitionToWaitroomFromLobby();
                 }

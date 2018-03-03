@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.sharedcode.model.Game;
@@ -47,6 +49,7 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
     private Button mSignUpButton;
     private EditText mUsernameField;
     private EditText mPasswordField;
+    private ImageView mLogo;
 
     private Activity activity;
     private IMainActivity mListener;
@@ -93,6 +96,7 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
         mPasswordField = layout.findViewById(R.id.login_fragment_password_field);
         mUsernameField.setText(mUsernameData);
         mPasswordField.setText(mPasswordData);
+        mLogo = layout.findViewById(R.id.login_fragment_logo);
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -111,6 +115,29 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
                 onLoginFragmentSignUpButton(mUsernameField.getText().toString(), mPasswordField.getText().toString());
             }
         });
+
+        mLogo.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+                String newIP = mUsernameField.getText().toString();
+
+                if(mLoginPresenter.changeIP(newIP)){
+                    handleError("You've made Rodham proud.\nIP successfully changed to " + newIP);
+
+                    mUsernameField.setText("");
+                } else {
+                    handleError("You've disappointed Rodham.\nIP " + newIP + "is invalid. NOT Set.");
+                }
+
+                return false;
+            }
+
+        });
+
+
+
+
         return layout;
     }
 
@@ -169,11 +196,20 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
         mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.waiting_animated,0);
         mLoginButton.setEnabled(false);
         mSignUpButton.setEnabled(false);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                enableLoginUI();
+                //Do something after 100ms
+            }
+        }, 4000);
     }
 
     //Calls main activity
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-    public void enableLoginUI(String message) {
+    public void enableLoginUI() {
         mLoginButton.setCompoundDrawablesWithIntrinsicBounds(0,0, 0,0);
         mLoginButton.setEnabled(true);
         mSignUpButton.setEnabled(true);
@@ -234,7 +270,7 @@ public class LoginFragment extends Fragment implements ILoginFragment, IMainActi
                 @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
                 @Override
             public void run() {
-                    enableLoginUI(mess);
+                    enableLoginUI();
                     if (!handleError(mess)) {
                         transitionToLobbyFromLoginAndRegister();
                     }

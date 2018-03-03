@@ -17,6 +17,7 @@ public class Player {
     private String playerID;
     private String name;
     private int color;
+    private Score score = new Score();
 
     public String getPlayerID() {
         return playerID;
@@ -40,5 +41,13 @@ public class Player {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
     }
 }

@@ -1,17 +1,15 @@
 package e.mboyd6.tickettoride.Presenters;
 
-import android.content.Context;
-
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import com.example.sharedcode.communication.UpdateArgs;
-import com.example.sharedcode.model.UpdateType;
+
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILoginPresenter;
-import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.ILoginFragment;
 
 import junit.framework.Assert;
@@ -71,7 +69,32 @@ public class LoginPresenter implements ILoginPresenter, Observer{
     @Override
     public void login(String username, String password) {
         String socketID = ClientModel.getInstance().getSocketID();
-        ServerProxyLoginFacade.instance().login(username, password, socketID);
+        LoginProxy.instance().login(username, password, socketID);
+    }
+
+    /**
+     * Used to change ip to be pointed to
+     *
+     * @param ip
+     * @return
+     */
+    @Override
+    public boolean changeIP(String ip){
+        if(ip.matches("[0-9.]+") || ip.equals("localhost")) {
+            SocketManager.ip = ip;
+            System.out.println("IP changed to: " + ip);
+            try {
+                ClientModel.getInstance().getSocket().closeConnection(500, "ChangeIP");
+                SocketManager.ConnectSocket(ip);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            System.out.println("IP " + ip + " NOT set");
+            return false;
+        }
     }
 
     //Model -> View
