@@ -252,7 +252,14 @@ public class BoardFragment extends Fragment implements
             //double distance = Math.sqrt(Math.pow(latDistance, 2) + Math.pow(lonDistance, 2));
             double padding = 0.2;
 
-
+            double offset = 0;
+            if (route.isDuplicate()) {
+                if (city1Position.longitude > city2Position.longitude) {
+                    offset = -0.05;
+                } else {
+                    offset = 0.05;
+                }
+            }
             double gapBeforePercentage = 0.25;
             double gapAfterPercentage = 0.25;
             double segmentLengthPercentage = 1 - gapAfterPercentage - gapBeforePercentage;
@@ -263,10 +270,10 @@ public class BoardFragment extends Fragment implements
 
                 latitude += latDistance * gapBeforePercentage;
                 longitude += lonDistance * gapBeforePercentage;
-                LatLng point1 = new LatLng(latitude, longitude);
+                LatLng point1 = new LatLng(latitude + offset, longitude + offset);
                 latitude += latDistance * segmentLengthPercentage;
                 longitude += lonDistance * segmentLengthPercentage;
-                LatLng point2 = new LatLng(latitude, longitude);
+                LatLng point2 = new LatLng(latitude + offset, longitude + offset);
                 latitude += latDistance * gapAfterPercentage;
                 longitude += lonDistance * gapAfterPercentage;
 
