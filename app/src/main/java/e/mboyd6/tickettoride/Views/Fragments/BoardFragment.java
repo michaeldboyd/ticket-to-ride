@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -90,9 +91,16 @@ public class BoardFragment extends Fragment implements OnMapReadyCallback,
                              Bundle savedInstanceState) {
         mLayout = inflater.inflate(R.layout.fragment_board, container, false);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.mapview);
-        mapFragment.getMapAsync(this);
+        //SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+         //       .findFragmentById(R.id.mapview);
+        //mapFragment.getMapAsync(this);
+
+        MapView mapView =  mLayout.findViewById(R.id.mapview);
+
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume();
+        mapView.getMapAsync(this);
+
         return mLayout;
     }
 
@@ -123,7 +131,7 @@ public class BoardFragment extends Fragment implements OnMapReadyCallback,
         // in a string resource file. First create a MapStyleOptions object
         // from the JSON styles string, then pass this to the setMapStyle
         // method of the GoogleMap object.
-        boolean success = mMap.setMapStyle(new MapStyleOptions(getResources()
+        boolean success = mMap.setMapStyle(new MapStyleOptions(getActivity().getResources()
                 .getString(R.string.style_ticket_to_ride)));
 
         if (!success) {
