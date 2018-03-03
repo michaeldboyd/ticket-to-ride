@@ -1,10 +1,17 @@
 package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Camera;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.text.Layout;
 import android.util.Log;
@@ -16,19 +23,31 @@ import android.widget.Toast;
 
 import com.example.sharedcode.model.City;
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.Route;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.Dash;
+import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PatternItem;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.Map;
 
+import e.mboyd6.tickettoride.Presenters.GamePresenter;
+import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
@@ -40,6 +59,7 @@ import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
  * Use the {@link BoardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class BoardFragment extends Fragment implements
         IBoardFragment,
         OnMapReadyCallback,
@@ -59,8 +79,24 @@ public class BoardFragment extends Fragment implements
     private GoogleMap mMap;
     private Activity activity;
 
-    private LatLng mCenter;
+    private LatLng mCenter = new LatLng(39.23f, -111.41f);;
     private CameraPosition mOrigin;
+
+    private boolean successfullyLoaded;
+    private IGamePresenter mGamePresenter = new GamePresenter(this);
+
+    private int[] trainColors = {0xffD7350A, 0xffE8E4E1, 0xffaa4609, 0xff9EBF34, 0xff0E6CB1, 0xffF8DA20, 0xff68605E, 0xffBC9CC5};
+    private int circleColor = 0xfff26b55;
+            /*
+            Color.valueOf(0xffD7350A).toArgb(),
+            Color.valueOf(0xffE8E4E1).toArgb(),
+            Color.valueOf(0xffaa4609).toArgb(),
+            Color.valueOf(0xff9EBF34).toArgb(),
+            Color.valueOf(0xff0E6CB1).toArgb(),
+            Color.valueOf(0xffF8DA20).toArgb(),
+            Color.valueOf(0xff68605E).toArgb(),
+            Color.valueOf(0xffBC9CC5).toArgb()};
+           */
 
     public BoardFragment() {
         // Required empty public constructor
@@ -98,16 +134,17 @@ public class BoardFragment extends Fragment implements
                              Bundle savedInstanceState) {
         mLayout = inflater.inflate(R.layout.fragment_board, container, false);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        //SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-         //       .findFragmentById(R.id.mapview);
-        //mapFragment.getMapAsync(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.mapview);
+        mapFragment.getMapAsync(this);
 
+        /*
         MapView mapView =  mLayout.findViewById(R.id.mapview);
 
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
-
+*/
         return mLayout;
     }
 
@@ -138,23 +175,27 @@ public class BoardFragment extends Fragment implements
         // in a string resource file. First create a MapStyleOptions object
         // from the JSON styles string, then pass this to the setMapStyle
         // method of the GoogleMap object.
-        boolean success = mMap.setMapStyle(new MapStyleOptions(getActivity().getResources()
-                .getString(R.string.style_ticket_to_ride)));
 
-        if (!success) {
-            Log.e("MAPPROBLEM", "Style parsing failed.");
-        }
 
         // Add a marker in Sydney and move the camer
         // a
-        mCenter = new LatLng(39.23f, -111.41f);
-        mMap.addMarker(new MarkerOptions().position(mCenter).title("Marker in Sydney"));
         mMap.setMinZoomPreference(6.5f);
         mMap.setMaxZoomPreference(8);
         mMap.moveCamera(CameraUpdateFactory.zoomTo(6.5f));
         mOrigin = CameraPosition.builder().target(mCenter).bearing(90).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mOrigin));
         mMap.setOnCameraIdleListener(this);
+
+        if (isAdded()) {
+            boolean successfullyLoaded = mMap.setMapStyle(new MapStyleOptions(getResources()
+                    .getString(R.string.style_ticket_to_ride)));
+
+            if (!successfullyLoaded) {
+                Log.e("MAPPROBLEM", "Style parsing failed.");
+            }
+
+            mGamePresenter.updateBoard();
+        }
     }
 
     @Override
@@ -187,10 +228,90 @@ public class BoardFragment extends Fragment implements
         if (cities == null) return;
         for(String cityName : cities.keySet()) {
             City city = cities.get(cityName);
-            Double latitude = city.getLat();
-            Double longitude = game.getCities().get(city).getLon();
-            LatLng cityPosition = new LatLng(latitude, longitude);
-            mMap.addMarker(new MarkerOptions().position(cityPosition).title(cityName));
+            LatLng cityPosition = new LatLng(city.getLat(), city.getLon());
+            LatLng cityLabelPosition = new LatLng(city.getLat() + 0.15, city.getLon() + 0.15);
+            mMap.addCircle(new CircleOptions().center(cityPosition).radius(6000f).fillColor(circleColor).strokeWidth(3f));
+            mMap.addMarker(new MarkerOptions().position(cityLabelPosition).icon(createPureTextIcon(cityName)));
         }
+        Map<Route, Player> routes = game.getRoutesClaimed();
+        if (cities == null) return;
+        for(Route route : routes.keySet()) {
+            City city1 = cities.get(route.getCity1());
+            LatLng city1Position = new LatLng(city1.getLat(), city1.getLon());
+            City city2 = cities.get(route.getCity2());
+            LatLng city2Position = new LatLng(city2.getLat(), city2.getLon());
+
+
+            int segments = route.getNumberTrains();
+
+            double segmentsDivider = (double) segments;
+
+            double latDistance = (city2.getLat() - city1.getLat()) / segmentsDivider;
+            double lonDistance = (city2.getLon() - city1.getLon()) / segmentsDivider;
+
+            //double distance = Math.sqrt(Math.pow(latDistance, 2) + Math.pow(lonDistance, 2));
+            double padding = 0.2;
+
+
+            double gapBeforePercentage = 0.25;
+            double gapAfterPercentage = 0.25;
+            double segmentLengthPercentage = 1 - gapAfterPercentage - gapBeforePercentage;
+            double latitude = city1Position.latitude;
+            double longitude = city1Position.longitude;
+            for(int i = 0; i < segments; i++) {
+                System.out.println("Loop " + i);
+
+                latitude += latDistance * gapBeforePercentage;
+                longitude += lonDistance * gapBeforePercentage;
+                LatLng point1 = new LatLng(latitude, longitude);
+                latitude += latDistance * segmentLengthPercentage;
+                longitude += lonDistance * segmentLengthPercentage;
+                LatLng point2 = new LatLng(latitude, longitude);
+                latitude += latDistance * gapAfterPercentage;
+                longitude += lonDistance * gapAfterPercentage;
+
+                mMap.addPolyline(new PolylineOptions()
+                        .add(point1, point2)
+                        .color(trainColors[route.getTrainType()]));
+            }
+
+
+        }
+    }
+
+    //https://stackoverflow.com/questions/25544370/google-maps-api-for-android-v2-how-to-add-text-with-no-background
+
+    public BitmapDescriptor createPureTextIcon(String text) {
+
+        Paint backgroundTextPaint = new Paint(); // Adapt to your needs
+        backgroundTextPaint.setTextSize(36f);
+        backgroundTextPaint.setStyle(Paint.Style.STROKE);
+        backgroundTextPaint.setStrokeWidth(5f);
+        backgroundTextPaint.setColor(0xFF000000);
+
+        Paint textPaint = new Paint(); // Adapt to your needs
+        textPaint.setTextSize(36f);
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setColor(0xFFFFFFFF);
+
+        float textWidth = textPaint.measureText(text);
+        float textHeight = textPaint.getTextSize() + 10f;
+        int width = (int) (textWidth);
+        int height = (int) (textHeight);
+
+        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(image);
+
+        canvas.translate(0, height);
+
+        // For development only:
+        // Set a background in order to see the
+        // full size and positioning of the bitmap.
+        // Remove that for a fully transparent icon.
+        canvas.drawText(text, 0, -10, backgroundTextPaint);
+
+        canvas.drawText(text, 0, -10, textPaint);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(image);
+        return icon;
     }
 }

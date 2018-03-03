@@ -27,4 +27,13 @@
     <color name="icon_selected">#96000000</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="box">#D7350A</color>
+    <color name="passenger">#E8E4E1</color>
+    <color name="tanker">#aa4609</color>
+    <color name="reefer">#9EBF34</color>
+    <color name="freight">#0E6CB1</color>
+    <color name="hopper">#F8DA20</color>
+    <color name="coal">#68605E</color>
+    <color name="caboose">#BC9CC5</color>
 </resources>
