@@ -14,4 +14,6 @@ public interface IGamePresenter {
 
     void enterGame(String PlayerID);
     void leaveGame(String PlayerID);
+
+    void updateBoard();
 }

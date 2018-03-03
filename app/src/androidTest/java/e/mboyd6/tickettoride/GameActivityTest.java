@@ -8,6 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.Fragment;
 
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.GameInitializer;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
 
@@ -85,7 +86,9 @@ public class GameActivityTest {
     ClientModel.getInstance().setPlayerID("001");
     generateFakeGames();
     ClientModel.getInstance().setGames(fakeGames);
-    ClientModel.getInstance().setCurrentGame(fakeGames.get(0));
+    GameInitializer gameInitializer = new GameInitializer();
+    Game currentGame = gameInitializer.initializeGame(fakeGames.get(0));
+    ClientModel.getInstance().setCurrentGame(currentGame);
     Intent intent = new Intent(testingActivity, GameActivity.class);
     testingActivity.startActivity(intent);
 

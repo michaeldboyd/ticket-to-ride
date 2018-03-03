@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sharedcode.model.City;
+import com.example.sharedcode.model.Game;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,7 +26,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Map;
+
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 
 /**
@@ -34,7 +39,9 @@ import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
  * Use the {@link BoardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BoardFragment extends Fragment implements OnMapReadyCallback,
+public class BoardFragment extends Fragment implements
+        IBoardFragment,
+        OnMapReadyCallback,
         GoogleMap.OnCameraIdleListener,
         GoogleMap.CancelableCallback {
     // TODO: Rename parameter arguments, choose names that match
@@ -165,4 +172,17 @@ public class BoardFragment extends Fragment implements OnMapReadyCallback,
     public void onCancel() {
     }
 
+    @Override
+    public void updateBoard(Game game) {
+        if (game == null) return;
+        Map<String, City> cities = game.getCities();
+        if (cities == null) return;
+        for(String cityName : cities.keySet()) {
+            City city = cities.get(cityName);
+            Double latitude = city.getLat();
+            Double longitude = game.getCities().get(city).getLon();
+            LatLng cityPosition = new LatLng(latitude, longitude);
+            mMap.addMarker(new MarkerOptions().position(cityPosition).title(cityName));
+        }
+    }
 }
