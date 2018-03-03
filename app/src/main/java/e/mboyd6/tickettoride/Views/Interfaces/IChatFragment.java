@@ -25,7 +25,9 @@ import java.util.ArrayList;
 
 public interface IChatFragment {
     // This allows the mainActivity to inform the presenter of the chatFragment it needs to call
+    String getPlayerID();
     void updateChat(ArrayList<ChatMessage> messages);
     void updateTyping(boolean isUpdated, String name);
     void sendMessage(String message);
+    void typingChanged(boolean isUpdated);
 }

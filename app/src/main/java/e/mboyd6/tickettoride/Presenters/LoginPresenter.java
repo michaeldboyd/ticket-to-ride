@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import com.example.sharedcode.communication.UpdateArgs;
@@ -69,6 +70,25 @@ public class LoginPresenter implements ILoginPresenter, Observer{
     public void login(String username, String password) {
         String socketID = ClientModel.getInstance().getSocketID();
         LoginProxy.instance().login(username, password, socketID);
+    }
+
+    /**
+     * Used to change ip to be pointed to
+     *
+     * @param ip
+     * @return
+     */
+    @Override
+    public boolean changeIP(String ip){
+        if(ip.matches("[0-9.]+") || ip.equals("localhost")) {
+            SocketManager.ip = ip;
+            System.out.println("IP changed to: " + ip);
+            SocketManager.ConnectSocket(ip);
+            return true;
+        } else {
+            System.out.println("IP " + ip + " NOT set");
+            return false;
+        }
     }
 
     //Model -> View

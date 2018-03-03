@@ -20,7 +20,7 @@ public class Game {
     private Map<String, City> cityToCities;
 
     //MemVariables pertaining to chat
-    private ArrayList<ChatMessage> chatMessages;
+    private ArrayList<ChatMessage> chatMessages = new ArrayList<>();
     private boolean isTyping;
     private String personTyping;
     private int unreadMessages = 0;

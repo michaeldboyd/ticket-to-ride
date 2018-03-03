@@ -2,10 +2,10 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1"
-    android:gravity="bottom|right">
+    android:weightSum="10"
+    android:gravity="bottom|end">
 <!--
     <ListView
         android:id="@+id/chat_fragment_list_view"
@@ -14,13 +14,16 @@
         android:layout_weight="1"/>
 -->
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        <ListView
+            android:id="@+id/chat_fragment_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"/>
+        <!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" android:orientation="vertical">
+
 
             <include layout="@layout/chat_item_left"/>
             <include layout="@layout/chat_item_left"/>
@@ -40,22 +43,24 @@
             <include layout="@layout/chat_item_right"/>
             <include layout="@layout/chat_item_left"/>
             <include layout="@layout/chat_item_left"/>
+
         </LinearLayout>
-    </ScrollView>
+          -->
 
     <TextView
         android:id="@+id/chat_fragment_someone_typing_field"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="#19434343"
+        android:background="#b7b7b7"
         android:visibility="visible"
         android:padding="5dp"
-        android:text="@string/someone_is_typing"/>
+        android:text=""/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:weightSum="1">
 
         <EditText

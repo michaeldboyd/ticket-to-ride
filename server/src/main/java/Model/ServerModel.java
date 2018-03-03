@@ -7,6 +7,10 @@ import com.example.sharedcode.communication.Command;
 import org.eclipse.jetty.websocket.api.Session;
 
 
+
+import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 
@@ -38,6 +42,13 @@ public class ServerModel extends Observable {
     private Map<String, Session> loggedInSessions = Collections.synchronizedMap(new HashMap<>());
     private Map<String, Session> allSessions = Collections.synchronizedMap(new HashMap<>());
 
+    public void setGames(Map<String, Game> games) {
+        this.games = games;
+    }
+
+    public void setChatMessagesForGame(Map<String, ArrayList<ChatMessage>> chatMessagesForGame) {
+        this.chatMessagesForGame = chatMessagesForGame;
+    }
 
     // *** Observer pattern methods *** //
     @Override
@@ -58,14 +69,19 @@ public class ServerModel extends Observable {
         if (!chatMessagesForGame.containsKey(gameID)) {
             chatMessagesForGame.put(gameID, new ArrayList<>());
         }
-
-        ChatMessage newMessage = new ChatMessage(message, playerName);
+        Timestamp timestamp = new Timestamp(ZonedDateTime.now(ZoneId.of("UTC")).toInstant().toEpochMilli());
+        String stamp = timestamp.toString();
+        ChatMessage newMessage = new ChatMessage(message, playerName, stamp);
         chatMessagesForGame.get(gameID).add(newMessage);
 
         String[] paramTypes = {newMessage.getClass().toString(), gameID.getClass().toString()};
         Object[] paramValues = {newMessage, gameID};
-        Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.Chat", "_chatMessageReceived", paramTypes, paramValues);
-        notifyObserversForUpdate(addChatCommand);
+        for(String auth : loggedInSessions.keySet())
+        {
+            Command addChatCommand = CommandFactory.createCommand(auth, "e.mboyd6.tickettoride.Facades.Chat", "_chatMessageReceived", paramTypes, paramValues);
+            notifyObserversForUpdate(addChatCommand);
+        }
+
     }
 
     //*** Getters ***

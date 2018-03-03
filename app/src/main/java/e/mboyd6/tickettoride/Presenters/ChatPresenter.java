@@ -35,6 +35,11 @@ public class ChatPresenter implements IChatPresenter, Observer {
 
     }
 
+    @Override
+    public String getPlayerID() {
+        return ClientModel.getInstance().getPlayerID();
+    }
+
     // View -> Facade
     @Override
     public void sendMessage(String message) {
@@ -43,7 +48,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
     }
 
     @Override
-    public void isTypingChanged(boolean isTyping, String name){
+    public void isTypingChanged(boolean isTyping){
         ChatProxy.instance().sendIsTyping(ClientModel.getInstance().getAuthToken(),
                 ClientModel.getInstance().getCurrentGame().getGameID(),
                 ClientModel.getInstance().getCurrentPlayer().getName(), isTyping);
@@ -63,6 +68,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
         int unreadMessages = ClientModel.getInstance().getCurrentGame().getUnreadMessages();
 
         chatFragment.updateChat(chatMessages);
+        if (gameActivity != null)
         gameActivity.onChatReceived(chatMessages, unreadMessages);
     }
 
@@ -71,6 +77,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
         boolean isTyping = ClientModel.getInstance().getCurrentGame().isTyping();
 
         chatFragment.updateTyping(isTyping, ClientModel.getInstance().getCurrentGame().getPersonTyping());
+        if (gameActivity != null)
         gameActivity.onIsTypingChanged(isTyping);
     }
 

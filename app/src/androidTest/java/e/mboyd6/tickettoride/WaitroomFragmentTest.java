@@ -1,14 +1,11 @@
 package e.mboyd6.tickettoride;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.test.ActivityInstrumentationTestCase2;
-import android.view.View;
 
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
@@ -23,12 +20,10 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
-import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
-import e.mboyd6.tickettoride.Presenters.WaitroomPresenter;
+import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
 import e.mboyd6.tickettoride.Views.Fragments.WaitroomFragment;
-import e.mboyd6.tickettoride.Views.Interfaces.IWaitroomFragment;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -86,6 +81,18 @@ public class WaitroomFragmentTest {
       ClientModel.getInstance().setCurrentGame(null);
     }
     ClientModel.getInstance().clearInstance();
+  }
+
+  @Test
+  public void GameActivityView(){
+    ClientModel.getInstance().setPlayerID("001");
+    generateFakeGames();
+    ClientModel.getInstance().setGames(fakeGames);
+    ClientModel.getInstance().setCurrentGame(fakeGames.get(0));
+    Intent intent = new Intent(testingActivity, GameActivity.class);
+    testingActivity.startActivity(intent);
+
+    waitForSeconds(60);
   }
 
   @Test
