@@ -13,4 +13,8 @@
         <attr name="focusedDrawable" format="reference"/>
         <attr name="normalDrawable" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="DrawerSlider">
+        <attr name="sliderMax" format="dimension"/>
+    </declare-styleable>
 </resources>
