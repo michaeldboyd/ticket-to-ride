@@ -1,6 +1,8 @@
 package com.example.sharedcode.model;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Ali on 2/26/2018.
@@ -8,15 +10,20 @@ package com.example.sharedcode.model;
 
 public class ChatMessage {
 
+    private static int idTracker = 0;
+
+    public int id;
     public String message;
-    public String sender;
+    public String senderName;
     public String timestamp;
 
 
-    public ChatMessage(String _message, String _sender, String time) {
+    public ChatMessage(String _message, String _senderName, String _timestamp) {
+        id = idTracker;
         message = _message;
-        sender = _sender;
-        timestamp = time;
+        senderName = _senderName;
+        timestamp = _timestamp;
 
+        idTracker += 1;
     }
 }
