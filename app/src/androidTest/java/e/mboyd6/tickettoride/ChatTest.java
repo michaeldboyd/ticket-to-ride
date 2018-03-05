@@ -13,9 +13,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import e.mboyd6.tickettoride.Communication.ChatServerFacadeProxy;
-import e.mboyd6.tickettoride.Communication.ServerProxyLobbyFacade;
-import e.mboyd6.tickettoride.Communication.ServerProxyLoginFacade;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Communication.UtilityFacade;
 import e.mboyd6.tickettoride.Model.ClientModel;
@@ -40,9 +37,9 @@ public class ChatTest {
             Thread.sleep(1000);
             Assert.assertNotNull(ClientModel.getInstance().getSocketID());
             String id = ClientModel.getInstance().getSocketID();
-            ServerProxyLoginFacade.instance().register(username, password, id);
+//            ServerProxyLoginFacade.instance().register(username, password, id);
             Thread.sleep(1000);
-            ServerProxyLobbyFacade.instance().createGame(ClientModel.getInstance().getAuthToken());
+//            ServerProxyLobbyFacade.instance().createGame(ClientModel.getInstance().getAuthToken());
             Thread.sleep(2000);
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
@@ -59,7 +56,7 @@ public class ChatTest {
         ArrayList<Game> games = ClientModel.getInstance().getGames();
         Game game = games.get(0); // Should only be one game --> @Before
 
-        ChatServerFacadeProxy.instance().sendChatMessage(authToken, "hello world", "sender", game.getGameID());
+       // ChatServerFacadeProxy.instance().sendChatMessage(authToken, "hello world", "sender", game.getGameID());
 
         // Make sure that there is one and only one ChatMessage in the one game's ChatMessages
         Assert.assertEquals(1, game.getChatMessages().size());
