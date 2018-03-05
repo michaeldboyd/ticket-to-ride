@@ -2,8 +2,6 @@ import Model.ServerModel;
 import org.junit.After;
 import org.junit.Before;
 
-import com.example.sharedcode.interfaces.IServerLoginFacade;
-
 
 public class ServerLoginFacadeTest {
 

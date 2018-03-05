@@ -6,7 +6,10 @@ import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IChatServerFacade;
 import com.example.sharedcode.model.ChatMessage;
 
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ServerChat implements IChatServerFacade {
 
@@ -38,7 +41,11 @@ public class ServerChat implements IChatServerFacade {
             ServerModel.instance().getChatMessagesForGame().put(gameID, new ArrayList<>());
         }
 
-        ChatMessage newMessage = new ChatMessage(message, playerName, null);
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Date now = new Date();
+        String timestamp = df.format(now);
+
+        ChatMessage newMessage = new ChatMessage(message, playerName, timestamp);
         ServerModel.instance().getChatMessagesForGame().get(gameID).add(newMessage);
 
         String[] paramTypes = {newMessage.getClass().toString(), gameID.getClass().toString()};

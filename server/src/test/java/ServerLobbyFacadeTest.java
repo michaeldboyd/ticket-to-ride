@@ -11,8 +11,8 @@ import static org.junit.Assert.*;
 
 public class ServerLobbyFacadeTest {
 
-    @Before
-    public void setUp() throws Exception {
+//    @Before
+//    public void setUp() throws Exception {
 //        try {
 //            WebSocketClient client = new DummyClientSocket(new URI("ws://localhost:8080/echo/"));
 //            DummyClient.instance().setSocket(client);
@@ -20,7 +20,7 @@ public class ServerLobbyFacadeTest {
 //        } catch (URISyntaxException e) {
 //            e.printStackTrace();
 //        }
-    }
+//    }
 
     @After
     public void tearDown() throws Exception {

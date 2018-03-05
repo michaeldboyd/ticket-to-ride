@@ -61,31 +61,7 @@ public class ServerModel extends Observable {
         this.notifyObservers(command);
     }
 
-
-
-    // *** CHAT ***
-    //TODO add contents of this class to the chatServerFacade
-    public void addChatToGame(String authToken, String message, String playerName, String gameID) {
-        if (!chatMessagesForGame.containsKey(gameID)) {
-            chatMessagesForGame.put(gameID, new ArrayList<>());
-        }
-        Timestamp timestamp = new Timestamp(ZonedDateTime.now(ZoneId.of("UTC")).toInstant().toEpochMilli());
-        String stamp = timestamp.toString();
-        ChatMessage newMessage = new ChatMessage(message, playerName, stamp);
-        chatMessagesForGame.get(gameID).add(newMessage);
-
-        String[] paramTypes = {newMessage.getClass().toString(), gameID.getClass().toString()};
-        Object[] paramValues = {newMessage, gameID};
-        for(String auth : loggedInSessions.keySet())
-        {
-            Command addChatCommand = CommandFactory.createCommand(auth, "e.mboyd6.tickettoride.Facades.ServerChat", "_chatMessageReceived", paramTypes, paramValues);
-            notifyObserversForUpdate(addChatCommand);
-        }
-
-    }
-
     //*** Getters ***
-
     public Map<String, User> getLoggedInUsers() {
         return loggedInUsers;
     }
