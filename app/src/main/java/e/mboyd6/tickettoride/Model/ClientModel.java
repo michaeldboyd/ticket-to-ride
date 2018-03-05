@@ -32,6 +32,8 @@ public class ClientModel extends Observable {
     private String authToken;
     private String response;
 
+    private String playerTurn;
+
     //TODO:Di
 
     //TODO: These shoudl be managed in the SocketManage
@@ -138,5 +140,13 @@ public class ClientModel extends Observable {
 
     //for testing multiple clients
     public ClientModel getTestInstance() {return new ClientModel(); }
+
+    public String getPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(String playerTurn) {
+        this.playerTurn = playerTurn;
+    }
 }
 

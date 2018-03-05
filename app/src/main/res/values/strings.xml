@@ -567,5 +567,7 @@
   <string name="select_train_cards_text_locomotive_rules">Locomotive rules apply</string>
     <string name="draw_destination_cards">Draw destination cards</string>
     <string name="draw_selected_cards">draw selected cards</string>
+    <string name="claim_route_button_confirm">Confirm</string>
+    <string name="claim_route_button_return">Return</string>
 
 </resources>

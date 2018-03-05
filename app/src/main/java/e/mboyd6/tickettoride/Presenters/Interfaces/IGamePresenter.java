@@ -1,6 +1,7 @@
 package e.mboyd6.tickettoride.Presenters.Interfaces;
 
 import com.example.sharedcode.model.DestinationCard;
+import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
@@ -13,6 +14,9 @@ public interface IGamePresenter {
     /** Called UPWARDS from Model **/
     void updateBoard();
 
+    /** A way to get the data of the current player without the UI calling the model directly **/
+    Player getCurrentPlayer();
+
     /** Called UPWARDS from Model **/
     void enterGame(ArrayList<TrainCard> trainCardsReceived, ArrayList<DestinationCard> initialDestinationCards);
 
@@ -20,7 +24,7 @@ public interface IGamePresenter {
     void completeTurn();
 
     /** Called UPWARDS from Model **/
-    void onNewTurn(String PlayerID);
+    void onNewTurn();
 
     /** Called DOWNWARDS from Presenter **/
     void autoplay();

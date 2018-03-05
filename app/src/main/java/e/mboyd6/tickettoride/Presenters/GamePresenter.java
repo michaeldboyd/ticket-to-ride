@@ -24,6 +24,7 @@ public class GamePresenter implements IGamePresenter {
     private IGameActivityFragment gameActivityFragment;
 
     public GamePresenter(IBoardFragment boardFragment) {
+
         gameActivityFragment = boardFragment;
     }
 
@@ -37,6 +38,10 @@ public class GamePresenter implements IGamePresenter {
 
     public GamePresenter(IHistoryFragment historyFragment) {
         gameActivityFragment = historyFragment;
+    }
+
+    public Player getCurrentPlayer() {
+        return ClientModel.getInstance().getCurrentPlayer();
     }
 
     /** This method updates whatever presenter is active with relevant information
@@ -60,7 +65,9 @@ public class GamePresenter implements IGamePresenter {
     @Override
     public void enterGame(ArrayList<TrainCard> trainCardsReceived, ArrayList<DestinationCard> initialDestinationCards) {
         if (gameActivityFragment instanceof IBoardFragment)
-            ((IBoardFragment) gameActivityFragment).enterGame(trainCardsReceived, initialDestinationCards);
+            ((IBoardFragment) gameActivityFragment).enterGame(
+                    trainCardsReceived,
+                    initialDestinationCards);
     }
 
     @Override
@@ -71,9 +78,9 @@ public class GamePresenter implements IGamePresenter {
     /** Called upwards ON the UI when a new turn is started. If it's not the player's own ID, then they are locked out
      * of actions. **/
     @Override
-    public void onNewTurn(String PlayerID) {
+    public void onNewTurn() {
         if (gameActivityFragment instanceof IBoardFragment)
-            ((IBoardFragment) gameActivityFragment).onNewTurn(PlayerID);
+            ((IBoardFragment) gameActivityFragment).onNewTurn(ClientModel.getInstance().getPlayerTurn());
     }
 
     @Override

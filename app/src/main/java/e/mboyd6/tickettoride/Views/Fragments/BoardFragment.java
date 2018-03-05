@@ -18,14 +18,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.sharedcode.model.City;
+import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
+import com.example.sharedcode.model.TrainCard;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,17 +43,22 @@ import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerAdapter;
+import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonIdle;
+import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonState;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 
@@ -87,21 +95,16 @@ public class BoardFragment extends Fragment implements
     private boolean successfullyLoaded;
     private IGamePresenter mGamePresenter = new GamePresenter(this);
 
+    private BoardState mBoardState = new BoardIdle();
     private CardDrawerAdapter mCardDrawerAdapter;
     private ViewFlipper mViewFlipper;
 
-    private int[] trainColors = {0xffD7350A, 0xffE8E4E1, 0xffaa4609, 0xff9EBF34, 0xff0E6CB1, 0xffF8DA20, 0xff68605E, 0xffBC9CC5};
-    private int circleColor = 0xfff26b55;
-            /*
-            Color.valueOf(0xffD7350A).toArgb(),
-            Color.valueOf(0xffE8E4E1).toArgb(),
-            Color.valueOf(0xffaa4609).toArgb(),
-            Color.valueOf(0xff9EBF34).toArgb(),
-            Color.valueOf(0xff0E6CB1).toArgb(),
-            Color.valueOf(0xffF8DA20).toArgb(),
-            Color.valueOf(0xff68605E).toArgb(),
-            Color.valueOf(0xffBC9CC5).toArgb()};
-           */
+    private Map<Polygon, Route> clickablePolygons = new HashMap<Polygon, Route>();
+
+    private Button mClaimRouteButton;
+    private ClaimRouteButtonState mClaimRouteButtonState = new ClaimRouteButtonIdle();
+
+    private boolean myTurn = false;
 
     public BoardFragment() {
         // Required empty public constructor
@@ -143,16 +146,23 @@ public class BoardFragment extends Fragment implements
                 .findFragmentById(R.id.mapview);
         mapFragment.getMapAsync(this);
 
-        /*
-        MapView mapView =  mLayout.findViewById(R.id.mapview);
+        mClaimRouteButton = mLayout.findViewById(R.id.game_fragment_claim_route_button);
 
-        mapView.onCreate(savedInstanceState);
-        mapView.onResume();
-        mapView.getMapAsync(this);
-*/
+        mClaimRouteButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onBoardFragmentClaimRouteButton();
+            }
+        });
+
         return mLayout;
     }
 
+
+    private void onBoardFragmentClaimRouteButton() {
+        mClaimRouteButtonState.onClick(this);
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -176,20 +186,19 @@ public class BoardFragment extends Fragment implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Customise the styling of the base map using a JSON object defined
-        // in a string resource file. First create a MapStyleOptions object
-        // from the JSON styles string, then pass this to the setMapStyle
-        // method of the GoogleMap object.
-
-
-        // Add a marker in Sydney and move the camer
-        // a
         mMap.setMinZoomPreference(6.5f);
         mMap.setMaxZoomPreference(8);
         mMap.moveCamera(CameraUpdateFactory.zoomTo(6.5f));
         mOrigin = CameraPosition.builder().target(mCenter).bearing(90).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mOrigin));
         mMap.setOnCameraIdleListener(this);
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                return true;
+            }
+        });
 
         if (isAdded()) {
             boolean successfullyLoaded = mMap.setMapStyle(new MapStyleOptions(getResources()
@@ -198,9 +207,10 @@ public class BoardFragment extends Fragment implements
             if (!successfullyLoaded) {
                 Log.e("MAPPROBLEM", "Style parsing failed.");
             }
-
-            mGamePresenter.updateBoard();
         }
+
+        mGamePresenter.updateBoard();
+        mGamePresenter.onNewTurn();
     }
 
     @Override
@@ -228,106 +238,115 @@ public class BoardFragment extends Fragment implements
 
     @Override
     public void updateBoard(Game game) {
-        if (game == null) return;
-        Map<String, City> cities = game.getCities();
-        if (cities == null) return;
-        for(String cityName : cities.keySet()) {
-            City city = cities.get(cityName);
-            LatLng cityPosition = new LatLng(city.getLat(), city.getLon());
-            LatLng cityLabelPosition = new LatLng(city.getLat() + 0.15, city.getLon() + 0.15);
-            mMap.addCircle(new CircleOptions().center(cityPosition).radius(6000f).fillColor(circleColor).strokeWidth(3f));
-            mMap.addMarker(new MarkerOptions().position(cityLabelPosition).icon(createPureTextIcon(cityName)));
-        }
-        Map<Route, Player> routes = game.getRoutesClaimed();
-        if (cities == null) return;
-        for(Route route : routes.keySet()) {
-            City city1 = cities.get(route.getCity1());
-            LatLng city1Position = new LatLng(city1.getLat(), city1.getLon());
-            City city2 = cities.get(route.getCity2());
-            LatLng city2Position = new LatLng(city2.getLat(), city2.getLon());
+        if (game == null || mMap == null || mGamePresenter == null)
+            return;
+        ArrayList<Player> players = game.getPlayers();
+        mMap.clear();
+        mBoardState.drawRoutesAndCities(this, mMap, game, mGamePresenter.getCurrentPlayer());
+    }
 
+    @Override
+    public void enterGame(ArrayList<TrainCard> trainCardsReceived, ArrayList<DestinationCard> initialDestinationCards) {
+        setBoardState(new BoardIdle());
+    }
 
-            int segments = route.getNumberTrains();
+    @Override
+    public void completeTurn() {
 
-            double segmentsDivider = (double) segments;
+    }
 
-            double latDistance = (city2.getLat() - city1.getLat()) / segmentsDivider;
-            double lonDistance = (city2.getLon() - city1.getLon()) / segmentsDivider;
+    @Override
+    public void onNewTurn(String playerID) {
+        myTurn = (playerID == mGamePresenter.getCurrentPlayer().getPlayerID());
+    }
 
-            //double distance = Math.sqrt(Math.pow(latDistance, 2) + Math.pow(lonDistance, 2));
-            double padding = 0.2;
+    @Override
+    public void autoplay() {
 
-            double offset = 0;
-            if (route.isDuplicate()) {
-                if (city1Position.longitude > city2Position.longitude) {
-                    offset = -0.05;
-                } else {
-                    offset = 0.05;
+    }
+
+    @Override
+    public void drawTrainCards(int index1, int index2, int numberFromDeck) {
+
+    }
+
+    @Override
+    public void receiveTrainCards(ArrayList<TrainCard> trainCardsReceived) {
+
+    }
+
+    @Override
+    public void drawDestinationCards() {
+
+    }
+
+    @Override
+    public void receiveDestinationCards(ArrayList<DestinationCard> destinationCards) {
+
+    }
+
+    @Override
+    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded) {
+
+    }
+
+    @Override
+    public void claimRoute(String routeName) {
+
+    }
+
+    @Override
+    public void receiveRouteClaimed(String routeName) {
+
+    }
+
+    public void setClickablePolygons(Map<Polygon, Route> clickablePolygons) {
+        this.clickablePolygons = clickablePolygons;
+        final Map<Polygon, Route> clickPolys = this.clickablePolygons;
+        final BoardFragment boardFragment = this;
+        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+            @Override
+            public void onPolygonClick(Polygon polygon) {
+                if (polygon.getTag() != null && polygon.getTag().equals("Background_Layer")) {
+                    mClaimRouteButtonState.setRoute(boardFragment,null);
+                    for(Polygon otherPoly : clickPolys.keySet()) {
+                        otherPoly.setFillColor(0xFFFFC0CB);
+                    }
+                    polygon.setFillColor(0x00000000);
+                }
+                else if (clickPolys.containsKey(polygon)) {
+                    mClaimRouteButtonState.setRoute(boardFragment, clickPolys.get(polygon));
+                    for(Polygon otherPoly : clickPolys.keySet()) {
+                        otherPoly.setFillColor(0xFFFFC0CB);
+                    }
+                    polygon.setFillColor(0xFFFF1493);
                 }
             }
-            double gapBeforePercentage = 0.25;
-            double gapAfterPercentage = 0.25;
-            double segmentLengthPercentage = 1 - gapAfterPercentage - gapBeforePercentage;
-            double latitude = city1Position.latitude;
-            double longitude = city1Position.longitude;
-            for(int i = 0; i < segments; i++) {
-                System.out.println("Loop " + i);
-
-                latitude += latDistance * gapBeforePercentage;
-                longitude += lonDistance * gapBeforePercentage;
-                LatLng point1 = new LatLng(latitude + offset, longitude + offset);
-                latitude += latDistance * segmentLengthPercentage;
-                longitude += lonDistance * segmentLengthPercentage;
-                LatLng point2 = new LatLng(latitude + offset, longitude + offset);
-                latitude += latDistance * gapAfterPercentage;
-                longitude += lonDistance * gapAfterPercentage;
-
-                mMap.addPolyline(new PolylineOptions()
-                        .add(point1, point2)
-                        .color(trainColors[route.getTrainType()]));
-            }
-
-
-        }
+        });
     }
+
+    public void setClaimRouteButtonState(ClaimRouteButtonState claimRouteButtonState) {
+        mClaimRouteButtonState = claimRouteButtonState;
+        mClaimRouteButtonState.enter(this, mClaimRouteButton);
+    }
+
+    public void setBoardState(BoardState boardState) {
+        mBoardState = boardState;
+    }
+
+    public BoardState getBoardState() { return mBoardState; }
 
     //https://stackoverflow.com/questions/25544370/google-maps-api-for-android-v2-how-to-add-text-with-no-background
 
-    public BitmapDescriptor createPureTextIcon(String text) {
-
-        Paint backgroundTextPaint = new Paint(); // Adapt to your needs
-        backgroundTextPaint.setTextSize(36f);
-        backgroundTextPaint.setStyle(Paint.Style.STROKE);
-        backgroundTextPaint.setStrokeWidth(5f);
-        backgroundTextPaint.setColor(0xFF000000);
-
-        Paint textPaint = new Paint(); // Adapt to your needs
-        textPaint.setTextSize(36f);
-        textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setColor(0xFFFFFFFF);
-
-        float textWidth = textPaint.measureText(text);
-        float textHeight = textPaint.getTextSize() + 10f;
-        int width = (int) (textWidth);
-        int height = (int) (textHeight);
-
-        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(image);
-
-        canvas.translate(0, height);
-
-        // For development only:
-        // Set a background in order to see the
-        // full size and positioning of the bitmap.
-        // Remove that for a fully transparent icon.
-        canvas.drawText(text, 0, -10, backgroundTextPaint);
-
-        canvas.drawText(text, 0, -10, textPaint);
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(image);
-        return icon;
-    }
-
     public void setCardDrawerState(CardDrawerAdapter cardDrawerState) {
         mCardDrawerAdapter = cardDrawerState;
+    }
+
+    public IGamePresenter getmGamePresenter() {
+        return mGamePresenter;
+    }
+
+    public boolean isMyTurn() {
+        return myTurn;
     }
 }

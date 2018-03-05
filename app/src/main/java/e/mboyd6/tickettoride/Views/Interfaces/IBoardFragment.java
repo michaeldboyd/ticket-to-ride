@@ -33,7 +33,7 @@ public interface IBoardFragment extends IGameActivityFragment {
 
     /** Called upwards ON the UI when a new turn is started. If it's not the player's own ID, then they are locked out
      * of actions. **/
-    void onNewTurn(String playerID);
+    void onNewTurn(String PlayerID);
 
     /** Called downwards FROM the UI when the Autoplay button is pressed. **/
     void autoplay();

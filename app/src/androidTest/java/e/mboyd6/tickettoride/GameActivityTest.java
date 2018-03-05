@@ -7,10 +7,13 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.Fragment;
 
+import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.GameInitializer;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
+import com.example.sharedcode.model.TrainCard;
+import com.example.sharedcode.model.TrainType;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +27,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Activities.MainActivity;
 import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
+import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 import e.mboyd6.tickettoride.Views.Fragments.WaitroomFragment;
 
 import static junit.framework.Assert.assertTrue;
@@ -91,10 +95,26 @@ public class GameActivityTest {
     ClientModel.getInstance().setCurrentGame(currentGame);
     Intent intent = new Intent(testingActivity, GameActivity.class);
     testingActivity.startActivity(intent);
-
+    waitForSeconds(1);
+    BoardFragment boardFragment = (BoardFragment) testingActivity.getSupportFragmentManager().findFragmentByTag("CURRENT_FRAGMENT");
     waitForSeconds(360);
   }
 
+  @Test
+  public void BoardFragmentTest(){
+    ClientModel.getInstance().setPlayerID("001");
+    generateFakeGames();
+    GameInitializer gameInitializer = new GameInitializer();
+    Game currentGame = gameInitializer.initializeGame(generateBoardFragmentFakeGame());
+    ClientModel.getInstance().setCurrentGame(currentGame);
+    ClientModel.getInstance().setPlayerTurn("001");
+    ClientModel.getInstance().setCurrentPlayer(currentGame.getPlayers().get(0));
+    Intent intent = new Intent(testingActivity, GameActivity.class);
+    testingActivity.startActivity(intent);
+    waitForSeconds(1);
+    BoardFragment boardFragment = (BoardFragment) testingActivity.getSupportFragmentManager().findFragmentByTag("CURRENT_FRAGMENT");
+    waitForSeconds(360);
+  }
 
 
   public void waitForSeconds(float multiplier) {
@@ -104,6 +124,24 @@ public class GameActivityTest {
     } catch (Exception e) {
 
     }
+  }
+
+  public Game generateBoardFragmentFakeGame() {
+    Game fakeGame = new Game();
+    fakeGame.setGameID("002");
+    fakeGame.addPlayer(new Player("001", "Michael", PlayerColors.TURQUOISE));
+    fakeGame.addPlayer(new Player("002", "Alli", PlayerColors.BLUE));
+    fakeGame.addPlayer(new Player("003", "Eric", PlayerColors.RED));
+    ArrayList<TrainCard> trainCards = new ArrayList<>();
+    trainCards.add(new TrainCard());
+    trainCards.add(new TrainCard());
+    trainCards.add(new TrainCard());
+    trainCards.add(new TrainCard());
+    trainCards.add(new TrainCard());
+    trainCards.add(new TrainCard());
+    trainCards.add(new TrainCard());
+    fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, trainCards);
+    return fakeGame;
   }
 
   public void generateFakeGames() {
