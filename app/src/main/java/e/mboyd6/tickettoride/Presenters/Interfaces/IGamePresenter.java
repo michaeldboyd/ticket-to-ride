@@ -27,7 +27,7 @@ public interface IGamePresenter {
     void completeTurn();
 
     /** Called UPWARDS from Model **/
-    void onNewTurn();
+    void onUpdateTurn();
 
     /** Called DOWNWARDS from Presenter **/
     void autoplay();

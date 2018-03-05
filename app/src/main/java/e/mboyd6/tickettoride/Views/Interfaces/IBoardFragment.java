@@ -4,7 +4,6 @@ package e.mboyd6.tickettoride.Views.Interfaces;
  * Created by jonathanlinford on 2/2/18.
  */
 
-import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.TrainCard;
@@ -33,7 +32,7 @@ public interface IBoardFragment extends IGameActivityFragment {
 
     /** Called upwards ON the UI when a new turn is started. If it's not the player's own ID, then they are locked out
      * of actions. **/
-    void onNewTurn(String PlayerID);
+    void onUpdateTurn(String PlayerID);
 
     /** Called downwards FROM the UI when the Autoplay button is pressed. **/
     void autoplay();
