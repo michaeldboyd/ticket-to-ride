@@ -1,10 +1,8 @@
 package Communication;
 
-import Facades.Utility;
-import Model.ServerModel;
+import Facades.ServerUtility;
 import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
-import com.example.sharedcode.communication.CommandFactory;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
 import org.eclipse.jetty.websocket.api.Session;
 import javax.websocket.CloseReason;
@@ -13,7 +11,6 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.server.ServerEndpoint;
 import java.lang.reflect.InvocationTargetException;
-import java.util.UUID;
 
 
 @ServerEndpoint(value="/echo/")
@@ -63,7 +60,7 @@ public class CommandSocket implements WebSocketListener
      */
     @Override
     public void onWebSocketConnect(Session session) {
-       Utility.instance().initSocket(session);
+       ServerUtility.instance().initSocket(session);
 
     }
 }

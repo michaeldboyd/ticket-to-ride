@@ -17,7 +17,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class ChatProxy implements IChatServerFacade {
 
-    private String CLASS_PATH = "Facades.Chat";
+    private String CLASS_PATH = "Facades.ServerChat";
     private Map args = new HashMap();
 
     private static ChatProxy _instance = new ChatProxy();

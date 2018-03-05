@@ -20,18 +20,18 @@ import java.util.UUID;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class Lobby implements IServerLobbyFacade {
+public class ServerLobby implements IServerLobbyFacade {
 
-    private static Lobby lobbyFacade;
+    private static ServerLobby lobbyFacade;
 
-    public static Lobby instance() {
+    public static ServerLobby instance() {
         if (lobbyFacade == null) {
-            lobbyFacade = new Lobby();
+            lobbyFacade = new ServerLobby();
         }
         return lobbyFacade;
     }
 
-    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.Lobby";
+    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.ClientLobby";
     public static void _createGame(String authToken) {
         instance().createGame(authToken);
     }

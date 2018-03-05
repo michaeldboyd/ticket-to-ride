@@ -5,14 +5,14 @@ import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 
-public class Gameplay implements IServerGamplayFacade{
-    private static Gameplay ourInstance = new Gameplay();
+public class ServerGameplay implements IServerGamplayFacade{
+    private static ServerGameplay ourInstance = new ServerGameplay();
 
-    public static Gameplay getInstance() {
+    public static ServerGameplay getInstance() {
         return ourInstance;
     }
 
-    private Gameplay() {
+    private ServerGameplay() {
     }
 
     public static void _startGame(String authToken, String gameID) {

@@ -7,14 +7,14 @@ import com.example.sharedcode.model.UpdateType;
  * Created by jonathanlinford on 3/2/18.
  */
 
-public class Gameplay implements IClientGamplayFacade {
-    private static final Gameplay ourInstance = new Gameplay();
+public class ClientGameplay implements IClientGamplayFacade {
+    private static final ClientGameplay ourInstance = new ClientGameplay();
 
-    public static Gameplay getInstance() {
+    public static ClientGameplay getInstance() {
         return ourInstance;
     }
 
-    private Gameplay() {
+    private ClientGameplay() {
     }
 
     public static void _claimedRoute(String gameID, String playerID) {

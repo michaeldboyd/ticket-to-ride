@@ -1,5 +1,5 @@
 
-import Facades.Lobby;
+import Facades.ServerLobby;
 import Model.ServerModel;
 import org.junit.After;
 import org.junit.Before;
@@ -29,16 +29,16 @@ public class ServerLobbyFacadeTest {
 
     @Test
     public void createGame() {
-        Lobby._createGame(UUID.randomUUID().toString());
+        ServerLobby._createGame(UUID.randomUUID().toString());
         assertTrue(ServerModel.instance().getGames().size() > 0);
     }
 
     @Test
     public void getGames() {
 
-        Lobby._createGame(UUID.randomUUID().toString());
-        Lobby._createGame(UUID.randomUUID().toString());
-        Lobby._createGame(UUID.randomUUID().toString());
+        ServerLobby._createGame(UUID.randomUUID().toString());
+        ServerLobby._createGame(UUID.randomUUID().toString());
+        ServerLobby._createGame(UUID.randomUUID().toString());
 
 
         assertTrue(ServerModel.instance().getGames().size() >= 3);

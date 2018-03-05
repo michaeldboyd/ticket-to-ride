@@ -78,7 +78,7 @@ public class ServerModel extends Observable {
         Object[] paramValues = {newMessage, gameID};
         for(String auth : loggedInSessions.keySet())
         {
-            Command addChatCommand = CommandFactory.createCommand(auth, "e.mboyd6.tickettoride.Facades.Chat", "_chatMessageReceived", paramTypes, paramValues);
+            Command addChatCommand = CommandFactory.createCommand(auth, "e.mboyd6.tickettoride.Facades.ServerChat", "_chatMessageReceived", paramTypes, paramValues);
             notifyObserversForUpdate(addChatCommand);
         }
 

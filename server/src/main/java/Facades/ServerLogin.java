@@ -15,21 +15,21 @@ import java.util.UUID;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class Login implements IServerLoginFacade {
+public class ServerLogin implements IServerLoginFacade {
 
 
-    private static Login loginFacade;
-    public static Login instance() {
+    private static ServerLogin loginFacade;
+    public static ServerLogin instance() {
         if (loginFacade == null) {
-            loginFacade = new Login();
+            loginFacade = new ServerLogin();
         }
 
         return loginFacade;
     }
 
-    private Login() {}
+    private ServerLogin() {}
 
-    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.Login";
+    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.ClientLogin";
     public static void _login(String username, String password, String socketID) {
         instance().login(username, password, socketID);
     }

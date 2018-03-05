@@ -23,7 +23,7 @@ public class LoginProxy implements IServerLoginFacade {
 
     public static LoginProxy instance() {return _instance;}
 
-
+    public final String CLASS_NAME = "Facades.ServerLogin";
 
     @Override
     public void login(String username, String password, String socketID) {
@@ -31,7 +31,7 @@ public class LoginProxy implements IServerLoginFacade {
         String[] paramTypes = {username.getClass().toString(), password.getClass().toString(), socketID.getClass().toString()};
         String[] paramValues = {username, password, socketID};
         // the authToken is null because when logging in we don't have an auth token.
-        Command loginCommand = CommandFactory.createCommand(null, "Facades.Login", "_login", paramTypes, paramValues);
+        Command loginCommand = CommandFactory.createCommand(null, CLASS_NAME, "_login", paramTypes, paramValues);
         // TODO - send login to Server via socket
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(loginCommand, args));
     }
@@ -40,7 +40,7 @@ public class LoginProxy implements IServerLoginFacade {
     public void register(String username, String password, String socketID) {
         String[] paramTypes = {"".getClass().toString(), "".getClass().toString(), "".getClass().toString()};
         String[] paramValues = {username, password, socketID};
-        Command registerCommand = CommandFactory.createCommand(null, "Facades.Login", "_register", paramTypes, paramValues);
+        Command registerCommand = CommandFactory.createCommand(null, CLASS_NAME, "_register", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(registerCommand, args));
     }
@@ -49,7 +49,7 @@ public class LoginProxy implements IServerLoginFacade {
     public void logout(String authToken) {
         String[] paramTypes = {authToken.getClass().toString()};
         String[] paramValues = {authToken};
-        Command logoutCommand = CommandFactory.createCommand(null, "Facades.Login", "_logout", paramTypes, paramValues);
+        Command logoutCommand = CommandFactory.createCommand(null, CLASS_NAME, "_logout", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(logoutCommand, args));
     }

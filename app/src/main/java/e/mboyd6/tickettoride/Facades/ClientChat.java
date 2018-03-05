@@ -12,21 +12,21 @@ import e.mboyd6.tickettoride.Model.ClientModel;
  * Created by eric on 2/26/18.
  */
 
-public class Chat implements IChatClientFacade {
+public class ClientChat implements IChatClientFacade {
 
 
-    private static Chat _instance = new Chat();
+    private static ClientChat _instance = new ClientChat();
 
-    public static Chat instance() {
+    public static ClientChat instance() {
 
         if (_instance == null){
-            _instance = new Chat();
+            _instance = new ClientChat();
         }
 
         return _instance;
     }
 
-    private Chat() {}
+    private ClientChat() {}
 
 
 

@@ -19,7 +19,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class GameplayProxy implements IServerGamplayFacade {
 
-    private String CLASS_PATH = "Facades.Gameplay";
+    private String CLASS_PATH = "Facades.ServerGameplay";
     private Map args = new HashMap();
 
     private static final GameplayProxy ourInstance = new GameplayProxy();

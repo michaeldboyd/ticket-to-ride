@@ -1,5 +1,6 @@
 
 
+import Communication.SocketManager;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.model.*;
 import com.example.sharedcode.communication.Command;
@@ -19,7 +20,7 @@ public class ServerModel extends Observable {
 
         if (_instance == null){
             _instance = new ServerModel();
-            _instance.addObserver(Sender.instance());
+            _instance.addObserver(SocketManager.instance());
         }
 
         return _instance;
@@ -52,7 +53,7 @@ public class ServerModel extends Observable {
 
     // *** REGISTER / LOGIN *** //
 
-    public void registerUser(String username, String password, String socketID) {
+   /* public void registerUser(String username, String password, String socketID) {
         String authToken = "";
         String message = "";
 
@@ -150,11 +151,11 @@ public class ServerModel extends Observable {
         }
     }
 
-
+*/
 
     // *** LOBBY ***
 
-    public void createGame(String authToken) {
+    /*public void createGame(String authToken) {
         // Don't need to check for existence of a new game because this should only be called when creating a brand new game
         String id = UUID.randomUUID().toString();
         Game newGame = new Game();
@@ -348,7 +349,7 @@ public class ServerModel extends Observable {
                 "_updateGamesReceived", paramTypes, paramValues);
         Sender.instance().sendBroadcast(updateGamesClientCommand);
     }
-
+*/
     //*** Utilities / Testing functions***//
 
 /*    *//**
@@ -374,7 +375,7 @@ public class ServerModel extends Observable {
         Sender.instance().sendBySocketId(errorCommand, socketID);
     }*/
 
-    public void clearServer(String superSecretPassword)
+    /*public void clearServer(String superSecretPassword)
     {
         if(superSecretPassword.equals(this.testPassword))
         {
@@ -387,24 +388,24 @@ public class ServerModel extends Observable {
             games.clear();
             chatMessagesForGame.clear();
         }
-    }
+    }*/
 
 
     // *** CHAT ***
-
+/*
     public void addChatToGame(String authToken, String message, String playerName, String gameID) {
         if (!chatMessagesForGame.containsKey(gameID)) {
             chatMessagesForGame.put(gameID, new ArrayList<>());
         }
 
-        ChatMessage newMessage = new ChatMessage(message, playerName);
+        ChatMessage newMessage = new ChatMessage(message, playerName, );
         chatMessagesForGame.get(gameID).add(newMessage);
 
         String[] paramTypes = {newMessage.getClass().toString(), gameID.getClass().toString()};
         Object[] paramValues = {newMessage, gameID};
         Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Communication.ChatClientFacade", "_chatMessageReceived", paramTypes, paramValues);
         notifyObserversForUpdate(addChatCommand);
-    }
+    }*/
 
 
 

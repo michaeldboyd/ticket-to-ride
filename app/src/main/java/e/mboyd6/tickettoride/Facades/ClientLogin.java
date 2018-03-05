@@ -14,12 +14,12 @@ import e.mboyd6.tickettoride.Utility.Assert;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class Login implements IClientLoginFacade {
-    private static Login loginFacade;
+public class ClientLogin implements IClientLoginFacade {
+    private static ClientLogin loginFacade;
 
-    public static Login instance() {
+    public static ClientLogin instance() {
         if (loginFacade == null) {
-            loginFacade = new Login();
+            loginFacade = new ClientLogin();
         }
 
         return loginFacade;
