@@ -5,6 +5,7 @@ package e.mboyd6.tickettoride.Views.Interfaces;
  */
 
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Player;
 
 /**
  * This interface must be implemented by activities that contain this
@@ -18,5 +19,5 @@ import com.example.sharedcode.model.Game;
  */
 
 public interface IHandFragment extends IGameActivityFragment  {
-    void updateHand(Game game);
+    void updateHand(Player player);
 }

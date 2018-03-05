@@ -173,7 +173,20 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@drawable/color_yellow"
-        app:layout_constraintTop_toBottomOf="@id/drawer_slider"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/drawer_slider"
+        android:clickable="true"
+        android:focusable="true">
+        <ViewFlipper
+            android:id="@+id/draw_cards_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <include layout="@layout/drawer_cards_view_only" />
+            <include layout="@layout/drawer_cards_select_train" />
+            <include layout="@layout/drawer_cards_select_destination" />
+        </ViewFlipper>
+    </LinearLayout>
 <!--
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"

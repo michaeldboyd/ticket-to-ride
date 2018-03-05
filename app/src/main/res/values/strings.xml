@@ -558,5 +558,14 @@
     <string name="player">Player</string>
     <string name="draw_cards">Draw cards</string>
   <string name="up_carat">^</string>
+    <string name="x_0">x 0</string>
+    <string name="x_45">x 45</string>
+    <string name="default_route_text">Salt Lake City to Salt Lake City</string>
+  <string name="canvas_placeholder">***To be filled with a Canvas drawable that draws cities and lines***</string>
+    <string name="select_train_cards_text_normal">Select up to two train cards from the face up cards</string>
+  <string name="select_train_cards_text_one_more">Select one more train card from the face up cards</string>
+  <string name="select_train_cards_text_locomotive_rules">Locomotive rules apply</string>
+    <string name="draw_destination_cards">Draw destination cards</string>
+    <string name="draw_selected_cards">draw selected cards</string>
 
 </resources>

@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.example.sharedcode.model.City;
 import com.example.sharedcode.model.Game;
@@ -49,6 +50,7 @@ import java.util.Map;
 import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Adapters.CardDrawerAdapter;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 
@@ -84,6 +86,9 @@ public class BoardFragment extends Fragment implements
 
     private boolean successfullyLoaded;
     private IGamePresenter mGamePresenter = new GamePresenter(this);
+
+    private CardDrawerAdapter mCardDrawerAdapter;
+    private ViewFlipper mViewFlipper;
 
     private int[] trainColors = {0xffD7350A, 0xffE8E4E1, 0xffaa4609, 0xff9EBF34, 0xff0E6CB1, 0xffF8DA20, 0xff68605E, 0xffBC9CC5};
     private int circleColor = 0xfff26b55;
@@ -320,5 +325,9 @@ public class BoardFragment extends Fragment implements
         canvas.drawText(text, 0, -10, textPaint);
         BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(image);
         return icon;
+    }
+
+    public void setCardDrawerState(CardDrawerAdapter cardDrawerState) {
+        mCardDrawerAdapter = cardDrawerState;
     }
 }

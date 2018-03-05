@@ -22,7 +22,7 @@ public class TrainCardDeck extends ArrayList {
     }
 
     //check params for this
-    public void returnDiscarded(DestinationCard card){
+    public void returnDiscarded(TrainCard card){
 
     }
 }

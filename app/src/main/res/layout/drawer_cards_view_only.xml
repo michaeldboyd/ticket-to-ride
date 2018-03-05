@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:weightSum="7">
+
+    <ImageView
+        android:id="@+id/train_card_1"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/card_box"
+        android:alpha="0.5"
+        android:clickable="false"/>
+    <ImageView
+        android:id="@+id/train_card_2"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/card_box"
+        android:alpha="0.5"
+        android:clickable="false"/>
+    <ImageView
+        android:id="@+id/train_card_3"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/card_box"
+        android:alpha="0.5"
+        android:clickable="false"/>
+    <ImageView
+        android:id="@+id/train_card_4"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/card_box"
+        android:alpha="0.5"
+        android:clickable="false"/>
+    <ImageView
+        android:id="@+id/train_card_5"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/card_box"
+        android:alpha="0.5"
+        android:clickable="false"/>
+    <ImageView
+        android:id="@+id/train_card_deck"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/card_deck"
+        android:alpha="0.5"
+        android:clickable="false"/>
+
+
+</LinearLayout>
