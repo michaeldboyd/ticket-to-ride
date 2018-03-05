@@ -42,7 +42,7 @@ public interface IBoardFragment extends IGameActivityFragment {
     void drawTrainCards(int index1, int index2, int numberFromDeck);
 
     /** Called upwards ON the UI when a player successfully draws train cards. A toast is displayed. The updateBoard method
-     * is called on the CardDrawerAdapter and the new face-up cards are displayed.**/
+     * is called on the CardDrawerState and the new face-up cards are displayed.**/
     void receiveTrainCards(ArrayList<TrainCard> trainCardsReceived);
 
     /** Called downwards FROM the UI when a player draws destination cards.**/

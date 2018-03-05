@@ -44,6 +44,14 @@ public class GamePresenter implements IGamePresenter {
         return ClientModel.getInstance().getCurrentPlayer();
     }
 
+    @Override
+    public ArrayList<Player> getPlayers() {
+        if (ClientModel.getInstance().getCurrentGame() != null)
+            return ClientModel.getInstance().getCurrentGame().getPlayers();
+        else
+            return null;
+    }
+
     /** This method updates whatever presenter is active with relevant information
      * NOTE: This method is called by the Model, but it is also called by the UI
      * when a new Fragment is inflated, so that the View can fill its elements with
@@ -94,7 +102,7 @@ public class GamePresenter implements IGamePresenter {
     }
 
     /** Called upwards ON the UI when a player successfully draws train cards. A toast is displayed. The updateBoard method
-     * is called on the CardDrawerAdapter and the new face-up cards are displayed.**/
+     * is called on the CardDrawerState and the new face-up cards are displayed.**/
     @Override
     public void receiveTrainCards(ArrayList<TrainCard> trainCardsReceived) {
         if (gameActivityFragment instanceof IBoardFragment) {

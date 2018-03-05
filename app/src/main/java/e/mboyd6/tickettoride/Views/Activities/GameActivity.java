@@ -2,6 +2,8 @@ package e.mboyd6.tickettoride.Views.Activities;
 
 import android.annotation.TargetApi;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -79,6 +81,7 @@ public class GameActivity extends AppCompatActivity
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadBoardFragment() {
 
         mFragmentManager
@@ -129,6 +132,7 @@ public class GameActivity extends AppCompatActivity
     }
 
     //This is connected through the layout attribute "onClick" in the XML file
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onTabClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();

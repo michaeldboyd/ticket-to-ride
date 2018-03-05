@@ -17,6 +17,9 @@ public interface IGamePresenter {
     /** A way to get the data of the current player without the UI calling the model directly **/
     Player getCurrentPlayer();
 
+    /** A way to get the list of players in the game **/
+    ArrayList<Player> getPlayers();
+
     /** Called UPWARDS from Model **/
     void enterGame(ArrayList<TrainCard> trainCardsReceived, ArrayList<DestinationCard> initialDestinationCards);
 

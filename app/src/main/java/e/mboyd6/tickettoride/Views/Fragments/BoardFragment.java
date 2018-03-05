@@ -1,53 +1,32 @@
 package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Camera;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.example.sharedcode.model.City;
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.Dash;
-import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,9 +35,13 @@ import java.util.Map;
 import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.R;
-import e.mboyd6.tickettoride.Views.Adapters.CardDrawerAdapter;
+import e.mboyd6.tickettoride.Views.Adapters.CardDrawerDrawTrainCards;
+import e.mboyd6.tickettoride.Views.Adapters.CardDrawerIdle;
+import e.mboyd6.tickettoride.Views.Adapters.CardDrawerState;
 import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonIdle;
+import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonMissing;
 import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonState;
+import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 
@@ -75,14 +58,9 @@ public class BoardFragment extends Fragment implements
         OnMapReadyCallback,
         GoogleMap.OnCameraIdleListener,
         GoogleMap.CancelableCallback {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    protected int[] playerColors = {0xFFc92d39, 0xFF19967d, 0xFFef8d22, 0xFF0c7cba, 0xFF834187 };
+
 
     private IGameActivity mListener;
     private View mLayout;
@@ -96,15 +74,17 @@ public class BoardFragment extends Fragment implements
     private IGamePresenter mGamePresenter = new GamePresenter(this);
 
     private BoardState mBoardState = new BoardIdle();
-    private CardDrawerAdapter mCardDrawerAdapter;
+    private CardDrawerState mCardDrawerState;
     private ViewFlipper mViewFlipper;
 
     private Map<Polygon, Route> clickablePolygons = new HashMap<Polygon, Route>();
 
     private Button mClaimRouteButton;
-    private ClaimRouteButtonState mClaimRouteButtonState = new ClaimRouteButtonIdle();
+    private ClaimRouteButtonState mClaimRouteButtonState = new ClaimRouteButtonMissing();
 
     private boolean myTurn = false;
+
+    private ArrayList<ColorSelectionView> mColorSelectionViews = new ArrayList<>();
 
     public BoardFragment() {
         // Required empty public constructor
@@ -122,8 +102,6 @@ public class BoardFragment extends Fragment implements
     public static BoardFragment newInstance(String param1, String param2) {
         BoardFragment fragment = new BoardFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -132,8 +110,6 @@ public class BoardFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -145,6 +121,13 @@ public class BoardFragment extends Fragment implements
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.mapview);
         mapFragment.getMapAsync(this);
+
+        mViewFlipper = mLayout.findViewById(R.id.draw_cards_drawer);
+        mColorSelectionViews.add((ColorSelectionView) mLayout.findViewById(R.id.player_turn_1));
+        mColorSelectionViews.add((ColorSelectionView) mLayout.findViewById(R.id.player_turn_2));
+        mColorSelectionViews.add((ColorSelectionView) mLayout.findViewById(R.id.player_turn_3));
+        mColorSelectionViews.add((ColorSelectionView) mLayout.findViewById(R.id.player_turn_4));
+        mColorSelectionViews.add((ColorSelectionView) mLayout.findViewById(R.id.player_turn_5));
 
         mClaimRouteButton = mLayout.findViewById(R.id.game_fragment_claim_route_button);
 
@@ -256,10 +239,58 @@ public class BoardFragment extends Fragment implements
     }
 
     @Override
-    public void onNewTurn(String playerID) {
-        myTurn = (playerID == mGamePresenter.getCurrentPlayer().getPlayerID());
+    public void onNewTurn(final String playerTurn) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                myTurn = (playerTurn == mGamePresenter.getCurrentPlayer().getPlayerID());
+                if (myTurn) {
+                   setClaimRouteButtonState(new ClaimRouteButtonIdle());
+                   setCardDrawerState(new CardDrawerDrawTrainCards());
+                } else {
+                    setClaimRouteButtonState(new ClaimRouteButtonMissing());
+                    setCardDrawerState(new CardDrawerIdle());
+                }
+
+                ArrayList<Player> players = mGamePresenter.getPlayers();
+                if (players == null) return;
+                int startIndex = mColorSelectionViews.size() - players.size();
+                for (int i = 0; i < mColorSelectionViews.size(); i++) {
+                    ColorSelectionView colorSelectionView = mColorSelectionViews.get(i);
+                    if (i < startIndex) {
+                        colorSelectionView.setVisibility(View.INVISIBLE);
+                    } else {
+                        Player player = players.get(i - startIndex);
+                        colorSelectionView.setVisibility(View.VISIBLE);
+                        colorSelectionView.setBackgroundResource(getPlayerColorBackground(player.getColor()));
+                        colorSelectionView.setAlpha(playerTurn.equals(player.getPlayerID()) ? 1.0f : 0.25f);
+                        colorSelectionView.setText(player.getName());
+                    }
+                }
+            }
+        });
     }
 
+    public void onNewTurn_ThreadSafe(String playerTurn) {
+
+    }
+
+    private int getPlayerColorBackground(int playerColor) {
+        switch(playerColor) {
+            case 1:
+                return R.drawable.color_red;
+            case 2:
+                return R.drawable.color_turquoise;
+            case 3:
+                return R.drawable.color_orange;
+            case 4:
+                return R.drawable.color_blue;
+            case 5:
+                return R.drawable.color_purple;
+            default:
+                return 0;
+        }
+    }
     @Override
     public void autoplay() {
 
@@ -338,8 +369,9 @@ public class BoardFragment extends Fragment implements
 
     //https://stackoverflow.com/questions/25544370/google-maps-api-for-android-v2-how-to-add-text-with-no-background
 
-    public void setCardDrawerState(CardDrawerAdapter cardDrawerState) {
-        mCardDrawerAdapter = cardDrawerState;
+    public void setCardDrawerState(CardDrawerState cardDrawerState) {
+        mCardDrawerState = cardDrawerState;
+        mCardDrawerState.enter(getContext(), this, mViewFlipper);
     }
 
     public IGamePresenter getmGamePresenter() {

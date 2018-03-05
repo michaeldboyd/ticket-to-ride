@@ -111,7 +111,8 @@ public class GameActivityTest {
     ClientModel.getInstance().setCurrentPlayer(currentGame.getPlayers().get(0));
     Intent intent = new Intent(testingActivity, GameActivity.class);
     testingActivity.startActivity(intent);
-    waitForSeconds(1);
+    waitForSeconds(4);
+    System.out.println("BEFORE FRAGMENT");
     BoardFragment boardFragment = (BoardFragment) testingActivity.getSupportFragmentManager().findFragmentByTag("CURRENT_FRAGMENT");
     waitForSeconds(360);
   }

@@ -16,10 +16,10 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
  * Created by hunte on 3/4/2018.
  */
 
-public class CardDrawerAdapter {
-    public CardDrawerAdapter() {}
+public class CardDrawerState {
+    public CardDrawerState() {}
 
-    public void inflate(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper) {}
+    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper) {}
     public void updateBoard(Game game) {}
     public void updateFaceUpCards(ArrayList<TrainCard> faceUpCards) {}
     public void receiveDestinationCards() {}

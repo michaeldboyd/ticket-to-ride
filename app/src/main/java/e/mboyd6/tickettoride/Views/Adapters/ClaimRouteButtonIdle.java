@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Views.Adapters;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.view.View;
 import android.widget.Button;
 
 import e.mboyd6.tickettoride.R;
@@ -15,6 +16,7 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardSelecting;
 
 public class ClaimRouteButtonIdle extends ClaimRouteButtonState {
     public void enter(BoardFragment boardFragment, Button claimRouteButton) {
+        claimRouteButton.setVisibility(View.VISIBLE);
         claimRouteButton.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.icon_claim, 0);
         claimRouteButton.setText(R.string.claim_route);
     }
