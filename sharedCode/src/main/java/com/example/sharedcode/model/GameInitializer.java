@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.print.attribute.standard.Destination;
+
 /**
  * Created by Ali on 2/24/2018.
  */
@@ -26,7 +28,35 @@ public class GameInitializer {
 
     private DestinationDeck initializeDestinationDeck(){
         DestinationDeck deck = new DestinationDeck();
-
+        deck.add(new Destination("Rosette", "Fry Canyon	", 	21	));
+        deck.add(new Destination("Randlett", "	Gold Hill	", 	8	));
+        deck.add(new Destination("Agate	", "	Cedar City	", 	8	));
+        deck.add(new Destination("Fry Canyon	", "	Panguitch	", 	6	));
+        deck.add(new Destination("Paradise	", "	Cedar City	", 	17	));
+        deck.add(new Destination("Randolph	", "	Mexican Hat	", 	20	));
+        deck.add(new Destination("Randlett	", "	Garrison	", 	10	));
+        deck.add(new Destination("Ticaboo	", "	St. George	", 	10	));
+        deck.add(new Destination("Paradise	", "	Gandy	", 	11	));
+        deck.add(new Destination("Black Rock	", "	Fry Canyon	", 	11	));
+        deck.add(new Destination("Manila	", "	Salt Lake City	", 	7	));
+        deck.add(new Destination("Manila	", "	Gandy	", 	13	));
+        deck.add(new Destination("Rosette	", "	St. George	", 	20	));
+        deck.add(new Destination("Rainbow	", "	Koosharem	", 	11	));
+        deck.add(new Destination("Aragonite	", "	Panguitch	", 	17	));
+        deck.add(new Destination("Provo	", "	Gold Hill	", 	5	));
+        deck.add(new Destination("Rosette	", "	Whipup	", 	16	));
+        deck.add(new Destination("Park City	", "	Rodham	", 	11	));
+        deck.add(new Destination("Whipup	", "	Dugway	", 	9	));
+        deck.add(new Destination("Randolph	", "	Whipup	", 	13	));
+        deck.add(new Destination("Moab	", "	St. George	", 	12	));
+        deck.add(new Destination("Whipup	", "	Shivwits	", 	7	));
+        deck.add(new Destination("Mexican Hat	", "	Panguitch	", 	9	));
+        deck.add(new Destination("Bonanza	", "	Fry Canyon	", 	22	));
+        deck.add(new Destination("Park City	", "	Garrison	", 	4	));
+        deck.add(new Destination("Elmo	", "	Rosette	", 	8	));
+        deck.add(new Destination("Rainbow	", "	Gold Hill	", 	12	));
+        deck.add(new Destination("Mexican Hat	", "	Shivwits	", 	13	));
+        deck.add(new Destination("Agate	", "	Enterprise	", 	9	));
         return deck;
     }
 
