@@ -11,5 +11,6 @@ public interface IClientGamplayFacade {
     void drewDestinationCard(String gameID, String playerID);
     void discardedDestinationCard(String gameID, String playerID);
     void placedTrainCars(String gameID, String playerID);
-    void historyUpdated(String gameID, String[] s); //TODO: This string array was in the design, but I'm not sure what it is about
+    void historyUpdated(String gameID, String[] history);
+    void newPlayerTurn(String gameID, String playerID);
 }
