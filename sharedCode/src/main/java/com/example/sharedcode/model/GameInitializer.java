@@ -1,10 +1,7 @@
 package com.example.sharedcode.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.print.attribute.standard.Destination;
 
 /**
  * Created by Ali on 2/24/2018.
@@ -28,40 +25,40 @@ public class GameInitializer {
 
     private DestinationDeck initializeDestinationDeck(){
         DestinationDeck deck = new DestinationDeck();
-        deck.add(new Destination("Rosette", "Fry Canyon	", 	21	));
-        deck.add(new Destination("Randlett", "	Gold Hill	", 	8	));
-        deck.add(new Destination("Agate	", "	Cedar City	", 	8	));
-        deck.add(new Destination("Fry Canyon	", "	Panguitch	", 	6	));
-        deck.add(new Destination("Paradise	", "	Cedar City	", 	17	));
-        deck.add(new Destination("Randolph	", "	Mexican Hat	", 	20	));
-        deck.add(new Destination("Randlett	", "	Garrison	", 	10	));
-        deck.add(new Destination("Ticaboo	", "	St. George	", 	10	));
-        deck.add(new Destination("Paradise	", "	Gandy	", 	11	));
-        deck.add(new Destination("Black Rock	", "	Fry Canyon	", 	11	));
-        deck.add(new Destination("Manila	", "	Salt Lake City	", 	7	));
-        deck.add(new Destination("Manila	", "	Gandy	", 	13	));
-        deck.add(new Destination("Rosette	", "	St. George	", 	20	));
-        deck.add(new Destination("Rainbow	", "	Koosharem	", 	11	));
-        deck.add(new Destination("Aragonite	", "	Panguitch	", 	17	));
-        deck.add(new Destination("Provo	", "	Gold Hill	", 	5	));
-        deck.add(new Destination("Rosette	", "	Whipup	", 	16	));
-        deck.add(new Destination("Park City	", "	Rodham	", 	11	));
-        deck.add(new Destination("Whipup	", "	Dugway	", 	9	));
-        deck.add(new Destination("Randolph	", "	Whipup	", 	13	));
-        deck.add(new Destination("Moab	", "	St. George	", 	12	));
-        deck.add(new Destination("Whipup	", "	Shivwits	", 	7	));
-        deck.add(new Destination("Mexican Hat	", "	Panguitch	", 	9	));
-        deck.add(new Destination("Bonanza	", "	Fry Canyon	", 	22	));
-        deck.add(new Destination("Park City	", "	Garrison	", 	4	));
-        deck.add(new Destination("Elmo	", "	Rosette	", 	8	));
-        deck.add(new Destination("Rainbow	", "	Gold Hill	", 	12	));
-        deck.add(new Destination("Mexican Hat	", "	Shivwits	", 	13	));
-        deck.add(new Destination("Agate	", "	Enterprise	", 	9	));
+        deck.add(new DestinationCard("Rosette","Fry Canyon",21));
+        deck.add(new DestinationCard("Randlett"	,"Gold Hill",8));
+        deck.add(new DestinationCard("Agate	", "Cedar City",8));
+        deck.add(new DestinationCard("Fry Canyon", "Panguitch",	6));
+        deck.add(new DestinationCard("Paradise", "Cedar City",17));
+        deck.add(new DestinationCard("Randolph", "Mexican Hat",20	));
+        deck.add(new DestinationCard("Randlett", "Garrison",10));
+        deck.add(new DestinationCard("Ticaboo", "St. George	",10));
+        deck.add(new DestinationCard("Paradise", "Gandy	",11));
+        deck.add(new DestinationCard("Black Rock", "Fry Canyon",11));
+        deck.add(new DestinationCard("Manila", "Salt Lake City",7	));
+        deck.add(new DestinationCard("Manila", "Gandy",13	));
+        deck.add(new DestinationCard("Rosette", "St. George	",20));
+        deck.add(new DestinationCard("Rainbow", "Koosharem",11));
+        deck.add(new DestinationCard("Aragonite	", "Panguitch",17));
+        deck.add(new DestinationCard("Provo	", "Gold Hill",5));
+        deck.add(new DestinationCard("Rosette", "Whipup",16));
+        deck.add(new DestinationCard("Park City	", "Rodham",11));
+        deck.add(new DestinationCard("Whipup", "Dugway",9));
+        deck.add(new DestinationCard("Randolph", "Whipup",13));
+        deck.add(new DestinationCard("Moab", "St. George",12));
+        deck.add(new DestinationCard("Whipup", "Shivwits",7));
+        deck.add(new DestinationCard("Mexican Hat", "Panguitch",9));
+        deck.add(new DestinationCard("Bonanza",	"Fry Canyon",22));
+        deck.add(new DestinationCard("Park City	", "Garrison",4));
+        deck.add(new DestinationCard("Elmo", "Rosette",	8));
+        deck.add(new DestinationCard("Rainbow", "Gold Hill",12));
+        deck.add(new DestinationCard("Mexican Hat", "Shivwits",	13	));
+        deck.add(new DestinationCard("Agate	", "Enterprise",9));
         return deck;
     }
 
     private TrainCardDeck initializeTrainCardDeck(){
-        TrainCardDeck<> deck = new TrainCardDeck();
+        TrainCardDeck deck = new TrainCardDeck();
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < NON_LOCOMOTIVE_CARD; j++){
                 deck.add(i);

@@ -116,7 +116,7 @@ public class GamePresenter implements IGamePresenter {
         // Tell the server that the client wants to draw destination cards
     }
 
-    /** Called upwards ON the UI when Destination Cards have been successfully drawn.**/
+    /** Called upwards ON the UI when DestinationCard Cards have been successfully drawn.**/
     @Override
     public void receiveDestinationCards(ArrayList<DestinationCard> destinationCards) {
         if (gameActivityFragment instanceof IBoardFragment) {

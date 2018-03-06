@@ -47,7 +47,7 @@ public interface IBoardFragment extends IGameActivityFragment {
     /** Called downwards FROM the UI when a player draws destination cards.**/
     void drawDestinationCards();
 
-    /** Called upwards ON the UI when Destination Cards have been successfully drawn.**/
+    /** Called upwards ON the UI when DestinationCard Cards have been successfully drawn.**/
     void receiveDestinationCards(ArrayList<DestinationCard> destinationCards);
 
     /** Called downwards FROM the UI when a player chooses which destination cards to keep**/
