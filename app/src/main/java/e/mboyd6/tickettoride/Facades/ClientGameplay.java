@@ -1,7 +1,11 @@
 package e.mboyd6.tickettoride.Facades;
 
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IClientGamplayFacade;
+import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.UpdateType;
+
+import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
  * Created by jonathanlinford on 3/2/18.
@@ -41,9 +45,13 @@ public class ClientGameplay implements IClientGamplayFacade {
         ourInstance.placedTrainCars(gameID, playerID);
     }
 
-    public static void _historyUpdated(String gameID, String[] s) {
-        ourInstance.historyUpdated(gameID, s);
+    public static void _historyUpdated(String gameID, String historyItem) {
+        ourInstance.historyUpdated(gameID, historyItem);
 
+    }
+
+    public static void _newPlayerTurn(String gameID, String playerID){
+        ourInstance.newPlayerTurn(gameID, playerID);
     }
 
     @Override
@@ -78,7 +86,26 @@ public class ClientGameplay implements IClientGamplayFacade {
     }
 
     @Override
-    public void historyUpdated(String gameID, String[] s) {
+    public void historyUpdated(String gameID, String historyItem) {
         UpdateType type = UpdateType.HISTORY_UPDATED;
+
+        ClientModel.getInstance().getCurrentGame().getHistory().add(historyItem);
+
+        sendUpdate(type, true, "");
+    }
+
+    @Override
+    public void newPlayerTurn(String gameID, String playerID) {
+        UpdateType type = UpdateType.NEW_PLAYER_TURN;
+
+        ClientModel.getInstance().getCurrentGame().setCurrentTurnPlayerID(playerID);
+
+        sendUpdate(type, true, "");
+    }
+
+    private void sendUpdate(UpdateType type, boolean success, String error)
+    {
+        UpdateArgs args = new UpdateArgs(type, success, error);
+        ClientModel.getInstance().sendUpdate(args);
     }
 }

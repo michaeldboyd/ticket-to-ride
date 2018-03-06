@@ -1,5 +1,7 @@
 package com.example.sharedcode.interfaces;
 
+import java.util.ArrayList;
+
 /**
  * Created by jonathanlinford on 3/2/18.
  */
@@ -11,5 +13,6 @@ public interface IClientGamplayFacade {
     void drewDestinationCard(String gameID, String playerID);
     void discardedDestinationCard(String gameID, String playerID);
     void placedTrainCars(String gameID, String playerID);
-    void historyUpdated(String gameID, String[] s); //TODO: This string array was in the design, but I'm not sure what it is about
+    void historyUpdated(String gameID, String historyItem);
+    void newPlayerTurn(String gameID, String playerID);
 }
