@@ -114,6 +114,10 @@ public class GameActivityTest {
     waitForSeconds(4);
     System.out.println("BEFORE FRAGMENT");
     BoardFragment boardFragment = (BoardFragment) testingActivity.getSupportFragmentManager().findFragmentByTag("CURRENT_FRAGMENT");
+    waitForSeconds(2);
+    boardFragment.onUpdateTurn("002");
+    waitForSeconds(2);
+    boardFragment.onUpdateTurn("001");
     waitForSeconds(360);
   }
 

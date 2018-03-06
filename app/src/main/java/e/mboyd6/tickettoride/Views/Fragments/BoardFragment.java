@@ -193,7 +193,7 @@ public class BoardFragment extends Fragment implements
         }
 
         mGamePresenter.updateBoard();
-        mGamePresenter.onNewTurn();
+        mGamePresenter.onUpdateTurn();
     }
 
     @Override
@@ -239,7 +239,7 @@ public class BoardFragment extends Fragment implements
     }
 
     @Override
-    public void onNewTurn(final String playerTurn) {
+    public void onUpdateTurn(final String playerTurn) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

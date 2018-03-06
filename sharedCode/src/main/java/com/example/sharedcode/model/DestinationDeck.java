@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Ali on 2/24/2018.
  */
 
-public class DestinationDeck extends ArrayList {
+public class DestinationDeck extends ArrayList<DestinationCard> {
 
     DestinationDeck(){
 
