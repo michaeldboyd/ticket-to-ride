@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
-import e.mboyd6.tickettoride.Communication.UtilityFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.UtilityProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class LoginCommandsTest {
@@ -28,7 +28,7 @@ public class LoginCommandsTest {
             ClientModel.getInstance().setSocket(client);
             ClientModel.getInstance().getSocket().connect();
             Thread.sleep(1000);
-            UtilityFacade.instance().clearServer("thisisoursupersecrettestpassword");
+            UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
             Thread.sleep(1500);
 
         } catch (URISyntaxException | InterruptedException  e) {
@@ -93,7 +93,7 @@ public class LoginCommandsTest {
     @After
     public void close()
     {
-        UtilityFacade.instance().clearServer("thisisoursupersecrettestpassword");
+        UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
         ClientModel.getInstance().getSocket().close();
         ClientModel.getInstance().clearInstance();
     }

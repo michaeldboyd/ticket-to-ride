@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
 import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
-import e.mboyd6.tickettoride.Communication.UtilityFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.UtilityProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -35,7 +35,7 @@ public class SingleClientLobbyCommands {
             ClientModel.getInstance().setSocket(client);
             ClientModel.getInstance().getSocket().connect();
             Thread.sleep(1000);
-            UtilityFacade.instance().clearServer("thisisoursupersecrettestpassword");
+            UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
             Thread.sleep(1000);
             Assert.assertNotNull(ClientModel.getInstance().getSocketID());
             String id = ClientModel.getInstance().getSocketID();
@@ -93,7 +93,7 @@ public class SingleClientLobbyCommands {
 
     @After
     public void clean() {
-        UtilityFacade.instance().clearServer("thisisoursupersecrettestpassword");
+        UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
         ClientModel.getInstance().getSocket().close();
         ClientModel.getInstance().clearInstance();
     }

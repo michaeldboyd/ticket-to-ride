@@ -168,7 +168,7 @@ public class ServerLogin implements IServerLoginFacade {
 
 
     private void matchSocketToAuthToken(String socketID, String authToken) {
-       
+
         if(!ServerModel.instance().getLoggedInUsers().containsKey(authToken)){
             Session session = ServerModel.instance().getAllSessions().get(socketID);
             ServerModel.instance().getLoggedInSessions().put(authToken, session);

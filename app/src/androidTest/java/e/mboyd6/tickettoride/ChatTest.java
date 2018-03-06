@@ -1,6 +1,5 @@
 package e.mboyd6.tickettoride;
 
-import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
 
 import junit.framework.Assert;
@@ -14,7 +13,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Communication.SocketClient;
-import e.mboyd6.tickettoride.Communication.UtilityFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.UtilityProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -33,7 +32,7 @@ public class ChatTest {
             ClientModel.getInstance().setSocket(client);
             ClientModel.getInstance().getSocket().connect();
             Thread.sleep(1000);
-            UtilityFacade.instance().clearServer("thisisoursupersecrettestpassword");
+            UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
             Thread.sleep(1000);
             Assert.assertNotNull(ClientModel.getInstance().getSocketID());
             String id = ClientModel.getInstance().getSocketID();

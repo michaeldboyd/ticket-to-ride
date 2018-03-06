@@ -19,7 +19,7 @@ import java.util.TreeMap;
 import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
 import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
-import e.mboyd6.tickettoride.Communication.UtilityFacade;
+import e.mboyd6.tickettoride.Communication.Proxies.UtilityProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -41,7 +41,7 @@ public class LobbyCommandsTest {
                 client.connect();
                 Thread.sleep(1000);
                 if(n.equals("michael")) {
-                    UtilityFacade.instance().clearServer("thisisoursupersecrettestpassword");
+                    UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
                     Thread.sleep(1000);
                 }
                 model.setSocket(client);
@@ -94,7 +94,7 @@ public class LobbyCommandsTest {
         @After
         public void close()
         {
-            UtilityFacade.instance().clearServer("thisisoursupersecrettestpassword");
+            UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
             ClientModel.getInstance().getSocket().close();
             ClientModel.getInstance().clearInstance();
         }
