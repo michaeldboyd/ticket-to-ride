@@ -1,4 +1,4 @@
-package e.mboyd6.tickettoride.Communication;
+package e.mboyd6.tickettoride.Communication.Proxies;
 
 import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
@@ -17,19 +17,20 @@ import e.mboyd6.tickettoride.Model.ClientModel;
  * Created by mboyd6 on 2/23/2018.
  */
 
-public class UtilityFacade implements IUtility {
-    private static UtilityFacade _instance = new UtilityFacade();
+public class UtilityProxy implements IUtility {
+    private static UtilityProxy _instance = new UtilityProxy();
     private Map args = new HashMap();
-    private UtilityFacade() {args.put(JsonWriter.TYPE, true);}
+    private UtilityProxy() {args.put(JsonWriter.TYPE, true);}
 
-    public static UtilityFacade instance() {return _instance;}
+    public static UtilityProxy instance() {return _instance;}
 
+    private final String CLASS_NAME = "Facades.ServerUtility";
     @Override
     public void clearServer(String superSecretPassword) {
         String[] paramTypes = {superSecretPassword.getClass().toString()};
         String[] paramValues = {superSecretPassword};
         // the authToken is null because when logging in we don't have an auth token.
-        Command loginCommand = CommandFactory.createCommand(null, "Facades.Utility", "_clearServer", paramTypes, paramValues);
+        Command loginCommand = CommandFactory.createCommand(null, CLASS_NAME, "_clearServer", paramTypes, paramValues);
         // TODO - send login to Server via socket
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(loginCommand, args));
     }
