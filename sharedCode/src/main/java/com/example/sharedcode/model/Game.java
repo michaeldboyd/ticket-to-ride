@@ -15,6 +15,7 @@ public class Game {
     private TrainCardDeck trainCardDeck;
     private FaceUpDeck faceUpDeck;
     private String currentTurnPlayerID;
+    private ArrayList<String> history;
     //The plan for this is that if Player is null, the route is not claimed.
     //If we need to change this we totally can.
     private Map<Route, Player> routesClaimed;
@@ -25,6 +26,14 @@ public class Game {
     private boolean isTyping;
     private String personTyping;
     private int unreadMessages = 0;
+
+    public ArrayList<String> getHistory() {
+        return history;
+    }
+
+    public void setHistory(ArrayList<String> history) {
+        this.history = history;
+    }
 
     public String getCurrentTurnPlayerID() {
         return currentTurnPlayerID;

@@ -45,8 +45,8 @@ public class ClientGameplay implements IClientGamplayFacade {
         ourInstance.placedTrainCars(gameID, playerID);
     }
 
-    public static void _historyUpdated(String gameID, String[] history) {
-        ourInstance.historyUpdated(gameID, history);
+    public static void _historyUpdated(String gameID, String historyItem) {
+        ourInstance.historyUpdated(gameID, historyItem);
 
     }
 
@@ -86,8 +86,12 @@ public class ClientGameplay implements IClientGamplayFacade {
     }
 
     @Override
-    public void historyUpdated(String gameID, String[] history) {
+    public void historyUpdated(String gameID, String historyItem) {
         UpdateType type = UpdateType.HISTORY_UPDATED;
+
+        ClientModel.getInstance().getCurrentGame().getHistory().add(historyItem);
+
+        sendUpdate(type, true, "");
     }
 
     @Override
