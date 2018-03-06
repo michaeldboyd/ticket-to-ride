@@ -46,6 +46,8 @@ public class ServerChat implements IChatServerFacade {
         String timestamp = df.format(now);
 
         ChatMessage newMessage = new ChatMessage(message, playerName, timestamp);
+
+
         ServerModel.instance().getChatMessagesForGame().get(gameID).add(newMessage);
 
         String[] paramTypes = {newMessage.getClass().toString(), gameID.getClass().toString()};

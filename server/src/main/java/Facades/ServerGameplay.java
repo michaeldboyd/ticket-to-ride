@@ -59,7 +59,11 @@ public class ServerGameplay implements IServerGamplayFacade{
 
     @Override
     public void drawTrainCard(String authToken, String gameID, String playerID) {
-
+        // TODO: - We need to handle two situations
+            // 1. Drawing a card off the top
+            // 2. Draw one of the 5 cards that are visible
+                // If the card taken from visible cards is a locomotive, end turn
+                // The second card cannot be a locomotive
     }
 
     @Override
@@ -69,17 +73,21 @@ public class ServerGameplay implements IServerGamplayFacade{
 
     @Override
     public void drawDestinationCard(String authToken, String gameID, String playerID) {
-
+        // TODO: - Randomly select 3 destination cards and send them back to the client
+            // Tell the client how many cards are left? -- or do we tell it *which* cards were drawn?
     }
 
     @Override
     public void discardDestinationCard(String authToken, String gameID, String playerID, DestinationCard card) {
-
+        // TODO: - Put the specified DestinationCard in the 'discard pile'
     }
 
     @Override
     public void placeTrainCars(String authToken, String gameID, String playerID, int numCars, Route route) {
-
+        /* TODO: - We need to have a master copy of the map on the server
+            How are we going to store this?
+            Do we mark each route as taken or not?
+         */
     }
 
     @Override

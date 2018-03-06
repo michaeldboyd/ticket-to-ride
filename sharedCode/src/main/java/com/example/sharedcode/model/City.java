@@ -8,12 +8,12 @@ public class City {
 
     private String cityName;
     private double lat;
-    private double lon;
+    private double lng;
 
     City (String city, double lat, double lon){
         this.cityName = city;
         this.lat = lat;
-        this.lon = lon;
+        this.lng = lon;
     }
 
     public String getCityName() {
@@ -33,10 +33,10 @@ public class City {
     }
 
     public double getLon() {
-        return lon;
+        return lng;
     }
 
     public void setLon(double lon) {
-        this.lon = lon;
+        this.lng = lon;
     }
 }

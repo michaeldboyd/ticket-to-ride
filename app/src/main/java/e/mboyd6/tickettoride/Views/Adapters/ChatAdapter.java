@@ -46,7 +46,7 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
         ChatMessage chatMessage = getItem(position);
         String playerID = chatFragment.getPlayerID();
 
-        if (playerID.equals(chatMessage.sender)) {
+        if (playerID.equals(chatMessage.senderName)) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.chat_item_right, parent, false);
         } else {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.chat_item_left, parent, false);
@@ -58,9 +58,9 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
         TextView chatItemTimeStamp = convertView.findViewById(R.id.chat_item_timestamp);
         final LinearLayout chatItemExtraInfo = convertView.findViewById(R.id.chat_item_extra_info);
 
-        String smallerName = String.valueOf(chatMessage.sender.toUpperCase().charAt(0));
+        String smallerName = String.valueOf(chatMessage.senderName.toUpperCase().charAt(0));
         chatItemName.setText(smallerName);
-        chatItemFullName.setText(chatMessage.sender);
+        chatItemFullName.setText(chatMessage.senderName);
         chatItemText.setText(chatMessage.message);
         chatItemTimeStamp.setText(chatMessage.timestamp);
 
