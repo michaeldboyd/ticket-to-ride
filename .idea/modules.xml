@@ -5,8 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/sharedCode/sharedCode.iml" filepath="$PROJECT_DIR$/sharedCode/sharedCode.iml" />
       <module fileurl="file://$PROJECT_DIR$/ticket-to-ride.iml" filepath="$PROJECT_DIR$/ticket-to-ride.iml" />
-      <module fileurl="file://C:\Users\Ali\AndroidStudioProjects\ticket-to-ride-st\ticket-to-ride.iml" filepath="C:\Users\Ali\AndroidStudioProjects\ticket-to-ride-st\ticket-to-ride.iml" />
-      <module fileurl="file://C:\Users\hunte\Documents\GitHub\ticket-to-ride\ticket-to-ride-st.iml" filepath="C:\Users\hunte\Documents\GitHub\ticket-to-ride\ticket-to-ride-st.iml" />
     </modules>
   </component>
 </project>

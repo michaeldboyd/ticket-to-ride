@@ -15,21 +15,21 @@ import java.util.UUID;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class Login implements IServerLoginFacade {
+public class ServerLogin implements IServerLoginFacade {
 
 
-    private static Login loginFacade;
-    public static Login instance() {
+    private static ServerLogin loginFacade;
+    public static ServerLogin instance() {
         if (loginFacade == null) {
-            loginFacade = new Login();
+            loginFacade = new ServerLogin();
         }
 
         return loginFacade;
     }
 
-    private Login() {}
+    private ServerLogin() {}
 
-    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.Login";
+    private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.ClientLogin";
     public static void _login(String username, String password, String socketID) {
         instance().login(username, password, socketID);
     }
@@ -59,16 +59,13 @@ public class Login implements IServerLoginFacade {
     public void login(String username, String password, String socketID) {
         String authToken = "";
         String message = "";
-        Map<String, User> loggedInUsers = ServerModel.instance().getLoggedInUsers();
-        Map<String, User> allUsers = ServerModel.instance().getAllUsers();
-        Map<String, String> authTokenToUsername = ServerModel.instance().getAuthTokenToUsername();
-        if (loggedInUsers.containsKey(username)) {
+        if (ServerModel.instance().getLoggedInUsers().containsKey(username)) {
             message = "User already logged in.";
         } else {
 
-            if (allUsers.containsKey(username)) {
+            if (ServerModel.instance().getAllUsers().containsKey(username)) {
 
-                User user = allUsers.get(username);
+                User user = ServerModel.instance().getAllUsers().get(username);
 
                 if (user.getPassword().equals(password)) {
 
@@ -76,9 +73,9 @@ public class Login implements IServerLoginFacade {
                     UUID uuid = UUID.randomUUID();
                     authToken = uuid.toString();
 
-                    authTokenToUsername.put(authToken, username);
-                    allUsers.get(username).setAuthtoken(authToken);
-                    loggedInUsers.put(username, user);
+                    ServerModel.instance().getAuthTokenToUsername().put(authToken, username);
+                    ServerModel.instance().getAllUsers().get(username).setAuthtoken(authToken);
+                    ServerModel.instance().getLoggedInUsers().put(username, user);
 
                     matchSocketToAuthToken(socketID, authToken);
                 } else {
@@ -115,11 +112,8 @@ public class Login implements IServerLoginFacade {
     public void register(String username, String password, String socketID) {
         String authToken = "";
         String message = "";
-        Map<String, User> loggedInUsers = ServerModel.instance().getLoggedInUsers();
-        Map<String, User> allUsers = ServerModel.instance().getAllUsers();
-        Map<String, String> authTokenToUsername = ServerModel.instance().getAuthTokenToUsername();
 
-        if (allUsers.containsKey(username)) {
+        if (ServerModel.instance().getAllUsers().containsKey(username)) {
             message = "Username already registered.";
         } else {
             authToken = UUID.randomUUID().toString();
@@ -131,9 +125,9 @@ public class Login implements IServerLoginFacade {
             user.setPassword(password);
 
             // After creating a new User, add them to allUsers and loggedInUsers
-            allUsers.put(username, user);
-            loggedInUsers.put(username, user);
-            authTokenToUsername.put(authToken, username);
+            ServerModel.instance().getAllUsers().put(username, user);
+            ServerModel.instance().getLoggedInUsers().put(username, user);
+            ServerModel.instance().getAuthTokenToUsername().put(authToken, username);
 
             matchSocketToAuthToken(socketID, authToken);
         }
@@ -152,14 +146,10 @@ public class Login implements IServerLoginFacade {
     @Override
     public void logout(String authToken){
         String message = "";
-        Map<String, User> loggedInUsers = ServerModel.instance().getLoggedInUsers();
-        Map<String, User> allUsers = ServerModel.instance().getAllUsers();
-        Map<String, String> authTokenToUsername = ServerModel.instance().getAuthTokenToUsername();
-        Map<String, Session> loggedInSessions = ServerModel.instance().getLoggedInSessions();
-        if (authTokenToUsername.containsKey(authToken)) {
-            String username = authTokenToUsername.get(authToken);
-            loggedInUsers.remove(username);
-            authTokenToUsername.remove(authToken);
+        if (ServerModel.instance().getAuthTokenToUsername().containsKey(authToken)) {
+            String username = ServerModel.instance().getAuthTokenToUsername().get(authToken);
+            ServerModel.instance().getLoggedInUsers().remove(username);
+            ServerModel.instance().getAuthTokenToUsername().remove(authToken);
         } else  {
             message = "Error logging out -- not logged in";
         }
@@ -171,20 +161,17 @@ public class Login implements IServerLoginFacade {
                 "_logoutReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(logoutClientCommand);
-        loggedInSessions.remove(authToken);
+        ServerModel.instance().getLoggedInSessions().remove(authToken);
     }
 
 
 
 
     private void matchSocketToAuthToken(String socketID, String authToken) {
-        Map<String, User> loggedInUsers = ServerModel.instance().getLoggedInUsers();
-        Map<String, Session> allSessions = ServerModel.instance().getAllSessions();
-        Map<String, Session> loggedInSessions = ServerModel.instance().getLoggedInSessions();
 
-        if(!loggedInUsers.containsKey(authToken)){
-            Session session = allSessions.get(socketID);
-            loggedInSessions.put(authToken, session);
+        if(!ServerModel.instance().getLoggedInUsers().containsKey(authToken)){
+            Session session = ServerModel.instance().getAllSessions().get(socketID);
+            ServerModel.instance().getLoggedInSessions().put(authToken, session);
         }
     }
 }

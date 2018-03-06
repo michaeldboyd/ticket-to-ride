@@ -26,6 +26,7 @@ public class Player {
     private ArrayList<TrainCard> trainCards = new ArrayList<>();
     private ArrayList<DestinationCard> destinationCards = new ArrayList<>();
     private int trains = START_TRAINS;
+    private Score score = new Score();
 
     public String getPlayerID() {
         return playerID;
@@ -49,6 +50,14 @@ public class Player {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
     }
 
     public ArrayList<TrainCard> getTrainCards() {

@@ -9,10 +9,10 @@ import org.eclipse.jetty.websocket.api.Session;
 
 import java.util.UUID;
 
-public class Utility implements IUtility{
-    private static Utility _instance = new Utility();
-    private Utility() {}
-    public static Utility instance() {return _instance;}
+public class ServerUtility implements IUtility{
+    private static ServerUtility _instance = new ServerUtility();
+    private ServerUtility() {}
+    public static ServerUtility instance() {return _instance;}
 
     public static void _clearServer(String password)
     {
@@ -42,7 +42,7 @@ public class Utility implements IUtility{
         String[] paramTypes = {id.getClass().toString()};
         String[] paramValues = {id};
         Command initCommand = CommandFactory.createCommand(null,
-                "e.mboyd6.tickettoride.Facades.Login",
+                "e.mboyd6.tickettoride.Facades.ClientLogin",
                 "_initSocket", paramTypes, paramValues);
         // Send logoutCommand to Client via socket
         SocketManager.instance().sendBySocketId(initCommand, id);

@@ -50,6 +50,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
     @Override
     public void isTypingChanged(boolean isTyping){
         ChatProxy.instance().sendIsTyping(ClientModel.getInstance().getAuthToken(),
+                ClientModel.getInstance().getCurrentGame().getGameID(),
                 ClientModel.getInstance().getCurrentPlayer().getName(), isTyping);
     }
 

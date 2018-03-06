@@ -83,8 +83,14 @@ public class LoginPresenter implements ILoginPresenter, Observer{
         if(ip.matches("[0-9.]+") || ip.equals("localhost")) {
             SocketManager.ip = ip;
             System.out.println("IP changed to: " + ip);
-            SocketManager.ConnectSocket(ip);
-            return true;
+            try {
+                ClientModel.getInstance().getSocket().closeConnection(500, "ChangeIP");
+                SocketManager.ConnectSocket(ip);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
         } else {
             System.out.println("IP " + ip + " NOT set");
             return false;

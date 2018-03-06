@@ -2,8 +2,6 @@ import Model.ServerModel;
 import org.junit.After;
 import org.junit.Before;
 
-import com.example.sharedcode.interfaces.IServerLoginFacade;
-
 
 public class ServerLoginFacadeTest {
 
@@ -25,9 +23,9 @@ public class ServerLoginFacadeTest {
 //        String username = "alibub";
 //        String password = "password";
 //
-//        Facades.Login.instance()._register(username, password);
+//        Facades.ServerLogin.instance()._register(username, password);
 //
-//        Facades.Login.instance()._login(username, password);
+//        Facades.ServerLogin.instance()._login(username, password);
 //
 //        assertTrue(Model.ServerModel.instance().loggedInUsers.containsKey(username));
 //
@@ -39,11 +37,11 @@ public class ServerLoginFacadeTest {
 //        String username = "alibub";
 //        String password = "password";
 //
-//        Facades.Login.instance()._register(username, password);
+//        Facades.ServerLogin.instance()._register(username, password);
 //
 //        assertTrue(Model.ServerModel.instance().allUsers.containsKey(username));
 //
-//        Facades.Login.instance()._register(username, password);
+//        Facades.ServerLogin.instance()._register(username, password);
 //
 //        assertTrue(Model.ServerModel.instance().allUsers.size() == 1);
 //    }

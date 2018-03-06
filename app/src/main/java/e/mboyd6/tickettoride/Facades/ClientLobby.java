@@ -5,7 +5,6 @@ import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
-import com.example.sharedcode.model.PlayerColors;
 import com.example.sharedcode.model.UpdateType;
 
 import java.util.ArrayList;
@@ -14,19 +13,18 @@ import java.util.List;
 
 import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
-import e.mboyd6.tickettoride.Utility.Assert;
 
 /**
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class Lobby implements IClientLobbyFacade {
+public class ClientLobby implements IClientLobbyFacade {
 
-    private static Lobby lobbyFacade;
+    private static ClientLobby lobbyFacade;
 
-    public static Lobby instance() {
+    public static ClientLobby instance() {
         if (lobbyFacade == null) {
-            lobbyFacade = new Lobby();
+            lobbyFacade = new ClientLobby();
         }
 
         return lobbyFacade;
@@ -52,9 +50,7 @@ public class Lobby implements IClientLobbyFacade {
     public static void _leaveGameReceived(String gameID, String message) {
         instance().leaveGame(gameID, message);
     }
-    static void _getPlayersForGameReceived(String gameID, Player[] players, String message) {
-        instance().getPlayersForGame(players, gameID, message);
-    }
+
 
 
 
@@ -141,17 +137,6 @@ public class Lobby implements IClientLobbyFacade {
         }
 
         sendUpdate(type, success, message);
-    }
-
-    @Override
-    public void getPlayersForGame(Player[] players, String gameID, String message) {
-        //WHY WAS THIS HERE AGAIN?
-    }
-
-    @Override
-    public void playerColorChanged(String gameID, String playerID, int color) {
-        // Don't do anything
-        // Game list will be updated automatically
     }
 
     private boolean isSuccess(String message){
