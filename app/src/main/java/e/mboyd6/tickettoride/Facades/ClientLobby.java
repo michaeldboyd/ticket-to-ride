@@ -50,9 +50,7 @@ public class ClientLobby implements IClientLobbyFacade {
     public static void _leaveGameReceived(String gameID, String message) {
         instance().leaveGame(gameID, message);
     }
-    static void _getPlayersForGameReceived(String gameID, Player[] players, String message) {
-        instance().getPlayersForGame(players, gameID, message);
-    }
+
 
 
 
@@ -139,17 +137,6 @@ public class ClientLobby implements IClientLobbyFacade {
         }
 
         sendUpdate(type, success, message);
-    }
-
-    @Override
-    public void getPlayersForGame(Player[] players, String gameID, String message) {
-        //WHY WAS THIS HERE AGAIN?
-    }
-
-    @Override
-    public void playerColorChanged(String gameID, String playerID, int color) {
-        // Don't do anything
-        // Game list will be updated automatically
     }
 
     private boolean isSuccess(String message){

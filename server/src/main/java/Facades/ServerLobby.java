@@ -52,9 +52,6 @@ public class ServerLobby implements IServerLobbyFacade {
         instance().startGame(authToken, gameID);
     }
 
-    public static void _getPlayersForGame(String authToken, String gameID) {
-        instance().getPlayersForGame(authToken, gameID);
-    }
 
     public static void _playerColorChanged(String authToken, String playerID, String gameID, int color) {
         instance().playerColorChanged(authToken, playerID, gameID, color);
@@ -155,6 +152,7 @@ public class ServerLobby implements IServerLobbyFacade {
 
         Game game = games.get(gameID);
 
+        //remove the game if there are no more players
         if (game != null && game.getPlayers() != null && game.getPlayers().size() == 0) {
             games.remove(gameID);
         }
@@ -167,11 +165,11 @@ public class ServerLobby implements IServerLobbyFacade {
     @Override
     public void startGame(String authToken, String gameID) {
         String message = "";
-        Map<String, Game> games = ServerModel.instance().getGames();
-        if (!games.containsKey(gameID)) {
+
+        if (!ServerModel.instance().getGames().containsKey(gameID)) {
             message = "Game doesn't exist.";
         } else {
-            Game game = games.get(gameID);
+            Game game = ServerModel.instance().getGames().get(gameID);
 
             Collection<String> authTokens = new ArrayList<>();
             if (game.getPlayers() != null) {
@@ -182,6 +180,7 @@ public class ServerLobby implements IServerLobbyFacade {
                     }
                 }
                 //update the model
+
                 ServerModel.instance().getGames().put(gameID, game);
                 notifyPlayersOfGameStarted(authTokens, message, gameID);
             }
@@ -195,29 +194,6 @@ public class ServerLobby implements IServerLobbyFacade {
 
         ServerModel.instance().notifyObserversForUpdate(startGameClientCommand);
         updateGamesBroadcast();
-    }
-
-    @Override
-    public void getPlayersForGame(String authToken, String gameID) {
-        String message = "";
-        Player[] players;
-
-        if (ServerModel.instance().getGames().containsKey(gameID)) {
-
-            players = (Player[]) ServerModel.instance().getGames().get(gameID).getPlayers().toArray();
-        } else {
-            players = new Player[0];
-            message = "Game does not exist.";
-        }
-
-        String[] paramTypes = {gameID.getClass().toString(), players.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {gameID, players, message};
-
-
-        Command getPlayersForGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
-                "_getPlayersForGameReceived", paramTypes, paramValues);
-
-        ServerModel.instance().notifyObserversForUpdate(getPlayersForGameClientCommand);
     }
 
     @Override
