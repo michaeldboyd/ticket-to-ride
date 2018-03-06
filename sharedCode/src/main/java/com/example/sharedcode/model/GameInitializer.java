@@ -31,7 +31,16 @@ public class GameInitializer {
     }
 
     private TrainCardDeck initializeTrainCardDeck(){
-        TrainCardDeck deck = new TrainCardDeck();
+        TrainCardDeck<> deck = new TrainCardDeck();
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < NON_LOCOMOTIVE_CARD; j++){
+                deck.add(i);
+            }
+        }
+        for(int i = 0; i < LOCOMOTIVE_CARD; i++){
+            deck.add(TrainType.LOCOMOTIVE);
+        }
+        deck.shuffleDeck();
         return deck;
     }
 
