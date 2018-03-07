@@ -131,7 +131,10 @@ public class ClientLobby implements IClientLobbyFacade {
         if (success && games != null) {
             for (Game g : games) {
                 if (g.getGameID().equals(gameID)) {
-                    ClientModel.getInstance().setCurrentGame(g);
+                    if(!ClientModel.getInstance().getCurrentGame().isStarted()) {
+                        g.setStarted(true);
+                        ClientModel.getInstance().setCurrentGame(g);
+                    } else message = "Your game has already started!";
                     break;
                 } else {
                     message = "The game you're trying to start has the wrong ID.";

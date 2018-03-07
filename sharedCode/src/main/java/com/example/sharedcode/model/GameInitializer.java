@@ -27,7 +27,6 @@ public class GameInitializer {
            for(int i = 0; i < 3; i++) { game.drawDestinationCard(p.getName());}
            for(int i = 0; i < 4; i++) { game.drawTrainCard(p.getName());}
        }
-
         return game;
     }
 

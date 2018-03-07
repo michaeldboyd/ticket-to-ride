@@ -28,6 +28,7 @@ public class Game {
     private String personTyping;
     private int unreadMessages = 0;
 
+    private boolean isStarted = false;
     // Getters / Setters
     public ArrayList<String> getHistory() {
         return history;
@@ -128,7 +129,10 @@ public class Game {
     public void setRoutesClaimed(Map<Route, Player> routesClaimed) {
         this.routesClaimed = routesClaimed;
     }
-
+    public void setStarted(boolean started) {
+        isStarted = started;
+    }
+    public boolean isStarted() {return isStarted; }
 
     /*
     * Checks if value is in list.
