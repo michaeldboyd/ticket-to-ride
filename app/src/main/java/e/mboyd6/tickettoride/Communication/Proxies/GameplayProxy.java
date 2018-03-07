@@ -5,8 +5,12 @@ import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerGamplayFacade;
 import com.example.sharedcode.model.DestinationCard;
+import com.example.sharedcode.model.DestinationDeck;
+import com.example.sharedcode.model.FaceUpDeck;
+import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
+import com.example.sharedcode.model.TrainCardDeck;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,9 +46,9 @@ public class GameplayProxy implements IServerGamplayFacade {
     }
 
     @Override
-    public void claimRoute(String authToken, String gameID, String playerID, String city1, String city2) {
-        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), city1.getClass().toString(), city2.getClass().toString()};
-        Object[] paramValues = {authToken, gameID, playerID, city1, city2};
+    public void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(), routesClaimed.getClass().toString()};
+        Object[] paramValues = {authToken, gameID, player, routesClaimed};
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_claimRoute", paramTypes, paramValues);
 
@@ -52,46 +56,24 @@ public class GameplayProxy implements IServerGamplayFacade {
     }
 
     @Override
-    public void drawTrainCard(String authToken, String gameID, String playerID) {
-        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString()};
-        Object[] paramValues = {authToken, gameID, playerID};
+    public void drawTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(),
+                faceUpDeck.getClass().toString(), trainCardDeck.getClass().toString(), trainDiscardDeck.getClass().toString()};
+        Object[] paramValues = {authToken, gameID, player, faceUpDeck, trainCardDeck, trainDiscardDeck};
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_drawTrainCard", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
 
-    //TODO: This Should take place during the claimRoute function. Therefore, not needed
     @Override
-    public void playTrainCard(String authToken, String gameID, String playerID, TrainCard card) {
-    //TODO: This Should take place during the claimRoute function. Therefore, not needed
-
-    }
-
-    @Override
-    public void drawDestinationCard(String authToken, String gameID, String playerID) {
-        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString()};
-        Object[] paramValues = {authToken, gameID, playerID};
+    public void drawDestinationCard(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(), destinationDeck.getClass().toString()};
+        Object[] paramValues = {authToken, gameID, player, destinationDeck};
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_drawDestinationCard", paramTypes, paramValues);
 
         ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
-    }
-
-    @Override
-    public void discardDestinationCard(String authToken, String gameID, String playerID, DestinationCard card) {
-        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), card.getClass().toString()};
-        Object[] paramValues = {authToken, gameID, playerID, card};
-
-        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_discardDestinationCard", paramTypes, paramValues);
-
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
-    }
-
-    //TODO: This Should take place during the claimRoute function. Therefore, not needed
-    @Override
-    public void placeTrainCars(String authToken, String gameID, String playerID, int numCars, Route route) {
-        //TODO: This Should take place during the claimRoute function. Therefore, not needed
     }
 
     @Override
