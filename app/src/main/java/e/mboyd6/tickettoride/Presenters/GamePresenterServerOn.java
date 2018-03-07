@@ -93,8 +93,8 @@ public class GamePresenterServerOn extends GamePresenter {
     }
 
     @Override
-    public void drawDestinationCards() {
-        super.drawDestinationCards();
+    public ArrayList<DestinationCard> drawDestinationCards() {
+        return super.drawDestinationCards();
         // Tell the server that the client wants to draw destination cards
     }
 

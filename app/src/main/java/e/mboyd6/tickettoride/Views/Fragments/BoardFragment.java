@@ -448,7 +448,7 @@ public class BoardFragment extends Fragment implements
 
     public void setCardDrawerState(CardDrawerState cardDrawerState) {
         mCardDrawerState = cardDrawerState;
-        mCardDrawerState.enter(getContext(), this, mViewFlipper, mDrawerSlider, mGamePresenter.getCurrentPlayer());
+        mCardDrawerState.enter(getContext(), this, mViewFlipper, mDrawerSlider, (GamePresenter) mGamePresenter);
     }
 
     public IGamePresenter getmGamePresenter() {

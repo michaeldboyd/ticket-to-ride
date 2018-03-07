@@ -3,10 +3,12 @@ package e.mboyd6.tickettoride.Presenters;
 import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
+import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -106,6 +108,7 @@ public class GamePresenter implements IGamePresenter, Observer {
     @Override
     public void drawTrainCards(int index1, int index2, int numberFromDeck) {
         // Communicate with the server to tell them that trainCards have been drawn
+
     }
 
     /** Called upwards ON the UI when a player successfully draws train cards. A toast is displayed. The updateBoard method
@@ -119,8 +122,13 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
-    public void drawDestinationCards() {
+    public ArrayList<DestinationCard> drawDestinationCards() {
         // Tell the server that the client wants to draw destination cards
+        ArrayList<DestinationCard> result = new ArrayList<>();
+        result.add(ClientModel.getInstance().getCurrentGame().getDestinationDeck().drawCard());
+        result.add(ClientModel.getInstance().getCurrentGame().getDestinationDeck().drawCard());
+        result.add(ClientModel.getInstance().getCurrentGame().getDestinationDeck().drawCard());
+        return result;
     }
 
     /** Called upwards ON the UI when DestinationCard Cards have been successfully drawn.**/

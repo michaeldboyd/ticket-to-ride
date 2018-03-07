@@ -6,8 +6,7 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.ViewFlipper;
 
-import com.example.sharedcode.model.Player;
-
+import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
 /**
@@ -17,7 +16,7 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 public class CardDrawerStartGame extends CardDrawerState {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, Player currentPlayer) {
+    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, GamePresenter gamePresenter) {
         viewFlipper.setDisplayedChild(2);
         drawerSlider.open();
         drawerSlider.setLocked(true);

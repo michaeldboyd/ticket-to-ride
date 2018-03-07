@@ -41,7 +41,7 @@ public interface IGamePresenter {
     void receiveTrainCards(ArrayList<TrainCard> trainCards);
 
     /** Called DOWNWARDS from Presenter **/
-    void drawDestinationCards();
+    ArrayList<DestinationCard> drawDestinationCards();
 
     /** Called UPWARDS from Model **/
     void receiveDestinationCards(ArrayList<DestinationCard> destinationCards);

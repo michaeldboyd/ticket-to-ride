@@ -3,8 +3,7 @@ package e.mboyd6.tickettoride.Views.Adapters;
 import android.content.Context;
 import android.widget.ViewFlipper;
 
-import com.example.sharedcode.model.Player;
-
+import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
 /**
@@ -14,7 +13,7 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 public class CardDrawerIdle extends CardDrawerState {
 
     @Override
-    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, Player currentPlayer){
+    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, GamePresenter gamePresenter){
         viewFlipper.setDisplayedChild(0);
     }
 }

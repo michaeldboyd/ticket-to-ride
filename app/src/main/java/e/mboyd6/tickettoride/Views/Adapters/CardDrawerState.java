@@ -6,11 +6,11 @@ import android.widget.ViewFlipper;
 
 import com.example.sharedcode.model.FaceUpDeck;
 import com.example.sharedcode.model.Game;
-import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
 /**
@@ -24,7 +24,7 @@ public class CardDrawerState {
     public CardDrawerState() {
     }
 
-    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, Player currentPlayer) {}
+    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, GamePresenter gamePresenter) {}
     public void exit(Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper, DrawerSlider drawerSlider) {}
 
     public void updateBoard(Game game) {

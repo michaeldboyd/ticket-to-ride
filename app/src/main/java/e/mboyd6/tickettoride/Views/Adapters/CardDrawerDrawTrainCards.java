@@ -11,7 +11,6 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.sharedcode.model.FaceUpDeck;
-import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 import com.example.sharedcode.model.TrainType;
 
@@ -19,6 +18,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 
+import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
@@ -40,7 +40,7 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void enter(final Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, Player currentPlayer) {
+    public void enter(final Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, GamePresenter gamePresenter) {
 
         this.context = context;
         this.boardFragment = boardFragment;

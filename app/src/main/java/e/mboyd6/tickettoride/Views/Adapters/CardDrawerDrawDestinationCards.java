@@ -8,10 +8,10 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.example.sharedcode.model.DestinationCard;
-import com.example.sharedcode.model.Player;
 
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
@@ -27,12 +27,12 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, Player currentPlayer) {
+    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, GamePresenter gamePresenter) {
         this.context = context;
         this.boardFragment = boardFragment;
         game = game == null ? boardFragment.getLatestLoadedGame() : game;
         // TODO: This needs to be a method on the boardFragment that can be called to draw destinationCards
-        destinationCards = currentPlayer.getDestinationCards() == null ? new ArrayList<DestinationCard>() : currentPlayer.getDestinationCards();
+        destinationCards = gamePresenter.drawDestinationCards();
         
         viewFlipper.setDisplayedChild(2);
         drawerSlider.open();
