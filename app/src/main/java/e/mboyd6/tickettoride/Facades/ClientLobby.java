@@ -54,6 +54,7 @@ public class ClientLobby implements IClientLobbyFacade {
 
 
 
+
     //***** THESE METHODS ARE NOT CALLED FROM THE CLIENT PROXY--ONLY FROM THE CORRESPONDING STATIC METHODS *****
 
     //Must be called after a user creates a new game. this won't be called now

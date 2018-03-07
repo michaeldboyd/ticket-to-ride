@@ -54,7 +54,6 @@ public class AndroidSocketTest {
         LobbyProxy.instance().getGames("");
         LobbyProxy.instance().joinGame("", "asdf");
         LobbyProxy.instance().startGame("", "asdf");
-        LobbyProxy.instance().getPlayersForGame("asdf", "");
         LobbyProxy.instance().leaveGame("", "asdf", "asdf");
     }
     /*public void testCreateGame()

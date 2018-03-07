@@ -37,7 +37,7 @@ public class ServerModel extends Observable {
     private Map<String, User> allUsers = new HashMap<>(); // <username, User>
     private Map<String, String> authTokenToUsername = new HashMap<>(); // <authToken, username>
     private ArrayList<User> usersInLobby = new ArrayList<User>();
-
+    private Map<String, Game> startedGames = new HashMap<>();
 
     //Game list
     private Map<String, Game> games = new HashMap<>(); // <gameID, Game>
@@ -68,6 +68,7 @@ public class ServerModel extends Observable {
     }
 
     //*** Getters ***
+    public Map<String, Game> getStartedGames() { return startedGames; }
     public ArrayList<User> getUsersInLobby() { return usersInLobby;}
     public Map<String, User> getLoggedInUsers() {
         return loggedInUsers;
@@ -92,4 +93,21 @@ public class ServerModel extends Observable {
     public Map<String, ArrayList<ChatMessage>> getChatMessagesForGame() {
         return chatMessagesForGame;
     }
+    public ArrayList<String> getPlayerAuthTokens(String gameID) {
+        ArrayList<String> tokens = new ArrayList<String>();
+        if(gameID != null && games.get(gameID) != null) {
+            for(Player p : ServerModel.instance().getGames().get(gameID).getPlayers()){
+                tokens.add(ServerModel.instance().getAllUsers().get(p.getName()).getAuthtoken());
+            }
+        }
+        return tokens;
+    }
+    public ArrayList<String> getLobbyUserAuthTokens() {
+        ArrayList<String> tokens = new ArrayList<>();
+        for(User u : ServerModel.instance().getUsersInLobby()) {
+            tokens.add(u.getAuthtoken());
+        }
+        return tokens;
+    }
+
 }
