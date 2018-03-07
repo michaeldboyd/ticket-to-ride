@@ -198,17 +198,17 @@ public class ServerLobby implements IServerLobbyFacade {
 
     @Override
     public void playerColorChanged(String authToken, String gameID, String playerID, int color) {
-        Game game = ServerModel.instance().getGames().get(gameID);
+        //Game game = ServerModel.instance().getGames().get(gameID);
 
         Boolean success = false;
-        for (Player player : game.getPlayers()) {
+        for (Player player : ServerModel.instance().getGames().get(gameID).getPlayers()) {
             if (player.getPlayerID().equals(playerID)) {
                 player.setColor(color);
                 success = true;
                 break;
             }
         }
-        ServerModel.instance().getGames().put(gameID, game);
+       // ServerModel.instance().getGames().put(gameID, game);
 
         if (success) {
             updateGamesBroadcast();
