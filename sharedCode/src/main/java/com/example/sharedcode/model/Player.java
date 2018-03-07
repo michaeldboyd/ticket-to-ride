@@ -22,7 +22,7 @@ public class Player {
     private String playerID;
     private String name;
     private int color;
-    private Map<Integer, ArrayList<Integer>> hand = new HashMap<>();
+    private Map<Integer, Integer> hand = new HashMap<>();
     private ArrayList<Integer> trainCards = new ArrayList<>();
     private ArrayList<DestinationCard> destinationCards = new ArrayList<>();
     private int trains = START_TRAINS;
@@ -84,11 +84,11 @@ public class Player {
         this.trains = trains;
     }
 
-    public Map<Integer, ArrayList<Integer>> getHand() {
+    public Map<Integer, Integer> getHand() {
         return hand;
     }
 
-    public void setHand(Map<Integer, ArrayList<Integer>> hand) {
+    public void setHand(Map<Integer, Integer> hand) {
         this.hand = hand;
     }
 

@@ -206,7 +206,8 @@ public class Game {
                 if (p.getName().equals(playerName)) {
                     int cardType = trainCardDeck.drawCard();
 
-                    p.getTrainCards().add(cardType);
+                    int count = p.getHand().get(cardType);
+                    p.getHand().put(cardType, count + 1);
                     break;
                 }
             }
