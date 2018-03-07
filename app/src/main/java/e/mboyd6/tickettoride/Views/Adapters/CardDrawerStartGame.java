@@ -1,6 +1,8 @@
 package e.mboyd6.tickettoride.Views.Adapters;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.ViewFlipper;
 
@@ -13,8 +15,19 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
  */
 
 public class CardDrawerStartGame extends CardDrawerState {
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void enter(Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper) {
+    public void enter(Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper, DrawerSlider drawerSlider) {
         viewFlipper.setDisplayedChild(2);
+        drawerSlider.open();
+        drawerSlider.setLocked(true);
+        boardFragment.setUILocked(true);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void exit(Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper, DrawerSlider drawerSlider) {
+        drawerSlider.setLocked(false);
+        boardFragment.setUILocked(false);
     }
 }

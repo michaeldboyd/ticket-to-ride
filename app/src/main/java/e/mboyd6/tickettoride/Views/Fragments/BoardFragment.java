@@ -39,13 +39,16 @@ import e.mboyd6.tickettoride.Presenters.GamePresenterServerOff;
 import e.mboyd6.tickettoride.Presenters.GamePresenterServerOn;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerDrawTrainCards;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerIdle;
+import e.mboyd6.tickettoride.Views.Adapters.CardDrawerStartGame;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerState;
 import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonIdle;
 import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonMissing;
 import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonState;
 import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
+import e.mboyd6.tickettoride.Views.Adapters.DrawerSlider;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 
@@ -80,7 +83,7 @@ public class BoardFragment extends Fragment implements
     private IGamePresenter mGamePresenter;
 
     private BoardState mBoardState = new BoardIdle();
-    private CardDrawerState mCardDrawerState = new CardDrawerState();
+    private CardDrawerState mCardDrawerState = null;
     private ViewFlipper mViewFlipper;
 
     private Map<Polygon, Route> clickablePolygons = new HashMap<Polygon, Route>();
@@ -96,6 +99,10 @@ public class BoardFragment extends Fragment implements
     public ArrayList<ImageView> trainCardImages = new ArrayList<>();
 
     private Game latestLoadedGame = new Game();
+
+    private DrawerSlider mDrawerSlider;
+
+    private boolean uiLocked = false;
 
     public BoardFragment() {
         // Required empty public constructor
@@ -124,6 +131,15 @@ public class BoardFragment extends Fragment implements
         }
     }
 
+    public boolean handleError(String message) {
+        if (message != null && message.length() > 0) {
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT)
+                    .show();
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -141,50 +157,45 @@ public class BoardFragment extends Fragment implements
         mColorSelectionViews.add((ColorSelectionView) mLayout.findViewById(R.id.player_turn_5));
 
         mClaimRouteButton = mLayout.findViewById(R.id.game_fragment_claim_route_button);
-
         mClaimRouteButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if (uiLocked) {
+                    handleError("You must finish your action first.");
+                    return;
+                }
                 onBoardFragmentClaimRouteButton();
             }
         });
 
-
-        ImageView trainCard1 = mLayout.findViewById(R.id.draw_train_cards_train_card_1);
-        trainCard1.setBackgroundResource(R.drawable.card_selected);
-        ImageView trainCard2 = mLayout.findViewById(R.id.draw_train_cards_train_card_2);
-        ImageView trainCard3 = mLayout.findViewById(R.id.draw_train_cards_train_card_3);
-        ImageView trainCard4 = mLayout.findViewById(R.id.draw_train_cards_train_card_4);
-        ImageView trainCard5 = mLayout.findViewById(R.id.draw_train_cards_train_card_5);
-        ImageView trainCardDeck = mLayout.findViewById(R.id.draw_train_cards_train_card_deck);
-
-        trainCardImages.add(trainCard1);
-        trainCardImages.add(trainCard2);
-        trainCardImages.add(trainCard3);
-        trainCardImages.add(trainCard4);
-        trainCardImages.add(trainCard5);
-        trainCardImages.add(trainCardDeck);
-
         mAutoplayButton = mLayout.findViewById(R.id.game_fragment_autoplay_button);
-
         mAutoplayButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if (uiLocked) {
+                    handleError("You must finish your action first.");
+                    return;
+                }
                 autoplay();
             }
         });
 
         mServerOnButton = mLayout.findViewById(R.id.game_fragment_server_on_button);
-
         mServerOnButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if (uiLocked) {
+                    handleError("You must finish your action first.");
+                    return;
+                }
                 onServerOnButton();
             }
         });
+
+        mDrawerSlider = mLayout.findViewById(R.id.drawer_slider);
 
         setGamePresenterState(new GamePresenterServerOn(this));
 
@@ -249,6 +260,7 @@ public class BoardFragment extends Fragment implements
             }
         }
 
+        //setCardDrawerState(new CardDrawerStartGame());
         mGamePresenter.updateBoard();
         mGamePresenter.onUpdateTurn();
     }
@@ -284,6 +296,9 @@ public class BoardFragment extends Fragment implements
         ArrayList<Player> players = game.getPlayers();
         mMap.clear();
         mBoardState.drawRoutesAndCities(this, mMap, game, mGamePresenter.getCurrentPlayer());
+
+        if (mCardDrawerState != null)
+            mCardDrawerState.updateBoard(game);
     }
 
     @Override
@@ -305,7 +320,8 @@ public class BoardFragment extends Fragment implements
                 myTurn = (playerTurn.equals(mGamePresenter.getCurrentPlayer().getPlayerID()));
                 if (myTurn) {
                    setClaimRouteButtonState(new ClaimRouteButtonIdle());
-                   setCardDrawerState(new CardDrawerDrawTrainCards());
+                   if (mCardDrawerState == null || mCardDrawerState instanceof CardDrawerIdle)
+                       setCardDrawerState(new CardDrawerDrawTrainCards());
                 } else {
                     setClaimRouteButtonState(new ClaimRouteButtonMissing());
                     setCardDrawerState(new CardDrawerIdle());
@@ -328,10 +344,6 @@ public class BoardFragment extends Fragment implements
                 }
             }
         });
-    }
-
-    public void onNewTurn_ThreadSafe(String playerTurn) {
-
     }
 
     private int getPlayerColorBackground(int playerColor) {
@@ -437,7 +449,7 @@ public class BoardFragment extends Fragment implements
 
     public void setCardDrawerState(CardDrawerState cardDrawerState) {
         mCardDrawerState = cardDrawerState;
-        mCardDrawerState.enter(getContext(), this, mLayout, mViewFlipper);
+        mCardDrawerState.enter(getContext(), this, mLayout, mViewFlipper, mDrawerSlider);
     }
 
     public IGamePresenter getmGamePresenter() {
@@ -450,5 +462,12 @@ public class BoardFragment extends Fragment implements
 
     public Game getLatestLoadedGame() {
         return latestLoadedGame;
+    }
+
+    public void setUILocked(boolean locked) {
+        if(getActivity() instanceof GameActivity) {
+            ((IGameActivity) getActivity()).setUiLocked(locked);
+            uiLocked = locked;
+        }
     }
 }

@@ -15,7 +15,7 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 public class CardDrawerIdle extends CardDrawerState {
 
     @Override
-    public void enter(Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper){
+    public void enter(Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper, DrawerSlider drawerSlider){
         viewFlipper.setDisplayedChild(0);
     }
 }

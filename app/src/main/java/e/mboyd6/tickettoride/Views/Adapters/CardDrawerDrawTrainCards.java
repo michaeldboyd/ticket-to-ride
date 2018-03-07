@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -17,6 +19,9 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
@@ -27,101 +32,150 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
 public class CardDrawerDrawTrainCards extends CardDrawerState {
 
+    private Context context;
     private ArrayList<ImageView> trainCardImages = new ArrayList<>();
-    private Deque<TrainCard> selectedCards = new ArrayDeque<>();
+    private Deque<Integer> selectedCards = new ArrayDeque<>();
     private int howManyDeckCards = 0;
+    private TextView selectTrainCardsText;
+    private Button DrawTrainCardsButton;
+    private Button DrawDestinationCardsButton;
+    private int maximumCards = 2;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void enter(final Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper) {
-        game = boardFragment.getLatestLoadedGame();
+    public void enter(final Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper, DrawerSlider drawerSlider) {
+
+        this.context = context;
+        game = game == null ? boardFragment.getLatestLoadedGame() : game;
         faceUpDeck = game.getFaceUpDeck() == null ? new FaceUpDeck() : game.getFaceUpDeck();
-        Toast.makeText(context, "Entered CardDrawerDrawTrainCards state", Toast.LENGTH_SHORT).show();
-        viewFlipper.setDisplayedChild(1);
-        this.trainCardImages = boardFragment.trainCardImages;
+
+        ImageView trainCard1 = viewFlipper.findViewById(R.id.draw_train_cards_train_card_1);
+        ImageView trainCard2 = viewFlipper.findViewById(R.id.draw_train_cards_train_card_2);
+        ImageView trainCard3 = viewFlipper.findViewById(R.id.draw_train_cards_train_card_3);
+        ImageView trainCard4 = viewFlipper.findViewById(R.id.draw_train_cards_train_card_4);
+        ImageView trainCard5 = viewFlipper.findViewById(R.id.draw_train_cards_train_card_5);
+        ImageView trainCardDeck = viewFlipper.findViewById(R.id.draw_train_cards_train_card_deck);
+
+        trainCardImages.add(trainCard1);
+        trainCardImages.add(trainCard2);
+        trainCardImages.add(trainCard3);
+        trainCardImages.add(trainCard4);
+        trainCardImages.add(trainCard5);
+        trainCardImages.add(trainCardDeck);
+
         for(int i = 0; i < trainCardImages.size(); i++) {
             final int i_final = i;
             trainCardImages.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onTrainCardSelect(i_final);
-                    Toast.makeText(context, "Clicked" + i_final, Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
+        selectTrainCardsText = viewFlipper.findViewById(R.id.select_train_cards_text);
+
+        DrawTrainCardsButton = viewFlipper.findViewById(R.id.draw_cards_button);
+        DrawTrainCardsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDrawTrainCardsButton();
+            }
+        });
+        DrawDestinationCardsButton = viewFlipper.findViewById(R.id.switch_to_destination);
+        DrawDestinationCardsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDrawDestinationCardsButton();
+            }
+        });
+
+
+
+        reDrawUI();
+        viewFlipper.setDisplayedChild(1);
     }
 
     public void onTrainCardSelect(int index) {
-        if (index < 6) {
-            if (!selectedCards.contains(faceUpDeck.get(index))) {
-                selectedCards.add(faceUpDeck.get(index));
-                setCardBackground(index, true, (faceUpDeck.get(index)).getTrainCarType());
+        applyLocomotiveRulesIfPresent();
+        if (index < faceUpDeck.size()) {
+            if (!selectedCards.contains(index)) {
+                selectedCards.push(index);
+                if (selectedCards.size() > maximumCards) {
+                    selectedCards.removeLast();
+                }
+                if (howManyDeckCards + selectedCards.size() > maximumCards) {
+                    howManyDeckCards--;
+                }
             } else {
-                selectedCards.remove(faceUpDeck.get(index));
-                setCardBackground(index, false, (faceUpDeck.get(index)).getTrainCarType());
+                selectedCards.removeFirstOccurrence(index);
             }
         } else {
-            if (howManyDeckCards == 2) {
+            if (howManyDeckCards < maximumCards) {
+                howManyDeckCards++;
+            } else {
                 howManyDeckCards = 0;
-            } else if (howManyDeckCards == 1) {
-                howManyDeckCards = 2;
-                if (selectedCards.size() == 1) {
-                    selectedCards.pop();
-                }
-            } else if (howManyDeckCards == 0) {
-                howManyDeckCards = 1;
-                if (selectedCards.size() == 2) {
-                    selectedCards.pop();
-                }
             }
-            setDeckBackground();
+            if (howManyDeckCards + selectedCards.size() > maximumCards) {
+                selectedCards.removeLast();
+            }
         }
+        reDrawUI();
+    }
+
+    @Override
+    public void reDrawUI() {
+        for(int i = 0; i < faceUpDeck.size(); i++) {
+            setCardBackground(i, selectedCards.contains(i), faceUpDeck.get(i).getTrainCarType());
+        }
+
+        setDeckBackground();
+        enableDisbableUIElements();
     }
 
     public void setCardBackground(int index, boolean selected, int trainType) {
-        int selectedBg = 0;
-        int normalBg = 0;
+        int idle_bg = 0;
+        int selected_bg = 0;
 
         switch(trainType) {
             case TrainType.BOX:
-                selectedBg = R.drawable.card_box;
-                normalBg = R.drawable.card_selected;
+                idle_bg = R.drawable.card_box;
+                selected_bg = R.drawable.card_box_selected;
                 break;
             case TrainType.CABOOSE:
-                selectedBg = R.drawable.card_caboose;
-                normalBg = R.drawable.card_selected;
+                idle_bg = R.drawable.card_caboose;
+                selected_bg = R.drawable.card_caboose_selected;
                 break;
             case TrainType.COAL:
-                selectedBg = R.drawable.card_coal;
-                normalBg = R.drawable.card_selected;
+                idle_bg = R.drawable.card_coal;
+                selected_bg = R.drawable.card_coal_selected;
                 break;
             case TrainType.FREIGHT:
-                selectedBg = R.drawable.card_freight;
-                normalBg = R.drawable.card_selected;
+                idle_bg = R.drawable.card_freight;
+                selected_bg = R.drawable.card_freight_selected;
                 break;
             case TrainType.HOPPER:
-                selectedBg = R.drawable.card_hopper;
-                normalBg = R.drawable.card_selected;
+                idle_bg = R.drawable.card_hopper;
+                selected_bg = R.drawable.card_hopper_selected;
                 break;
             case TrainType.LOCOMOTIVE:
-                selectedBg = R.drawable.card_locomotive;
-                normalBg = R.drawable.card_selected;
+                idle_bg = R.drawable.card_locomotive;
+                selected_bg = R.drawable.card_locomotive_selected;
                 break;
             case TrainType.PASSENGER:
-                selectedBg = R.drawable.card_passenger;
-                normalBg = R.drawable.card_selected;
+                idle_bg = R.drawable.card_passenger;
+                selected_bg = R.drawable.card_passenger_selected;
                 break;
             case TrainType.REEFER:
-                selectedBg = R.drawable.card_reefer;
-                normalBg = R.drawable.card_selected;
+                idle_bg = R.drawable.card_reefer;
+                selected_bg = R.drawable.card_reefer_selected;
                 break;
             case TrainType.TANKER:
-                selectedBg = R.drawable.card_tanker;
-                normalBg = R.drawable.card_selected;
+                idle_bg = R.drawable.card_tanker;
+                selected_bg = R.drawable.card_tanker_selected;
                 break;
         }
-        trainCardImages.get(index).setBackgroundResource(selected ? selectedBg : normalBg);
+        trainCardImages.get(index).setImageResource(selected ? selected_bg : idle_bg);
     }
 
     public void setDeckBackground() {
@@ -137,6 +191,45 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
                 background = R.drawable.card_deck_2;
                 break;
         }
-        trainCardImages.get(6).setBackgroundResource(background);
+        trainCardImages.get(trainCardImages.size() - 1).setImageResource(background);
+    }
+
+    public void applyLocomotiveRulesIfPresent() {
+        for (TrainCard trainCard : faceUpDeck) {
+            if (trainCard.getTrainCarType() == TrainType.LOCOMOTIVE) {
+                maximumCards = 1;
+                selectTrainCardsText.setText(R.string.select_train_cards_text_locomotive_rules);
+                return;
+            }
+        }
+        maximumCards = 2;
+    }
+
+    public void enableDisbableUIElements() {
+        applyLocomotiveRulesIfPresent();
+
+        if (selectedCards.size() + howManyDeckCards < maximumCards) {
+            if (maximumCards > 1 && selectedCards.size() + howManyDeckCards == maximumCards - 1)
+                selectTrainCardsText.setText(R.string.select_train_cards_text_one_more);
+            else if (maximumCards > 1 && selectedCards.size() + howManyDeckCards == maximumCards - 2)
+                selectTrainCardsText.setText(R.string.select_train_cards_text_normal);
+            DrawTrainCardsButton.setClickable(false);
+            DrawTrainCardsButton.setAlpha(0.5f);
+            DrawDestinationCardsButton.setClickable(true);
+            DrawDestinationCardsButton.setAlpha(1f);
+        } else {
+            DrawTrainCardsButton.setClickable(true);
+            DrawTrainCardsButton.setAlpha(1f);
+            DrawDestinationCardsButton.setClickable(false);
+            DrawDestinationCardsButton.setAlpha(0.5f);
+        }
+    }
+
+    public void onDrawTrainCardsButton() {
+        Toast.makeText(context, "onDrawTrainCardsButton()", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onDrawDestinationCardsButton() {
+        Toast.makeText(context, "onDrawDestinationCardsButton()", Toast.LENGTH_SHORT).show();
     }
 }

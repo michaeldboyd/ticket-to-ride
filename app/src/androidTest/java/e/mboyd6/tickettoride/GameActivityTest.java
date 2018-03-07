@@ -114,6 +114,21 @@ public class GameActivityTest {
 
     currentGame.getPlayers().get(0).getDestinationCards().addAll(destinationCards);
 
+    /*
+    currentGame.getFaceUpDeck().set(0, new TrainCard(TrainType.BOX));
+    currentGame.getFaceUpDeck().set(1, new TrainCard(TrainType.CABOOSE));
+    currentGame.getFaceUpDeck().set(2, new TrainCard(TrainType.COAL));
+    currentGame.getFaceUpDeck().set(3, new TrainCard(TrainType.FREIGHT));
+    currentGame.getFaceUpDeck().set(4, new TrainCard(TrainType.HOPPER));
+    */
+
+    currentGame.getFaceUpDeck().set(0, new TrainCard(TrainType.BOX));
+    currentGame.getFaceUpDeck().set(1, new TrainCard(TrainType.PASSENGER));
+    currentGame.getFaceUpDeck().set(2, new TrainCard(TrainType.REEFER));
+    currentGame.getFaceUpDeck().set(3, new TrainCard(TrainType.TANKER));
+    currentGame.getFaceUpDeck().set(4, new TrainCard(TrainType.LOCOMOTIVE));
+
+
     ClientModel.getInstance().setCurrentGame(currentGame);
     ClientModel.getInstance().setPlayerTurn("001");
     ClientModel.getInstance().setCurrentPlayer(currentGame.getPlayers().get(0));
@@ -154,7 +169,6 @@ public class GameActivityTest {
     trainCards.add(new TrainCard(TrainType.BOX));
     trainCards.add(new TrainCard(TrainType.BOX));
     fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, trainCards);
-
     return fakeGame;
   }
 

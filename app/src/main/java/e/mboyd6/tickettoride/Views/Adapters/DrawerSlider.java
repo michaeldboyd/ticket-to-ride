@@ -36,6 +36,7 @@ public class DrawerSlider extends LinearLayout {
     private int mMaxSliderDistance = 0;
     private ScaleGestureDetector mDetector;
     //private ScaleGestureDetector mScaleDetector = new ScaleGestureDetector();
+    private boolean locked;
 
     class mListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
     }
@@ -180,6 +181,8 @@ public class DrawerSlider extends LinearLayout {
     }
 
     private void setSliderMargin() {
+        if (locked)
+            return;
 
         int slideValue = (int) mPosY;
 
@@ -197,6 +200,8 @@ public class DrawerSlider extends LinearLayout {
     }
 
     private void releaseSlider() {
+        if (locked)
+            return;
 
         int slideValue = (int) mPosY;
 
@@ -211,5 +216,19 @@ public class DrawerSlider extends LinearLayout {
         }
 
         setLayoutParams(result);
+    }
+
+    public void open() {
+        ConstraintLayout.LayoutParams result = (ConstraintLayout.LayoutParams) getLayoutParams();
+        result.setMargins(0,0,0,mMaxSliderDistance);
+    }
+
+    public void close() {
+        ConstraintLayout.LayoutParams result = (ConstraintLayout.LayoutParams) getLayoutParams();
+        result.setMargins(0,0,0,0);
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }

@@ -58,7 +58,9 @@ public class GameActivity extends AppCompatActivity
 
     private FragmentManager mFragmentManager;
     private View mBar;
+    private boolean uiLocked;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -134,7 +136,11 @@ public class GameActivity extends AppCompatActivity
     //This is connected through the layout attribute "onClick" in the XML file
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onTabClicked(View view) {
-        // Is the button now checked?
+        if (uiLocked) {
+            Toast.makeText(this, "Finish your action before switching tabs.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+            // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
         Class typeOfFragment = mFragmentManager.findFragmentByTag("CURRENT_FRAGMENT").getClass();
@@ -173,4 +179,8 @@ public class GameActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void setUiLocked(boolean uiLocked) {
+        this.uiLocked = uiLocked;
+    }
 }
