@@ -35,6 +35,10 @@ public class ServerChat implements IChatServerFacade {
         instance().sendIsTyping(authToken, gameID, playerName, isTyping);
     }
 
+    public static void _getChatHistory(String authToken, String gameID) {
+        instance().getChatHistory(authToken, gameID);
+    }
+
 
     @Override
     public void sendChatMessage(String authToken, String message, String playerName, String gameID) {
@@ -54,7 +58,6 @@ public class ServerChat implements IChatServerFacade {
         Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.ClientChat", "_chatMessageReceived", paramTypes, paramValues);
 
         SocketManager.instance().notifyPlayersInGame(gameID, addChatCommand);
-
     }
 
     @Override
@@ -72,5 +75,16 @@ public class ServerChat implements IChatServerFacade {
         Command command = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.ClientChat", "_isTypingReceived", paramTypes, paramValues);
 
         SocketManager.instance().notifyPlayersInGame(gameID, command);
+    }
+
+    @Override
+    public void getChatHistory(String authToken, String gameID) {
+        ArrayList<ChatMessage> cm = ServerModel.instance().getChatMessagesForGame().get(gameID);
+
+        String[] paramTypes = {cm.getClass().toString(), gameID.getClass().toString()};
+        Object[] paramValues = {cm, gameID};
+        Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.ClientChat", "_chatHistoryReceived", paramTypes, paramValues);
+
+        ServerModel.instance().notifyObserversForUpdate(addChatCommand);
     }
 }

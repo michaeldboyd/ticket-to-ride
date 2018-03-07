@@ -135,8 +135,9 @@ public class ServerLobby implements IServerLobbyFacade {
         //notify everyone in game and in lobby
         Collection<String> tokens = ServerModel.instance().getLobbyUserAuthTokens();
         tokens.addAll(ServerModel.instance().getPlayerAuthTokens(gameID));
-
         SocketManager.instance().updateGameList(tokens);
+
+        ServerChat._getChatHistory(authToken, gameID);
     }
 
     // If the game
@@ -217,6 +218,7 @@ public class ServerLobby implements IServerLobbyFacade {
             }
         }
         tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
+        tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
         if (success) {
             SocketManager.instance().updateGameList(tokens);
         }

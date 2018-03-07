@@ -6,6 +6,8 @@ import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.UpdateType;
 
+import java.util.ArrayList;
+
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -36,6 +38,25 @@ public class ClientChat implements IChatClientFacade {
 
     public static void _isTypingReceived(String playerName, Boolean isTyping) {
         _instance.isTypingReceived(playerName, isTyping);
+    }
+
+    public static void _chatHistoryReceived(ArrayList<ChatMessage> cm, String gameID)
+    {
+        _instance.chatHistoryReceived(cm, gameID);
+
+    }
+
+    @Override
+    public void chatHistoryReceived(ArrayList<ChatMessage> cm, String gameID) {
+        Game cur = ClientModel.getInstance().getCurrentGame();
+        String message = "";
+       if(cur != null && cur.getGameID().equals(gameID))
+       {
+           ClientModel.getInstance().getCurrentGame().setChatMessages(cm);
+
+       } else message = "You are not in the right game to get the chat history";
+        sendUpdate(UpdateType.CHAT_RECEIVED, true, message);
+
     }
 
 
