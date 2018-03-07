@@ -22,11 +22,6 @@ public class GameInitializer {
         game.setCities(intitializeCities());
         game.setRoutesClaimed(initializeRoutes());
 
-        // for each player in the game, draw three destination cards and 4 train cards.
-       for(Player p : game.getPlayers()) {
-           for(int i = 0; i < 3; i++) { game.drawDestinationCard(p.getName());}
-           for(int i = 0; i < 4; i++) { game.drawTrainCard(p.getName());}
-       }
         return game;
     }
 

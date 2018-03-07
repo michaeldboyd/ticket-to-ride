@@ -191,7 +191,7 @@ public class Game {
         this.cities = cities;
     }
 
-    public void drawDestinationCard(String playerName) {
+    public void addDestCardToPlayer(String playerName) {
         for(Player p : players) {
             if (p.getName().equals(playerName)) {
                 p.getDestinationCards().add(destinationDeck.drawCard());
@@ -200,7 +200,7 @@ public class Game {
         }
     }
 
-    public void drawTrainCard(String playerName) {
+    public void addTrainCardToPlayerHand(String playerName) {
         try {
             for (Player p : players) {
                 if (p.getName().equals(playerName)) {
