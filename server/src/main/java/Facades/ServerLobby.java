@@ -119,6 +119,9 @@ public class ServerLobby implements IServerLobbyFacade {
                 message = "Could not add player to game because it is already full";
             } else {
                 playerID = newPlayer.getPlayerID();
+                String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
+                ServerModel.instance().getUsersInLobby()
+                        .remove(ServerModel.instance().getLoggedInUsers().get(usnm).getUsername());
             }
         } else message = "could not find game in list";
 
@@ -141,6 +144,7 @@ public class ServerLobby implements IServerLobbyFacade {
     // If the game
     //removes player from list of joined game, then sends that to everyone
     //send everyone the updated games
+
     @Override
     public void leaveGame(String authToken, String gameID, String playerID) {
         String message = "";
@@ -150,6 +154,9 @@ public class ServerLobby implements IServerLobbyFacade {
         if (!games.get(gameID).removePlayer(playerID)) {
             message = "Could not remove player because is not in the game";
         }
+        String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
+        User user = ServerModel.instance().getLoggedInUsers().get(usnm);
+        ServerModel.instance().getUsersInLobby().put(user.getUsername(), user);
         Game game = games.get(gameID);
         //remove the game if there are no more players
         if (game != null && game.getPlayers() != null && game.getPlayers().size() == 0) {
@@ -221,7 +228,7 @@ public class ServerLobby implements IServerLobbyFacade {
         Object[] objects = ServerModel.instance().getGames().values().toArray();
         Game[] games = new Game[objects.length];
         int i = 0;
-        for(Object g : games) {  games[i++] = (Game) g; }
+        for(Object g : objects) {  games[i++] = (Game) g; }
 
         String message = "";
         String[] paramTypes = {games.getClass().toString(), message.getClass().toString()};

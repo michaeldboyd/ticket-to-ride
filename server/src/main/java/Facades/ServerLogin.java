@@ -76,7 +76,7 @@ public class ServerLogin implements IServerLoginFacade {
                     ServerModel.instance().getAuthTokenToUsername().put(authToken, username);
                     ServerModel.instance().getAllUsers().get(username).setAuthtoken(authToken);
                     ServerModel.instance().getLoggedInUsers().put(username, user);
-
+                    ServerModel.instance().getUsersInLobby().put(username, user);
                     matchSocketToAuthToken(socketID, authToken);
                 } else {
                     message = "Incorrect password.";
@@ -128,7 +128,7 @@ public class ServerLogin implements IServerLoginFacade {
             ServerModel.instance().getAllUsers().put(username, user);
             ServerModel.instance().getLoggedInUsers().put(username, user);
             ServerModel.instance().getAuthTokenToUsername().put(authToken, username);
-
+            ServerModel.instance().getUsersInLobby().put(username, user);
             matchSocketToAuthToken(socketID, authToken);
         }
 
@@ -150,6 +150,7 @@ public class ServerLogin implements IServerLoginFacade {
             String username = ServerModel.instance().getAuthTokenToUsername().get(authToken);
             ServerModel.instance().getLoggedInUsers().remove(username);
             ServerModel.instance().getAuthTokenToUsername().remove(authToken);
+            ServerModel.instance().getUsersInLobby().remove(username);
         } else  {
             message = "Error logging out -- not logged in";
         }
