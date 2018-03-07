@@ -98,9 +98,6 @@ public class Command implements ICommand {
                 switch (className) {
                     case "int":
                         paramClass = int.class;
-                        // This is necessary because JSON turns all numbers into doubles
-                        int castValue = ((Double) _paramValues[i]).intValue();
-                        _paramValues[i] = castValue;
                         break;
 
                     case "boolean":
