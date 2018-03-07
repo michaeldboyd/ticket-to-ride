@@ -96,7 +96,7 @@ public class ServerModel extends Observable {
     public ArrayList<String> getPlayerAuthTokens(String gameID) {
         ArrayList<String> tokens = new ArrayList<String>();
         if(gameID != null && games.get(gameID) != null) {
-            for (Player p : ServerModel.instance().getGames().get(gameID).getPlayers().values()) {
+            for (Player p : ServerModel.instance().getGames().get(gameID).getPlayers()) {
                 tokens.add(ServerModel.instance().getAllUsers().get(p.getName()).getAuthtoken());
             }
         }

@@ -4,13 +4,10 @@ import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
-import com.example.sharedcode.model.UpdateType;
 
 import org.java_websocket.client.WebSocketClient;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,10 +22,10 @@ public class ClientModel extends Observable {
     //Game data
     private ArrayList<Game> games = new ArrayList<>();
     private Game currentGame = null;
-    private String playerID = "";
+    private String playerName = "";
 
     // Current player data
-    private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
+    private Player currentPlayer = new Player("playerName", "name", PlayerColors.NO_COLOR);
     private String authToken;
 
     private String playerTurn;
@@ -61,8 +58,8 @@ public class ClientModel extends Observable {
      */
     public void clearInstance() {
         games.clear();
-        playerID = "";
-        currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
+        playerName = "";
+        currentPlayer = new Player("playerName", "name", PlayerColors.NO_COLOR);
         authToken = null;
         currentGame = null;
     }
@@ -98,7 +95,17 @@ public class ClientModel extends Observable {
     }
 
     public Player getCurrentPlayer() {
-        return currentPlayer;
+        Player player = null;
+
+        for (Player p :
+                currentGame.getPlayers()) {
+            if (p.getName().equals(playerName)) {
+                player = p;
+                break;
+            }
+        }
+
+        return player;
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
@@ -125,12 +132,12 @@ public class ClientModel extends Observable {
         this.currentGame = currentGame;
     }
 
-    public String getPlayerID() {
-        return playerID;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setPlayerID(String playerID) {
-        this.playerID = playerID;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public void setSocketID(String socketID) {

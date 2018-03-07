@@ -111,7 +111,7 @@ public class ClientLobby implements IClientLobbyFacade {
             //join the game
             boolean joinedGame = joinGame(gameID);
             if(joinedGame) { //IMPORTANT: PlayerId and Player Name are just the User's username
-                ClientModel.getInstance().setPlayerID(playerID);
+                ClientModel.getInstance().setPlayerName(playerID);
                 ClientModel.getInstance().getCurrentPlayer().setName(playerID);
                 ClientModel.getInstance().getCurrentPlayer().setPlayerID(playerID);
 

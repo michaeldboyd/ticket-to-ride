@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public interface IWaitroomFragment {
-    void updatePlayerList(Player[] newList);
+    void updatePlayerList(ArrayList<Player> newList);
     void onStartGameSent();
     void onStartGameResponse(String message);
     void onLeaveGameSent();

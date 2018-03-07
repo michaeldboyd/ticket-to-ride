@@ -244,7 +244,8 @@ public class BoardFragment extends Fragment implements
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                myTurn = (playerTurn.equals(mGamePresenter.getCurrentPlayer().getPlayerID()));
+                Player currentPlayer = mGamePresenter.getCurrentPlayer();
+                myTurn = (currentPlayer != null && playerTurn.equals(currentPlayer.getPlayerID()));
                 if (myTurn) {
                    setClaimRouteButtonState(new ClaimRouteButtonIdle());
                    setCardDrawerState(new CardDrawerDrawTrainCards());
@@ -253,18 +254,18 @@ public class BoardFragment extends Fragment implements
                     setCardDrawerState(new CardDrawerIdle());
                 }
 
-                Player[] players = (Player[])mGamePresenter.getPlayers().values().toArray();
+                ArrayList<Player> players = mGamePresenter.getPlayers();
                 if (players == null) {
                     return;
                 }
 
-                int startIndex = mColorSelectionViews.size() - players.length;
+                int startIndex = mColorSelectionViews.size() - players.size();
                 for (int i = 0; i < mColorSelectionViews.size(); i++) {
                     ColorSelectionView colorSelectionView = mColorSelectionViews.get(i);
                     if (i < startIndex) {
                         colorSelectionView.setVisibility(View.INVISIBLE);
                     } else {
-                        Player player = players[i - startIndex];
+                        Player player = players.get(i - startIndex);
                         colorSelectionView.setVisibility(View.VISIBLE);
                         colorSelectionView.setBackgroundResource(getPlayerColorBackground(player.getColor()));
                         colorSelectionView.setAlpha(playerTurn.equals(player.getPlayerID()) ? 1.0f : 0.25f);

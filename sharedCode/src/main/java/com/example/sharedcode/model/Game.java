@@ -11,7 +11,7 @@ import java.util.Map;
 public class Game {
 
     private String gameID;
-    private Map<String, Player> players = new HashMap<>(); // <Name, Player>
+    private ArrayList<Player> players = new ArrayList<>();
     private DestinationDeck destinationDeck;
     private TrainCardDeck trainCardDeck;
     private TrainCardDeck trainDiscardDeck;
@@ -30,6 +30,9 @@ public class Game {
     private int unreadMessages = 0;
 
     private boolean isStarted = false;
+
+
+
     // Getters / Setters
     public ArrayList<String> getHistory() {
         return history;
@@ -87,7 +90,7 @@ public class Game {
         this.gameID = gameID;
     }
 
-    public Map<String, Player> getPlayers(){
+    public ArrayList<Player> getPlayers(){
         return players;
     }
 
@@ -147,9 +150,10 @@ public class Game {
             return false;
         }
 
-        if(!players.containsKey(player.getPlayerID())) {
 
-            players.put(player.getPlayerID(), player);
+        if(!players.contains(player)) {
+
+            players.add(player);
             return true;
         }
         else {
@@ -194,18 +198,28 @@ public class Game {
     }
 
     public void addDestCardToPlayer(String playerName) {
-        Player player = players.get(playerName);
-        player.getDestinationCards().add(destinationDeck.drawCard());
+        for (Player player :
+                players) {
+            if (player.getName().equals(playerName)) {
+                player.getDestinationCards().add(destinationDeck.drawCard());
+                break;
+            }
+        }
     }
 
     public void addTrainCardToPlayerHand(String playerName) {
         try {
-            Player player = players.get(playerName);
+            for (Player player :
+                    players) {
+                if (player.getName().equals(playerName)) {
+                    int cardType = trainCardDeck.drawCard();
+                    int count = player.getHand().get(cardType);
 
-            int cardType = trainCardDeck.drawCard();
+                    player.getHand().put(cardType, count + 1);
 
-            int count = player.getHand().get(cardType);
-            player.getHand().put(cardType, count + 1);
+                    break;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

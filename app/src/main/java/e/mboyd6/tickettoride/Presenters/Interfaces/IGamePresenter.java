@@ -19,7 +19,7 @@ public interface IGamePresenter {
     Player getCurrentPlayer();
 
     /** A way to get the list of players in the game **/
-    Map<String, Player> getPlayers();
+    ArrayList<Player> getPlayers();
 
     /** Called UPWARDS from Model **/
     void enterGame(ArrayList<TrainCard> trainCardsReceived, ArrayList<DestinationCard> initialDestinationCards);

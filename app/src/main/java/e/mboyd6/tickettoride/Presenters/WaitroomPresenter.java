@@ -8,7 +8,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
-import e.mboyd6.tickettoride.Facades.ClientLobby;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import junit.framework.Assert;
@@ -34,7 +33,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     @Override
     public void changePlayerColor(int color){
         String gameID = ClientModel.getInstance().getCurrentGame().getGameID();
-        String playerID = ClientModel.getInstance().getPlayerID();
+        String playerID = ClientModel.getInstance().getPlayerName();
         LobbyProxy.instance().playerColorChanged(ClientModel.getInstance().getAuthToken(),
                 gameID, playerID, color);
     }
@@ -43,7 +42,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
     public void leaveGame() {
         LobbyProxy.instance().leaveGame(ClientModel.getInstance().getAuthToken(),
                 ClientModel.getInstance().getCurrentGame().getGameID(),
-                ClientModel.getInstance().getPlayerID());
+                ClientModel.getInstance().getPlayerName());
     }
 
     @Override
@@ -66,7 +65,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         {
             for(Game g:ClientModel.getInstance().getGames()) {
                 if (g.getGameID().equals(currentGame.getGameID())) {
-                    waitroomFragment.updatePlayerList((Player[])g.getPlayers().values().toArray());
+                    waitroomFragment.updatePlayerList(g.getPlayers());
                 }
             }
         }

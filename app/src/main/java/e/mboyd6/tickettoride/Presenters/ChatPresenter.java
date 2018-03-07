@@ -37,7 +37,7 @@ public class ChatPresenter implements IChatPresenter, Observer {
 
     @Override
     public String getPlayerID() {
-        return ClientModel.getInstance().getPlayerID();
+        return ClientModel.getInstance().getPlayerName();
     }
 
     // View -> Facade

@@ -65,7 +65,7 @@ public class SingleClientLobbyCommands {
             String gameID = game.getGameID();
             Assert.assertNotNull(gameID);
 
-            String playerID = ClientModel.getInstance().getPlayerID();
+            String playerID = ClientModel.getInstance().getPlayerName();
             Assert.assertNotNull(playerID);
 
             //did we correctly join the game?

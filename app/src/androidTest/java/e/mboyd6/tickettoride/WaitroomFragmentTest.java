@@ -85,7 +85,7 @@ public class WaitroomFragmentTest {
 
   @Test
   public void GameActivityView(){
-    ClientModel.getInstance().setPlayerID("001");
+    ClientModel.getInstance().setPlayerName("001");
     generateFakeGames();
     ClientModel.getInstance().setGames(fakeGames);
     ClientModel.getInstance().setCurrentGame(fakeGames.get(0));
@@ -97,7 +97,7 @@ public class WaitroomFragmentTest {
 
   @Test
   public void testColorsGame1() {
-    ClientModel.getInstance().setPlayerID("001");
+    ClientModel.getInstance().setPlayerName("001");
     generateFakeGames();
     ClientModel.getInstance().setGames(fakeGames);
     waitForSeconds(1);

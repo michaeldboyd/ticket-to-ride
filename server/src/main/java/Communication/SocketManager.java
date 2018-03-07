@@ -87,7 +87,7 @@ public class SocketManager implements Observer {
     public void notifyPlayersInGame(String gameID, Command command) {
 
         Collection<String> userTokensInGame = new ArrayList<>();
-        for (Player player : ServerModel.instance().getGames().get(gameID).getPlayers().values()) {
+        for (Player player : ServerModel.instance().getGames().get(gameID).getPlayers()) {
             String auth = ServerModel.instance().getAllUsers()
                     .get(player.getName()).getAuthtoken();
             userTokensInGame.add(auth);

@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.app.Fragment;
 
-import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.GameInitializer;
 import com.example.sharedcode.model.Player;
@@ -25,8 +23,6 @@ import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Views.Activities.GameActivity;
-import e.mboyd6.tickettoride.Views.Activities.MainActivity;
-import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 import e.mboyd6.tickettoride.Views.Fragments.WaitroomFragment;
 
@@ -87,7 +83,7 @@ public class GameActivityTest {
 
   @Test
   public void GameActivityView(){
-    ClientModel.getInstance().setPlayerID("001");
+    ClientModel.getInstance().setPlayerName("001");
     generateFakeGames();
     ClientModel.getInstance().setGames(fakeGames);
     GameInitializer gameInitializer = new GameInitializer();
@@ -102,7 +98,7 @@ public class GameActivityTest {
 
   @Test
   public void BoardFragmentTest(){
-    ClientModel.getInstance().setPlayerID("001");
+    ClientModel.getInstance().setPlayerName("001");
     generateFakeGames();
     GameInitializer gameInitializer = new GameInitializer();
     Game currentGame = gameInitializer.initializeGame(generateBoardFragmentFakeGame());

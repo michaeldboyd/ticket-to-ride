@@ -7,7 +7,6 @@ import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
@@ -48,7 +47,7 @@ public class GamePresenter implements IGamePresenter {
     }
 
     @Override
-    public Map<String, Player> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         if (ClientModel.getInstance().getCurrentGame() != null)
             return ClientModel.getInstance().getCurrentGame().getPlayers();
         else
@@ -134,19 +133,24 @@ public class GamePresenter implements IGamePresenter {
         // to discard to the bottom of the deck
 
         Game currentGame = ClientModel.getInstance().getCurrentGame();
-        String playerName = ClientModel.getInstance().getPlayerID();
-        Player player = currentGame.getPlayers().get(playerName);
-        player.setDestinationCards(chosen);
 
-        // Put the discarded cards at the bottom of the destination deck
-        DestinationDeck destinationDeck = currentGame.getDestinationDeck();
-        for (DestinationCard card :
-                discarded) {
-            destinationDeck.returnDiscarded(card);
+        // Find the current player object
+        Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
+
+        if (currentPlayer != null) {
+            currentPlayer.setDestinationCards(chosen);
+
+
+                // Put the discarded cards at the bottom of the destination deck
+                DestinationDeck destinationDeck = currentGame.getDestinationDeck();
+                for (DestinationCard card :
+                        discarded) {
+                    destinationDeck.returnDiscarded(card);
+                }
+
+                String authToken = ClientModel.getInstance().getAuthToken();
+                GameplayProxy.getInstance().updateDestinationCards(authToken, currentGame.getGameID(), currentPlayer, destinationDeck);
         }
-
-        String authToken = ClientModel.getInstance().getAuthToken();
-        GameplayProxy.getInstance().updateDestinationCards(authToken, currentGame.getGameID(), player, destinationDeck);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class GameInitializer {
         game.setRoutesClaimed(initializeRoutes());
 
         // for each player in the game, draw three destination cards and 4 train cards.
-       for(Player p : game.getPlayers().values()) {
+       for(Player p : game.getPlayers()) {
            for(int i = 0; i < 3; i++) { game.addDestCardToPlayer(p.getName());}
            for(int i = 0; i < 4; i++) { game.addTrainCardToPlayerHand(p.getName());}
        }

@@ -208,10 +208,12 @@ public class ServerLobby implements IServerLobbyFacade {
         Collection<String> tokens = new ArrayList<String>();
         Boolean success = false;
 
-        if (ServerModel.instance().getGames().get(gameID).getPlayers().containsKey(playerName)) {
-            Player player = ServerModel.instance().getGames().get(gameID).getPlayers().get(playerName);
-            player.setColor(color);
-            success = true;
+        for (Player player :
+                ServerModel.instance().getGames().get(gameID).getPlayers()) {
+            if (player.getName().equals(playerName)) {
+                player.setColor(color);
+                success = true;
+            }
         }
 
         tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
