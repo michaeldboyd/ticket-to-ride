@@ -4,7 +4,6 @@ import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
-import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.UpdateType;
 
 import java.util.ArrayList;
@@ -55,6 +54,7 @@ public class ClientLobby implements IClientLobbyFacade {
 
 
 
+
     //***** THESE METHODS ARE NOT CALLED FROM THE CLIENT PROXY--ONLY FROM THE CORRESPONDING STATIC METHODS *****
 
     //Must be called after a user creates a new game. this won't be called now
@@ -80,14 +80,23 @@ public class ClientLobby implements IClientLobbyFacade {
 
     @Override
     public void updateGames(Game[] games, String message) {
-        UpdateType type = UpdateType.GAME_LIST;
+        UpdateType type = UpdateType.LOBBY_LIST_UPDATED;
         boolean success = isSuccess(message);
 
         if(success)
         {
             ArrayList<Game> updatedGames = new ArrayList<>(Arrays.asList(games));
             ClientModel.getInstance().setGames(updatedGames);
-        } //if it fails, we'll handle the error later on
+            Game currentGame = ClientModel.getInstance().getCurrentGame();
+            if(currentGame != null) {
+                for (Game g : games){
+                    if(g.getGameID().equals(currentGame.getGameID())){
+                        ClientModel.getInstance().setCurrentGame(g);
+                        break;
+                    }
+                }
+            }
+        } else message = "update Games failed";
 
         sendUpdate(type, success, message);
     }
@@ -101,8 +110,10 @@ public class ClientLobby implements IClientLobbyFacade {
         {
             //join the game
             boolean joinedGame = joinGame(gameID);
-            if(joinedGame) {
+            if(joinedGame) { //IMPORTANT: PlayerId and Player Name are just the User's username
                 ClientModel.getInstance().setPlayerID(playerID);
+                ClientModel.getInstance().getCurrentPlayer().setName(playerID);
+                ClientModel.getInstance().getCurrentPlayer().setPlayerID(playerID);
 
             } else message = "Game ID wasn't found correctly. Choose another game for now.";
         }
@@ -116,15 +127,22 @@ public class ClientLobby implements IClientLobbyFacade {
         UpdateType type = UpdateType.GAME_STARTED;
         boolean success = isSuccess(message);
 
-        //just in case, we're going to double check you've joined the game (this was in the original login)
-       if(success) {
-           if(joinGame(gameID)) {
-               message = "The game you're trying to start has the wrong ID. our deepest condolences.";
-               success = false;
-           }
-       }
-
-       sendUpdate(type, success, message);
+        ArrayList<Game> games = ClientModel.getInstance().getGames();
+        if (success && games != null) {
+            for (Game g : games) {
+                if (g.getGameID().equals(gameID)) {
+                    if(!ClientModel.getInstance().getCurrentGame().isStarted()) {
+                        g.setStarted(true);
+                        ClientModel.getInstance().setCurrentGame(g);
+                    } else message = "Your game has already started!";
+                    break;
+                } else {
+                    message = "The game you're trying to start has the wrong ID.";
+                    success = false;
+                }
+            }
+            sendUpdate(type, success, message);
+        }
     }
 
     //leave the game
@@ -150,7 +168,6 @@ public class ClientLobby implements IClientLobbyFacade {
         UpdateArgs args = new UpdateArgs(type, success, error);
         ClientModel.getInstance().sendUpdate(args);
     }
-
 
     private boolean joinGame(String gameID){
         ArrayList<Game> games = ClientModel.getInstance().getGames();

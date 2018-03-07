@@ -3,7 +3,9 @@ package e.mboyd6.tickettoride.Communication.Proxies;
 import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IChatServerFacade;
+import com.example.sharedcode.model.UpdateType;
 
 
 import java.util.HashMap;
@@ -42,7 +44,8 @@ public class ChatProxy implements IChatServerFacade {
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_sendChatMessage", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
+        Sender.sendToServer(sendMessageCommand);
+
     }
 
     @Override
@@ -52,6 +55,11 @@ public class ChatProxy implements IChatServerFacade {
 
         Command isTypingCommand = CommandFactory.createCommand(null, CLASS_PATH, "_sendIsTyping", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(isTypingCommand, args));
+        Sender.sendToServer(isTypingCommand);
+    }
+
+    @Override
+    public void getChatHistory(String authToken, String gameID) {
+        // doesn't do anything on this end. it could later though
     }
 }

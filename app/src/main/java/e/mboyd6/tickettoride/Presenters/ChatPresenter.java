@@ -75,8 +75,8 @@ public class ChatPresenter implements IChatPresenter, Observer {
     @Override
     public void isTypingUpdated() {
         boolean isTyping = ClientModel.getInstance().getCurrentGame().isTyping();
-
-        chatFragment.updateTyping(isTyping, ClientModel.getInstance().getCurrentGame().getPersonTyping());
+        String name = ClientModel.getInstance().getCurrentGame().getPersonTyping();
+        chatFragment.updateTyping(isTyping, name);
         if (gameActivity != null)
         gameActivity.onIsTypingChanged(isTyping);
     }

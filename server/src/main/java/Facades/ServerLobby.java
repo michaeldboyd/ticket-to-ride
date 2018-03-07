@@ -5,10 +5,8 @@ import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
-import com.example.sharedcode.model.Game;
-import com.example.sharedcode.model.Player;
-import com.example.sharedcode.model.PlayerColors;
-import com.example.sharedcode.model.User;
+import com.example.sharedcode.model.*;
+import org.eclipse.jetty.server.Server;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -76,9 +74,11 @@ public class ServerLobby implements IServerLobbyFacade {
 
         ServerModel.instance().notifyObserversForUpdate(createGameClientCommand);
 
-        updateGamesBroadcast();
+        SocketManager.instance().updateGameList(ServerModel.instance().getLobbyUserAuthTokens());
     }
 
+
+    //Is this being used?
     @Override
     public void getGames(String authToken) {
         Object[] games = ServerModel.instance().getGames().values().toArray();
@@ -87,8 +87,6 @@ public class ServerLobby implements IServerLobbyFacade {
         for (Object o : games) {
             gs[i++] = (Game) o;
         }
-        // TODO - message parameter is always null -- we should remove it or figure out potential errors/problems
-
         // Message is empty
         String message = "";
         String[] paramTypes = {gs.getClass().toString(), message.getClass().toString()};
@@ -108,16 +106,16 @@ public class ServerLobby implements IServerLobbyFacade {
 
         String playerID = "";
         if (ServerModel.instance().getGames().containsKey(gameID)) {
-
-            Player newPlayer = new Player(UUID.randomUUID().toString(),
-                    ServerModel.instance().getAuthTokenToUsername().get(authToken),
-                    PlayerColors.NO_COLOR);
+            String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
+            Player newPlayer = new Player(usnm,usnm, PlayerColors.NO_COLOR);
 
             // Only set message if we fail to add user to the game
             if (!ServerModel.instance().getGames().get(gameID).addPlayer(newPlayer)) {
                 message = "Could not add player to game because it is already full";
             } else {
                 playerID = newPlayer.getPlayerID();
+                ServerModel.instance().getUsersInLobby()
+                        .remove(ServerModel.instance().getLoggedInUsers().get(usnm).getUsername());
             }
         } else message = "could not find game in list";
 
@@ -130,76 +128,84 @@ public class ServerLobby implements IServerLobbyFacade {
                 "_joinGameReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(joinGameClientCommand);
-        updateGamesBroadcast();
+
+        //notify everyone in game and in lobby
+        Collection<String> tokens = ServerModel.instance().getLobbyUserAuthTokens();
+        tokens.addAll(ServerModel.instance().getPlayerAuthTokens(gameID));
+        SocketManager.instance().updateGameList(tokens);
+
+        ServerChat._getChatHistory(authToken, gameID);
     }
 
     // If the game
     //removes player from list of joined game, then sends that to everyone
     //send everyone the updated games
+
     @Override
     public void leaveGame(String authToken, String gameID, String playerID) {
         String message = "";
+
         Map<String, Game> games = ServerModel.instance().getGames();
         // This returns false if playerID is not part of game
         if (!games.get(gameID).removePlayer(playerID)) {
             message = "Could not remove player because is not in the game";
         }
-
-        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {gameID, message};
-
-        Command leaveGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME, "_leaveGameReceived", paramTypes, paramValues);
-
+        String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
+        User user = ServerModel.instance().getLoggedInUsers().get(usnm);
+        ServerModel.instance().getUsersInLobby().put(user.getUsername(), user);
         Game game = games.get(gameID);
-
         //remove the game if there are no more players
         if (game != null && game.getPlayers() != null && game.getPlayers().size() == 0) {
             games.remove(gameID);
         }
         ServerModel.instance().setGames(games);
+
+        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {gameID, message};
+
+        Command leaveGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
+                "_leaveGameReceived", paramTypes, paramValues);
+
         ServerModel.instance().notifyObserversForUpdate(leaveGameClientCommand);
-        updateGamesBroadcast();
+
+        Collection<String> tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
+        tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
+        SocketManager.instance().updateGameList(tokens);
     }
 
     //tell everyone to start the game who is in it, andupdate the games list for everyone else
     @Override
     public void startGame(String authToken, String gameID) {
         String message = "";
-
-        if (!ServerModel.instance().getGames().containsKey(gameID)) {
-            message = "Game doesn't exist.";
-        } else {
+        Collection<String> tokens;
+        if (ServerModel.instance().getGames().containsKey(gameID)) {
             Game game = ServerModel.instance().getGames().get(gameID);
-
-            Collection<String> authTokens = new ArrayList<>();
             if (game.getPlayers() != null) {
-                for (Player p : game.getPlayers()) {
-                    User user = ServerModel.instance().getAllUsers().get(p.getName());
-                    if (user != null) {
-                        authTokens.add(user.getAuthtoken());
-                    }
-                }
-                //update the model
-
+                // INITIALIZE GAME
+                GameInitializer gi = new GameInitializer();
+                game = gi.initializeGame(game);
                 ServerModel.instance().getGames().put(gameID, game);
-                notifyPlayersOfGameStarted(authTokens, message, gameID);
-            }
-        }
 
-        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {gameID, message};
+                //notify everyone in the lobby and in the waitroom of the changes.
+                tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
+                tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
+                SocketManager.instance().updateGameList(tokens);
 
-        Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
-                "_startGameReceived", paramTypes, paramValues);
 
-        ServerModel.instance().notifyObserversForUpdate(startGameClientCommand);
-        updateGamesBroadcast();
+                String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+                Object[] paramValues = {gameID, message};
+                Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
+                        "_startGameReceived", paramTypes, paramValues);
+
+                SocketManager.instance().notifyPlayersInGame(gameID, startGameClientCommand);
+            } else message = "The server says no player exists in this game.";
+        } else message = "Game doesn't exist.";
     }
 
     @Override
     public void playerColorChanged(String authToken, String gameID, String playerID, int color) {
         //Game game = ServerModel.instance().getGames().get(gameID);
-
+        Collection<String> tokens = new ArrayList<String>();
         Boolean success = false;
         for (Player player : ServerModel.instance().getGames().get(gameID).getPlayers()) {
             if (player.getPlayerID().equals(playerID)) {
@@ -208,41 +214,15 @@ public class ServerLobby implements IServerLobbyFacade {
                 break;
             }
         }
-       // ServerModel.instance().getGames().put(gameID, game);
-
+        tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
+        tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
         if (success) {
-            updateGamesBroadcast();
+            SocketManager.instance().updateGameList(tokens);
         }
     }
 
-    private void updateGamesBroadcast() {
-        //TODO is there a better way to send the games over the server?
-        //just send this to the people in the lobby & waiting room
-        Object[] games = ServerModel.instance().getGames().values().toArray();
-        Game[] gs = new Game[games.length];
-        int i = 0;
-        for (Object o : games) {
-            gs[i++] = (Game) o;
-        }
-        // Message is blank
-        String message = "";
-        String[] paramTypes = {gs.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {gs, message};
-        Command updateGamesClientCommand = CommandFactory.createCommand(null, CLASS_NAME,
-                "_updateGamesReceived", paramTypes, paramValues);
-        SocketManager.instance().sendBroadcast(ServerModel.instance().getLoggedInSessions().keySet(), updateGamesClientCommand);
-    }
 
-    private void notifyPlayersOfGameStarted(Collection<String> tokens, String message, String gameID) {
-        String[] paramTypes = {message.getClass().toString(), gameID.getClass().toString()};
-        Object[] paramValues = {gameID, message};
-        Command command = CommandFactory.createCommand("", CLASS_NAME,
-                "_startGameReceived", paramTypes, paramValues);
-        //TODO this eventually should be changed so it only sends the command to the people in the right game.
-        for (String token : tokens) {
-            command.set_authToken(token);
-            ServerModel.instance().notifyObserversForUpdate(command);
-        }
-    }
+    // this should only be sent to the people in the game.
+
 
 }

@@ -3,7 +3,7 @@ package e.mboyd6.tickettoride.Communication.Proxies;
 import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
-import com.example.sharedcode.interfaces.IServerGamplayFacade;
+import com.example.sharedcode.interfaces.IServerGameplayFacade;
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.FaceUpDeck;
@@ -21,7 +21,7 @@ import e.mboyd6.tickettoride.Model.ClientModel;
  * Created by jonathanlinford on 3/2/18.
  */
 
-public class GameplayProxy implements IServerGamplayFacade {
+public class GameplayProxy implements IServerGameplayFacade {
 
     private String CLASS_PATH = "Facades.ServerGameplay";
     private Map args = new HashMap();

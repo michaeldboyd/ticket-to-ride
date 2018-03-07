@@ -28,18 +28,11 @@ public class SocketManager {
         WebSocketClient client = null;
         try {
             client = new SocketClient(new URI("ws://" + ip + ":8080/echo/"));
-
+                client.connect();
+                ClientModel.getInstance().setSocket(client);
         } catch (URISyntaxException e) {
             error = "Yo, your socket didn't connect correctly... Sorry broseph. Error: " + e.getMessage();
             e.printStackTrace();
-        }
-        if(client != null)
-        {
-            client.connect();
-            ClientModel.getInstance().setSocket(client);
-        } else
-        {
-            error = "Yo, your socket didn't connect correctly... Sorry broseph";
         }
         return error;
     }

@@ -193,7 +193,7 @@ public class ChatFragment extends Fragment implements IChatFragment {
                     sb.append(mPlayersTyping.get(i));
                     // Add 'and' if it's the second to last person and there's more than one player typing
                     if (mPlayersTyping.size() > 1 && i == mPlayersTyping.size() - 2) {
-                        sb.append(" and");
+                        sb.append(" and ");
                     }
                     // Add ',' if there's more than two people and the current person is before the second to last
                     else if (mPlayersTyping.size() > 2 && i < mPlayersTyping.size() - 2) {
@@ -202,12 +202,11 @@ public class ChatFragment extends Fragment implements IChatFragment {
                 }
                 if (mPlayersTyping.size() > 0) {
                     if (mPlayersTyping.size() == 1)
-                        sb.append("is typing...");
+                        sb.append(" is typing...");
                     else
-                        sb.append("are typing...");
-                } else {
-                    mSomeoneTypingField.setText(sb.toString());
+                        sb.append(" are typing...");
                 }
+                mSomeoneTypingField.setText(sb.toString());
             }
         });
 

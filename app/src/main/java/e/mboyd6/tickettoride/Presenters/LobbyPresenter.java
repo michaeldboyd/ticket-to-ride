@@ -88,7 +88,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         Assert.assertEquals(o.getClass(), UpdateArgs.class);
         UpdateArgs args = (UpdateArgs) o;
         switch(args.type){
-            case GAME_LIST:
+            case LOBBY_LIST_UPDATED:
                 updateGameList();
                 break;
             case LOGOUT_RESPONSE:
@@ -100,11 +100,17 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
             case GAME_JOINED:
                 gameJoined(args.error);
                 break;
+            case SERVER_DISCONNECT:
+                serverDisconnected(args.error);
             default:
                 //System.out.println("ENUM ERROR");
                 break;
         }
 
+    }
+
+    private void serverDisconnected(String error) {
+        logoutResponse(error);
     }
 
 

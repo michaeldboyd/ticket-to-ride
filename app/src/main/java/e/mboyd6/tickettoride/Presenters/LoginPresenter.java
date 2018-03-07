@@ -116,6 +116,8 @@ public class LoginPresenter implements ILoginPresenter, Observer{
             case LOGIN_RESPONSE:
                 loginResponse(args.error);
                 break;
+            case SERVER_DISCONNECT:
+                loginResponse(args.error);
             default:
                 break;
         }

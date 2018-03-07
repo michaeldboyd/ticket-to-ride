@@ -7,6 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
+import e.mboyd6.tickettoride.Facades.ClientLobby;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import junit.framework.Assert;
@@ -99,13 +100,15 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         Assert.assertEquals(o.getClass(), UpdateArgs.class);
         UpdateArgs args = (UpdateArgs) o;
         switch(args.type) {
-            case GAME_LIST:
+            case LOBBY_LIST_UPDATED:
                 updatePlayerList();
                 break;
             case GAME_STARTED:
                 startGameResponse(args.error);
                 break;
             case GAME_LEFT:
+                leaveGameResponse(args.error);
+            case SERVER_DISCONNECT:
                 leaveGameResponse(args.error);
             default:
                 //System.out.println("ENUM ERROR");

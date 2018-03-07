@@ -46,7 +46,7 @@ public class LobbyProxy implements IServerLobbyFacade {
         String[] paramValues = {authToken};
         Command getGamesCommand = CommandFactory.createCommand(null, CLASS_NAME, "_getGames", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(getGamesCommand, args));
+        Sender.sendToServer(getGamesCommand);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class LobbyProxy implements IServerLobbyFacade {
 
         Command joinGameCommand = CommandFactory.createCommand(null, CLASS_NAME, "_joinGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(joinGameCommand, args));
+        Sender.sendToServer(joinGameCommand);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class LobbyProxy implements IServerLobbyFacade {
 
         Command leaveGameCommand = CommandFactory.createCommand(null, CLASS_NAME, "_leaveGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(leaveGameCommand, args));
+        Sender.sendToServer(leaveGameCommand);
     }
 
     @Override
@@ -75,16 +75,16 @@ public class LobbyProxy implements IServerLobbyFacade {
         String[] paramValues = {authToken, gameID};
         Command startGameCommand = CommandFactory.createCommand(null, CLASS_NAME, "_startGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(startGameCommand, args));
+        Sender.sendToServer(startGameCommand);
     }
 
     @Override
     public void playerColorChanged(String authToken, String gameID, String playerID, int color) {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), "int"};
-        Object[] paramValues = {authToken, gameID, playerID, Integer.valueOf(color)};
+        Object[] paramValues = {authToken, gameID, playerID, color};
 
         Command playerColorChangedCommand = CommandFactory.createCommand(null,CLASS_NAME, "_playerColorChanged", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(playerColorChangedCommand, args));
+        Sender.sendToServer(playerColorChangedCommand);
     }
 }

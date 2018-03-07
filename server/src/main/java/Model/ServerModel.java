@@ -32,12 +32,18 @@ public class ServerModel extends Observable {
     }
 
     private ServerModel() {}
-
+    //User Info
     private Map<String, User> loggedInUsers = new HashMap<>(); // <username, User>
     private Map<String, User> allUsers = new HashMap<>(); // <username, User>
     private Map<String, String> authTokenToUsername = new HashMap<>(); // <authToken, username>
+    private Map<String, User> usersInLobby = new HashMap<String, User>();
+    private Map<String, Game> startedGames = new HashMap<>();
+
+    //Game list
     private Map<String, Game> games = new HashMap<>(); // <gameID, Game>
     private Map<String, ArrayList<ChatMessage>> chatMessagesForGame = new HashMap<>(); // <gameID, ChatMessage[]>
+
+
     //this static map keeps track of all open websockets
     private Map<String, Session> loggedInSessions = Collections.synchronizedMap(new HashMap<>());
     private Map<String, Session> allSessions = Collections.synchronizedMap(new HashMap<>());
@@ -62,14 +68,14 @@ public class ServerModel extends Observable {
     }
 
     //*** Getters ***
+    public Map<String, Game> getStartedGames() { return startedGames; }
+    public Map<String, User> getUsersInLobby() { return usersInLobby;}
     public Map<String, User> getLoggedInUsers() {
         return loggedInUsers;
     }
-
     public Map<String, User> getAllUsers() {
         return allUsers;
     }
-
     public Map<String, String> getAuthTokenToUsername() {
         return authTokenToUsername;
     }
@@ -77,11 +83,7 @@ public class ServerModel extends Observable {
     public Map<String, Game> getGames() {
         return games;
     }
-
-    public Map<String, Session> getLoggedInSessions() {
-        return loggedInSessions;
-    }
-
+    public Map<String, Session> getLoggedInSessions() { return loggedInSessions; }
     public Map<String, Session> getAllSessions() {
         return allSessions;
     }
@@ -91,4 +93,22 @@ public class ServerModel extends Observable {
     public Map<String, ArrayList<ChatMessage>> getChatMessagesForGame() {
         return chatMessagesForGame;
     }
+    public ArrayList<String> getPlayerAuthTokens(String gameID) {
+        ArrayList<String> tokens = new ArrayList<String>();
+        if(gameID != null && games.get(gameID) != null) {
+            for(Player p : ServerModel.instance().getGames().get(gameID).getPlayers()){
+                tokens.add(ServerModel.instance().getAllUsers().get(p.getName()).getAuthtoken());
+            }
+        }
+        return tokens;
+    }
+    public ArrayList<String> getLobbyUserAuthTokens() {
+        ArrayList<String> tokens = new ArrayList<>();
+        for(User u : ServerModel.instance().getUsersInLobby().values()) {
+            tokens.add(u.getAuthtoken());
+        }
+        return tokens;
+    }
+
+
 }

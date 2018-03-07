@@ -6,6 +6,8 @@ import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.UpdateType;
 
+import java.util.ArrayList;
+
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -38,6 +40,25 @@ public class ClientChat implements IChatClientFacade {
         _instance.isTypingReceived(playerName, isTyping);
     }
 
+    public static void _chatHistoryReceived(ArrayList<ChatMessage> cm, String gameID)
+    {
+        _instance.chatHistoryReceived(cm, gameID);
+
+    }
+
+    @Override
+    public void chatHistoryReceived(ArrayList<ChatMessage> cm, String gameID) {
+        Game cur = ClientModel.getInstance().getCurrentGame();
+        String message = "";
+       if(cur != null && cur.getGameID().equals(gameID))
+       {
+           ClientModel.getInstance().getCurrentGame().setChatMessages(cm);
+
+       } else message = "You are not in the right game to get the chat history";
+        sendUpdate(UpdateType.CHAT_RECEIVED, true, message);
+
+    }
+
 
     @Override
     public void chatMessageReceived(ChatMessage chatMessage, String gameID) {
@@ -60,7 +81,12 @@ public class ClientChat implements IChatClientFacade {
 
     @Override
     public void isTypingReceived(String playerName, Boolean isTyping) {
-        // TODO: - Handle this event to show the "[player name] is typing" UI
+        UpdateType type = UpdateType.TYPING_UPDATED;
+        ClientModel.getInstance().getCurrentGame().setTyping(isTyping);
+        ClientModel.getInstance().getCurrentGame().setPersonTyping(playerName);
+        sendUpdate(type, true, "");
+
+
     }
 
     private void sendUpdate(UpdateType type, boolean success, String error)
