@@ -24,8 +24,6 @@ public class ClientModel extends Observable {
     private Game currentGame = null;
     private String playerName = "";
 
-    // Current player data
-    private Player currentPlayer = new Player("playerName", "name", PlayerColors.NO_COLOR);
     private String authToken;
 
     private String playerTurn;
@@ -59,7 +57,6 @@ public class ClientModel extends Observable {
     public void clearInstance() {
         games.clear();
         playerName = "";
-        currentPlayer = new Player("playerName", "name", PlayerColors.NO_COLOR);
         authToken = null;
         currentGame = null;
     }
@@ -106,10 +103,6 @@ public class ClientModel extends Observable {
         }
 
         return player;
-    }
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
     }
 
     public String getAuthToken() {
