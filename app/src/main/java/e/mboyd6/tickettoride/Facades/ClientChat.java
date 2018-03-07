@@ -60,7 +60,13 @@ public class ClientChat implements IChatClientFacade {
 
     @Override
     public void isTypingReceived(String playerName, Boolean isTyping) {
-        // TODO: - Handle this event to show the "[player name] is typing" UI
+        UpdateType type = UpdateType.TYPING_UPDATED;
+        // TODO: What next?  the server is calling this method
+        ClientModel.getInstance().getCurrentGame().setTyping(isTyping);
+        ClientModel.getInstance().getCurrentGame().setPersonTyping(playerName);
+
+        sendUpdate(type, true, "");
+
     }
 
     private void sendUpdate(UpdateType type, boolean success, String error)

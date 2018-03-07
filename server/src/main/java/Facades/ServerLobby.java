@@ -77,7 +77,7 @@ public class ServerLobby implements IServerLobbyFacade {
 
         ServerModel.instance().notifyObserversForUpdate(createGameClientCommand);
 
-        updateGameList(ServerModel.instance().getLobbyUserAuthTokens());
+        SocketManager.instance().updateGameList(ServerModel.instance().getLobbyUserAuthTokens());
     }
 
 
@@ -135,7 +135,8 @@ public class ServerLobby implements IServerLobbyFacade {
         //notify everyone in game and in lobby
         Collection<String> tokens = ServerModel.instance().getLobbyUserAuthTokens();
         tokens.addAll(ServerModel.instance().getPlayerAuthTokens(gameID));
-        updateGameList(tokens);
+
+        SocketManager.instance().updateGameList(tokens);
     }
 
     // If the game
@@ -171,34 +172,36 @@ public class ServerLobby implements IServerLobbyFacade {
 
         Collection<String> tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
         tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
-        updateGameList(tokens);
+        SocketManager.instance().updateGameList(tokens);
     }
 
     //tell everyone to start the game who is in it, andupdate the games list for everyone else
     @Override
     public void startGame(String authToken, String gameID) {
         String message = "";
-        Collection<String> tokens = new ArrayList<String>();
+        Collection<String> tokens;
         if (!ServerModel.instance().getGames().containsKey(gameID)) {
             message = "Game doesn't exist.";
         } else {
             Game game = ServerModel.instance().getGames().get(gameID);
             if (game.getPlayers() == null) {
                 message = "The server says no player exists in this game.";
-            } else { // Add all tokens from the current game
-                tokens = ServerModel.instance().getLobbyUserAuthTokens();
-                // send a notification that the game started to everyon in the lobby
-                updateGameList(tokens);
-                tokens.clear();
+            } else {
+                // send a startGame command to everyone in the waitroom
+                String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
+                Object[] paramValues = {gameID, message};
+                Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
+                        "_startGameReceived", paramTypes, paramValues);
+                SocketManager.instance().notifyPlayersInGame(gameID, startGameClientCommand);
             }
         }
-        // send a notification to the people in the game that their game has started
+        // send a notification to everyone that the game has started
         tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
-        String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {gameID, message};
-        Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
-                "_startGameReceived", paramTypes, paramValues);
-        notifyPlayersInGame(gameID, startGameClientCommand);
+        tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
+
+        SocketManager.instance().updateGameList(tokens);
+
+
     }
 
     @Override
@@ -215,38 +218,12 @@ public class ServerLobby implements IServerLobbyFacade {
         }
         tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
         if (success) {
-           updateGameList(tokens);
+            SocketManager.instance().updateGameList(tokens);
         }
     }
 
-    private void updateGameList(Collection<String> tokens) {
-        //TODO is there a better way to send the games over the server?
-        //just send this to the people in the lobby & waiting room
-        Object[] objects = ServerModel.instance().getGames().values().toArray();
-        Game[] games = new Game[objects.length];
-        int i = 0;
-        for(Object g : objects) {  games[i++] = (Game) g; }
-
-        String message = "";
-        String[] paramTypes = {games.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {games, message};
-        Command updateGamesClientCommand = CommandFactory.createCommand(null, CLASS_NAME,
-                "_updateGamesReceived", paramTypes, paramValues);
-
-        SocketManager.instance().sendBroadcast(tokens, updateGamesClientCommand);
-    }
 
     // this should only be sent to the people in the game.
-    private void notifyPlayersInGame(String gameID, Command command) {
-        //TODO this eventually should be changed so it only sends the command to the people in the right game.
-        Collection<String> userTokensInGame = new ArrayList<>();
-        for (Player player : ServerModel.instance().getGames().get(gameID).getPlayers()) {
-            String auth = ServerModel.instance().getAllUsers()
-                    .get(player.getName()).getAuthtoken();
-            userTokensInGame.add(auth);
-        }
-        SocketManager.instance().sendBroadcast(userTokensInGame, command);
 
-    }
 
 }

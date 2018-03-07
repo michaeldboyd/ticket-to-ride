@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by jonathanlinford on 3/2/18.
  */
 
-public interface IServerGamplayFacade {
+public interface IServerGameplayFacade {
     void startGame(String authToken, String gameID);
     void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed);
     void drawTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck);

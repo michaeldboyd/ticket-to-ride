@@ -6,8 +6,11 @@ import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 import com.example.sharedcode.model.User;
+import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.api.Session;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
@@ -94,6 +97,9 @@ public class ServerLogin implements IServerLoginFacade {
             ServerModel.instance().notifyObserversForUpdate(loginClientCommand);
         else SocketManager.instance().sendBySocketId(loginClientCommand, socketID);
 
+        Collection<String> tok = new ArrayList<String>();
+        tok.add(authToken);
+        SocketManager.instance().updateGameList(tok);
     }
 
 
@@ -139,6 +145,9 @@ public class ServerLogin implements IServerLoginFacade {
         if(!authToken.equals(""))
             ServerModel.instance().notifyObserversForUpdate(registerClientCommand);
         else SocketManager.instance().sendBySocketId(registerClientCommand, socketID);
+        Collection<String> tok = new ArrayList<String>();
+        tok.add(authToken);
+        SocketManager.instance().updateGameList(tok);
 
     }
 

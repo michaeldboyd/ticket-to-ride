@@ -1,5 +1,6 @@
 package Facades;
 
+import Communication.SocketManager;
 import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
@@ -52,7 +53,8 @@ public class ServerChat implements IChatServerFacade {
         Object[] paramValues = {newMessage, gameID};
         Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.ClientChat", "_chatMessageReceived", paramTypes, paramValues);
 
-        ServerModel.instance().notifyObserversForUpdate(addChatCommand);
+        SocketManager.instance().notifyPlayersInGame(gameID, addChatCommand);
+
     }
 
     @Override
@@ -64,5 +66,11 @@ public class ServerChat implements IChatServerFacade {
         } else {
             ServerModel.instance().getGames().get(gameID).setPersonTyping(null);
         }
+
+        String[] paramTypes = {playerName.getClass().toString(), isTyping.getClass().toString()};
+        Object[] paramValues = {playerName, isTyping};
+        Command command = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.ClientChat", "_isTypingReceived", paramTypes, paramValues);
+
+        SocketManager.instance().notifyPlayersInGame(gameID, command);
     }
 }

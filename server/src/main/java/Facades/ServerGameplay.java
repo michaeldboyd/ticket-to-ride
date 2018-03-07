@@ -1,11 +1,11 @@
 package Facades;
 
-import com.example.sharedcode.interfaces.IServerGamplayFacade;
+import com.example.sharedcode.interfaces.IServerGameplayFacade;
 import com.example.sharedcode.model.*;
 
 import java.util.Map;
 
-public class ServerGameplay implements IServerGamplayFacade{
+public class ServerGameplay implements IServerGameplayFacade {
     private static ServerGameplay ourInstance = new ServerGameplay();
 
     public static ServerGameplay getInstance() {
@@ -19,12 +19,12 @@ public class ServerGameplay implements IServerGamplayFacade{
         ourInstance.startGame(authToken, gameID);
     }
 
-    public static void _claimRoute(String authToken, String gameID, String playerID, String city1, String city2) {
-        //ourInstance.claimRoute(authToken, gameID, playerID, city1, city2);
+    public static void _claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
+        ourInstance.claimRoute(authToken, gameID, player, routesClaimed);
     }
 
-    public static void _drawTrainCard(String authToken, String gameID, String playerID) {
-        //urInstance.drawTrainCard(authToken, gameID, playerID);
+    public static void _drawTrainCards(String authToken, String gameID, String playerID) {
+        //ourInstance.drawTrainCards(authToken, gameID, playerID);
     }
 
     public static void _playTrainCard(String authToken, String gameID, String playerID, TrainCard card) {
@@ -47,6 +47,7 @@ public class ServerGameplay implements IServerGamplayFacade{
         ourInstance.getGameHistory(authToken, gameID);
     }
 
+
     @Override
     public void startGame(String authToken, String gameID) {
 
@@ -67,38 +68,9 @@ public class ServerGameplay implements IServerGamplayFacade{
 
     }
 
-   /* @Override
-    public void claimRoute(String authToken, String gameID, String playerID, String city1, String city2) {
-
-    }
-
-    @Override
-    public void drawTrainCard(String authToken, String gameID, String playerID) {
-
-    }
-
-    @Override
-    public void playTrainCard(String authToken, String gameID, String playerID, TrainCard card) {
-
-    }
-
-    @Override
-    public void drawDestinationCard(String authToken, String gameID, String playerID) {
-
-    }
-
-    @Override
-    public void discardDestinationCard(String authToken, String gameID, String playerID, DestinationCard card) {
-
-    }
-
-    @Override
-    public void placeTrainCars(String authToken, String gameID, String playerID, int numCars, Route route) {
-
-    }
-*/
     @Override
     public void getGameHistory(String authToken, String gameID) {
 
     }
 }
+
