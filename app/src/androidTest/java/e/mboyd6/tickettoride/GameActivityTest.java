@@ -145,7 +145,7 @@ public class GameActivityTest {
     trainCards.add(new TrainCard());
     trainCards.add(new TrainCard());
     trainCards.add(new TrainCard());
-    fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, trainCards);
+    fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, trainCards.size());
     return fakeGame;
   }
 

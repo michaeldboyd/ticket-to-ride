@@ -96,10 +96,11 @@ public class ServerModel extends Observable {
     public ArrayList<String> getPlayerAuthTokens(String gameID) {
         ArrayList<String> tokens = new ArrayList<String>();
         if(gameID != null && games.get(gameID) != null) {
-            for(Player p : ServerModel.instance().getGames().get(gameID).getPlayers()){
+            for (Player p : ServerModel.instance().getGames().get(gameID).getPlayers().values()) {
                 tokens.add(ServerModel.instance().getAllUsers().get(p.getName()).getAuthtoken());
             }
         }
+
         return tokens;
     }
     public ArrayList<String> getLobbyUserAuthTokens() {
@@ -107,6 +108,7 @@ public class ServerModel extends Observable {
         for(User u : ServerModel.instance().getUsersInLobby().values()) {
             tokens.add(u.getAuthtoken());
         }
+
         return tokens;
     }
 

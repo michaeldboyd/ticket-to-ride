@@ -88,12 +88,12 @@ public class ServerGameplay implements IServerGameplayFacade {
     }
 
     @Override
-    public void drawTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
+    public void updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
 
     }
 
     @Override
-    public void drawDestinationCard(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
+    public void updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
 
     }
 

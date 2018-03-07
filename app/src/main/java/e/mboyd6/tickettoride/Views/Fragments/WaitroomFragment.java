@@ -71,7 +71,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
     private ArrayList<ColorSelectionView> colorSelectionViews = new ArrayList<>();
     private TextView playersInLobby;
 
-    private ArrayList<Player> players;
+    private Player[] players;
 
     private Button mBackOutButton;
     private Button mStartGameButton;
@@ -202,7 +202,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
 
         selectedColors = refreshSelectedColors();
 
-        int playerCount = players.size();
+        int playerCount = players.length;
         for (int i = 0; i < 5; i++) {
 
             int background = 0;
@@ -215,13 +215,13 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
             boolean chosen = false;
 
             if (i < playerCount) {
-                int playerColor = players.get(i).getColor();
+                int playerColor = players[i].getColor();
                 if (playerColor != PlayerColors.NO_COLOR) {
                     for (SelectedColor selectedColor : selectedColors) {
                         if (playerColor == selectedColor.playerColor) {
                             selectedColor.chosen = true;
                             chosen = true;
-                            colorSelectionText = players.get(i).getName();
+                            colorSelectionText = players[i].getName();
                             selectedColor.shown = true;
                             background = selectedColor.backgroundFaded;
                             textColor = fadedText;
@@ -321,8 +321,8 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
     }
 
     @Override
-    public void updatePlayerList(ArrayList<Player> newList) {
-        final ArrayList<Player> nL = newList;
+    public void updatePlayerList(Player[] newList) {
+        final Player[] nL = newList;
         activity.runOnUiThread(new Runnable() {
             // Michael updated this function to match other functions for error andling.
             @Override

@@ -110,6 +110,16 @@ public class ClientGameplay implements IClientGamplayFacade {
     public void updateGame(Game game, String message) {
         UpdateType type = UpdateType.GAME_INITIALIZED;
 
+        boolean success = message.equals("");
+        if(success) {
+            if (ClientModel.getInstance().getCurrentGame().getGameID().equals(game.getGameID())) {
+                ClientModel.getInstance().setCurrentGame(game);
+            } else {
+                message = "Game sent does not match current game";
+            }
+        }
+
+        sendUpdate(type, success, message);
     }
 
     private void sendUpdate(UpdateType type, boolean success, String error)

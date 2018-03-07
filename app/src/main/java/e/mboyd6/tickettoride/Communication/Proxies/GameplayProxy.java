@@ -56,7 +56,7 @@ public class GameplayProxy implements IServerGameplayFacade {
     }
 
     @Override
-    public void drawTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
+    public void updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(),
                 faceUpDeck.getClass().toString(), trainCardDeck.getClass().toString(), trainDiscardDeck.getClass().toString()};
         Object[] paramValues = {authToken, gameID, player, faceUpDeck, trainCardDeck, trainDiscardDeck};
@@ -67,7 +67,7 @@ public class GameplayProxy implements IServerGameplayFacade {
     }
 
     @Override
-    public void drawDestinationCard(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
+    public void updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(), destinationDeck.getClass().toString()};
         Object[] paramValues = {authToken, gameID, player, destinationDeck};
 

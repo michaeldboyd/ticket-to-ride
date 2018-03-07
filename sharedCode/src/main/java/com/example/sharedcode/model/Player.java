@@ -22,7 +22,7 @@ public class Player {
     private String playerID;
     private String name;
     private int color;
-    private Map<Integer, Integer> hand = new HashMap<>();
+    private Map<Integer, Integer> hand = new HashMap<>(); // <TrainType, numCards>
     private ArrayList<Integer> trainCards = new ArrayList<>();
     private ArrayList<DestinationCard> destinationCards = new ArrayList<>();
     private int trains = START_TRAINS;

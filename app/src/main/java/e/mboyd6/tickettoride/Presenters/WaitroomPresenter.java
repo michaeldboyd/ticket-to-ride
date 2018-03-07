@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Presenters;
 
 import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Player;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -65,7 +66,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         {
             for(Game g:ClientModel.getInstance().getGames()) {
                 if (g.getGameID().equals(currentGame.getGameID())) {
-                    waitroomFragment.updatePlayerList(g.getPlayers());
+                    waitroomFragment.updatePlayerList((Player[])g.getPlayers().values().toArray());
                 }
             }
         }

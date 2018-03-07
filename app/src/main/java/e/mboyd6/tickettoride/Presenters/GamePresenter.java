@@ -1,12 +1,15 @@
 package e.mboyd6.tickettoride.Presenters;
 
 import com.example.sharedcode.model.DestinationCard;
+import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
@@ -45,7 +48,7 @@ public class GamePresenter implements IGamePresenter {
     }
 
     @Override
-    public ArrayList<Player> getPlayers() {
+    public Map<String, Player> getPlayers() {
         if (ClientModel.getInstance().getCurrentGame() != null)
             return ClientModel.getInstance().getCurrentGame().getPlayers();
         else
@@ -129,6 +132,21 @@ public class GamePresenter implements IGamePresenter {
     public void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded) {
         // Tell the server that the client has chosen which destination cards to keep and which ones
         // to discard to the bottom of the deck
+
+        Game currentGame = ClientModel.getInstance().getCurrentGame();
+        String playerName = ClientModel.getInstance().getPlayerID();
+        Player player = currentGame.getPlayers().get(playerName);
+        player.setDestinationCards(chosen);
+
+        // Put the discarded cards at the bottom of the destination deck
+        DestinationDeck destinationDeck = currentGame.getDestinationDeck();
+        for (DestinationCard card :
+                discarded) {
+            destinationDeck.returnDiscarded(card);
+        }
+
+        String authToken = ClientModel.getInstance().getAuthToken();
+        GameplayProxy.getInstance().updateDestinationCards(authToken, currentGame.getGameID(), player, destinationDeck);
     }
 
     @Override

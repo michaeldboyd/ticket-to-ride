@@ -72,24 +72,24 @@ public class GameListAdapter extends ArrayAdapter<Game> {
         lobbyItemCard5.setBackgroundResource(R.drawable.color_invisible);
 
 
-        ArrayList<Player> players = game.getPlayers();
-        int playerCount = players.size();
+        Player[] players = (Player[])game.getPlayers().values().toArray();
+        int playerCount = players.length;
         for (int i = 0; i < playerCount; i++) {
             switch(i) {
                 case 0 :
-                    lobbyItemCard5.setBackgroundResource(getCardDrawableFromPlayerColor(players.get(i).getColor()));
+                    lobbyItemCard5.setBackgroundResource(getCardDrawableFromPlayerColor(players[i].getColor()));
                     break;
                 case 1:
-                    lobbyItemCard4.setBackgroundResource(getCardDrawableFromPlayerColor(players.get(i).getColor()));
+                    lobbyItemCard4.setBackgroundResource(getCardDrawableFromPlayerColor(players[i].getColor()));
                     break;
                 case 2:
-                    lobbyItemCard3.setBackgroundResource(getCardDrawableFromPlayerColor(players.get(i).getColor()));
+                    lobbyItemCard3.setBackgroundResource(getCardDrawableFromPlayerColor(players[i].getColor()));
                     break;
                 case 3:
-                    lobbyItemCard2.setBackgroundResource(getCardDrawableFromPlayerColor(players.get(i).getColor()));
+                    lobbyItemCard2.setBackgroundResource(getCardDrawableFromPlayerColor(players[i].getColor()));
                     break;
                 case 4:
-                    lobbyItemCard1.setBackgroundResource(getCardDrawableFromPlayerColor(players.get(i).getColor()));
+                    lobbyItemCard1.setBackgroundResource(getCardDrawableFromPlayerColor(players[i].getColor()));
                     break;
                 default:
                     break;

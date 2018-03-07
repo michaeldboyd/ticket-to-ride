@@ -83,7 +83,7 @@ public class LobbyProxy implements IServerLobbyFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), "int"};
         Object[] paramValues = {authToken, gameID, playerID, color};
 
-        Command playerColorChangedCommand = CommandFactory.createCommand(null,CLASS_NAME, "_playerColorChanged", paramTypes, paramValues);
+        Command playerColorChangedCommand = CommandFactory.createCommand(null, CLASS_NAME, "_playerColorChanged", paramTypes, paramValues);
 
         Sender.sendToServer(playerColorChangedCommand);
     }

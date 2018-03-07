@@ -5,6 +5,7 @@ import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by jonathanlinford on 3/2/18.
@@ -18,7 +19,7 @@ public interface IGamePresenter {
     Player getCurrentPlayer();
 
     /** A way to get the list of players in the game **/
-    ArrayList<Player> getPlayers();
+    Map<String, Player> getPlayers();
 
     /** Called UPWARDS from Model **/
     void enterGame(ArrayList<TrainCard> trainCardsReceived, ArrayList<DestinationCard> initialDestinationCards);

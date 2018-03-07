@@ -17,7 +17,7 @@ import java.util.Map;
 public interface IServerGameplayFacade {
     void startGame(String authToken, String gameID);
     void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed);
-    void drawTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck);
-    void drawDestinationCard(String authToken, String gameID, Player player, DestinationDeck destinationDeck);
+    void updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck);
+    void updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck);
     void getGameHistory(String authToken, String gameID);
 }

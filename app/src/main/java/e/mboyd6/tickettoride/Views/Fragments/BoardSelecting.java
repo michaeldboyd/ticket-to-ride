@@ -54,15 +54,13 @@ public class BoardSelecting extends BoardState {
                 if (currentPlayer.getHand() != null &&
                         currentPlayer.getHand().containsKey(route.getTrainType()) &&
                         currentPlayer.getHand().get(route.getTrainType()) != null &&
-                        currentPlayer.getHand().get(route.getTrainType()).size() >= route.getNumberTrains()) {
+                        currentPlayer.getHand().get(route.getTrainType()) >= route.getNumberTrains()) {
 
                     Polygon clickablePolygon = drawAvailableRoute(boardFragment, map, cities, route);
                     clickablePolygons.put(clickablePolygon, route);
 
                 } else {
-
                     drawNormalRoute(map, cities, route);
-
                 }
             }
         }

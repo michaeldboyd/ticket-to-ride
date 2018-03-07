@@ -1,6 +1,7 @@
 package com.example.sharedcode.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Map;
 public class Game {
 
     private String gameID;
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private Map<String, Player> players = new HashMap<>(); // <Name, Player>
     private DestinationDeck destinationDeck;
     private TrainCardDeck trainCardDeck;
     private TrainCardDeck trainDiscardDeck;
@@ -86,7 +87,7 @@ public class Game {
         this.gameID = gameID;
     }
 
-    public ArrayList<Player> getPlayers(){
+    public Map<String, Player> getPlayers(){
         return players;
     }
 
@@ -145,9 +146,10 @@ public class Game {
         if(players.size() >= 5){
             return false;
         }
-        if(!players.contains(player)) {
 
-            players.add(player);
+        if(!players.containsKey(player.getPlayerID())) {
+
+            players.put(player.getPlayerID(), player);
             return true;
         }
         else {
@@ -163,12 +165,12 @@ public class Game {
    * Else does nothing and returns false.
    *
    * */
-    public boolean removePlayer(String playerID){
+    public boolean removePlayer(String playerName){
         boolean success = false;
 
         for(int i = 0; i < players.size(); i++)
         {
-            if (players.get(i).getPlayerID().equals(playerID)) {
+            if (players.get(i).getName().equals(playerName)) {
                 players.remove(i);
                 success = true;
                 break;
@@ -192,25 +194,18 @@ public class Game {
     }
 
     public void drawDestinationCard(String playerName) {
-        for(Player p : players) {
-            if (p.getName().equals(playerName)) {
-                p.getDestinationCards().add(destinationDeck.drawCard());
-                break;
-            }
-        }
+        Player player = players.get(playerName);
+        player.getDestinationCards().add(destinationDeck.drawCard());
     }
 
     public void drawTrainCard(String playerName) {
         try {
-            for (Player p : players) {
-                if (p.getName().equals(playerName)) {
-                    int cardType = trainCardDeck.drawCard();
+            Player player = players.get(playerName);
 
-                    int count = p.getHand().get(cardType);
-                    p.getHand().put(cardType, count + 1);
-                    break;
-                }
-            }
+            int cardType = trainCardDeck.drawCard();
+
+            int count = player.getHand().get(cardType);
+            player.getHand().put(cardType, count + 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
