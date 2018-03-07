@@ -17,7 +17,7 @@ public class GameInitializer {
     public Game initializeGame(Game game){
         game.setDestinationDeck(initializeDestinationDeck());
         game.setTrainCardDeck(initializeTrainCardDeck());
-        game.setFaceUpDeck(initializeFaceUpDeck());
+        game.setFaceUpDeck(initializeFaceUpDeck(game.getTrainCardDeck()));
         game.setCities(intitializeCities());
         game.setRoutesClaimed(initializeRoutes());
         return game;
@@ -192,8 +192,12 @@ public class GameInitializer {
         return routes;
     }
 
-    private FaceUpDeck initializeFaceUpDeck(){
+    private FaceUpDeck initializeFaceUpDeck(TrainCardDeck trainCardDeck){
        FaceUpDeck deck = new FaceUpDeck();
+       for (int i = 0; i < 5 && i < trainCardDeck.size(); i++) {
+           deck.add(new TrainCard(trainCardDeck.get(i)));
+           trainCardDeck.remove(i);
+       }
        return deck;
     }
 

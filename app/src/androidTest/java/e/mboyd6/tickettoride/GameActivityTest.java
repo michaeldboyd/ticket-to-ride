@@ -146,13 +146,13 @@ public class GameActivityTest {
     fakeGame.addPlayer(new Player("002", "Alli", PlayerColors.BLUE));
     fakeGame.addPlayer(new Player("003", "Eric", PlayerColors.RED));
     ArrayList<TrainCard> trainCards = new ArrayList<>();
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
+    trainCards.add(new TrainCard(TrainType.BOX));
+    trainCards.add(new TrainCard(TrainType.BOX));
+    trainCards.add(new TrainCard(TrainType.BOX));
+    trainCards.add(new TrainCard(TrainType.BOX));
+    trainCards.add(new TrainCard(TrainType.BOX));
+    trainCards.add(new TrainCard(TrainType.BOX));
+    trainCards.add(new TrainCard(TrainType.BOX));
     fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, trainCards);
 
     return fakeGame;

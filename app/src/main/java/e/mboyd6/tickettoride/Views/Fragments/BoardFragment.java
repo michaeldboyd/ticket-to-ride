@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.sharedcode.model.DestinationCard;
@@ -78,7 +80,7 @@ public class BoardFragment extends Fragment implements
     private IGamePresenter mGamePresenter;
 
     private BoardState mBoardState = new BoardIdle();
-    private CardDrawerState mCardDrawerState;
+    private CardDrawerState mCardDrawerState = new CardDrawerState();
     private ViewFlipper mViewFlipper;
 
     private Map<Polygon, Route> clickablePolygons = new HashMap<Polygon, Route>();
@@ -90,6 +92,10 @@ public class BoardFragment extends Fragment implements
 
     private ArrayList<ColorSelectionView> mColorSelectionViews = new ArrayList<>();
     private Button mAutoplayButton;
+
+    public ArrayList<ImageView> trainCardImages = new ArrayList<>();
+
+    private Game latestLoadedGame = new Game();
 
     public BoardFragment() {
         // Required empty public constructor
@@ -143,6 +149,22 @@ public class BoardFragment extends Fragment implements
                 onBoardFragmentClaimRouteButton();
             }
         });
+
+
+        ImageView trainCard1 = mLayout.findViewById(R.id.draw_train_cards_train_card_1);
+        trainCard1.setBackgroundResource(R.drawable.card_selected);
+        ImageView trainCard2 = mLayout.findViewById(R.id.draw_train_cards_train_card_2);
+        ImageView trainCard3 = mLayout.findViewById(R.id.draw_train_cards_train_card_3);
+        ImageView trainCard4 = mLayout.findViewById(R.id.draw_train_cards_train_card_4);
+        ImageView trainCard5 = mLayout.findViewById(R.id.draw_train_cards_train_card_5);
+        ImageView trainCardDeck = mLayout.findViewById(R.id.draw_train_cards_train_card_deck);
+
+        trainCardImages.add(trainCard1);
+        trainCardImages.add(trainCard2);
+        trainCardImages.add(trainCard3);
+        trainCardImages.add(trainCard4);
+        trainCardImages.add(trainCard5);
+        trainCardImages.add(trainCardDeck);
 
         mAutoplayButton = mLayout.findViewById(R.id.game_fragment_autoplay_button);
 
@@ -258,6 +280,7 @@ public class BoardFragment extends Fragment implements
     public void updateBoard(Game game) {
         if (game == null || mMap == null || mGamePresenter == null)
             return;
+        latestLoadedGame = game;
         ArrayList<Player> players = game.getPlayers();
         mMap.clear();
         mBoardState.drawRoutesAndCities(this, mMap, game, mGamePresenter.getCurrentPlayer());
@@ -414,7 +437,7 @@ public class BoardFragment extends Fragment implements
 
     public void setCardDrawerState(CardDrawerState cardDrawerState) {
         mCardDrawerState = cardDrawerState;
-        mCardDrawerState.enter(getContext(), this, mViewFlipper);
+        mCardDrawerState.enter(getContext(), this, mLayout, mViewFlipper);
     }
 
     public IGamePresenter getmGamePresenter() {
@@ -423,5 +446,9 @@ public class BoardFragment extends Fragment implements
 
     public boolean isMyTurn() {
         return myTurn;
+    }
+
+    public Game getLatestLoadedGame() {
+        return latestLoadedGame;
     }
 }

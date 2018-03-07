@@ -2,8 +2,10 @@ package e.mboyd6.tickettoride.Views.Adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.ViewFlipper;
 
+import com.example.sharedcode.model.FaceUpDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.TrainCard;
 import com.example.sharedcode.model.TrainCardDeck;
@@ -17,10 +19,18 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
  */
 
 public class CardDrawerState {
-    public CardDrawerState() {}
+    public Game game;
+    public FaceUpDeck faceUpDeck;
 
-    public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper) {}
-    public void updateBoard(Game game) {}
+    public CardDrawerState() {
+    }
+
+    public void enter(Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper) {}
+
+    public void updateBoard(Game game) {
+        this.game = game;
+        this.faceUpDeck = game.getFaceUpDeck();
+    }
     public void updateFaceUpCards(ArrayList<TrainCard> faceUpCards) {}
     public void receiveDestinationCards() {}
 }
