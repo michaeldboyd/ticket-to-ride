@@ -193,12 +193,12 @@ public class Game {
         this.cities = cities;
     }
 
-    public void drawDestinationCard(String playerName) {
+    public void addDestCardToPlayer(String playerName) {
         Player player = players.get(playerName);
         player.getDestinationCards().add(destinationDeck.drawCard());
     }
 
-    public void drawTrainCard(String playerName) {
+    public void addTrainCardToPlayerHand(String playerName) {
         try {
             Player player = players.get(playerName);
 

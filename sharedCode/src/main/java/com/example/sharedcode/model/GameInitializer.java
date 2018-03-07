@@ -24,8 +24,8 @@ public class GameInitializer {
 
         // for each player in the game, draw three destination cards and 4 train cards.
        for(Player p : game.getPlayers().values()) {
-           for(int i = 0; i < 3; i++) { game.drawDestinationCard(p.getName());}
-           for(int i = 0; i < 4; i++) { game.drawTrainCard(p.getName());}
+           for(int i = 0; i < 3; i++) { game.addDestCardToPlayer(p.getName());}
+           for(int i = 0; i < 4; i++) { game.addTrainCardToPlayerHand(p.getName());}
        }
         return game;
     }
