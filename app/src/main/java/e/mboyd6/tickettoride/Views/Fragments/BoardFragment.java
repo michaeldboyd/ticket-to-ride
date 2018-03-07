@@ -239,11 +239,12 @@ public class BoardFragment extends Fragment implements
     }
 
     @Override
-    public void onUpdateTurn(final String playerTurn) {
+    public void onUpdateTurn(String pT) {
+        final String playerTurn = pT == null ? "" : pT;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                myTurn = (playerTurn == mGamePresenter.getCurrentPlayer().getPlayerID());
+                myTurn = (playerTurn.equals(mGamePresenter.getCurrentPlayer().getPlayerID()));
                 if (myTurn) {
                    setClaimRouteButtonState(new ClaimRouteButtonIdle());
                    setCardDrawerState(new CardDrawerDrawTrainCards());
