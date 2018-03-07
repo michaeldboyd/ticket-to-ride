@@ -357,6 +357,12 @@ public class BoardFragment extends Fragment implements
         });
     }
 
+    public void setGamePresenterState(GamePresenter gamePresenter) {
+        mGamePresenter.exit();
+        mGamePresenter = gamePresenter;
+        mGamePresenter.enter();
+    }
+
     public void setClaimRouteButtonState(ClaimRouteButtonState claimRouteButtonState) {
         mClaimRouteButtonState = claimRouteButtonState;
         mClaimRouteButtonState.enter(this, mClaimRouteButton);

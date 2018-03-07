@@ -53,4 +53,9 @@ public interface IGamePresenter {
     /** Called UPWARDS from Model **/
     void receiveRouteClaimed(String routeName);
 
+    void detachView();
+
+    void enter();
+
+    void exit();
 }

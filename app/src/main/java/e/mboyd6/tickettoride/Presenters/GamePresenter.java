@@ -6,6 +6,8 @@ import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
@@ -19,25 +21,28 @@ import e.mboyd6.tickettoride.Views.Interfaces.IScoreFragment;
  * Created by jonathanlinford on 3/2/18.
  */
 
-public class GamePresenter implements IGamePresenter {
+public class GamePresenter implements IGamePresenter, Observer {
 
-    private IGameActivityFragment gameActivityFragment;
+    protected IGameActivityFragment gameActivityFragment;
 
     public GamePresenter(IBoardFragment boardFragment) {
-
         gameActivityFragment = boardFragment;
+        ClientModel.getInstance().addObserver(this);
     }
 
     public GamePresenter(IHandFragment handFragment) {
         gameActivityFragment = handFragment;
+        ClientModel.getInstance().addObserver(this);
     }
 
     public GamePresenter(IScoreFragment scoreFragment) {
         gameActivityFragment = scoreFragment;
+        ClientModel.getInstance().addObserver(this);
     }
 
     public GamePresenter(IHistoryFragment historyFragment) {
         gameActivityFragment = historyFragment;
+        ClientModel.getInstance().addObserver(this);
     }
 
     public Player getCurrentPlayer() {
@@ -143,5 +148,25 @@ public class GamePresenter implements IGamePresenter {
             updateBoard();
             ((IBoardFragment) gameActivityFragment).receiveRouteClaimed(routeName);
         }
+    }
+
+    @Override
+    public void detachView() {
+        ClientModel.getInstance().deleteObserver(this);
+    }
+
+    @Override
+    public void enter() {
+
+    }
+
+    @Override
+    public void exit() {
+        detachView();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
