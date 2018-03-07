@@ -132,16 +132,12 @@ public class ClientLobby implements IClientLobbyFacade {
             for (Game g : games) {
                 if (g.getGameID().equals(gameID)) {
                     ClientModel.getInstance().setCurrentGame(g);
-                    message = "SUCCESS!";
                     break;
-                }
-
-                else {
-                    message = "The game you're trying to start has the wrong ID. our deepest condolences.";
+                } else {
+                    message = "The game you're trying to start has the wrong ID.";
                     success = false;
                 }
             }
-
             sendUpdate(type, success, message);
         }
     }

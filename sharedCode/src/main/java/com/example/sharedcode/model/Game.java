@@ -28,6 +28,7 @@ public class Game {
     private String personTyping;
     private int unreadMessages = 0;
 
+    // Getters / Setters
     public ArrayList<String> getHistory() {
         return history;
     }
@@ -175,7 +176,7 @@ public class Game {
 
     public void startGame() {
         GameInitializer gameInitializer = new GameInitializer();
-        gameInitializer.initializeGame(this);
+         gameInitializer.initializeGame(this);
     }
 
     public Map<String, City> getCities() {
@@ -184,5 +185,29 @@ public class Game {
 
     public void setCities(Map<String, City> cities) {
         this.cities = cities;
+    }
+
+    public void drawDestinationCard(String playerName) {
+        for(Player p : players) {
+            if (p.getName().equals(playerName)) {
+                p.getDestinationCards().add(destinationDeck.drawCard());
+                break;
+            }
+        }
+    }
+
+    public void drawTrainCard(String playerName) {
+        try {
+            for (Player p : players) {
+                if (p.getName().equals(playerName)) {
+                    int cardType = trainCardDeck.drawCard();
+
+                    p.getTrainCards().add(cardType);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

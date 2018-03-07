@@ -1,5 +1,6 @@
 package com.example.sharedcode.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,13 @@ public class GameInitializer {
         game.setFaceUpDeck(initializeFaceUpDeck());
         game.setCities(intitializeCities());
         game.setRoutesClaimed(initializeRoutes());
+
+        // for each player in the game, draw three destination cards and 4 train cards.
+       for(Player p : game.getPlayers()) {
+           for(int i = 0; i < 3; i++) { game.drawDestinationCard(p.getName());}
+           for(int i = 0; i < 4; i++) { game.drawTrainCard(p.getName());}
+       }
+
         return game;
     }
 
@@ -54,6 +62,7 @@ public class GameInitializer {
         deck.add(new DestinationCard("Rainbow", "Gold Hill",12));
         deck.add(new DestinationCard("Mexican Hat", "Shivwits",	13	));
         deck.add(new DestinationCard("Agate	", "Enterprise",9));
+        deck.shuffleDeck();
         return deck;
     }
 

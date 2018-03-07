@@ -54,6 +54,10 @@ public class ClientGameplay implements IClientGamplayFacade {
         ourInstance.newPlayerTurn(gameID, playerID);
     }
 
+    public static void _updateGame(Game game, String message) {
+        ourInstance.updateGame(game, message);
+    }
+
     @Override
     public void claimedRoute(String gameID, String playerID) {
         UpdateType type = UpdateType.CLAIMED_ROUTE;
@@ -101,6 +105,11 @@ public class ClientGameplay implements IClientGamplayFacade {
         ClientModel.getInstance().getCurrentGame().setCurrentTurnPlayerID(playerID);
 
         sendUpdate(type, true, "");
+    }
+
+    public void updateGame(Game game, String message) {
+        UpdateType type = UpdateType.GAME_INITIALIZED;
+
     }
 
     private void sendUpdate(UpdateType type, boolean success, String error)

@@ -5,10 +5,7 @@ import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
-import com.example.sharedcode.model.Game;
-import com.example.sharedcode.model.Player;
-import com.example.sharedcode.model.PlayerColors;
-import com.example.sharedcode.model.User;
+import com.example.sharedcode.model.*;
 import org.eclipse.jetty.server.Server;
 
 import java.util.ArrayList;
@@ -181,28 +178,28 @@ public class ServerLobby implements IServerLobbyFacade {
     public void startGame(String authToken, String gameID) {
         String message = "";
         Collection<String> tokens;
-        if (!ServerModel.instance().getGames().containsKey(gameID)) {
-            message = "Game doesn't exist.";
-        } else {
+        if (ServerModel.instance().getGames().containsKey(gameID)) {
             Game game = ServerModel.instance().getGames().get(gameID);
-            if (game.getPlayers() == null) {
-                message = "The server says no player exists in this game.";
-            } else {
-                // send a startGame command to everyone in the waitroom
+            if (game.getPlayers() != null) {
+                // INITIALIZE GAME
+                GameInitializer gi = new GameInitializer();
+                game = gi.initializeGame(game);
+                ServerModel.instance().getGames().put(gameID, game);
+
+                //notify everyone in the lobby and in the waitroom of the changes.
+                tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
+                tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
+                SocketManager.instance().updateGameList(tokens);
+
+
                 String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
                 Object[] paramValues = {gameID, message};
                 Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
                         "_startGameReceived", paramTypes, paramValues);
+
                 SocketManager.instance().notifyPlayersInGame(gameID, startGameClientCommand);
-            }
-        }
-        // send a notification to everyone that the game has started
-        tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
-        tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
-
-        SocketManager.instance().updateGameList(tokens);
-
-
+            } else message = "The server says no player exists in this game.";
+        } else message = "Game doesn't exist.";
     }
 
     @Override
