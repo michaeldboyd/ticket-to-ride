@@ -87,7 +87,16 @@ public class ClientLobby implements IClientLobbyFacade {
         {
             ArrayList<Game> updatedGames = new ArrayList<>(Arrays.asList(games));
             ClientModel.getInstance().setGames(updatedGames);
-        } //if it fails, we'll handle the error later on
+            Game currentGame = ClientModel.getInstance().getCurrentGame();
+            if(currentGame != null) {
+                for (Game g : games){
+                    if(g.getGameID().equals(currentGame.getGameID())){
+                        ClientModel.getInstance().setCurrentGame(g);
+                        break;
+                    }
+                }
+            }
+        } else message = "update Games failed";
 
         sendUpdate(type, success, message);
     }
@@ -118,15 +127,23 @@ public class ClientLobby implements IClientLobbyFacade {
         UpdateType type = UpdateType.GAME_STARTED;
         boolean success = isSuccess(message);
 
-        //just in case, we're going to double check you've joined the game (this was in the original login)
-       if(success) {
-           if(joinGame(gameID)) {
-               message = "The game you're trying to start has the wrong ID. our deepest condolences.";
-               success = false;
-           }
-       }
+        ArrayList<Game> games = ClientModel.getInstance().getGames();
+        if (success && games != null) {
+            for (Game g : games) {
+                if (g.getGameID().equals(gameID)) {
+                    ClientModel.getInstance().setCurrentGame(g);
+                    message = "SUCCESS!";
+                    break;
+                }
 
-       sendUpdate(type, success, message);
+                else {
+                    message = "The game you're trying to start has the wrong ID. our deepest condolences.";
+                    success = false;
+                }
+            }
+
+            sendUpdate(type, success, message);
+        }
     }
 
     //leave the game

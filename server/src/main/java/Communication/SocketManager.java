@@ -102,7 +102,10 @@ public class SocketManager implements Observer {
         Object[] objects = ServerModel.instance().getGames().values().toArray();
         Game[] games = new Game[objects.length];
         int i = 0;
-        for(Object g : objects) {  games[i++] = (Game) g; }
+        for(Object g : objects) {
+            games[i] = (Game) g;
+            i++;
+        }
 
         String message = "";
         String[] paramTypes = {games.getClass().toString(), message.getClass().toString()};
