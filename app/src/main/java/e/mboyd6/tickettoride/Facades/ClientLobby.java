@@ -101,8 +101,10 @@ public class ClientLobby implements IClientLobbyFacade {
         {
             //join the game
             boolean joinedGame = joinGame(gameID);
-            if(joinedGame) {
+            if(joinedGame) { //IMPORTANT: PlayerId and Player Name are just the User's username
                 ClientModel.getInstance().setPlayerID(playerID);
+                ClientModel.getInstance().getCurrentPlayer().setName(playerID);
+                ClientModel.getInstance().getCurrentPlayer().setPlayerID(playerID);
 
             } else message = "Game ID wasn't found correctly. Choose another game for now.";
         }

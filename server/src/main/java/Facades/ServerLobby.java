@@ -109,17 +109,14 @@ public class ServerLobby implements IServerLobbyFacade {
 
         String playerID = "";
         if (ServerModel.instance().getGames().containsKey(gameID)) {
-
-            Player newPlayer = new Player(UUID.randomUUID().toString(),
-                    ServerModel.instance().getAuthTokenToUsername().get(authToken),
-                    PlayerColors.NO_COLOR);
+            String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
+            Player newPlayer = new Player(usnm,usnm, PlayerColors.NO_COLOR);
 
             // Only set message if we fail to add user to the game
             if (!ServerModel.instance().getGames().get(gameID).addPlayer(newPlayer)) {
                 message = "Could not add player to game because it is already full";
             } else {
                 playerID = newPlayer.getPlayerID();
-                String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
                 ServerModel.instance().getUsersInLobby()
                         .remove(ServerModel.instance().getLoggedInUsers().get(usnm).getUsername());
             }
