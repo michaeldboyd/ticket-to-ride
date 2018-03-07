@@ -152,12 +152,12 @@ public class HandFragment extends Fragment implements IHandFragment {
             textView.setVisibility(View.INVISIBLE);
         }
 
-        Map<Integer, ArrayList<TrainCard>> hand = player.getHand();
+        Map<Integer, Integer> hand = player.getHand();
 
         for(int i : hand.keySet()) {
-            if (hand.get(i) != null & hand.get(i).size() > 0) {
+            if (hand.get(i) != null & hand.get(i) > 0) {
                 mTrainCardsImages.get(i).setAlpha(1f);
-                String trainCardText = "x " + hand.get(i).size();
+                String trainCardText = "x " + hand.get(i);
                 mTrainCardsText.get(i).setText(trainCardText);
                 mTrainCardsText.get(i).setVisibility(View.VISIBLE);
             }
