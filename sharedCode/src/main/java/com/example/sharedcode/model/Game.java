@@ -13,6 +13,7 @@ public class Game {
     private ArrayList<Player> players = new ArrayList<Player>();
     private DestinationDeck destinationDeck;
     private TrainCardDeck trainCardDeck;
+    private TrainCardDeck trainDiscardDeck;
     private FaceUpDeck faceUpDeck;
     private String currentTurnPlayerID;
     private ArrayList<String> history;
@@ -93,6 +94,14 @@ public class Game {
 
     public void setDestinationDeck(DestinationDeck destinationDeck) {
         this.destinationDeck = destinationDeck;
+    }
+
+    public TrainCardDeck getTrainDiscardDeck() {
+        return trainDiscardDeck;
+    }
+
+    public void setTrainDiscardDeck(TrainCardDeck trainDiscardDeck) {
+        this.trainDiscardDeck = trainDiscardDeck;
     }
 
     public TrainCardDeck getTrainCardDeck() {
