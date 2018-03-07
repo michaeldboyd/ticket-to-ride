@@ -4,12 +4,14 @@ import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.DestinationDeck;
+import com.example.sharedcode.model.FaceUpDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -108,7 +110,21 @@ public class GamePresenter implements IGamePresenter, Observer {
     @Override
     public void drawTrainCards(int index1, int index2, int numberFromDeck) {
         // Communicate with the server to tell them that trainCards have been drawn
+        FaceUpDeck faceUpDeck = ClientModel.getInstance().getCurrentGame().getFaceUpDeck();
+        Map<Integer, Integer> hand = ClientModel.getInstance().getCurrentPlayer().getHand();
 
+        if (index1 != -1) {
+            int card1 = faceUpDeck.remove(index1);
+            int amount1 = hand.get(card1);
+            amount1++;
+            hand.put(card1, amount1);
+        }
+        if (index2 != -1) {
+            int card2 = faceUpDeck.remove(index2);
+            int amount2 = hand.get(card2);
+            amount2++;
+            hand.put(card2, amount2);
+        }
     }
 
     /** Called upwards ON the UI when a player successfully draws train cards. A toast is displayed. The updateBoard method

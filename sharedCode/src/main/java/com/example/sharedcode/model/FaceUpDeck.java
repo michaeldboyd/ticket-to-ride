@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Ali on 2/24/2018.
  */
 
-public class FaceUpDeck extends ArrayList<TrainCard> {
+public class FaceUpDeck extends ArrayList<Integer> {
 
     public void shuffleDeck(){
 

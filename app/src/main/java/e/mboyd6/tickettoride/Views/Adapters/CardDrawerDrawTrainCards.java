@@ -37,6 +37,7 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
     private Button DrawDestinationCardsButton;
     private int maximumCards = 2;
     private BoardFragment boardFragment;
+    private GamePresenter gamePresenter;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -46,6 +47,7 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
         this.boardFragment = boardFragment;
         game = game == null ? boardFragment.getLatestLoadedGame() : game;
         faceUpDeck = game.getFaceUpDeck() == null ? new FaceUpDeck() : game.getFaceUpDeck();
+        this.gamePresenter = gamePresenter;
 
         ImageView trainCard1 = viewFlipper.findViewById(R.id.draw_train_cards_train_card_1);
         ImageView trainCard2 = viewFlipper.findViewById(R.id.draw_train_cards_train_card_2);
@@ -226,6 +228,10 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onDrawTrainCardsButton() {
         Toast.makeText(context, "onDrawTrainCardsButton()", Toast.LENGTH_SHORT).show();
+        int index1 = selectedCards.size() > 0 ? selectedCards.pop() : -1;
+        int index2 = selectedCards.size() > 0 ? selectedCards.pop() : -1;
+        gamePresenter.drawTrainCards(index1, index2, howManyDeckCards);
+        boardFragment.completeTurn();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
