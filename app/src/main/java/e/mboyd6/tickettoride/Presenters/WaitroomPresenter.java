@@ -99,7 +99,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
         Assert.assertEquals(o.getClass(), UpdateArgs.class);
         UpdateArgs args = (UpdateArgs) o;
         switch(args.type) {
-            case GAME_LIST:
+            case LOBBY_LIST_UPDATED:
                 updatePlayerList();
                 break;
             case GAME_STARTED:

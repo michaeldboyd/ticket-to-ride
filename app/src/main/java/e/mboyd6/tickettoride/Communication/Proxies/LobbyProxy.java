@@ -81,7 +81,7 @@ public class LobbyProxy implements IServerLobbyFacade {
     @Override
     public void playerColorChanged(String authToken, String gameID, String playerID, int color) {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), playerID.getClass().toString(), "int"};
-        Object[] paramValues = {authToken, gameID, playerID, Integer.valueOf(color)};
+        Object[] paramValues = {authToken, gameID, playerID, color};
 
         Command playerColorChangedCommand = CommandFactory.createCommand(null,CLASS_NAME, "_playerColorChanged", paramTypes, paramValues);
 

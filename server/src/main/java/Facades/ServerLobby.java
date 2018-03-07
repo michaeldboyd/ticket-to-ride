@@ -76,7 +76,7 @@ public class ServerLobby implements IServerLobbyFacade {
 
         ServerModel.instance().notifyObserversForUpdate(createGameClientCommand);
 
-        updateGamesBroadcast();
+        updateLobbyGameList();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class ServerLobby implements IServerLobbyFacade {
                 "_joinGameReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(joinGameClientCommand);
-        updateGamesBroadcast();
+        updateLobbyGameList();
     }
 
     // If the game
@@ -158,7 +158,7 @@ public class ServerLobby implements IServerLobbyFacade {
         }
         ServerModel.instance().setGames(games);
         ServerModel.instance().notifyObserversForUpdate(leaveGameClientCommand);
-        updateGamesBroadcast();
+        updateLobbyGameList();
     }
 
     //tell everyone to start the game who is in it, andupdate the games list for everyone else
@@ -182,7 +182,7 @@ public class ServerLobby implements IServerLobbyFacade {
                 //update the model
 
                 ServerModel.instance().getGames().put(gameID, game);
-                notifyPlayersOfGameStarted(authTokens, message, gameID);
+                notifyPlayersOfGameStarted(message, gameID);
             }
         }
 
@@ -193,7 +193,7 @@ public class ServerLobby implements IServerLobbyFacade {
                 "_startGameReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(startGameClientCommand);
-        updateGamesBroadcast();
+        updateLobbyGameList();
     }
 
     @Override
@@ -211,38 +211,46 @@ public class ServerLobby implements IServerLobbyFacade {
        // ServerModel.instance().getGames().put(gameID, game);
 
         if (success) {
-            updateGamesBroadcast();
+            updateLobbyGameList();
         }
     }
 
-    private void updateGamesBroadcast() {
+    private void updateLobbyGameList() {
         //TODO is there a better way to send the games over the server?
         //just send this to the people in the lobby & waiting room
-        Object[] games = ServerModel.instance().getGames().values().toArray();
-        Game[] gs = new Game[games.length];
+        Object[] objects = ServerModel.instance().getGames().values().toArray();
+        Game[] games = new Game[objects.length];
         int i = 0;
-        for (Object o : games) {
-            gs[i++] = (Game) o;
-        }
-        // Message is blank
+        for(Object g : games) {  games[i++] = (Game) g; }
+
         String message = "";
-        String[] paramTypes = {gs.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {gs, message};
+        String[] paramTypes = {games.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {games, message};
         Command updateGamesClientCommand = CommandFactory.createCommand(null, CLASS_NAME,
                 "_updateGamesReceived", paramTypes, paramValues);
-        SocketManager.instance().sendBroadcast(ServerModel.instance().getLoggedInSessions().keySet(), updateGamesClientCommand);
+        // this should only be sent to the people in the lobby.
+        Collection<String> lobbyTokens = new ArrayList<String>();
+        for(User u : ServerModel.instance().getUsersInLobby()) {
+            lobbyTokens.add(u.getAuthtoken());
+        }
+        SocketManager.instance().sendBroadcast(lobbyTokens, updateGamesClientCommand);
     }
 
-    private void notifyPlayersOfGameStarted(Collection<String> tokens, String message, String gameID) {
+    // this should only be sent to the people in the game.
+    private void notifyPlayersOfGameStarted(String message, String gameID) {
         String[] paramTypes = {message.getClass().toString(), gameID.getClass().toString()};
         Object[] paramValues = {gameID, message};
         Command command = CommandFactory.createCommand("", CLASS_NAME,
                 "_startGameReceived", paramTypes, paramValues);
         //TODO this eventually should be changed so it only sends the command to the people in the right game.
-        for (String token : tokens) {
-            command.set_authToken(token);
-            ServerModel.instance().notifyObserversForUpdate(command);
+        Collection<String> userTokensInGame = new ArrayList<>();
+        for (Player player : ServerModel.instance().getGames().get(gameID).getPlayers()) {
+            String auth = ServerModel.instance().getAllUsers()
+                    .get(player.getName()).getAuthtoken();
+            userTokensInGame.add(auth);
         }
+        SocketManager.instance().sendBroadcast(userTokensInGame, command);
+
     }
 
 }

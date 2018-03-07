@@ -88,7 +88,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
         Assert.assertEquals(o.getClass(), UpdateArgs.class);
         UpdateArgs args = (UpdateArgs) o;
         switch(args.type){
-            case GAME_LIST:
+            case LOBBY_LIST_UPDATED:
                 updateGameList();
                 break;
             case LOGOUT_RESPONSE:

@@ -4,7 +4,6 @@ import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
-import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.UpdateType;
 
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class ClientLobby implements IClientLobbyFacade {
 
     @Override
     public void updateGames(Game[] games, String message) {
-        UpdateType type = UpdateType.GAME_LIST;
+        UpdateType type = UpdateType.LOBBY_LIST_UPDATED;
         boolean success = isSuccess(message);
 
         if(success)
@@ -150,7 +149,6 @@ public class ClientLobby implements IClientLobbyFacade {
         UpdateArgs args = new UpdateArgs(type, success, error);
         ClientModel.getInstance().sendUpdate(args);
     }
-
 
     private boolean joinGame(String gameID){
         ArrayList<Game> games = ClientModel.getInstance().getGames();
