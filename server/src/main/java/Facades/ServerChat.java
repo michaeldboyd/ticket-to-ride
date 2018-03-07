@@ -80,11 +80,13 @@ public class ServerChat implements IChatServerFacade {
     @Override
     public void getChatHistory(String authToken, String gameID) {
         ArrayList<ChatMessage> cm = ServerModel.instance().getChatMessagesForGame().get(gameID);
+        if(cm != null) {
+            String[] paramTypes = {cm.getClass().toString(), gameID.getClass().toString()};
+            Object[] paramValues = {cm, gameID};
+            Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.ClientChat", "_chatHistoryReceived", paramTypes, paramValues);
 
-        String[] paramTypes = {cm.getClass().toString(), gameID.getClass().toString()};
-        Object[] paramValues = {cm, gameID};
-        Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.ClientChat", "_chatHistoryReceived", paramTypes, paramValues);
+            ServerModel.instance().notifyObserversForUpdate(addChatCommand);
+        }
 
-        ServerModel.instance().notifyObserversForUpdate(addChatCommand);
     }
 }

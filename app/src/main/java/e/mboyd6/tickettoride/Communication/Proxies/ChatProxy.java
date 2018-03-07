@@ -57,4 +57,9 @@ public class ChatProxy implements IChatServerFacade {
 
         Sender.sendToServer(isTypingCommand);
     }
+
+    @Override
+    public void getChatHistory(String authToken, String gameID) {
+        // doesn't do anything on this end. it could later though
+    }
 }
