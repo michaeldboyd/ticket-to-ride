@@ -30,7 +30,6 @@ public class ClientModel extends Observable {
     // Current player data
     private Player currentPlayer = new Player("playerID", "name", PlayerColors.NO_COLOR);
     private String authToken;
-    private String response;
 
     private String playerTurn;
 
@@ -38,7 +37,7 @@ public class ClientModel extends Observable {
 
     //TODO: These shoudl be managed in the SocketManage
     private WebSocketClient socket;
-    private String socketID;
+    private String socketID = "";
 
 
     // ******* USEFUL FUNCTIONS ******//

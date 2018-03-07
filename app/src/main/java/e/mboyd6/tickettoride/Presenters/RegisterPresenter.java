@@ -118,6 +118,8 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
             case REGISTER_RESPONSE:
                 registerResponse(args.error);
                 break;
+            case SERVER_DISCONNECT:
+                registerResponse(args.error);
             default:
                 break;
         }

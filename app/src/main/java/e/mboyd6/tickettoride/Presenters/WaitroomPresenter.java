@@ -7,6 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
+import e.mboyd6.tickettoride.Facades.ClientLobby;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import junit.framework.Assert;
@@ -106,6 +107,8 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
                 startGameResponse(args.error);
                 break;
             case GAME_LEFT:
+                leaveGameResponse(args.error);
+            case SERVER_DISCONNECT:
                 leaveGameResponse(args.error);
             default:
                 //System.out.println("ENUM ERROR");

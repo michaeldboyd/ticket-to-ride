@@ -30,9 +30,9 @@ public class UtilityProxy implements IUtility {
         String[] paramTypes = {superSecretPassword.getClass().toString()};
         String[] paramValues = {superSecretPassword};
         // the authToken is null because when logging in we don't have an auth token.
-        Command loginCommand = CommandFactory.createCommand(null, CLASS_NAME, "_clearServer", paramTypes, paramValues);
+        Command command = CommandFactory.createCommand(null, CLASS_NAME, "_clearServer", paramTypes, paramValues);
         // TODO - send login to Server via socket
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(loginCommand, args));
+        Sender.sendToServer(command);
     }
 }
 

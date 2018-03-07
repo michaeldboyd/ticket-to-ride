@@ -33,7 +33,7 @@ public class LoginProxy implements IServerLoginFacade {
         // the authToken is null because when logging in we don't have an auth token.
         Command loginCommand = CommandFactory.createCommand(null, CLASS_NAME, "_login", paramTypes, paramValues);
         // TODO - send login to Server via socket
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(loginCommand, args));
+        Sender.sendToServer(loginCommand);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class LoginProxy implements IServerLoginFacade {
         String[] paramValues = {username, password, socketID};
         Command registerCommand = CommandFactory.createCommand(null, CLASS_NAME, "_register", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(registerCommand, args));
+        Sender.sendToServer(registerCommand);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class LoginProxy implements IServerLoginFacade {
         String[] paramValues = {authToken};
         Command logoutCommand = CommandFactory.createCommand(null, CLASS_NAME, "_logout", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(logoutCommand, args));
+        Sender.sendToServer(logoutCommand);
     }
 
 }
