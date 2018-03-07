@@ -106,6 +106,14 @@ public class GameActivityTest {
     generateFakeGames();
     GameInitializer gameInitializer = new GameInitializer();
     Game currentGame = gameInitializer.initializeGame(generateBoardFragmentFakeGame());
+
+    ArrayList<DestinationCard> destinationCards = new ArrayList<>();
+    for (int i = 0; i < 10; i++) {
+      destinationCards.add(currentGame.getDestinationDeck().get(i));
+    }
+
+    currentGame.getPlayers().get(0).getDestinationCards().addAll(destinationCards);
+
     ClientModel.getInstance().setCurrentGame(currentGame);
     ClientModel.getInstance().setPlayerTurn("001");
     ClientModel.getInstance().setCurrentPlayer(currentGame.getPlayers().get(0));
@@ -146,6 +154,7 @@ public class GameActivityTest {
     trainCards.add(new TrainCard());
     trainCards.add(new TrainCard());
     fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, trainCards);
+
     return fakeGame;
   }
 

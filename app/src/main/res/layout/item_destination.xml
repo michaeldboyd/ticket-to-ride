@@ -24,6 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
+            android:id="@+id/destination_amount_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dense"
@@ -45,6 +46,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/destination_name_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dense"
