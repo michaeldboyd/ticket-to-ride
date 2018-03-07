@@ -569,5 +569,7 @@
     <string name="draw_selected_cards">draw selected cards</string>
     <string name="claim_route_button_confirm">Confirm</string>
     <string name="claim_route_button_return">Return</string>
+    <string name="server_on">Server On</string>
+  <string name="server_off">Server Off</string>
 
 </resources>

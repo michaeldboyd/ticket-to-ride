@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride.Presenters.Interfaces;
 
+import android.widget.Button;
+
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
@@ -55,7 +57,7 @@ public interface IGamePresenter {
 
     void detachView();
 
-    void enter();
+    void enter(Button serverOnButton);
 
     void exit();
 }

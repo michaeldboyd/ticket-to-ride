@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.widget.Button;
+
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
@@ -156,7 +158,7 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
-    public void enter() {
+    public void enter(Button serverOnButton) {
 
     }
 

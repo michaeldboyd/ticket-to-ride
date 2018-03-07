@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Player;
@@ -10,6 +11,7 @@ import com.example.sharedcode.model.TrainCard;
 import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IHandFragment;
@@ -75,7 +77,7 @@ public class GamePresenterServerOn extends GamePresenter {
         // If autoplay is pressed, it will transition out of GamePresenterServerOn
         if (gameActivityFragment instanceof IBoardFragment) {
             BoardFragment currentFragment = (BoardFragment) gameActivityFragment;
-            currentFragment.setGamePresenterState(new GamePresenter(currentFragment));
+            currentFragment.setGamePresenterState(new GamePresenterServerOff(currentFragment));
         }
     }
 
@@ -120,8 +122,10 @@ public class GamePresenterServerOn extends GamePresenter {
     }
 
     @Override
-    public void enter() {
+    public void enter(Button serverOnButton) {
         // Poll the server to see if the game exists. if the game does not exist, transition back into
         // normal GamePresenter state.
+        serverOnButton.setBackgroundResource(R.drawable.button_green_bg);
+        serverOnButton.setText(R.string.server_on);
     }
 }

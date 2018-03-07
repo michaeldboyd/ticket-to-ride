@@ -33,6 +33,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import e.mboyd6.tickettoride.Presenters.GamePresenter;
+import e.mboyd6.tickettoride.Presenters.GamePresenterServerOff;
+import e.mboyd6.tickettoride.Presenters.GamePresenterServerOn;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerDrawTrainCards;
@@ -71,7 +73,9 @@ public class BoardFragment extends Fragment implements
     private CameraPosition mOrigin;
 
     private boolean successfullyLoaded;
-    private IGamePresenter mGamePresenter = new GamePresenter(this);
+
+    private Button mServerOnButton;
+    private IGamePresenter mGamePresenter;
 
     private BoardState mBoardState = new BoardIdle();
     private CardDrawerState mCardDrawerState;
@@ -85,6 +89,7 @@ public class BoardFragment extends Fragment implements
     private boolean myTurn = false;
 
     private ArrayList<ColorSelectionView> mColorSelectionViews = new ArrayList<>();
+    private Button mAutoplayButton;
 
     public BoardFragment() {
         // Required empty public constructor
@@ -139,12 +144,42 @@ public class BoardFragment extends Fragment implements
             }
         });
 
+        mAutoplayButton = mLayout.findViewById(R.id.game_fragment_autoplay_button);
+
+        mAutoplayButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                autoplay();
+            }
+        });
+
+        mServerOnButton = mLayout.findViewById(R.id.game_fragment_server_on_button);
+
+        mServerOnButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onServerOnButton();
+            }
+        });
+
+        setGamePresenterState(new GamePresenterServerOn(this));
+
         return mLayout;
     }
 
 
     private void onBoardFragmentClaimRouteButton() {
         mClaimRouteButtonState.onClick(this);
+    }
+
+    private void onServerOnButton() {
+        if (mGamePresenter instanceof GamePresenterServerOff) {
+            setGamePresenterState(new GamePresenterServerOn(this));
+        } else {
+            setGamePresenterState(new GamePresenterServerOff(this));
+        }
     }
 
     @Override
@@ -294,7 +329,7 @@ public class BoardFragment extends Fragment implements
     }
     @Override
     public void autoplay() {
-
+        mGamePresenter.autoplay();
     }
 
     @Override
@@ -358,9 +393,10 @@ public class BoardFragment extends Fragment implements
     }
 
     public void setGamePresenterState(GamePresenter gamePresenter) {
-        mGamePresenter.exit();
+        if (mGamePresenter != null)
+            mGamePresenter.exit();
         mGamePresenter = gamePresenter;
-        mGamePresenter.enter();
+        mGamePresenter.enter(mServerOnButton);
     }
 
     public void setClaimRouteButtonState(ClaimRouteButtonState claimRouteButtonState) {
