@@ -13,13 +13,14 @@ public class Game {
     private ArrayList<Player> players = new ArrayList<Player>();
     private DestinationDeck destinationDeck;
     private TrainCardDeck trainCardDeck;
+    private TrainCardDeck trainDiscardDeck;
     private FaceUpDeck faceUpDeck;
     private String currentTurnPlayerID;
     private ArrayList<String> history;
     //The plan for this is that if Player is null, the route is not claimed.
     //If we need to change this we totally can.
     private Map<Route, Player> routesClaimed;
-    private Map<String, City> cityToCities;
+    private Map<String, City> cities;
 
     //MemVariables pertaining to chat
     private ArrayList<ChatMessage> chatMessages = new ArrayList<>();
@@ -93,6 +94,14 @@ public class Game {
 
     public void setDestinationDeck(DestinationDeck destinationDeck) {
         this.destinationDeck = destinationDeck;
+    }
+
+    public TrainCardDeck getTrainDiscardDeck() {
+        return trainDiscardDeck;
+    }
+
+    public void setTrainDiscardDeck(TrainCardDeck trainDiscardDeck) {
+        this.trainDiscardDeck = trainDiscardDeck;
     }
 
     public TrainCardDeck getTrainCardDeck() {
@@ -169,4 +178,11 @@ public class Game {
         gameInitializer.initializeGame(this);
     }
 
+    public Map<String, City> getCities() {
+        return cities;
+    }
+
+    public void setCities(Map<String, City> cities) {
+        this.cities = cities;
+    }
 }

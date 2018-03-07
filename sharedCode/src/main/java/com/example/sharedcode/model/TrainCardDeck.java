@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Ali on 2/24/2018.
  */
 
-public class TrainCardDeck extends ArrayList {
+public class TrainCardDeck extends ArrayList<Integer> {
 
     TrainCardDeck(){
 
@@ -22,7 +22,7 @@ public class TrainCardDeck extends ArrayList {
     }
 
     //check params for this
-    public void returnDiscarded(DestinationCard card){
+    public void returnDiscarded(TrainCard card){
 
     }
 }

@@ -7,8 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sharedcode.model.Player;
+
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.IHandFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,7 +20,7 @@ import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
  * Use the {@link HandFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HandFragment extends Fragment {
+public class HandFragment extends Fragment implements IHandFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -84,5 +87,10 @@ public class HandFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void updateHand(Player player) {
+        
     }
 }

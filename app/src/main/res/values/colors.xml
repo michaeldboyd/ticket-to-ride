@@ -17,6 +17,7 @@
     <color name="goldenrod_faded">#ab954a</color>
     <color name="salmon">#FF8F80</color>
     <color name="salmon_faded">#974439</color>
+    <color name="salmon_background">#c19994</color>
     <color name="teal">#98D3C8</color>
     <color name="teal_faded">#559387</color>
     <color name="off_white">#F5F5F5</color>
@@ -27,4 +28,13 @@
     <color name="icon_selected">#96000000</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="box">#D7350A</color>
+    <color name="passenger">#E8E4E1</color>
+    <color name="tanker">#aa4609</color>
+    <color name="reefer">#9EBF34</color>
+    <color name="freight">#0E6CB1</color>
+    <color name="hopper">#F8DA20</color>
+    <color name="coal">#68605E</color>
+    <color name="caboose">#BC9CC5</color>
 </resources>

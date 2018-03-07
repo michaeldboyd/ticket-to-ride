@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 public class TrainCard  {
 
-    private String trainCarType;
+    private int trainCarType;
     private String color;
 
-    public String getTrainCarType() {
+    public int getTrainCarType() {
         return trainCarType;
     }
 
-    public void setTrainCarType(String trainCarType) {
+    public void setTrainCarType(int trainCarType) {
         this.trainCarType = trainCarType;
     }
 
