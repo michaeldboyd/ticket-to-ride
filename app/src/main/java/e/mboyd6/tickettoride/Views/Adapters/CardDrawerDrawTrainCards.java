@@ -11,17 +11,13 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.sharedcode.model.FaceUpDeck;
-import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 import com.example.sharedcode.model.TrainType;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashSet;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
@@ -40,12 +36,14 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
     private Button DrawTrainCardsButton;
     private Button DrawDestinationCardsButton;
     private int maximumCards = 2;
+    private BoardFragment boardFragment;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void enter(final Context context, BoardFragment boardFragment, View layout, ViewFlipper viewFlipper, DrawerSlider drawerSlider) {
+    public void enter(final Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, Player currentPlayer) {
 
         this.context = context;
+        this.boardFragment = boardFragment;
         game = game == null ? boardFragment.getLatestLoadedGame() : game;
         faceUpDeck = game.getFaceUpDeck() == null ? new FaceUpDeck() : game.getFaceUpDeck();
 
@@ -225,11 +223,14 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onDrawTrainCardsButton() {
         Toast.makeText(context, "onDrawTrainCardsButton()", Toast.LENGTH_SHORT).show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onDrawDestinationCardsButton() {
         Toast.makeText(context, "onDrawDestinationCardsButton()", Toast.LENGTH_SHORT).show();
+        boardFragment.setCardDrawerState(new CardDrawerDrawDestinationCards());
     }
 }
