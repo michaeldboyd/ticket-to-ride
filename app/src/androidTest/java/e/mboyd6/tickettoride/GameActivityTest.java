@@ -128,7 +128,7 @@ public class GameActivityTest {
 
 
     ClientModel.getInstance().setCurrentGame(currentGame);
-    ClientModel.getInstance().setPlayerTurn("001");
+    //ClientModel.getInstance().setPlayerTurn("001");
     Intent intent = new Intent(testingActivity, GameActivity.class);
     testingActivity.startActivity(intent);
     waitForSeconds(4);

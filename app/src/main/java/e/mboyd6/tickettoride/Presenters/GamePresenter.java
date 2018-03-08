@@ -104,8 +104,11 @@ public class GamePresenter implements IGamePresenter, Observer {
      * of actions. **/
     @Override
     public void onUpdateTurn() {
-        if (gameActivityFragment instanceof IBoardFragment)
-            ((IBoardFragment) gameActivityFragment).onUpdateTurn(ClientModel.getInstance().getCurrentGame().getCurrentTurnPlayerID());
+        if (gameActivityFragment instanceof IBoardFragment) {
+            if (ClientModel.getInstance().getCurrentGame() != null) {
+                ((IBoardFragment) gameActivityFragment).onUpdateTurn(ClientModel.getInstance().getCurrentGame().getCurrentTurnPlayerID());
+            }
+        }
     }
 
     @Override
