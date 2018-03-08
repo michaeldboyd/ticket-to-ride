@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -198,6 +199,28 @@ public class BoardFragment extends Fragment implements
 
         setGamePresenterState(new GamePresenterServerOn(this));
 
+        // Run the updates even if Google Maps isn't working
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (mMap == null)
+                    activity.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            initialize();
+                        }
+                    });
+            }
+        });
+        //thread.start();
+
+
         return mLayout;
     }
 
@@ -260,6 +283,10 @@ public class BoardFragment extends Fragment implements
         }
 
         //setCardDrawerState(new CardDrawerStartGame());
+        initialize();
+    }
+
+    private void initialize() {
         mGamePresenter.updateBoard();
         mGamePresenter.onUpdateTurn();
     }
@@ -314,6 +341,8 @@ public class BoardFragment extends Fragment implements
     @Override
     public void onUpdateTurn(String pT) {
         final String playerTurn = pT == null ? "" : pT;
+        if (!isAdded())
+            return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -452,6 +481,8 @@ public class BoardFragment extends Fragment implements
     //https://stackoverflow.com/questions/25544370/google-maps-api-for-android-v2-how-to-add-text-with-no-background
 
     public void setCardDrawerState(CardDrawerState cardDrawerState) {
+        if (mCardDrawerState != null)
+            mCardDrawerState.exit(getContext(),this, mViewFlipper, mDrawerSlider, (GamePresenter) mGamePresenter);
         mCardDrawerState = cardDrawerState;
         mCardDrawerState.enter(getContext(), this, mViewFlipper, mDrawerSlider, (GamePresenter) mGamePresenter);
     }

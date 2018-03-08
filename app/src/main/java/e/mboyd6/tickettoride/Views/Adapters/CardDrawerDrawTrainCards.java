@@ -231,6 +231,8 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
         int index1 = selectedCards.size() > 0 ? selectedCards.pop() : -1;
         int index2 = selectedCards.size() > 0 ? selectedCards.pop() : -1;
         gamePresenter.drawTrainCards(index1, index2, howManyDeckCards);
+        selectedCards.clear();
+        howManyDeckCards = 0;
         boardFragment.completeTurn();
     }
 

@@ -5,11 +5,14 @@ import android.support.annotation.RequiresApi;
 import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
+import com.example.sharedcode.model.DestinationDeck;
+import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
@@ -104,6 +107,13 @@ public class GamePresenterServerOn extends GamePresenter {
         super.chooseDestinationCards(chosen, discarded);
         // Tell the server that the client has chosen which destination cards to keep and which ones
         // to discard to the bottom of the deck
+
+        Game currentGame = ClientModel.getInstance().getCurrentGame();
+        Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
+        DestinationDeck destinationDeck = currentGame.getDestinationDeck();
+
+        String authToken = ClientModel.getInstance().getAuthToken();
+        GameplayProxy.getInstance().updateDestinationCards(authToken, currentGame.getGameID(), currentPlayer, destinationDeck);
     }
 
     @Override

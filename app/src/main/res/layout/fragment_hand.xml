@@ -46,7 +46,7 @@
                 android:id="@+id/hand_fragment_train_card_2_image"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/card_caboose"
+                android:src="@drawable/card_passenger"
                 android:alpha="0.5" />
 
             <LinearLayout
@@ -69,7 +69,7 @@
                 android:id="@+id/hand_fragment_train_card_3_image"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/card_coal"
+                android:src="@drawable/card_tanker"
                 android:alpha="0.5"/>
 
             <LinearLayout
@@ -99,7 +99,7 @@
                 android:id="@+id/hand_fragment_train_card_4_image"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/card_freight"
+                android:src="@drawable/card_reefer"
                 android:alpha="0.5" />
 
             <LinearLayout
@@ -122,7 +122,7 @@
                 android:id="@+id/hand_fragment_train_card_5_image"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/card_hopper"
+                android:src="@drawable/card_freight"
                 android:alpha="0.5" />
 
             <LinearLayout
@@ -145,7 +145,7 @@
                 android:id="@+id/hand_fragment_train_card_6_image"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/card_passenger"
+                android:src="@drawable/card_hopper"
                 android:alpha="0.5"/>
 
             <LinearLayout
@@ -175,7 +175,7 @@
                 android:id="@+id/hand_fragment_train_card_7_image"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/card_reefer"
+                android:src="@drawable/card_coal"
                 android:alpha="0.5" />
 
             <LinearLayout
@@ -198,7 +198,7 @@
                 android:id="@+id/hand_fragment_train_card_8_image"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/card_tanker"
+                android:src="@drawable/card_caboose"
                 android:alpha="0.5" />
 
             <LinearLayout
