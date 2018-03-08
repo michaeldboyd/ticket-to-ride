@@ -82,6 +82,9 @@ public class GamePresenter implements IGamePresenter, Observer {
         else if (gameActivityFragment instanceof IHandFragment) {
             ((IHandFragment) gameActivityFragment).updateHand(ClientModel.getInstance().getCurrentPlayer());
         }
+        else if (gameActivityFragment instanceof IScoreFragment) {
+            ((IScoreFragment) gameActivityFragment).updateScore(currentGame.getPlayers());
+        }
     }
 
     /** When the game is started, let me know what train cards I was dealt as my starting hand.
@@ -189,7 +192,7 @@ public class GamePresenter implements IGamePresenter, Observer {
 
     @Override
     public void claimRoute(String routeName) {
-        // Tell the server that the client has clicked on a route to claim
+        // Tell the server that the client has clicked on a route to claim/**/
     }
 
     /** Called upwards ON the UI to notify a player when they've successfully claimed a route **/

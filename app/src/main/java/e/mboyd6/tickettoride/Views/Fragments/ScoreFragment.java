@@ -7,8 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sharedcode.model.Player;
+
+import java.util.ArrayList;
+
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.IScoreFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,7 +22,7 @@ import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
  * Use the {@link ScoreFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ScoreFragment extends Fragment {
+public class ScoreFragment extends Fragment implements IScoreFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -84,5 +89,10 @@ public class ScoreFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void updateScore(ArrayList<Player> scores) {
+
     }
 }

@@ -85,6 +85,7 @@ public class ServerGameplay implements IServerGameplayFacade {
     @Override
     public void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
 
+        player.setScore((Score) )
     }
 
     @Override
