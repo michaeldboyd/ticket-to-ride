@@ -107,6 +107,7 @@ public class ClientGameplay implements IClientGamplayFacade {
         sendUpdate(type, true, "");
     }
 
+    @Override
     public void updateGame(Game game, String message) {
         UpdateType type = UpdateType.GAME_INITIALIZED;
 

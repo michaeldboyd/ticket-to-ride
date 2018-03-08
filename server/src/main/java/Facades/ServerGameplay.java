@@ -71,7 +71,9 @@ public class ServerGameplay implements IServerGameplayFacade {
 
             ServerModel.instance().getGames().put(gameID, game);
 
-        } else message = "Game not found on server";
+        } else {
+            message = "Game not found on server";
+        }
 
         String[] paramTypes = {game.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
@@ -84,22 +86,53 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     @Override
     public void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
+        String message = "";
 
+        Game currentGame = null;
+        if (ServerModel.instance().getGames().containsKey(gameID)) {
+            currentGame = ServerModel.instance().getGames().get(gameID);
+            currentGame.setRoutesClaimed(routesClaimed);
+
+            currentGame.removePlayer(player.getName());
+            currentGame.addPlayer(player);
+        } else {
+            message = "Game not found on server";
+        }
+
+        String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {currentGame, message};
+        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
+                "_updateGame", paramTypes, paramValues);
+        SocketManager.instance().notifyPlayersInGame(gameID, command);
     }
 
     @Override
     public void updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
+        
 
+        String[] paramTypes = {};
+        Object[] paramValues = {};
+        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
+                "_updateGame", paramTypes, paramValues);
+        SocketManager.instance().notifyPlayersInGame(gameID, command);
     }
 
     @Override
     public void updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
-
+        String[] paramTypes = {};
+        Object[] paramValues = {};
+        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
+                "_updateGame", paramTypes, paramValues);
+        SocketManager.instance().notifyPlayersInGame(gameID, command);
     }
 
     @Override
     public void getGameHistory(String authToken, String gameID) {
-
+        String[] paramTypes = {};
+        Object[] paramValues = {};
+        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
+                "_updateGame", paramTypes, paramValues);
+        SocketManager.instance().notifyPlayersInGame(gameID, command);
     }
 }
 

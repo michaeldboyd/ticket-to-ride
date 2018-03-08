@@ -1,6 +1,7 @@
 package com.example.sharedcode.interfaces;
 
-import java.util.ArrayList;
+import com.example.sharedcode.model.Game;
+
 
 /**
  * Created by jonathanlinford on 3/2/18.
@@ -15,4 +16,5 @@ public interface IClientGamplayFacade {
     void placedTrainCars(String gameID, String playerID);
     void historyUpdated(String gameID, String historyItem);
     void newPlayerTurn(String gameID, String playerID);
+    void updateGame(Game game, String message);
 }
