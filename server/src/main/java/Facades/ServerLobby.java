@@ -199,8 +199,8 @@ public class ServerLobby implements IServerLobbyFacade {
                 SocketManager.instance().updateGameList(tokens);
 
 
-                String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
-                Object[] paramValues = {gameID, message};
+                String[] paramTypes = {message.getClass().toString(), game.getClass().toString()};
+                Object[] paramValues = {message, game};
                 Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
                         "_startGameReceived", paramTypes, paramValues);
 

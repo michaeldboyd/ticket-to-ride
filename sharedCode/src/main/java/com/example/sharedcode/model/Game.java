@@ -209,10 +209,10 @@ public class Game {
 
     public void addTrainCardToPlayerHand(String playerName) {
         try {
-            for (Player player :
-                    players) {
+            for (Player player : players) {
                 if (player.getName().equals(playerName)) {
                     int cardType = trainCardDeck.drawCard();
+
                     int count = player.getHand().get(cardType);
 
                     player.getHand().put(cardType, count + 1);

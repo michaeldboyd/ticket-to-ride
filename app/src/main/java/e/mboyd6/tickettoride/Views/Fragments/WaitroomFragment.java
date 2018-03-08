@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IWaitroomPresenter;
 import e.mboyd6.tickettoride.Presenters.WaitroomPresenter;
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Adapters.ColorSelectionView;
 import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
@@ -347,12 +349,16 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
     @Override
     public void onStartGameResponse(String message) {
         final String mess = message;
+
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
                     enableStartGameUI();
                     if (!handleError(mess)) {
-                        handleError("Successfully started game. Congrats!");
+                        Intent intent = new Intent(getActivity(), GameActivity.class);
+
+                        getActivity().startActivity(intent);
                     }
                 }});
     }

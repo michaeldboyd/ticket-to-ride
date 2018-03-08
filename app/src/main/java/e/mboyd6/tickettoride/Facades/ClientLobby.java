@@ -43,8 +43,8 @@ public class ClientLobby implements IClientLobbyFacade {
         instance().joinGame(message, player, game);
     }
 
-    public static void _startGameReceived(String gameID, String message) {
-        instance().startGame(gameID, message);
+    public static void _startGameReceived(String message, Game game) {
+        instance().startGame(message, game);
     }
 
     public static void _leaveGameReceived(String gameID, String message) {
@@ -122,18 +122,22 @@ public class ClientLobby implements IClientLobbyFacade {
 
     //start the game
     @Override
-    public void startGame(String gameID, String message) {
+    public void startGame(String message, Game game) {
         UpdateType type = UpdateType.GAME_STARTED;
         boolean success = isSuccess(message);
 
         ArrayList<Game> games = ClientModel.getInstance().getGames();
         if (success && games != null) {
             for (Game g : games) {
-                if (g.getGameID().equals(gameID)) {
+                if (g.getGameID().equals(game.getGameID())) {
+                    g = game;
                     if(!ClientModel.getInstance().getCurrentGame().isStarted()) {
                         g.setStarted(true);
                         ClientModel.getInstance().setCurrentGame(g);
-                    } else message = "Your game has already started!";
+                        message = "";
+                    } else {
+                        message = "Your game has already started!";
+                    }
                     break;
                 } else {
                     message = "The game you're trying to start has the wrong ID.";
