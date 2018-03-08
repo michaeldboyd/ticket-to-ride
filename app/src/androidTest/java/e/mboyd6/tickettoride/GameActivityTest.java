@@ -126,6 +126,10 @@ public class GameActivityTest {
     currentGame.getFaceUpDeck().set(4, TrainType.LOCOMOTIVE);
     */
 
+    ArrayList<String> fakeHistory = new ArrayList<>();
+    fakeHistory.add("HUNTER DID A THING");
+    fakeHistory.add("HUNTER DID ANOTHER THING");
+    currentGame.setHistory(fakeHistory);
 
     ClientModel.getInstance().setCurrentGame(currentGame);
     //ClientModel.getInstance().setPlayerTurn("001");

@@ -83,6 +83,9 @@ public class GamePresenter implements IGamePresenter, Observer {
         else if (gameActivityFragment instanceof IScoreFragment) {
             ((IScoreFragment) gameActivityFragment).updateScore(currentGame.getPlayers());
         }
+        else if (gameActivityFragment instanceof IHistoryFragment) {
+            ((IHistoryFragment) gameActivityFragment).updateHistory(currentGame.getHistory());
+        }
     }
 
     /** When the game is started, let me know what train cards I was dealt as my starting hand.

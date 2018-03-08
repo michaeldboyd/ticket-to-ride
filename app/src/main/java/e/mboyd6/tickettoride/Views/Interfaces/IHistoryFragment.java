@@ -6,6 +6,8 @@ package e.mboyd6.tickettoride.Views.Interfaces;
 
 import com.example.sharedcode.model.Game;
 
+import java.util.ArrayList;
+
 /**
  * This interface must be implemented by activities that contain this
  * fragment to allow an interaction in this fragment to be communicated
@@ -18,5 +20,5 @@ import com.example.sharedcode.model.Game;
  */
 
 public interface IHistoryFragment extends IGameActivityFragment  {
-    void updateHistory(Game game);
+    void updateHistory(ArrayList<String> history);
 }
