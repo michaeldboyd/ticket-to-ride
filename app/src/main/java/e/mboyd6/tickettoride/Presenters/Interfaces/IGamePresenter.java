@@ -7,7 +7,6 @@ import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by jonathanlinford on 3/2/18.
@@ -18,7 +17,7 @@ public interface IGamePresenter {
     void updateBoard();
 
     /** A way to get the data of the current player without the UI calling the model directly **/
-    Player getCurrentPlayer();
+    String getCurrentPlayer();
 
     /** A way to get the list of players in the game **/
     ArrayList<Player> getPlayers();
@@ -61,4 +60,6 @@ public interface IGamePresenter {
     void enter(Button serverOnButton);
 
     void exit();
+
+    Player getCurrentPlayerObject();
 }

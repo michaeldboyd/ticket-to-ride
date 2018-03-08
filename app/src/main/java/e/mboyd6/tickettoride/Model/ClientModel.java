@@ -94,6 +94,8 @@ public class ClientModel extends Observable {
     public Player getCurrentPlayer() {
         Player player = null;
 
+        if (currentGame.getPlayers() == null)
+            return null;
         for (Player p :
                 currentGame.getPlayers()) {
             if (p.getName().equals(playerName)) {

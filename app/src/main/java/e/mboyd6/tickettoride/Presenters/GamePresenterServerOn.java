@@ -40,10 +40,6 @@ public class GamePresenterServerOn extends GamePresenter {
         super(historyFragment);
     }
 
-    public Player getCurrentPlayer() {
-        return ClientModel.getInstance().getCurrentPlayer();
-    }
-
     @Override
     public ArrayList<Player> getPlayers() {
         return super.getPlayers();
