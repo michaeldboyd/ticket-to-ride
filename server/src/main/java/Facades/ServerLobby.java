@@ -103,26 +103,33 @@ public class ServerLobby implements IServerLobbyFacade {
     @Override
     public void joinGame(String authToken, String gameID) {
         String message = "";
+        Player newPlayer = null;
+        Game game = null;
 
         String playerID = "";
         if (ServerModel.instance().getGames().containsKey(gameID)) {
             String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
-            Player newPlayer = new Player(usnm,usnm, PlayerColors.NO_COLOR);
+            newPlayer = new Player(usnm,usnm, PlayerColors.NO_COLOR);
+            game = ServerModel.instance().getGames().get(gameID);
+
 
             // Only set message if we fail to add user to the game
-            if (!ServerModel.instance().getGames().get(gameID).addPlayer(newPlayer)) {
+            if (!game.addPlayer(newPlayer)) {
                 message = "Could not add player to game because it is already full";
             } else {
                 playerID = newPlayer.getPlayerID();
                 ServerModel.instance().getUsersInLobby()
                         .remove(ServerModel.instance().getLoggedInUsers().get(usnm).getUsername());
             }
-        } else message = "could not find game in list";
+        } else {
+            message = "could not find game in list";
+        }
 
-        String[] paramTypes = {gameID.getClass().toString(),
-                playerID.getClass().toString(),
-                message.getClass().toString()};
-        Object[] paramValues = {gameID, playerID, message};
+        String[] paramTypes = {message.getClass().toString(),
+                newPlayer.getClass().toString(),
+                game.getClass().toString()};
+
+        Object[] paramValues = {message, newPlayer, game};
 
         Command joinGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_joinGameReceived", paramTypes, paramValues);

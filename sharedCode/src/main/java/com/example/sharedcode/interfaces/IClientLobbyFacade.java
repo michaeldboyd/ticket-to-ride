@@ -12,7 +12,7 @@ public interface IClientLobbyFacade {
 
     void createGame(Game newGame);
     void updateGames(Game[] games, String message);
-    void joinGame(String message, String playerID, String gameID);
+    void joinGame(String message, Player player, Game game);
     void startGame(String message, String gameID);
     void leaveGame(String gameID, String message);
 }

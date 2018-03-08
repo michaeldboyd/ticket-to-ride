@@ -4,6 +4,7 @@ import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IClientLobbyFacade;
 import com.example.sharedcode.model.ChatMessage;
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.UpdateType;
 
 import java.util.ArrayList;
@@ -38,8 +39,8 @@ public class ClientLobby implements IClientLobbyFacade {
         instance().updateGames(games, message);
     }
 
-    public static void _joinGameReceived(String gameID, String playerID, String message) {
-        instance().joinGame(gameID, playerID, message);
+    public static void _joinGameReceived(String message, Player player, Game game) {
+        instance().joinGame(message, player, game);
     }
 
     public static void _startGameReceived(String gameID, String message) {
@@ -102,18 +103,16 @@ public class ClientLobby implements IClientLobbyFacade {
     }
 
     @Override
-    public void joinGame(String gameID, String playerID, String message) {
+    public void joinGame(String message, Player player, Game game) {
         UpdateType type = UpdateType.GAME_JOINED;
         boolean success = isSuccess(message);
 
         if(success)
         {
             //join the game
-            boolean joinedGame = joinGame(gameID);
+            boolean joinedGame = joinGame(game);
             if(joinedGame) { //IMPORTANT: PlayerId and Player Name are just the User's username
-                ClientModel.getInstance().setPlayerName(playerID);
-                ClientModel.getInstance().getCurrentPlayer().setName(playerID);
-                ClientModel.getInstance().getCurrentPlayer().setPlayerID(playerID);
+                ClientModel.getInstance().setPlayerName(player.getName());
 
             } else message = "Game ID wasn't found correctly. Choose another game for now.";
         }
@@ -169,15 +168,20 @@ public class ClientLobby implements IClientLobbyFacade {
         ClientModel.getInstance().sendUpdate(args);
     }
 
-    private boolean joinGame(String gameID){
+    private boolean joinGame(Game game){
         ArrayList<Game> games = ClientModel.getInstance().getGames();
+
         if(games != null)
         {
             for(Game g: games){
-                if(g.getGameID().equals(gameID)){
+                if(g.getGameID().equals(game.getGameID())){
+
+                    g = game;
                     //GameID is set as currentGame
-                   if(g.getChatMessages() == null)
+                    if(g.getChatMessages() == null) {
                         g.setChatMessages(new ArrayList<ChatMessage>());
+                    }
+
                     ClientModel.getInstance().setCurrentGame(g);
                     return true;
                 }
