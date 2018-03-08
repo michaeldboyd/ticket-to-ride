@@ -6,12 +6,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.example.sharedcode.model.Player;
 
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Presenters.GamePresenter;
+import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Adapters.ScoreListAdapter;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IScoreFragment;
 
@@ -34,6 +38,9 @@ public class ScoreFragment extends Fragment implements IScoreFragment {
 
     private IGameActivity mListener;
     private View mLayout;
+    private ScoreListAdapter mScoreListAdapter;
+
+    private IGamePresenter mGamePresenter = new GamePresenter(this);
 
     public ScoreFragment() {
         // Required empty public constructor
@@ -70,7 +77,30 @@ public class ScoreFragment extends Fragment implements IScoreFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mLayout = inflater.inflate(R.layout.fragment_score, container, false);
+
+        mScoreListAdapter = new ScoreListAdapter(getContext(), new ArrayList<Player>(), this);
+        ListView listView = mLayout.findViewById(R.id.scores);
+        listView.setAdapter(mScoreListAdapter);
+
+        mGamePresenter.updateBoard();
+
         return mLayout;
+    }
+
+    @Override
+    public void updateScore(ArrayList<Player> newList) {
+        final ArrayList<Player> nl = newList;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //Update current game list with newList
+                if (mScoreListAdapter != null) {
+                    mScoreListAdapter.clear();
+                    mScoreListAdapter.addAll(nl);
+                    mScoreListAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
 
@@ -89,10 +119,5 @@ public class ScoreFragment extends Fragment implements IScoreFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void updateScore(ArrayList<Player> scores) {
-
     }
 }

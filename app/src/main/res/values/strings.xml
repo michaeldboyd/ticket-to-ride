@@ -571,5 +571,9 @@
     <string name="claim_route_button_return">Return</string>
     <string name="server_on">Server On</string>
   <string name="server_off">Server Off</string>
+    <string name="points">Points</string>
+  <string name="trains">Trains</string>
+  <string name="cards">Cards</string>
+  <string name="routes">Routes</string>
 
 </resources>

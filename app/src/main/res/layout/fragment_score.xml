@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/color_turquoise"
+    android:weightSum="1">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/color_turquoise_faded"
+        android:orientation="horizontal"
+        android:weightSum="5">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/dense"
+            android:gravity="center_vertical"
+            android:text="@string/Username"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/dense"
+            android:gravity="center_vertical"
+            android:text="@string/points"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/dense"
+            android:gravity="center_vertical"
+            android:text="@string/trains"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/dense"
+            android:gravity="center_vertical"
+            android:text="@string/cards"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:textSize="20sp" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/dense"
+            android:gravity="center_vertical"
+            android:text="@string/routes"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+    <ListView
+        android:id="@+id/scores"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>
