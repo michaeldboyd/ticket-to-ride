@@ -118,12 +118,13 @@ public class GameActivityTest {
     currentGame.getFaceUpDeck().set(3, new TrainCard(TrainType.FREIGHT));
     currentGame.getFaceUpDeck().set(4, new TrainCard(TrainType.HOPPER));
     */
-
+/*
     currentGame.getFaceUpDeck().set(0, TrainType.BOX);
     currentGame.getFaceUpDeck().set(1, TrainType.PASSENGER);
     currentGame.getFaceUpDeck().set(2, TrainType.REEFER);
     currentGame.getFaceUpDeck().set(3, TrainType.TANKER);
     currentGame.getFaceUpDeck().set(4, TrainType.LOCOMOTIVE);
+    */
 
 
     ClientModel.getInstance().setCurrentGame(currentGame);
