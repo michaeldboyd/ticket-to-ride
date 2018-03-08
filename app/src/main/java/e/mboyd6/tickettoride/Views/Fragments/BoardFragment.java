@@ -218,7 +218,7 @@ public class BoardFragment extends Fragment implements
                     });
             }
         });
-        thread.start();
+        //thread.start();
 
 
         return mLayout;

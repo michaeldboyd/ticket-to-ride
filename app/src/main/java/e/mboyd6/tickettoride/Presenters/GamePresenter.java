@@ -8,6 +8,7 @@ import com.example.sharedcode.model.FaceUpDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
+import com.example.sharedcode.model.TrainCardDeck;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -111,20 +112,60 @@ public class GamePresenter implements IGamePresenter, Observer {
     public void drawTrainCards(int index1, int index2, int numberFromDeck) {
         // Communicate with the server to tell them that trainCards have been drawn
         FaceUpDeck faceUpDeck = ClientModel.getInstance().getCurrentGame().getFaceUpDeck();
+        TrainCardDeck trainCardDeck = ClientModel.getInstance().getCurrentGame().getTrainCardDeck();
         Map<Integer, Integer> hand = ClientModel.getInstance().getCurrentPlayer().getHand();
 
         if (index1 != -1) {
-            int card1 = faceUpDeck.remove(index1);
-            int amount1 = hand.get(card1);
-            amount1++;
-            hand.put(card1, amount1);
+            int card1 = faceUpDeck.get(index1);
+            try {
+                faceUpDeck.set(index1, trainCardDeck.drawCard());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("Card1 value: " + card1);
+            int amount1;
+            if (hand.get(card1) != null) {
+                amount1 = hand.get(card1);
+                amount1++;
+                hand.put(card1, amount1);
+            } else {
+                hand.put(card1, 1);
+            }
         }
         if (index2 != -1) {
-            int card2 = faceUpDeck.remove(index2);
-            int amount2 = hand.get(card2);
-            amount2++;
-            hand.put(card2, amount2);
+            int card2 = faceUpDeck.get(index2);
+            try {
+                faceUpDeck.set(index2, trainCardDeck.drawCard());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("Card1 value: " + card2);
+            int amount2;
+            if (hand.get(card2) != null) {
+                amount2 = hand.get(card2);
+                amount2++;
+                hand.put(card2, amount2);
+            } else {
+                hand.put(card2, 1);
+            }
         }
+
+        for(int i = 0; i < numberFromDeck; i++) {
+            try {
+                int card = trainCardDeck.drawCard();
+                if (hand.get(card) != null) {
+                    int amount = hand.get(card);
+                    amount++;
+                    hand.put(card, amount);
+                } else {
+                    hand.put(card, 1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        updateBoard();
     }
 
     /** Called upwards ON the UI when a player successfully draws train cards. A toast is displayed. The updateBoard method
