@@ -16,53 +16,59 @@
         android:weightSum="7">
 
         <ImageView
-            android:id="@+id/train_card_1"
+            android:id="@+id/draw_train_cards_train_card_1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/card_locomotive"
+            android:alpha="0.5"
+            android:clickable="true"
+            android:focusable="true" />
+        <ImageView
+            android:id="@+id/draw_train_cards_train_card_2"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:src="@drawable/card_box"
             android:alpha="0.5"
-            android:clickable="false"/>
+            android:clickable="true"
+            android:focusable="true" />
         <ImageView
-            android:id="@+id/train_card_2"
+            android:id="@+id/draw_train_cards_train_card_3"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:src="@drawable/card_box"
             android:alpha="0.5"
-            android:clickable="false"/>
+            android:clickable="true"
+            android:focusable="true" />
         <ImageView
-            android:id="@+id/train_card_3"
+            android:id="@+id/draw_train_cards_train_card_4"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:src="@drawable/card_box"
             android:alpha="0.5"
-            android:clickable="false"/>
+            android:clickable="true"
+            android:focusable="true" />
         <ImageView
-            android:id="@+id/train_card_4"
+            android:id="@+id/draw_train_cards_train_card_5"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:src="@drawable/card_box"
             android:alpha="0.5"
-            android:clickable="false"/>
+            android:clickable="true"
+            android:focusable="true" />
         <ImageView
-            android:id="@+id/train_card_5"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:src="@drawable/card_box"
-            android:alpha="0.5"
-            android:clickable="false"/>
-        <ImageView
-            android:id="@+id/train_card_deck"
+            android:id="@+id/draw_train_cards_train_card_deck"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:src="@drawable/card_deck"
             android:alpha="0.5"
-            android:clickable="false"/>
+            android:clickable="true"
+            android:focusable="true" />
     </LinearLayout>
 
     <TextView

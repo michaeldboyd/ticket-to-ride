@@ -1,5 +1,7 @@
 package e.mboyd6.tickettoride.Presenters.Interfaces;
 
+import android.widget.Button;
+
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
@@ -40,7 +42,7 @@ public interface IGamePresenter {
     void receiveTrainCards(ArrayList<TrainCard> trainCards);
 
     /** Called DOWNWARDS from Presenter **/
-    void drawDestinationCards();
+    ArrayList<DestinationCard> drawDestinationCards();
 
     /** Called UPWARDS from Model **/
     void receiveDestinationCards(ArrayList<DestinationCard> destinationCards);
@@ -54,4 +56,9 @@ public interface IGamePresenter {
     /** Called UPWARDS from Model **/
     void receiveRouteClaimed(String routeName);
 
+    void detachView();
+
+    void enter(Button serverOnButton);
+
+    void exit();
 }

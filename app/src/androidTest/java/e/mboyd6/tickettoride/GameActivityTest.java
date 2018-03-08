@@ -6,6 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.GameInitializer;
 import com.example.sharedcode.model.Player;
@@ -102,9 +103,31 @@ public class GameActivityTest {
     generateFakeGames();
     GameInitializer gameInitializer = new GameInitializer();
     Game currentGame = gameInitializer.initializeGame(generateBoardFragmentFakeGame());
+
+    ArrayList<DestinationCard> destinationCards = new ArrayList<>();
+    for (int i = 0; i < 10; i++) {
+      destinationCards.add(currentGame.getDestinationDeck().get(i));
+    }
+
+    currentGame.getPlayers().get(0).getDestinationCards().addAll(destinationCards);
+
+    /*
+    currentGame.getFaceUpDeck().set(0, new TrainCard(TrainType.BOX));
+    currentGame.getFaceUpDeck().set(1, new TrainCard(TrainType.CABOOSE));
+    currentGame.getFaceUpDeck().set(2, new TrainCard(TrainType.COAL));
+    currentGame.getFaceUpDeck().set(3, new TrainCard(TrainType.FREIGHT));
+    currentGame.getFaceUpDeck().set(4, new TrainCard(TrainType.HOPPER));
+    */
+
+    currentGame.getFaceUpDeck().set(0, TrainType.BOX);
+    currentGame.getFaceUpDeck().set(1, TrainType.PASSENGER);
+    currentGame.getFaceUpDeck().set(2, TrainType.REEFER);
+    currentGame.getFaceUpDeck().set(3, TrainType.TANKER);
+    currentGame.getFaceUpDeck().set(4, TrainType.LOCOMOTIVE);
+
+
     ClientModel.getInstance().setCurrentGame(currentGame);
     ClientModel.getInstance().setPlayerTurn("001");
-    ClientModel.getInstance().setCurrentPlayer(currentGame.getPlayers().get(0));
     Intent intent = new Intent(testingActivity, GameActivity.class);
     testingActivity.startActivity(intent);
     waitForSeconds(4);
@@ -133,15 +156,7 @@ public class GameActivityTest {
     fakeGame.addPlayer(new Player("001", "Michael", PlayerColors.TURQUOISE));
     fakeGame.addPlayer(new Player("002", "Alli", PlayerColors.BLUE));
     fakeGame.addPlayer(new Player("003", "Eric", PlayerColors.RED));
-    ArrayList<TrainCard> trainCards = new ArrayList<>();
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    trainCards.add(new TrainCard());
-    fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, trainCards.size());
+    fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, 7);
     return fakeGame;
   }
 

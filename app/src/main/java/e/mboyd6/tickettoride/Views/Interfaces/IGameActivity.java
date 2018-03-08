@@ -11,4 +11,5 @@ import java.util.ArrayList;
 public interface IGameActivity {
     void onIsTypingChanged(boolean isTyping);
     void onChatReceived(ArrayList<ChatMessage> chatMessages, int unreadMessages);
+    void setUiLocked(boolean locked);
 }

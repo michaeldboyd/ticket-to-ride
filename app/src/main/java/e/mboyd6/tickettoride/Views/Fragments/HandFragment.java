@@ -6,10 +6,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.TrainCard;
 
+import java.util.ArrayList;
+import java.util.Map;
+
+import e.mboyd6.tickettoride.Presenters.GamePresenter;
+import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Adapters.DestinationCardAdapter;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IHandFragment;
 
@@ -33,6 +45,12 @@ public class HandFragment extends Fragment implements IHandFragment {
     private IGameActivity mListener;
     private View mLayout;
 
+    private IGamePresenter mGamePresenter = new GamePresenter(this);
+    private DestinationCardAdapter mDestinationCardAdapter;
+    private ArrayList<ImageView> mTrainCardsImages = new ArrayList<>();
+    private ArrayList<TextView> mTrainCardsText = new ArrayList<>();
+    private TextView mTrainsText;
+
     public HandFragment() {
         // Required empty public constructor
     }
@@ -49,8 +67,6 @@ public class HandFragment extends Fragment implements IHandFragment {
     public static HandFragment newInstance(String param1, String param2) {
         HandFragment fragment = new HandFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,16 +74,49 @@ public class HandFragment extends Fragment implements IHandFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mLayout = inflater.inflate(R.layout.fragment_hand, container, false);
+
+        mDestinationCardAdapter = new DestinationCardAdapter(getContext(), new ArrayList<DestinationCard>(), this);
+        ListView destinationCardList = mLayout.findViewById(R.id.destination_card_list);
+        destinationCardList.setAdapter(mDestinationCardAdapter);
+
+        mTrainCardsImages.add((ImageView) mLayout.findViewById(R.id.hand_fragment_train_card_1_image));
+        mTrainCardsImages.add((ImageView) mLayout.findViewById(R.id.hand_fragment_train_card_2_image));
+        mTrainCardsImages.add((ImageView) mLayout.findViewById(R.id.hand_fragment_train_card_3_image));
+        mTrainCardsImages.add((ImageView) mLayout.findViewById(R.id.hand_fragment_train_card_4_image));
+        mTrainCardsImages.add((ImageView) mLayout.findViewById(R.id.hand_fragment_train_card_5_image));
+        mTrainCardsImages.add((ImageView) mLayout.findViewById(R.id.hand_fragment_train_card_6_image));
+        mTrainCardsImages.add((ImageView) mLayout.findViewById(R.id.hand_fragment_train_card_7_image));
+        mTrainCardsImages.add((ImageView) mLayout.findViewById(R.id.hand_fragment_train_card_8_image));
+        mTrainCardsImages.add((ImageView) mLayout.findViewById(R.id.hand_fragment_train_card_9_image));
+
+        for(ImageView imageView : mTrainCardsImages) {
+            imageView.setAlpha(0.5f);
+        }
+
+        mTrainCardsText.add((TextView) mLayout.findViewById(R.id.hand_fragment_train_card_1_text));
+        mTrainCardsText.add((TextView) mLayout.findViewById(R.id.hand_fragment_train_card_2_text));
+        mTrainCardsText.add((TextView) mLayout.findViewById(R.id.hand_fragment_train_card_3_text));
+        mTrainCardsText.add((TextView) mLayout.findViewById(R.id.hand_fragment_train_card_4_text));
+        mTrainCardsText.add((TextView) mLayout.findViewById(R.id.hand_fragment_train_card_5_text));
+        mTrainCardsText.add((TextView) mLayout.findViewById(R.id.hand_fragment_train_card_6_text));
+        mTrainCardsText.add((TextView) mLayout.findViewById(R.id.hand_fragment_train_card_7_text));
+        mTrainCardsText.add((TextView) mLayout.findViewById(R.id.hand_fragment_train_card_8_text));
+        mTrainCardsText.add((TextView) mLayout.findViewById(R.id.hand_fragment_train_card_9_text));
+
+        for(TextView textView : mTrainCardsText) {
+            textView.setVisibility(View.INVISIBLE);
+        }
+
+        mTrainsText = mLayout.findViewById(R.id.hand_fragment_trains_text);
+        mTrainsText.setVisibility(View.INVISIBLE);
+
+        mGamePresenter.updateBoard();
         return mLayout;
     }
 
@@ -91,6 +140,31 @@ public class HandFragment extends Fragment implements IHandFragment {
 
     @Override
     public void updateHand(Player player) {
-        
+
+        mDestinationCardAdapter.clear();
+        mDestinationCardAdapter.addAll(player.getDestinationCards());
+
+        for(ImageView imageView : mTrainCardsImages) {
+            imageView.setAlpha(0.5f);
+        }
+
+        for(TextView textView : mTrainCardsText) {
+            textView.setVisibility(View.INVISIBLE);
+        }
+
+        Map<Integer, Integer> hand = player.getHand();
+
+        for(int i : hand.keySet()) {
+            if (hand.get(i) != null & hand.get(i) > 0) {
+                mTrainCardsImages.get(i).setAlpha(1f);
+                String trainCardText = "x " + hand.get(i);
+                mTrainCardsText.get(i).setText(trainCardText);
+                mTrainCardsText.get(i).setVisibility(View.VISIBLE);
+            }
+        }
+
+        String trainsText = "x " + player.getTrains();
+        mTrainsText.setText(trainsText);
+        mTrainsText.setVisibility(View.VISIBLE);
     }
 }

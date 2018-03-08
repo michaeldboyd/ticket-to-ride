@@ -18,7 +18,7 @@ public class GameInitializer {
     public Game initializeGame(Game game){
         game.setDestinationDeck(initializeDestinationDeck());
         game.setTrainCardDeck(initializeTrainCardDeck());
-        game.setFaceUpDeck(initializeFaceUpDeck());
+        game.setFaceUpDeck(initializeFaceUpDeck(game.getTrainCardDeck()));
         game.setCities(intitializeCities());
         game.setRoutesClaimed(initializeRoutes());
 
@@ -33,8 +33,8 @@ public class GameInitializer {
     private DestinationDeck initializeDestinationDeck(){
         DestinationDeck deck = new DestinationDeck();
         deck.add(new DestinationCard("Rosette","Fry Canyon",21));
-        deck.add(new DestinationCard("Randlett"	,"Gold Hill",8));
-        deck.add(new DestinationCard("Agate	", "Cedar City",8));
+        deck.add(new DestinationCard("Randlett","Gold Hill",8));
+        deck.add(new DestinationCard("Agate", "Cedar City",8));
         deck.add(new DestinationCard("Fry Canyon", "Panguitch",	6));
         deck.add(new DestinationCard("Paradise", "Cedar City",17));
         deck.add(new DestinationCard("Randolph", "Mexican Hat",20	));
@@ -46,20 +46,21 @@ public class GameInitializer {
         deck.add(new DestinationCard("Manila", "Gandy",13	));
         deck.add(new DestinationCard("Rosette", "St. George	",20));
         deck.add(new DestinationCard("Rainbow", "Koosharem",11));
-        deck.add(new DestinationCard("Aragonite	", "Panguitch",17));
-        deck.add(new DestinationCard("Provo	", "Gold Hill",5));
+        deck.add(new DestinationCard("Aragonite", "Panguitch",17));
+        deck.add(new DestinationCard("Provo", "Gold Hill",5));
         deck.add(new DestinationCard("Rosette", "Whipup",16));
-        deck.add(new DestinationCard("Park City	", "Rodham",11));
+        deck.add(new DestinationCard("Park City", "Rodham",11));
         deck.add(new DestinationCard("Whipup", "Dugway",9));
         deck.add(new DestinationCard("Randolph", "Whipup",13));
         deck.add(new DestinationCard("Moab", "St. George",12));
         deck.add(new DestinationCard("Whipup", "Shivwits",7));
         deck.add(new DestinationCard("Mexican Hat", "Panguitch",9));
         deck.add(new DestinationCard("Bonanza",	"Fry Canyon",22));
-        deck.add(new DestinationCard("Park City	", "Garrison",4));
+        deck.add(new DestinationCard("Park City", "Garrison",4));
         deck.add(new DestinationCard("Elmo", "Rosette",	8));
         deck.add(new DestinationCard("Rainbow", "Gold Hill",12));
         deck.add(new DestinationCard("Mexican Hat", "Shivwits",	13	));
+        deck.add(new DestinationCard("Agate", "Enterprise",9));
         deck.add(new DestinationCard("Agate	", "Enterprise",9));
         deck.shuffleDeck();
         return deck;
@@ -200,8 +201,12 @@ public class GameInitializer {
         return routes;
     }
 
-    private FaceUpDeck initializeFaceUpDeck(){
+    private FaceUpDeck initializeFaceUpDeck(TrainCardDeck trainCardDeck){
        FaceUpDeck deck = new FaceUpDeck();
+       for (int i = 0; i < 5 && i < trainCardDeck.size(); i++) {
+           deck.add(trainCardDeck.get(i));
+           trainCardDeck.remove(i);
+       }
        return deck;
     }
 

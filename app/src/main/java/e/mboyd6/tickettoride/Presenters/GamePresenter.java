@@ -1,12 +1,23 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.widget.Button;
+
+import android.widget.Button;
+
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.DestinationDeck;
+import com.example.sharedcode.model.DestinationDeck;
+import com.example.sharedcode.model.FaceUpDeck;
+import com.example.sharedcode.model.FaceUpDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
@@ -21,25 +32,28 @@ import e.mboyd6.tickettoride.Views.Interfaces.IScoreFragment;
  * Created by jonathanlinford on 3/2/18.
  */
 
-public class GamePresenter implements IGamePresenter {
+public class GamePresenter implements IGamePresenter, Observer {
 
-    private IGameActivityFragment gameActivityFragment;
+    protected IGameActivityFragment gameActivityFragment;
 
     public GamePresenter(IBoardFragment boardFragment) {
-
         gameActivityFragment = boardFragment;
+        ClientModel.getInstance().addObserver(this);
     }
 
     public GamePresenter(IHandFragment handFragment) {
         gameActivityFragment = handFragment;
+        ClientModel.getInstance().addObserver(this);
     }
 
     public GamePresenter(IScoreFragment scoreFragment) {
         gameActivityFragment = scoreFragment;
+        ClientModel.getInstance().addObserver(this);
     }
 
     public GamePresenter(IHistoryFragment historyFragment) {
         gameActivityFragment = historyFragment;
+        ClientModel.getInstance().addObserver(this);
     }
 
     public Player getCurrentPlayer() {
@@ -101,6 +115,21 @@ public class GamePresenter implements IGamePresenter {
     @Override
     public void drawTrainCards(int index1, int index2, int numberFromDeck) {
         // Communicate with the server to tell them that trainCards have been drawn
+        FaceUpDeck faceUpDeck = ClientModel.getInstance().getCurrentGame().getFaceUpDeck();
+        Map<Integer, Integer> hand = ClientModel.getInstance().getCurrentPlayer().getHand();
+
+        if (index1 != -1) {
+            int card1 = faceUpDeck.remove(index1);
+            int amount1 = hand.get(card1);
+            amount1++;
+            hand.put(card1, amount1);
+        }
+        if (index2 != -1) {
+            int card2 = faceUpDeck.remove(index2);
+            int amount2 = hand.get(card2);
+            amount2++;
+            hand.put(card2, amount2);
+        }
     }
 
     /** Called upwards ON the UI when a player successfully draws train cards. A toast is displayed. The updateBoard method
@@ -114,8 +143,13 @@ public class GamePresenter implements IGamePresenter {
     }
 
     @Override
-    public void drawDestinationCards() {
+    public ArrayList<DestinationCard> drawDestinationCards() {
         // Tell the server that the client wants to draw destination cards
+        ArrayList<DestinationCard> result = new ArrayList<>();
+        result.add(ClientModel.getInstance().getCurrentGame().getDestinationDeck().drawCard());
+        result.add(ClientModel.getInstance().getCurrentGame().getDestinationDeck().drawCard());
+        result.add(ClientModel.getInstance().getCurrentGame().getDestinationDeck().drawCard());
+        return result;
     }
 
     /** Called upwards ON the UI when DestinationCard Cards have been successfully drawn.**/
@@ -165,5 +199,25 @@ public class GamePresenter implements IGamePresenter {
             updateBoard();
             ((IBoardFragment) gameActivityFragment).receiveRouteClaimed(routeName);
         }
+    }
+
+    @Override
+    public void detachView() {
+        ClientModel.getInstance().deleteObserver(this);
+    }
+
+    @Override
+    public void enter(Button serverOnButton) {
+
+    }
+
+    @Override
+    public void exit() {
+        detachView();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
