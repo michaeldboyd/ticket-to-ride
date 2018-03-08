@@ -218,8 +218,9 @@ public class GamePresenter implements IGamePresenter, Observer {
                     destinationDeck.returnDiscarded(card);
                 }
 
-                String authToken = ClientModel.getInstance().getAuthToken();
-                GameplayProxy.getInstance().updateDestinationCards(authToken, currentGame.getGameID(), currentPlayer, destinationDeck);
+                int index = currentGame.getPlayers().indexOf(currentPlayer);
+
+                currentGame.getPlayers().get(index).getDestinationCards().addAll(chosen);
         }
     }
 
