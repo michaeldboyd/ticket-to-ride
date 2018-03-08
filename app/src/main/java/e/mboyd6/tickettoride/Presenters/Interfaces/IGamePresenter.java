@@ -4,6 +4,7 @@ import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public interface IGamePresenter {
     void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded);
 
     /** Called DOWNWARDS from Presenter **/
-    void claimRoute(String routeName);
+    void claimRoute(Route routeName);
 
     /** Called UPWARDS from Model **/
     void receiveRouteClaimed(String routeName);

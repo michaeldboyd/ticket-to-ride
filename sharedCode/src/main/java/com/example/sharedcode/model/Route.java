@@ -30,7 +30,34 @@ public class Route {
         this.name = city1 + city2;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Route route = (Route) o;
+
+        if (numberTrains != route.numberTrains) return false;
+        if (trainType != route.trainType) return false;
+        if (duplicate != route.duplicate) return false;
+        if (city1 != null ? !city1.equals(route.city1) : route.city1 != null) return false;
+        if (city2 != null ? !city2.equals(route.city2) : route.city2 != null) return false;
+        return name != null ? name.equals(route.name) : route.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = city1 != null ? city1.hashCode() : 0;
+        result = 31 * result + (city2 != null ? city2.hashCode() : 0);
+        result = 31 * result + numberTrains;
+        result = 31 * result + trainType;
+        result = 31 * result + (duplicate ? 1 : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
     public String getCity1() {
+
         return city1;
     }
 

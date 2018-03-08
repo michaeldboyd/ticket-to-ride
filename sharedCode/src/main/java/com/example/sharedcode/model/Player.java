@@ -23,7 +23,6 @@ public class Player {
     private String name;
     private int color;
     private Map<Integer, Integer> hand = new HashMap<>(); // <TrainType, numCards>
-    private ArrayList<Integer> trainCards = new ArrayList<>();
     private ArrayList<DestinationCard> destinationCards = new ArrayList<>();
     private int trains = START_TRAINS;
     private Score score = new Score();
@@ -60,14 +59,6 @@ public class Player {
         this.score = score;
     }
 
-    public ArrayList<Integer> getTrainCards() {
-        return trainCards;
-    }
-
-    public void setTrainCards(ArrayList<Integer> trainCards) {
-        this.trainCards = trainCards;
-    }
-
     public ArrayList<DestinationCard> getDestinationCards() {
         return destinationCards;
     }
@@ -90,6 +81,22 @@ public class Player {
 
     public void setHand(Map<Integer, Integer> hand) {
         this.hand = hand;
+    }
+
+    public int removeFromHand(Route route){
+        int cardsOfType = hand.get(route.getTrainType());
+        cardsOfType -= route.getNumberTrains();
+        hand.put(route.getTrainType(), cardsOfType);
+
+        return cardsInHand();
+    }
+
+    public int cardsInHand(){
+        int cardsLeft = 0;
+        for(int i = 0; i < hand.size(); i++){
+            cardsLeft += hand.get(i);
+        }
+        return cardsLeft;
     }
 
     @Override

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
+
 /**
  * Created by mboyd6 on 2/1/2018.
  */
@@ -208,11 +210,27 @@ public class Game {
     }
 
     public void addTrainCardToPlayerHand(String playerName) {
-        try {
-            for (Player player :
-                    players) {
+            for (Player player : players) {
                 if (player.getName().equals(playerName)) {
-                    int cardType = trainCardDeck.drawCard();
+
+                    int cardType = 0;
+                    try{
+                        cardType = trainCardDeck.drawCard();
+
+                    }catch(Exception e){
+                        try {
+
+                            setTrainCardDeck(getTrainDiscardDeck());
+                            TrainCardDeck deck = new TrainCardDeck();
+                            setTrainDiscardDeck(deck);
+                            cardType = trainCardDeck.drawCard();
+
+                        }catch(Exception ex){
+
+                            ex.printStackTrace();
+                        }
+                    }
+
                     int count = player.getHand().get(cardType);
 
                     player.getHand().put(cardType, count + 1);
@@ -220,8 +238,5 @@ public class Game {
                     break;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
