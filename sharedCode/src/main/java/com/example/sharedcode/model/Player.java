@@ -17,6 +17,11 @@ public class Player {
         this.playerID = playerID;
         this.name = name;
         this.color = color;
+        Map <Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < 9; i++){
+            map.put((Integer)i,0 );
+        }
+        hand = map;
     }
 
     private String playerID;

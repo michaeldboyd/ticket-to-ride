@@ -213,27 +213,26 @@ public class Game {
             for (Player player : players) {
                 if (player.getName().equals(playerName)) {
 
-                    int cardType = 0;
+                    Integer cardType = 0;
                     try{
-                        cardType = trainCardDeck.drawCard();
-
-                    }catch(Exception e){
-                        try {
-
+                        if(trainCardDeck.size() != 0)
+                            cardType = trainCardDeck.drawCard();
+                        else {
                             setTrainCardDeck(getTrainDiscardDeck());
                             TrainCardDeck deck = new TrainCardDeck();
                             setTrainDiscardDeck(deck);
                             cardType = trainCardDeck.drawCard();
-
-                        }catch(Exception ex){
-
-                            ex.printStackTrace();
                         }
+
+                    }catch(Exception e){
+                        e.printStackTrace();
+
                     }
 
-                    int count = player.getHand().get(cardType);
+                    Integer count = player.getHand().get(cardType);
 
                     player.getHand().put(cardType, count + 1);
+
 
                     break;
                 }
