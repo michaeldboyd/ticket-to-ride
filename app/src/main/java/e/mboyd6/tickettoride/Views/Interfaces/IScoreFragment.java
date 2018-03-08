@@ -4,7 +4,10 @@ package e.mboyd6.tickettoride.Views.Interfaces;
  * Created by jonathanlinford on 2/2/18.
  */
 
-import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.Score;
+
+import java.util.ArrayList;
 
 /**
  * This interface must be implemented by activities that contain this
@@ -18,5 +21,6 @@ import com.example.sharedcode.model.Game;
  */
 
 public interface IScoreFragment extends IGameActivityFragment  {
-    void updateScore(Game game);
+    void updateScore(ArrayList<Player> scores);
+
 }

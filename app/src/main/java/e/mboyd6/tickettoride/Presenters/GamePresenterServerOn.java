@@ -8,6 +8,7 @@ import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class GamePresenterServerOn extends GamePresenter {
     }
 
     @Override
-    public void claimRoute(String routeName) {
+    public void claimRoute(Route routeName) {
         super.claimRoute(routeName);
         // Tell the server that the client has clicked on a route to claim
     }

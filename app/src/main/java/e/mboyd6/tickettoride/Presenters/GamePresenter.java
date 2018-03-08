@@ -7,6 +7,8 @@ import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.FaceUpDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.Route;
+import com.example.sharedcode.model.Score;
 import com.example.sharedcode.model.TrainCard;
 import com.example.sharedcode.model.TrainCardDeck;
 
@@ -77,6 +79,9 @@ public class GamePresenter implements IGamePresenter, Observer {
             ((IBoardFragment) gameActivityFragment).updateBoard(ClientModel.getInstance().getCurrentGame());
         else if (gameActivityFragment instanceof IHandFragment) {
             ((IHandFragment) gameActivityFragment).updateHand(ClientModel.getInstance().getCurrentPlayer());
+        }
+        else if (gameActivityFragment instanceof IScoreFragment) {
+            ((IScoreFragment) gameActivityFragment).updateScore(currentGame.getPlayers());
         }
     }
 
@@ -225,8 +230,30 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
-    public void claimRoute(String routeName) {
-        // Tell the server that the client has clicked on a route to claim
+    public void claimRoute(Route route) {
+        // Tell the server that the client has clicked on a route to claim/**/
+        Game currentGame = ClientModel.getInstance().getCurrentGame();
+
+        // Find the current player object
+        Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
+
+        if (currentPlayer != null) {
+
+            currentGame.getRoutesClaimed().put(route, currentPlayer);
+
+            Score score = new Score();
+            score.setPoints(currentPlayer.getScore().getPoints() + score.computePoints(route));
+            score.setTrains(currentPlayer.getTrains() - route.getNumberTrains());
+            score.setCards(currentPlayer.removeFromHand(route));
+            for(int i = 0; i < route.getNumberTrains(); i++) {
+                currentGame.getTrainDiscardDeck().returnDiscarded(route.getTrainType());
+            }
+            score.setRoutes(currentPlayer.getDestinationCards().size());
+            currentPlayer.setScore(score);
+
+            String authToken = ClientModel.getInstance().getAuthToken();
+            GameplayProxy.getInstance().claimRoute(authToken, currentGame.getGameID(), currentPlayer, currentGame.getRoutesClaimed());
+        }
     }
 
     /** Called upwards ON the UI to notify a player when they've successfully claimed a route **/

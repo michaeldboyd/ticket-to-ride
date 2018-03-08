@@ -208,20 +208,32 @@ public class Game {
     }
 
     public void addTrainCardToPlayerHand(String playerName) {
-        try {
             for (Player player : players) {
                 if (player.getName().equals(playerName)) {
-                    int cardType = trainCardDeck.drawCard();
 
-                    int count = player.getHand().get(cardType);
+                    Integer cardType = 0;
+                    try{
+                        if(trainCardDeck.size() != 0)
+                            cardType = trainCardDeck.drawCard();
+                        else {
+                            setTrainCardDeck(getTrainDiscardDeck());
+                            TrainCardDeck deck = new TrainCardDeck();
+                            setTrainDiscardDeck(deck);
+                            cardType = trainCardDeck.drawCard();
+                        }
+
+                    }catch(Exception e){
+                        e.printStackTrace();
+
+                    }
+
+                    Integer count = player.getHand().get(cardType);
 
                     player.getHand().put(cardType, count + 1);
+
 
                     break;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

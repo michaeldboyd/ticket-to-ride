@@ -157,7 +157,7 @@ public class GameActivityTest {
     fakeGame.addPlayer(new Player("001", "001", PlayerColors.TURQUOISE));
     fakeGame.addPlayer(new Player("002", "002", PlayerColors.BLUE));
     fakeGame.addPlayer(new Player("003", "003", PlayerColors.RED));
-    fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, 7);
+    fakeGame.getPlayers().get(0).getHand().put((Integer)TrainType.BOX, (Integer)7);
     return fakeGame;
   }
 
