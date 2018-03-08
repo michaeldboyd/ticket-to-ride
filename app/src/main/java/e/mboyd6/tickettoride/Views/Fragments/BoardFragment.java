@@ -295,7 +295,7 @@ public class BoardFragment extends Fragment implements
         ArrayList<Player> players = game.getPlayers();
 
         mMap.clear();
-        mBoardState.drawRoutesAndCities(this, mMap, game, mGamePresenter.getCurrentPlayer());
+        mBoardState.drawRoutesAndCities(this, mMap, game, mGamePresenter.getCurrentPlayerObject());
 
         if (mCardDrawerState != null)
             mCardDrawerState.updateBoard(game);
@@ -317,8 +317,8 @@ public class BoardFragment extends Fragment implements
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Player currentPlayer = mGamePresenter.getCurrentPlayer();
-                myTurn = (currentPlayer != null && playerTurn.equals(currentPlayer.getPlayerID()));
+                String currentPlayer = mGamePresenter.getCurrentPlayer();
+                myTurn = (currentPlayer != null && playerTurn.equals(currentPlayer));
                 if (myTurn) {
                    setClaimRouteButtonState(new ClaimRouteButtonIdle());
                    if (mCardDrawerState == null || mCardDrawerState instanceof CardDrawerIdle)

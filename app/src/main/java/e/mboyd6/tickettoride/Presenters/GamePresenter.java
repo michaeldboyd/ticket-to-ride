@@ -2,18 +2,13 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.widget.Button;
 
-import android.widget.Button;
-
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.DestinationDeck;
-import com.example.sharedcode.model.DestinationDeck;
-import com.example.sharedcode.model.FaceUpDeck;
 import com.example.sharedcode.model.FaceUpDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.TrainCard;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Observable;
@@ -56,8 +51,8 @@ public class GamePresenter implements IGamePresenter, Observer {
         ClientModel.getInstance().addObserver(this);
     }
 
-    public Player getCurrentPlayer() {
-        return ClientModel.getInstance().getCurrentPlayer();
+    public String getCurrentPlayer() {
+        return ClientModel.getInstance().getPlayerName();
     }
 
     @Override
@@ -217,6 +212,11 @@ public class GamePresenter implements IGamePresenter, Observer {
     @Override
     public void exit() {
         detachView();
+    }
+
+    @Override
+    public Player getCurrentPlayerObject() {
+        return ClientModel.getInstance().getCurrentPlayer();
     }
 
     @Override

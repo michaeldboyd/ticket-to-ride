@@ -153,9 +153,9 @@ public class GameActivityTest {
   public Game generateBoardFragmentFakeGame() {
     Game fakeGame = new Game();
     fakeGame.setGameID("002");
-    fakeGame.addPlayer(new Player("001", "Michael", PlayerColors.TURQUOISE));
-    fakeGame.addPlayer(new Player("002", "Alli", PlayerColors.BLUE));
-    fakeGame.addPlayer(new Player("003", "Eric", PlayerColors.RED));
+    fakeGame.addPlayer(new Player("001", "001", PlayerColors.TURQUOISE));
+    fakeGame.addPlayer(new Player("002", "002", PlayerColors.BLUE));
+    fakeGame.addPlayer(new Player("003", "003", PlayerColors.RED));
     fakeGame.getPlayers().get(0).getHand().put(TrainType.BOX, 7);
     return fakeGame;
   }
