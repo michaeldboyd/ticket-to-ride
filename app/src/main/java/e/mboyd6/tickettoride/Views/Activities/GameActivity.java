@@ -1,6 +1,7 @@
 package e.mboyd6.tickettoride.Views.Activities;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -27,6 +28,7 @@ import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
@@ -45,6 +47,7 @@ import e.mboyd6.tickettoride.Views.Fragments.LoginFragment;
 import e.mboyd6.tickettoride.Views.Fragments.RegisterFragment;
 import e.mboyd6.tickettoride.Views.Fragments.ScoreFragment;
 import e.mboyd6.tickettoride.Views.Fragments.WaitroomFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IChatFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
@@ -59,6 +62,7 @@ public class GameActivity extends AppCompatActivity
     private FragmentManager mFragmentManager;
     private View mBar;
     private boolean uiLocked;
+    private boolean startGame;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -75,12 +79,19 @@ public class GameActivity extends AppCompatActivity
         mFragmentManager = getSupportFragmentManager();
         mBar = findViewById(R.id.game_activity_bar);
 
-        initializeGame();
-        loadBoardFragment();
-    }
+        Intent intent = getIntent();
+        startGame = intent.getBooleanExtra("START_GAME", false);
 
-    private void initializeGame() {
+        BoardFragment boardFragment = new BoardFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("START_GAME", startGame);
+        boardFragment.setArguments(bundle);
+        startGame = false;
 
+        mFragmentManager
+                .beginTransaction()
+                .replace(R.id.game_fragment_container, boardFragment, "CURRENT_FRAGMENT")
+                .commit();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

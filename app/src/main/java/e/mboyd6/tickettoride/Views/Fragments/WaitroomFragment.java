@@ -357,7 +357,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
                     enableStartGameUI();
                     if (!handleError(mess)) {
                         Intent intent = new Intent(getActivity(), GameActivity.class);
-
+                        intent.putExtra("START_GAME", true);
                         getActivity().startActivity(intent);
                     }
                 }});

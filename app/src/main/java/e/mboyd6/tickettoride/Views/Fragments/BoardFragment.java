@@ -43,6 +43,7 @@ import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerDrawTrainCards;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerIdle;
+import e.mboyd6.tickettoride.Views.Adapters.CardDrawerStartGame;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerState;
 import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonIdle;
 import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonMissing;
@@ -287,6 +288,9 @@ public class BoardFragment extends Fragment implements
     }
 
     private void initialize() {
+        if (getArguments() != null && getArguments().getBoolean("START_GAME", false)) {
+            setCardDrawerState(new CardDrawerStartGame());
+        }
         mGamePresenter.updateBoard();
         mGamePresenter.onUpdateTurn();
     }
