@@ -174,8 +174,12 @@ public class GamePresenter implements IGamePresenter, Observer {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
+
+        // Update the score
+        Player player = ClientModel.getInstance().getCurrentPlayer();
+        Score score = player.getScore();
+        score.setCards(player.cardsInHand());
     }
 
     @Override
