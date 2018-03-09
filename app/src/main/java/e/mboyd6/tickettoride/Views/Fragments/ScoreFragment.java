@@ -88,15 +88,14 @@ public class ScoreFragment extends Fragment implements IScoreFragment {
     }
 
     @Override
-    public void updateScore(ArrayList<Player> newList) {
-        final ArrayList<Player> nl = newList;
+    public void updateScore(final ArrayList<Player> newList) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //Update current game list with newList
                 if (mScoreListAdapter != null) {
                     mScoreListAdapter.clear();
-                    mScoreListAdapter.addAll(nl);
+                    mScoreListAdapter.addAll(newList);
                     mScoreListAdapter.notifyDataSetChanged();
                 }
             }

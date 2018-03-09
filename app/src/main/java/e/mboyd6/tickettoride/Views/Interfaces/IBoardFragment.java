@@ -6,6 +6,7 @@ package e.mboyd6.tickettoride.Views.Interfaces;
 
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public interface IBoardFragment extends IGameActivityFragment {
     void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded);
 
     /** Called downwards FROM the UI when a player claims a route **/
-    void claimRoute(String routeName);
+    void claimRoute(Route route);
 
     /** Called upwards ON the UI to notify a player when they've successfully claimed a route **/
     void receiveRouteClaimed(String routeName);

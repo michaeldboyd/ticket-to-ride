@@ -121,6 +121,11 @@ public class GamePresenterServerOn extends GamePresenter {
     public void claimRoute(Route routeName) {
         super.claimRoute(routeName);
         // Tell the server that the client has clicked on a route to claim
+        String authToken = ClientModel.getInstance().getAuthToken();
+        Game currentGame = ClientModel.getInstance().getCurrentGame();
+        Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
+
+        GameplayProxy.getInstance().claimRoute(authToken, currentGame.getGameID(), currentPlayer, currentGame.getRoutesClaimed());
     }
 
     @Override

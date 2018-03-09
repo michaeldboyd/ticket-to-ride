@@ -122,4 +122,12 @@ public class GamePresenterServerOff extends GamePresenter {
         super.exit();
 
     }
+
+    @Override
+    public void claimRoute(Route route) {
+        super.claimRoute(route);
+
+        // Simulate receiving the response from the Server
+        super.receiveRouteClaimed(route.getName());
+    }
 }

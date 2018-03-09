@@ -18,6 +18,7 @@ public class GameInitializer {
     public Game initializeGame(Game game){
         game.setDestinationDeck(initializeDestinationDeck());
         game.setTrainCardDeck(initializeTrainCardDeck());
+        game.setTrainDiscardDeck(new TrainCardDeck());
         game.setFaceUpDeck(initializeFaceUpDeck(game.getTrainCardDeck()));
         game.setCities(intitializeCities());
         game.setRoutesClaimed(initializeRoutes());

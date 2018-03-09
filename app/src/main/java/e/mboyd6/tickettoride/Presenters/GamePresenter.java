@@ -264,21 +264,25 @@ public class GamePresenter implements IGamePresenter, Observer {
         Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
 
         if (currentPlayer != null) {
-
             currentGame.getRoutesClaimed().put(route, currentPlayer);
 
-            Score score = new Score();
-            score.setPoints(currentPlayer.getScore().getPoints() + score.computePoints(route));
-            score.setTrains(currentPlayer.getTrains() - route.getNumberTrains());
+            int numTrainsBefore = currentPlayer.getTrains();
+            int numTrainsUsed = route.getNumberTrains();
+            int numTrainsAfter = numTrainsBefore - numTrainsUsed;
+
+            Score score = currentPlayer.getScore();
+            score.addPoints(route);
+            score.setTrains(numTrainsAfter);
             score.setCards(currentPlayer.removeFromHand(route));
+
+            currentPlayer.setTrains(numTrainsAfter);
+
             for(int i = 0; i < route.getNumberTrains(); i++) {
                 currentGame.getTrainDiscardDeck().returnDiscarded(route.getTrainType());
             }
-            score.setRoutes(currentPlayer.getDestinationCards().size());
-            currentPlayer.setScore(score);
 
-            String authToken = ClientModel.getInstance().getAuthToken();
-            GameplayProxy.getInstance().claimRoute(authToken, currentGame.getGameID(), currentPlayer, currentGame.getRoutesClaimed());
+            // Increment the current score.routes by 1
+            score.setRoutes(score.getRoutes() + 1);
         }
     }
 
@@ -309,6 +313,12 @@ public class GamePresenter implements IGamePresenter, Observer {
     @Override
     public Player getCurrentPlayerObject() {
         return ClientModel.getInstance().getCurrentPlayer();
+    }
+
+    @Override
+    public boolean isMyTurn() {
+        String currentTurnPlayerID = ClientModel.getInstance().getCurrentGame().getCurrentTurnPlayerID();
+        return (getCurrentPlayer() != null && getCurrentPlayer().equals(currentTurnPlayerID));
     }
 
     @Override

@@ -350,15 +350,15 @@ public class BoardFragment extends Fragment implements
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String currentPlayer = mGamePresenter.getCurrentPlayer();
-                myTurn = (currentPlayer != null && playerTurn.equals(currentPlayer));
+                myTurn = mGamePresenter.isMyTurn();
                 if (myTurn) {
                    setClaimRouteButtonState(new ClaimRouteButtonIdle());
-                   if (mCardDrawerState == null || mCardDrawerState instanceof CardDrawerIdle)
+                   if (!(mCardDrawerState instanceof CardDrawerStartGame))
                        setCardDrawerState(new CardDrawerDrawTrainCards());
                 } else {
                     setClaimRouteButtonState(new ClaimRouteButtonMissing());
-                    setCardDrawerState(new CardDrawerIdle());
+                    if (!(mCardDrawerState instanceof CardDrawerStartGame))
+                        setCardDrawerState(new CardDrawerIdle());
                 }
 
                 ArrayList<Player> players = mGamePresenter.getPlayers();
@@ -430,8 +430,8 @@ public class BoardFragment extends Fragment implements
     }
 
     @Override
-    public void claimRoute(String routeName) {
-
+    public void claimRoute(Route route) {
+        mGamePresenter.claimRoute(route);
     }
 
     @Override
@@ -480,7 +480,9 @@ public class BoardFragment extends Fragment implements
         mBoardState = boardState;
     }
 
-    public BoardState getBoardState() { return mBoardState; }
+    public BoardState getBoardState() {
+        return mBoardState;
+    }
 
     //https://stackoverflow.com/questions/25544370/google-maps-api-for-android-v2-how-to-add-text-with-no-background
 
