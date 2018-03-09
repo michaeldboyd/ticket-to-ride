@@ -32,6 +32,7 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
     private ArrayList<DestinationCard> destinationCards = new ArrayList<>();
     private ArrayList<View> destinationCardViews = new ArrayList<>();
     private GamePresenter gamePresenter;
+    private Button drawSelectedCardsButton;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -87,7 +88,7 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
             });
         }
 
-        Button drawSelectedCardsButton = viewFlipper.findViewById(R.id.select_destination_cards);
+        drawSelectedCardsButton = viewFlipper.findViewById(R.id.select_destination_cards);
         drawSelectedCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +108,12 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
                 destinationCardViews.get(i).setBackgroundResource(R.drawable.card_destination);
             }
         }
+
+        if (selectedCards.size() >= 1) {
+            drawSelectedCardsButton.setAlpha(1f);
+        } else {
+            drawSelectedCardsButton.setAlpha(0.5f);
+        }
     }
 
     private void onDestinationCardSelect(int index) {
@@ -116,7 +123,7 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
             selectedCards.remove(index);
         }
         reDrawUI();
-        Toast.makeText(context, "Destination card selected: " + index, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "Destination card selected: " + index, Toast.LENGTH_SHORT).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
