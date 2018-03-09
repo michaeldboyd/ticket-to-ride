@@ -191,6 +191,12 @@ public class ServerLobby implements IServerLobbyFacade {
                 // INITIALIZE GAME
                 GameInitializer gi = new GameInitializer();
                 game = gi.initializeGame(game);
+
+                for (Player p :
+                        game.getPlayers()) {
+                    game.getHistory().add(p.getName() + " entered the game.");
+                }
+
                 ServerModel.instance().getGames().put(gameID, game);
 
                 //notify everyone in the lobby and in the waitroom of the changes.
