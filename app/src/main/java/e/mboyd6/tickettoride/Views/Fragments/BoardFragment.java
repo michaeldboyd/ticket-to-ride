@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import e.mboyd6.tickettoride.Model.Autoplayer;
 import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.Presenters.GamePresenterServerOff;
 import e.mboyd6.tickettoride.Presenters.GamePresenterServerOn;
@@ -171,6 +172,7 @@ public class BoardFragment extends Fragment implements
         });
 
         mAutoplayButton = mLayout.findViewById(R.id.game_fragment_autoplay_button);
+        final BoardFragment boardFragment = this;
         mAutoplayButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -179,7 +181,19 @@ public class BoardFragment extends Fragment implements
                     handleError("You must finish your action first.");
                     return;
                 }
-                autoplay();
+                Autoplayer.getInstance().autoplay(getContext(), boardFragment);
+            }
+        });
+
+        mAutoplayButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (uiLocked) {
+                    handleError("You must finish your action first.");
+                    return false;
+                }
+                Autoplayer.getInstance().autoAutoplay(getContext(), boardFragment);
+                return true;
             }
         });
 

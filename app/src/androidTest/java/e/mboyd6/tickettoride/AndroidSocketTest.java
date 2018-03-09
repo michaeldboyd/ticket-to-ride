@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
 import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class AndroidSocketTest {
@@ -25,15 +26,15 @@ public class AndroidSocketTest {
             WebSocketClient client = new SocketClient(new URI("ws://localhost:8080/echo/"));
 
 
-            ClientModel.getInstance().setSocket(client);
+            SocketManager.socket = client;
 
         } catch (URISyntaxException  e) { //| InterruptedException
 
             e.printStackTrace();
         }
-        if(ClientModel.getInstance().getSocket() != null)
+        if(SocketManager.socket != null)
         {
-            ClientModel.getInstance().getSocket().connect();
+            SocketManager.socket.connect();
 
         } else
         {

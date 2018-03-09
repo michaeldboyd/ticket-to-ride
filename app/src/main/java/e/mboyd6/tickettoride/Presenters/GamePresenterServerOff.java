@@ -10,6 +10,7 @@ import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.R;
@@ -41,23 +42,81 @@ public class GamePresenterServerOff extends GamePresenter {
         super(historyFragment);
     }
 
+
+
+
+    @Override
+    public void enterGame(ArrayList<TrainCard> trainCardsReceived, ArrayList<DestinationCard> initialDestinationCards) {
+        super.enterGame(trainCardsReceived, initialDestinationCards);
+        String myName = ClientModel.getInstance().getPlayerName();
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " entered the game.");
+        updateBoard();
+    }
+
+    @Override
+    public void completeTurn() {
+        super.completeTurn();
+        String myName = ClientModel.getInstance().getPlayerName();
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " finished their turn.");
+        updateBoard();
+    }
+
+    @Override
+    public void onUpdateTurn() {
+        super.onUpdateTurn();
+    }
+
+    @Override
+    public void autoplay() {
+        super.autoplay();
+    }
+
+    @Override
+    public void drawTrainCards(int index1, int index2, int numberFromDeck) {
+        super.drawTrainCards(index1, index2, numberFromDeck);
+        String myName = ClientModel.getInstance().getPlayerName();
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " drew train cards.");
+
+        updateBoard();
+    }
+
+    @Override
+    public ArrayList<DestinationCard> drawDestinationCards() {
+        String myName = ClientModel.getInstance().getPlayerName();
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " entered the game.");
+        updateBoard();
+        return super.drawDestinationCards();
+
+    }
+
+    @Override
+    public void claimRoute(Route route) {
+        super.claimRoute(route);
+        String myName = ClientModel.getInstance().getPlayerName();
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + "claimed a route.");
+
+        updateBoard();
+    }
+
     @Override
     public void enter(Button serverOnButton) {
         // Poll the server to see if the game exists. if the game does not exist, transition back into
         // normal GamePresenter state.
         serverOnButton.setBackgroundResource(R.drawable.button_red_bg);
         serverOnButton.setText(R.string.server_off);
-    }
 
-    @Override
-    public void drawTrainCards(int index1, int index2, int numberFromDeck) {
-        super.drawTrainCards(index1, index2, numberFromDeck);
+        String myName = ClientModel.getInstance().getPlayerName();
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " entered server off mode.");
         updateBoard();
     }
 
     @Override
-    public void claimRoute(Route route) {
-        super.claimRoute(route);
+    public void exit() {
+        String myName = ClientModel.getInstance().getPlayerName();
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " exited the game.");
         updateBoard();
+        super.exit();
+
     }
+
 }

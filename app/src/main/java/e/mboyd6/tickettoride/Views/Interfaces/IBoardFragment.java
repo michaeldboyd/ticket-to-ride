@@ -35,7 +35,7 @@ public interface IBoardFragment extends IGameActivityFragment {
      * of actions. **/
     void onUpdateTurn(String PlayerID);
 
-    /** Called downwards FROM the UI when the Autoplay button is pressed. **/
+    /** Called downwards FROM the UI when the Autoplayer button is pressed. **/
     void autoplay();
 
     /** Called downwards FROM the UI when a player selects a combination of face-up cards and cards from the deck to draw. **/
