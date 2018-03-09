@@ -142,7 +142,11 @@ public class CardDrawerStartGame extends CardDrawerState {
         if (selectedCards.size() >= 2) {
             gamePresenter.discardStartDestinationCards(discarded);
             boardFragment.completeTurn();
-            boardFragment.setCardDrawerState(new CardDrawerIdle());
+            if (gamePresenter.isMyTurn()) {
+                boardFragment.setCardDrawerState(new CardDrawerDrawTrainCards());
+            } else {
+                boardFragment.setCardDrawerState(new CardDrawerIdle());
+            }
         }
 
         gamePresenter.updateBoard();

@@ -350,15 +350,15 @@ public class BoardFragment extends Fragment implements
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String currentPlayer = mGamePresenter.getCurrentPlayer();
-                myTurn = (currentPlayer != null && playerTurn.equals(currentPlayer));
+                myTurn = mGamePresenter.isMyTurn();
                 if (myTurn) {
                    setClaimRouteButtonState(new ClaimRouteButtonIdle());
-                   if (mCardDrawerState == null || mCardDrawerState instanceof CardDrawerIdle)
+                   if (!(mCardDrawerState instanceof CardDrawerStartGame))
                        setCardDrawerState(new CardDrawerDrawTrainCards());
                 } else {
                     setClaimRouteButtonState(new ClaimRouteButtonMissing());
-                    setCardDrawerState(new CardDrawerIdle());
+                    if (!(mCardDrawerState instanceof CardDrawerStartGame))
+                        setCardDrawerState(new CardDrawerIdle());
                 }
 
                 ArrayList<Player> players = mGamePresenter.getPlayers();

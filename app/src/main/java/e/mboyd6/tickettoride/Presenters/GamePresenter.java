@@ -312,6 +312,12 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
+    public boolean isMyTurn() {
+        String currentTurnPlayerID = ClientModel.getInstance().getCurrentGame().getCurrentTurnPlayerID();
+        return (getCurrentPlayer() != null && getCurrentPlayer().equals(currentTurnPlayerID));
+    }
+
+    @Override
     public void update(Observable o, Object arg) {
 
     }

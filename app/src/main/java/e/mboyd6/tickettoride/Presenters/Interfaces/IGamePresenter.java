@@ -67,4 +67,6 @@ public interface IGamePresenter {
     void exit();
 
     Player getCurrentPlayerObject();
+
+    boolean isMyTurn();
 }
