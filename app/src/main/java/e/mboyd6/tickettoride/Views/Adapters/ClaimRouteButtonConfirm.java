@@ -28,7 +28,7 @@ public class ClaimRouteButtonConfirm extends ClaimRouteButtonState {
         if (boardFragment.getBoardState().getClass().equals(BoardSelecting.class)
                 && selectedRoute != null) {
             boardFragment.setBoardState(new BoardIdle());
-            boardFragment.claimRoute(selectedRoute.getName());
+            boardFragment.claimRoute(selectedRoute);
             boardFragment.setClaimRouteButtonState(new ClaimRouteButtonIdle());
         }
     }
@@ -37,6 +37,8 @@ public class ClaimRouteButtonConfirm extends ClaimRouteButtonState {
     public void setRoute(BoardFragment boardFragment, Route route) {
         if (route == null) {
             boardFragment.setClaimRouteButtonState(new ClaimRouteButtonSelecting());
+        } else {
+            selectedRoute = route;
         }
     }
 }

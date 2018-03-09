@@ -51,7 +51,7 @@ public interface IGamePresenter {
     void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded);
 
     /** Called DOWNWARDS from Presenter **/
-    void claimRoute(Route routeName);
+    void claimRoute(Route route);
 
     /** Called UPWARDS from Model **/
     void receiveRouteClaimed(String routeName);

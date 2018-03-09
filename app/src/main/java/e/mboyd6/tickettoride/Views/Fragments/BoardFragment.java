@@ -426,8 +426,8 @@ public class BoardFragment extends Fragment implements
     }
 
     @Override
-    public void claimRoute(String routeName) {
-
+    public void claimRoute(Route route) {
+        mGamePresenter.claimRoute(route);
     }
 
     @Override
@@ -476,7 +476,9 @@ public class BoardFragment extends Fragment implements
         mBoardState = boardState;
     }
 
-    public BoardState getBoardState() { return mBoardState; }
+    public BoardState getBoardState() {
+        return mBoardState;
+    }
 
     //https://stackoverflow.com/questions/25544370/google-maps-api-for-android-v2-how-to-add-text-with-no-background
 

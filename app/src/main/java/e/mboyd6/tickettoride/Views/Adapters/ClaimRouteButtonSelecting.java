@@ -37,7 +37,9 @@ public class ClaimRouteButtonSelecting extends ClaimRouteButtonState {
         selectedRoute = route;
         if (boardFragment.getBoardState().getClass().equals(BoardSelecting.class)
                 && selectedRoute != null) {
-            boardFragment.setClaimRouteButtonState(new ClaimRouteButtonConfirm());
+            ClaimRouteButtonConfirm confirm = new ClaimRouteButtonConfirm();
+            confirm.setRoute(boardFragment, route);
+            boardFragment.setClaimRouteButtonState(confirm);
         }
     }
 }

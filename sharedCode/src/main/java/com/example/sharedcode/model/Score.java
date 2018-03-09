@@ -54,6 +54,11 @@ public class Score {
         this.longestRoute = longestRoute;
     }
 
+
+    public void addPoints(Route route) {
+        this.points += computePoints(route);
+    }
+
     public int computePoints(Route route){
         int points = 0;
         switch(route.getNumberTrains()){

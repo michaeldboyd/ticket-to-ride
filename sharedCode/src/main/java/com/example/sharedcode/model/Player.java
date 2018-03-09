@@ -88,7 +88,7 @@ public class Player {
         this.hand = hand;
     }
 
-    public int removeFromHand(Route route){
+    public int removeFromHand(Route route) {
         int cardsOfType = hand.get(route.getTrainType());
         cardsOfType -= route.getNumberTrains();
         hand.put(route.getTrainType(), cardsOfType);
@@ -96,7 +96,7 @@ public class Player {
         return cardsInHand();
     }
 
-    public int cardsInHand(){
+    public int cardsInHand() {
         int cardsLeft = 0;
         for(int i = 0; i < hand.size(); i++){
             cardsLeft += hand.get(i);

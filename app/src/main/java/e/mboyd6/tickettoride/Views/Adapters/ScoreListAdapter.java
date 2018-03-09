@@ -53,7 +53,7 @@ public class ScoreListAdapter extends ArrayAdapter<Player> {
 
         name.setText(player.getName());
         points.setText(String.valueOf(player.getScore().getPoints()));
-        trains.setText(String.valueOf(player.getScore().getCards()));
+        trains.setText(String.valueOf(player.getScore().getTrains()));
         cards.setText(String.valueOf(player.getScore().getCards()));
         routes.setText(String.valueOf(player.getScore().getRoutes()));
 

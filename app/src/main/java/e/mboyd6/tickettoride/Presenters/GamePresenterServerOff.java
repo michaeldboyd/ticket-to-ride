@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Player;
+import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
@@ -46,5 +47,13 @@ public class GamePresenterServerOff extends GamePresenter {
         // normal GamePresenter state.
         serverOnButton.setBackgroundResource(R.drawable.button_red_bg);
         serverOnButton.setText(R.string.server_off);
+    }
+
+    @Override
+    public void claimRoute(Route route) {
+        super.claimRoute(route);
+
+        // Simulate receiving the response from the Server
+        super.receiveRouteClaimed(route.getName());
     }
 }
