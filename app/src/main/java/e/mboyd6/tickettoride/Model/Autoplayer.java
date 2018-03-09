@@ -103,6 +103,30 @@ public class Autoplayer {
                 stepText = "Step " + step + " - Changed player's turn to player " + game.getPlayers().get(1).getName() + ".";
                 step = -1;
                 break;
+            case 6:
+                //drawing cards test
+
+                int count2 = 0;
+                while(model.getCurrentPlayer().getHand().get(TrainType.FREIGHT) < 5){
+                    count2 += 2;
+                    presenter.drawTrainCards(0, 1, 0);
+                }
+
+                stepText = "Step " + step + " - Drew an additional " + count2 + " cards from the deck";
+                break;
+            case 7:
+                //Claiming route test
+
+                Route route2 = new Route("Salt Lake City", "Park City", 1, TrainType.FREIGHT);
+
+                presenter.claimRoute(route2);
+
+                stepText = "Step " + step + " - Claimed route from Salt Lake City to Park City\n" +
+                        "Player score is now updated to " + score.getPoints() + " points.\n" +
+                        "Number of train cards for player " + model.getCurrentPlayer().getName() + " is now" + score.getCards() + ".\n" +
+                        "Number of train cards in deck is " + game.getTrainCardDeck().size() + ".\n" +
+                        "Number of trains is now " + score.getTrains() + ".";
+                break;
         }
 
         Toast.makeText(context, stepText, Toast.LENGTH_LONG)
