@@ -27,7 +27,7 @@ import java.util.Map;
  */
 
 public class BoardState {
-    protected int[] playerColors = {0xFFc92d39, 0xFF19967d, 0xFFef8d22, 0xFF0c7cba, 0xFF834187 };
+    protected int[] playerColors = {0, 0xFFc92d39, 0xFF19967d, 0xFFef8d22, 0xFF0c7cba, 0xFF834187 };
     protected int[] trainColors = {0xffD7350A, 0xffE8E4E1, 0xffaa4609, 0xff9EBF34, 0xff0E6CB1, 0xffF8DA20, 0xff68605E, 0xffBC9CC5};
     protected int circleColor = 0xfff26b55;
 

@@ -125,7 +125,7 @@ public class GamePresenterServerOn extends GamePresenter {
         DestinationDeck destinationDeck = currentGame.getDestinationDeck();
 
         String authToken = ClientModel.getInstance().getAuthToken();
-        GameplayProxy.getInstance().updateDestinationCards(authToken, currentGame.getGameID(), currentPlayer, destinationDeck);
+        //GameplayProxy.getInstance().updateDestinationCards(authToken, currentGame.getGameID(), currentPlayer, destinationDeck);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class GamePresenterServerOn extends GamePresenter {
         Game currentGame = ClientModel.getInstance().getCurrentGame();
         Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
 
-        GameplayProxy.getInstance().claimRoute(authToken, currentGame.getGameID(), currentPlayer, currentGame.getRoutesClaimed());
+        //GameplayProxy.getInstance().claimRoute(authToken, currentGame.getGameID(), currentPlayer, currentGame.getRoutesClaimed());
     }
 
     @Override

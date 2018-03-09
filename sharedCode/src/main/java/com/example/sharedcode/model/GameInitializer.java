@@ -34,6 +34,7 @@ public class GameInitializer {
 
            p.getScore().setCards(p.cardsInHand());
            p.getScore().setTrains(p.getTrains());
+           p.getScore().setRoutes(p.getDestinationCards().size());
        }
         return game;
     }
