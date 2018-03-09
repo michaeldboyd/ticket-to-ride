@@ -76,13 +76,8 @@ public class GamePresenterServerOff extends GamePresenter {
         super.drawTrainCards(index1, index2, numberFromDeck);
         String myName = ClientModel.getInstance().getPlayerName();
         ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " drew train cards.");
+
         updateBoard();
-    }
-
-    @Override
-    public void receiveTrainCards(ArrayList<TrainCard> trainCardsReceived) {
-        super.receiveTrainCards(trainCardsReceived);
-
     }
 
     @Override
@@ -99,8 +94,8 @@ public class GamePresenterServerOff extends GamePresenter {
         super.claimRoute(route);
         String myName = ClientModel.getInstance().getPlayerName();
         ClientModel.getInstance().getCurrentGame().getHistory().add(myName + "claimed a route.");
-        // Simulate receiving the response from the Server
-        super.receiveRouteClaimed(route.getName());
+
+        updateBoard();
     }
 
     @Override
@@ -123,4 +118,5 @@ public class GamePresenterServerOff extends GamePresenter {
         super.exit();
 
     }
+
 }

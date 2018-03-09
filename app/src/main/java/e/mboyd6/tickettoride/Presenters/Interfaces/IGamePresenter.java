@@ -38,9 +38,6 @@ public interface IGamePresenter {
     /** Called DOWNWARDS from Presenter **/
     void drawTrainCards(int index1, int index2, int numberFromDeck);
 
-    /** Called UPWARDS from Model **/
-    void receiveTrainCards(ArrayList<TrainCard> trainCards);
-
     ArrayList<DestinationCard> getStartDestinationCards();
 
     void discardStartDestinationCards(ArrayList<DestinationCard> discardedCards);
@@ -48,17 +45,11 @@ public interface IGamePresenter {
     /** Called DOWNWARDS from Presenter **/
     ArrayList<DestinationCard> drawDestinationCards();
 
-    /** Called UPWARDS from Model **/
-    void receiveDestinationCards(ArrayList<DestinationCard> destinationCards);
-
     /** Called DOWNWARDS from Presenter **/
     void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded);
 
     /** Called DOWNWARDS from Presenter **/
     void claimRoute(Route route);
-
-    /** Called UPWARDS from Model **/
-    void receiveRouteClaimed(String routeName);
 
     void detachView();
 

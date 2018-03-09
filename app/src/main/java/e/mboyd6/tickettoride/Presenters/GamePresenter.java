@@ -174,19 +174,12 @@ public class GamePresenter implements IGamePresenter, Observer {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-        updateBoard();
-    }
 
-    /** Called upwards ON the UI when a player successfully draws train cards. A toast is displayed. The updateBoard method
-     * is called on the CardDrawerState and the new face-up cards are displayed.**/
-    @Override
-    public void receiveTrainCards(ArrayList<TrainCard> trainCardsReceived) {
-        if (gameActivityFragment instanceof IBoardFragment) {
-            updateBoard();
-            ((IBoardFragment) gameActivityFragment).receiveTrainCards(trainCardsReceived);
-        }
+        // Update the score
+        Player player = ClientModel.getInstance().getCurrentPlayer();
+        Score score = player.getScore();
+        score.setCards(player.cardsInHand());
     }
 
     @Override
@@ -219,14 +212,6 @@ public class GamePresenter implements IGamePresenter, Observer {
         return result;
     }
 
-    /** Called upwards ON the UI when DestinationCard Cards have been successfully drawn.**/
-    @Override
-    public void receiveDestinationCards(ArrayList<DestinationCard> destinationCards) {
-        if (gameActivityFragment instanceof IBoardFragment) {
-            updateBoard();
-            ((IBoardFragment) gameActivityFragment).receiveDestinationCards(destinationCards);
-        }
-    }
 
     @Override
     public void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded) {
@@ -283,15 +268,6 @@ public class GamePresenter implements IGamePresenter, Observer {
 
             // Increment the current score.routes by 1
             score.setRoutes(score.getRoutes() + 1);
-        }
-    }
-
-    /** Called upwards ON the UI to notify a player when they've successfully claimed a route **/
-    @Override
-    public void receiveRouteClaimed(String routeName) {
-        if (gameActivityFragment instanceof IBoardFragment) {
-            updateBoard();
-            ((IBoardFragment) gameActivityFragment).receiveRouteClaimed(routeName);
         }
     }
 

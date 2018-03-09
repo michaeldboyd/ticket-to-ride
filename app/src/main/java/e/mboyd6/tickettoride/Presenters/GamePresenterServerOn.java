@@ -88,19 +88,9 @@ public class GamePresenterServerOn extends GamePresenter {
     }
 
     @Override
-    public void receiveTrainCards(ArrayList<TrainCard> trainCardsReceived) {
-        super.receiveTrainCards(trainCardsReceived);
-    }
-
-    @Override
     public ArrayList<DestinationCard> drawDestinationCards() {
         return super.drawDestinationCards();
         // Tell the server that the client wants to draw destination cards
-    }
-
-    @Override
-    public void receiveDestinationCards(ArrayList<DestinationCard> destinationCards) {
-        super.receiveDestinationCards(destinationCards);
     }
 
     @Override
@@ -126,11 +116,6 @@ public class GamePresenterServerOn extends GamePresenter {
         Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
 
         GameplayProxy.getInstance().claimRoute(authToken, currentGame.getGameID(), currentPlayer, currentGame.getRoutesClaimed());
-    }
-
-    @Override
-    public void receiveRouteClaimed(String routeName) {
-        super.receiveRouteClaimed(routeName);
     }
 
     @Override

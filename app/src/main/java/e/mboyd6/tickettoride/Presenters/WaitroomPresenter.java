@@ -53,8 +53,8 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     @Override
     public boolean gameReady(){
-        return ClientModel.getInstance().getCurrentGame().getPlayers().size() >= 2;
-
+       // return ClientModel.getInstance().getCurrentGame().getPlayers().size() >= 2;
+        return true;
     }
 
     // Model -> View
