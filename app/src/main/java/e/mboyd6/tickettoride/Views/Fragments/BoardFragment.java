@@ -276,8 +276,8 @@ public class BoardFragment extends Fragment implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        mMap.setMinZoomPreference(5f);
-        mMap.setMaxZoomPreference(8f);
+        mMap.setMinZoomPreference(6.5f);
+        mMap.setMaxZoomPreference(12f);
         mMap.moveCamera(CameraUpdateFactory.zoomTo(6.5f));
         mOrigin = CameraPosition.builder().target(mCenter).bearing(90).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mOrigin));
