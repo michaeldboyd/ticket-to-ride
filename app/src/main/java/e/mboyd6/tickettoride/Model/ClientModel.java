@@ -26,13 +26,6 @@ public class ClientModel extends Observable {
 
     private String authToken;
 
-    //TODO:Di
-
-    //TODO: These shoudl be managed in the SocketManage
-    private WebSocketClient socket;
-    private String socketID = "";
-
-
     // ******* USEFUL FUNCTIONS ******//
     /**
      * this function sends an update to the presenters subscribed
@@ -65,14 +58,6 @@ public class ClientModel extends Observable {
     }
 
     //****** GETTERS & SETTERS *****//
-    public String getSocketID() {
-        return socketID;
-    }
-
-    public WebSocketClient getSocket() {
-        return socket;
-    }
-
     private static ClientModel ourInstance = new ClientModel();
 
     public static ClientModel getInstance() {
@@ -115,10 +100,6 @@ public class ClientModel extends Observable {
         this.authToken = authToken;
     }
 
-    public void setSocket(WebSocketClient socket) {
-        this.socket = socket;
-    }
-
     public Game getCurrentGame() {
         return currentGame;
     }
@@ -133,10 +114,6 @@ public class ClientModel extends Observable {
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
-    }
-
-    public void setSocketID(String socketID) {
-        this.socketID = socketID;
     }
 
     //for testing multiple clients

@@ -20,6 +20,7 @@ import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
 import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Communication.Proxies.UtilityProxy;
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -44,7 +45,7 @@ public class LobbyCommandsTest {
                     UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
                     Thread.sleep(1000);
                 }
-                model.setSocket(client);
+                SocketManager.socket = client;
                 testModels.put(n, model);
             }
 
@@ -56,10 +57,10 @@ public class LobbyCommandsTest {
     }
     @Test
     public void Create_Join_Game() {
-        String id = ClientModel.getInstance().getSocketID();
+        String id = SocketManager.socketID;
 
         assert (id != null);
-        assert (ClientModel.getInstance().getSocket() != null);
+        assert (SocketManager.socket != null);
         Map<String, String> tokens = new TreeMap<String, String>();
         try {
             for (String n : names) {
@@ -95,7 +96,7 @@ public class LobbyCommandsTest {
         public void close()
         {
             UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
-            ClientModel.getInstance().getSocket().close();
+            SocketManager.socket.close();
             ClientModel.getInstance().clearInstance();
         }
 
