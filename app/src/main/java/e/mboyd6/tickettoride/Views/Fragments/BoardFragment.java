@@ -182,7 +182,7 @@ public class BoardFragment extends Fragment implements
                     return;
                 }
                 autoplay();
-                Autoplayer.getInstance().autoplay(getContext(), boardFragment);
+                Autoplayer.getInstance().autoplay(getActivity(), getContext(), boardFragment);
             }
         });
 
@@ -194,7 +194,7 @@ public class BoardFragment extends Fragment implements
                     return false;
                 }
                 autoplay();
-                Autoplayer.getInstance().autoAutoplay(getContext(), boardFragment);
+                Autoplayer.getInstance().autoAutoplay(getActivity(), getContext(), boardFragment);
                 return true;
             }
         });
@@ -277,7 +277,7 @@ public class BoardFragment extends Fragment implements
         mMap = googleMap;
 
         mMap.setMinZoomPreference(6.5f);
-        mMap.setMaxZoomPreference(8);
+        mMap.setMaxZoomPreference(12f);
         mMap.moveCamera(CameraUpdateFactory.zoomTo(6.5f));
         mOrigin = CameraPosition.builder().target(mCenter).bearing(90).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mOrigin));
@@ -307,6 +307,7 @@ public class BoardFragment extends Fragment implements
         if (getArguments() != null && getArguments().getBoolean("START_GAME", false)) {
             setCardDrawerState(new CardDrawerStartGame());
         }
+        setGamePresenterState(new GamePresenterServerOff(this));
         mGamePresenter.updateBoard();
         mGamePresenter.onUpdateTurn();
     }
