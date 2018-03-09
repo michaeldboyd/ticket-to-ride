@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Communication.Proxies.UtilityProxy;
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -29,13 +30,13 @@ public class ChatTest {
 
         try {
             WebSocketClient client = new SocketClient(new URI("ws://localhost:8080/echo/"));
-            ClientModel.getInstance().setSocket(client);
-            ClientModel.getInstance().getSocket().connect();
+            SocketManager.socket = client;
+            SocketManager.socket.connect();
             Thread.sleep(1000);
             UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
             Thread.sleep(1000);
-            Assert.assertNotNull(ClientModel.getInstance().getSocketID());
-            String id = ClientModel.getInstance().getSocketID();
+            Assert.assertNotNull(SocketManager.socket);
+            String id = SocketManager.socketID;
 //            ServerProxyLoginFacade.instance().register(username, password, id);
             Thread.sleep(1000);
 //            ServerProxyLobbyFacade.instance().createGame(ClientModel.getInstance().getAuthToken());
