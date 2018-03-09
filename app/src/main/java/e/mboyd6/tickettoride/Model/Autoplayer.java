@@ -1,6 +1,8 @@
 package e.mboyd6.tickettoride.Model;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.widget.Toast;
 
 import com.example.sharedcode.model.DestinationCard;
@@ -34,6 +36,7 @@ public class Autoplayer {
     public Game game = model.getCurrentGame();
     public IGamePresenter presenter;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void autoplay(Context context, BoardFragment boardFragment) {
         String stepText = "";
         Score score = game.getPlayers().get(0).getScore();
@@ -107,7 +110,7 @@ public class Autoplayer {
                 Route route2 = new Route("Salt Lake City", "Paradise", 4, TrainType.HOPPER);
                 game.getRoutesClaimed().put(route2, game.getPlayers().get(1));
                 game.getPlayers().get(1).getScore().setPoints(4);
-                game.getPlayers().get(1)
+                game.getPlayers().get(1);
                 presenter.updateBoard();
 
                 stepText = "Step " + step + " - Claimed route from Salt Lake City to Park City\n" +
