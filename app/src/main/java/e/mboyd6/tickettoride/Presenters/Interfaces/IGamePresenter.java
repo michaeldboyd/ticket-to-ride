@@ -41,6 +41,10 @@ public interface IGamePresenter {
     /** Called UPWARDS from Model **/
     void receiveTrainCards(ArrayList<TrainCard> trainCards);
 
+    ArrayList<DestinationCard> getStartDestinationCards();
+
+    void discardStartDestinationCards(ArrayList<DestinationCard> discardedCards);
+
     /** Called DOWNWARDS from Presenter **/
     ArrayList<DestinationCard> drawDestinationCards();
 
@@ -63,4 +67,6 @@ public interface IGamePresenter {
     void exit();
 
     Player getCurrentPlayerObject();
+
+    boolean isMyTurn();
 }

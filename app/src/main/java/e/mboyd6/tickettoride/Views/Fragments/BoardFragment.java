@@ -43,6 +43,7 @@ import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerDrawTrainCards;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerIdle;
+import e.mboyd6.tickettoride.Views.Adapters.CardDrawerStartGame;
 import e.mboyd6.tickettoride.Views.Adapters.CardDrawerState;
 import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonIdle;
 import e.mboyd6.tickettoride.Views.Adapters.ClaimRouteButtonMissing;
@@ -287,6 +288,9 @@ public class BoardFragment extends Fragment implements
     }
 
     private void initialize() {
+        if (getArguments() != null && getArguments().getBoolean("START_GAME", false)) {
+            setCardDrawerState(new CardDrawerStartGame());
+        }
         mGamePresenter.updateBoard();
         mGamePresenter.onUpdateTurn();
     }
@@ -346,15 +350,15 @@ public class BoardFragment extends Fragment implements
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String currentPlayer = mGamePresenter.getCurrentPlayer();
-                myTurn = (currentPlayer != null && playerTurn.equals(currentPlayer));
+                myTurn = mGamePresenter.isMyTurn();
                 if (myTurn) {
                    setClaimRouteButtonState(new ClaimRouteButtonIdle());
-                   if (mCardDrawerState == null || mCardDrawerState instanceof CardDrawerIdle)
+                   if (!(mCardDrawerState instanceof CardDrawerStartGame))
                        setCardDrawerState(new CardDrawerDrawTrainCards());
                 } else {
                     setClaimRouteButtonState(new ClaimRouteButtonMissing());
-                    setCardDrawerState(new CardDrawerIdle());
+                    if (!(mCardDrawerState instanceof CardDrawerStartGame))
+                        setCardDrawerState(new CardDrawerIdle());
                 }
 
                 ArrayList<Player> players = mGamePresenter.getPlayers();

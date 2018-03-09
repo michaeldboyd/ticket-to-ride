@@ -15,6 +15,7 @@ import com.example.sharedcode.model.TrainCardDeck;
 import java.util.HashMap;
 import java.util.Map;
 
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -42,7 +43,7 @@ public class GameplayProxy implements IServerGameplayFacade {
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_startGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
+        SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
 
     @Override
@@ -52,7 +53,7 @@ public class GameplayProxy implements IServerGameplayFacade {
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_claimRoute", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
+        SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
 
     @Override
@@ -63,7 +64,7 @@ public class GameplayProxy implements IServerGameplayFacade {
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_drawTrainCard", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
+        SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
 
     @Override
@@ -73,7 +74,7 @@ public class GameplayProxy implements IServerGameplayFacade {
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_drawDestinationCard", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
+        SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
 
     @Override
@@ -83,6 +84,6 @@ public class GameplayProxy implements IServerGameplayFacade {
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_getGameHistory", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(sendMessageCommand, args));
+        SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
 }

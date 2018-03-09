@@ -190,6 +190,26 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
+    public ArrayList<DestinationCard> getStartDestinationCards() {
+        if (ClientModel.getInstance().getCurrentGame() != null &&
+                ClientModel.getInstance().getCurrentPlayer() != null &&
+                ClientModel.getInstance().getCurrentPlayer().getDestinationCards() != null)
+        {
+            return ClientModel.getInstance().getCurrentPlayer().getDestinationCards();
+        }
+        else return new ArrayList<DestinationCard>();
+    }
+
+    public void discardStartDestinationCards(ArrayList<DestinationCard> discardedCards) {
+        if (ClientModel.getInstance().getCurrentGame() != null &&
+                ClientModel.getInstance().getCurrentPlayer() != null &&
+                ClientModel.getInstance().getCurrentPlayer().getDestinationCards() != null)
+        {
+            ClientModel.getInstance().getCurrentPlayer().getDestinationCards().removeAll(discardedCards);
+        }
+    }
+
+    @Override
     public ArrayList<DestinationCard> drawDestinationCards() {
         // Tell the server that the client wants to draw destination cards
         ArrayList<DestinationCard> result = new ArrayList<>();
@@ -293,6 +313,12 @@ public class GamePresenter implements IGamePresenter, Observer {
     @Override
     public Player getCurrentPlayerObject() {
         return ClientModel.getInstance().getCurrentPlayer();
+    }
+
+    @Override
+    public boolean isMyTurn() {
+        String currentTurnPlayerID = ClientModel.getInstance().getCurrentGame().getCurrentTurnPlayerID();
+        return (getCurrentPlayer() != null && getCurrentPlayer().equals(currentTurnPlayerID));
     }
 
     @Override

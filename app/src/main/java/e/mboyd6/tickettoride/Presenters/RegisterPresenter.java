@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import com.example.sharedcode.communication.UpdateArgs;
@@ -89,7 +90,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
      */
     @Override
     public void register(String username, String password) {
-        String id = ClientModel.getInstance().getSocketID();
+        String id = SocketManager.socketID;
         assert(id != null);
         LoginProxy.instance().register(username, password, id);
     }

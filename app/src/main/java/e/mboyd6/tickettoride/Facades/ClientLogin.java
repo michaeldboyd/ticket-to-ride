@@ -5,8 +5,10 @@ import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.interfaces.IClientLoginFacade;
 import com.example.sharedcode.model.UpdateType;
 
+import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
 
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Utility.Assert;
 
@@ -81,13 +83,13 @@ public class ClientLogin implements IClientLoginFacade {
         boolean success = isSuccess(message);
         if(success) {
             ClientModel model = ClientModel.getInstance();
-            WebSocketClient tempSocket = model.getSocket();
-            String sockID = model.getSocketID();
+            WebSocketClient tempSocket = SocketManager.socket;
+            String sockID = SocketManager.socketID;
             //model.resetInstance();
             model.clearInstance();
             model = ClientModel.getInstance();
-            model.setSocket(tempSocket);
-            model.setSocketID(sockID);
+            SocketManager.socket = tempSocket;
+            SocketManager.socketID = sockID;
         }
 
         sendUpdate(type, success, message);
@@ -95,7 +97,7 @@ public class ClientLogin implements IClientLoginFacade {
 
     @Override
     public void initSocket(String id) {
-        ClientModel.getInstance().setSocketID(id);
+        SocketManager.socketID = id;
     }
 
     private boolean isSuccess(String message){

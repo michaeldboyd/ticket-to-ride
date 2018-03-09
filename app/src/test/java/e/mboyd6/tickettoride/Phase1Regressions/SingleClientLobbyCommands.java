@@ -17,6 +17,7 @@ import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
 import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Communication.Proxies.UtilityProxy;
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -32,13 +33,13 @@ public class SingleClientLobbyCommands {
     public void init() {
         try {
             WebSocketClient client = new SocketClient(new URI("ws://localhost:8080/echo/"));
-            ClientModel.getInstance().setSocket(client);
-            ClientModel.getInstance().getSocket().connect();
+            SocketManager.socket = client;
+            SocketManager.socket.connect();
             Thread.sleep(1000);
             UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
             Thread.sleep(1000);
-            Assert.assertNotNull(ClientModel.getInstance().getSocketID());
-            String id = ClientModel.getInstance().getSocketID();
+            Assert.assertNotNull(SocketManager.socketID);
+            String id = SocketManager.socketID;
             LoginProxy.instance().register(name, password, id);
             Thread.sleep(1000);
         } catch (URISyntaxException | InterruptedException  e) {
@@ -94,7 +95,7 @@ public class SingleClientLobbyCommands {
     @After
     public void clean() {
         UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
-        ClientModel.getInstance().getSocket().close();
+        SocketManager.socket.close();
         ClientModel.getInstance().clearInstance();
     }
 }

@@ -8,6 +8,7 @@ import com.example.sharedcode.interfaces.IServerLobbyFacade;
 import java.util.HashMap;
 import java.util.Map;
 
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 
@@ -37,7 +38,7 @@ public class LobbyProxy implements IServerLobbyFacade {
         String[] paramValues = {authToken};
         Command getGamesCommand = CommandFactory.createCommand(null, CLASS_NAME, "_createGame", paramTypes, paramValues);
 
-        ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(getGamesCommand, args));
+        SocketManager.socket.send(JsonWriter.objectToJson(getGamesCommand, args));
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.example.sharedcode.model.UpdateType;
 import java.util.HashMap;
 import java.util.Map;
 
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 /**
@@ -21,7 +22,7 @@ public class Sender {
     }
     public static void sendToServer(Command command) {
         try {
-            ClientModel.getInstance().getSocket().send(JsonWriter.objectToJson(command, args));
+            SocketManager.socket.send(JsonWriter.objectToJson(command, args));
         } catch(Exception e) {
             e.printStackTrace();
             UpdateArgs args = new UpdateArgs(UpdateType.SERVER_DISCONNECT,
