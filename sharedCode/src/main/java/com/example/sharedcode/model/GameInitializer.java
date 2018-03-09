@@ -28,7 +28,12 @@ public class GameInitializer {
        for(Player p : game.getPlayers()) {
            for(int i = 0; i < 3; i++) { game.addDestCardToPlayer(p.getName());}
            for(int i = 0; i <= 8; i++) { p.getHand().put(i, 0);}    //Initialize hand
-           for(int i = 0; i < 4; i++) { game.addTrainCardToPlayerHand(p.getName());}
+           for(int i = 0; i < 4; i++) {
+               game.addTrainCardToPlayerHand(p.getName());
+           }
+
+           p.getScore().setCards(p.cardsInHand());
+           p.getScore().setTrains(p.getTrains());
        }
         return game;
     }
