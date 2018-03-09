@@ -37,16 +37,6 @@ public class GameplayProxy implements IServerGameplayFacade {
     }
 
     @Override
-    public void startGame(String authToken, String gameID) {
-        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
-        Object[] paramValues = {authToken, gameID};
-
-        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_startGame", paramTypes, paramValues);
-
-        SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
-    }
-
-    @Override
     public void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(), routesClaimed.getClass().toString()};
         Object[] paramValues = {authToken, gameID, player, routesClaimed};
@@ -77,13 +67,4 @@ public class GameplayProxy implements IServerGameplayFacade {
         SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
 
-    @Override
-    public void getGameHistory(String authToken, String gameID) {
-        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
-        Object[] paramValues = {authToken, gameID};
-
-        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_getGameHistory", paramTypes, paramValues);
-
-        SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
-    }
 }

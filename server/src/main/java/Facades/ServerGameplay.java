@@ -22,9 +22,6 @@ public class ServerGameplay implements IServerGameplayFacade {
     }
 
     private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.ClientGameplay";
-    public static void _startGame(String authToken, String gameID) {
-        ourInstance.startGame(authToken, gameID);
-    }
 
     public static void _claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
         ourInstance.claimRoute(authToken, gameID, player, routesClaimed);
@@ -50,39 +47,6 @@ public class ServerGameplay implements IServerGameplayFacade {
         //ourInstance.placeTrainCars(authToken, gameID, playerID, numCars, route);
     }
 
-    public static void _getGameHistory(String authToken, String gameID) {
-        ourInstance.getGameHistory(authToken, gameID);
-    }
-
-
-    // this hsould be called by one person, and should send out an update to everyone
-    @Override
-    public void startGame(String authToken, String gameID) {
-        //initialize game and send cards to each player
-        String message = "";
-        Game game = new Game(); // send back a new game if there's an error, just so we don't worry
-        // about error handling
-        if(ServerModel.instance().getGames().containsKey(gameID)){
-            game = ServerModel.instance().getGames().get(gameID);
-
-            // initilize game.
-
-
-
-            ServerModel.instance().getGames().put(gameID, game);
-
-        } else {
-            message = "Game not found on server";
-        }
-
-        String[] paramTypes = {game.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {gameID, message};
-        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
-                "_updateGame", paramTypes, paramValues);
-
-        SocketManager.instance().notifyPlayersInGame(gameID, command);
-    }
-
 
     @Override
     public void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
@@ -91,10 +55,10 @@ public class ServerGameplay implements IServerGameplayFacade {
         Game currentGame = null;
         if (ServerModel.instance().getGames().containsKey(gameID)) {
             currentGame = ServerModel.instance().getGames().get(gameID);
-            currentGame.setRoutesClaimed(routesClaimed);
 
-            currentGame.removePlayer(player.getName());
-            currentGame.addPlayer(player);
+            currentGame.setRoutesClaimed(routesClaimed);
+            currentGame.updatePlayer(player);
+            currentGame.getHistory().add(player.getName() + " claimed a route.");
         } else {
             message = "Game not found on server";
         }
@@ -108,10 +72,23 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     @Override
     public void updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
-        
+        String message = "";
 
-        String[] paramTypes = {};
-        Object[] paramValues = {};
+        Game currentGame = null;
+        if (ServerModel.instance().getGames().containsKey(gameID)) {
+            currentGame = ServerModel.instance().getGames().get(gameID);
+
+            currentGame.updatePlayer(player);
+            currentGame.setFaceUpDeck(faceUpDeck);
+            currentGame.setTrainCardDeck(trainCardDeck);
+            currentGame.setTrainDiscardDeck(trainDiscardDeck);
+            currentGame.getHistory().add(player.getName() + " drew train cards.");
+        } else {
+            message = "Game not found on server";
+        }
+
+        String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {currentGame, message};
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_updateGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(gameID, command);
@@ -119,20 +96,27 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     @Override
     public void updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
-        String[] paramTypes = {};
-        Object[] paramValues = {};
+        String message = "";
+
+        Game currentGame = null;
+        if (ServerModel.instance().getGames().containsKey(gameID)) {
+            currentGame = ServerModel.instance().getGames().get(gameID);
+
+            currentGame.updatePlayer(player);
+            currentGame.setDestinationDeck(destinationDeck);
+            currentGame.getHistory().add(player.getName() + " drew destination cards.");
+
+        } else {
+            message = "Game not found on server";
+        }
+
+
+        String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {currentGame, message};
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_updateGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(gameID, command);
     }
 
-    @Override
-    public void getGameHistory(String authToken, String gameID) {
-        String[] paramTypes = {};
-        Object[] paramValues = {};
-        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
-                "_updateGame", paramTypes, paramValues);
-        SocketManager.instance().notifyPlayersInGame(gameID, command);
-    }
 }
 
