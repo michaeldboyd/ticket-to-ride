@@ -182,7 +182,7 @@ public class BoardFragment extends Fragment implements
                     return;
                 }
                 autoplay();
-                Autoplayer.getInstance().autoplay(getContext(), boardFragment);
+                Autoplayer.getInstance().autoplay(getActivity(), getContext(), boardFragment);
             }
         });
 
@@ -194,7 +194,7 @@ public class BoardFragment extends Fragment implements
                     return false;
                 }
                 autoplay();
-                Autoplayer.getInstance().autoAutoplay(getContext(), boardFragment);
+                Autoplayer.getInstance().autoAutoplay(getActivity(), getContext(), boardFragment);
                 return true;
             }
         });
