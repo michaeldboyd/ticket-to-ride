@@ -3,6 +3,17 @@ package e.mboyd6.tickettoride.Model;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.example.sharedcode.model.DestinationCard;
+import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Route;
+import com.example.sharedcode.model.Score;
+import com.example.sharedcode.model.TrainType;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import e.mboyd6.tickettoride.Presenters.GamePresenter;
+import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
 /**
@@ -18,38 +29,82 @@ public class Autoplayer {
     }
 
     public int step = 0;
+    public ClientModel model = ClientModel.getInstance();
+    public Game game = model.getCurrentGame();
+    public IGamePresenter presenter;
 
     public void autoplay(Context context, BoardFragment boardFragment) {
         String stepText = "";
+        Score score = game.getPlayers().get(0).getScore();
+        presenter = boardFragment.getmGamePresenter();
+
         switch(step) {
             case 0:
-                // PlayerScoreSet
-                stepText = step + " PlayerScoreSet";
+                // Changing score
+
+                score = game.getPlayers().get(0).getScore();
+
+                score.setPoints(123);
+
+                presenter.updateBoard();
+
+                stepText = "Step " + step + " - Player " + model.getCurrentPlayer().getName() + "'s points set to 123";
                 break;
             case 1:
+                //drawing cards test
 
-                stepText = step + " PlayerScoreSet";
+                int count = 0;
+                while(model.getCurrentPlayer().getHand().get(TrainType.BOX) < 5){
+                    count++;
+                    presenter.drawTrainCards(0, 1, 0);
+                }
+
+                stepText = "Step " + step + " - Drew an additional " + count + " cards from the deck";
                 break;
             case 2:
+                //Claiming route test
 
-                stepText = step + " PlayerScoreSet";
+                Route route = new Route("Rosette", "Lucin", 2, TrainType.BOX);
+
+                presenter.claimRoute(route);
+
+                stepText = "Step " + step + " - Claimed route from Rosette to Lucin\n" +
+                        "Player score is now updated to " + score.getPoints() + " points.\n" +
+                        "Number of train cards for player " + model.getCurrentPlayer().getName() + "is now" + score.getCards() + ".\n" +
+                        "Number of train card in deck is " + game.getTrainCardDeck().size() + ".\n" +
+                        "Number of trains is now " + score.getTrains() + ".\n" +
+                        "Number of desination cards is " + score.getRoutes() + ".";
                 break;
             case 3:
+                //drawing face up cards test
 
-                stepText = step + " PlayerScoreSet";
+                presenter.drawTrainCards(0, 1, 0);
+
+                stepText = "Step " + step + " - Drew 2 face-up cards\n" +
+                        "Number of face-up cards is " + game.getFaceUpDeck().size() + ".\n" +
+                        "Number of cards in face-down train cards deck is " + game.getTrainCardDeck().size() + ".";
                 break;
             case 4:
+                ArrayList<DestinationCard> results = presenter.drawDestinationCards();
+                ArrayList<DestinationCard> discard = new ArrayList<>();
+                discard.add(results.remove(2));
+                presenter.chooseDestinationCards(results, discard);
 
-                stepText = step + " PlayerScoreSet";
+                stepText = "Step " + step + " - Drew 3 destination cards.\n" +
+                        "Kept 2\n" +
+                        "discarded 1\n" +
+                        "Number of destination cards in deck is " + game.getDestinationDeck().size() + ".";
                 break;
             case 5:
+                //change player turn
+                game.setCurrentTurnPlayerID(game.getPlayers().get(1).getName());
 
-                stepText = step + " PlayerScoreSet";
+                stepText = "Step " + step + " - Changed player's turn to player " + game.getPlayers().get(1).getName() + ".";
                 step = -1;
                 break;
         }
 
-        Toast.makeText(context, stepText, Toast.LENGTH_SHORT)
+        Toast.makeText(context, stepText, Toast.LENGTH_LONG)
                 .show();
         step++;
     }
