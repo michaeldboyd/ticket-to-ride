@@ -103,7 +103,8 @@ public class GamePresenterServerOff extends GamePresenter {
         serverOnButton.setBackgroundResource(R.drawable.button_red_bg);
         serverOnButton.setText(R.string.server_off);
         String myName = ClientModel.getInstance().getPlayerName();
-        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " entered server off mode.");
+        if (ClientModel.getInstance().getCurrentGame() != null)
+            ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " entered server off mode.");
         updateBoard();
     }
 
