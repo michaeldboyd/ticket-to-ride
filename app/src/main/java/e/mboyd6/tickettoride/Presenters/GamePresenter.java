@@ -174,12 +174,12 @@ public class GamePresenter implements IGamePresenter, Observer {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            // Update the score
-            Player player  = ClientModel.getInstance().getCurrentPlayer();
-            Score score = player.getScore();
-            score.setCards(player.cardsInHand());
         }
+
+        // Update the score
+        Player player = ClientModel.getInstance().getCurrentPlayer();
+        Score score = player.getScore();
+        score.setCards(player.cardsInHand());
     }
 
     @Override
@@ -237,6 +237,11 @@ public class GamePresenter implements IGamePresenter, Observer {
                 int index = currentGame.getPlayers().indexOf(currentPlayer);
 
                 currentGame.getPlayers().get(index).getDestinationCards().addAll(chosen);
+
+            // Update the score
+            Player player = ClientModel.getInstance().getCurrentPlayer();
+            Score score = player.getScore();
+            score.setRoutes(player.getDestinationCards().size());
         }
     }
 
@@ -267,7 +272,7 @@ public class GamePresenter implements IGamePresenter, Observer {
             }
 
             // Increment the current score.routes by 1
-            score.setRoutes(score.getRoutes() + 1);
+            score.setRoutes(currentPlayer.getDestinationCards().size());
         }
     }
 
