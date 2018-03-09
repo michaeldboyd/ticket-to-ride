@@ -181,6 +181,7 @@ public class BoardFragment extends Fragment implements
                     handleError("You must finish your action first.");
                     return;
                 }
+                autoplay();
                 Autoplayer.getInstance().autoplay(getContext(), boardFragment);
             }
         });
@@ -192,6 +193,7 @@ public class BoardFragment extends Fragment implements
                     handleError("You must finish your action first.");
                     return false;
                 }
+                autoplay();
                 Autoplayer.getInstance().autoAutoplay(getContext(), boardFragment);
                 return true;
             }
