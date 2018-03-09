@@ -19,6 +19,9 @@ public class SocketManager {
 
     //Default set to own machine
     public static String ip = "10.0.2.2";
+
+    public static WebSocketClient socket;
+    public static String socketID = "";
     //public static String ip = "192.168.1.134";
 
     public static String ConnectSocket(String url)
@@ -29,7 +32,7 @@ public class SocketManager {
         try {
             client = new SocketClient(new URI("ws://" + ip + ":8080/echo/"));
                 client.connect();
-                ClientModel.getInstance().setSocket(client);
+                socket = client;
         } catch (URISyntaxException e) {
             error = "Yo, your socket didn't connect correctly... Sorry broseph. Error: " + e.getMessage();
             e.printStackTrace();

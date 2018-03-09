@@ -68,7 +68,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
      */
     @Override
     public void login(String username, String password) {
-        String socketID = ClientModel.getInstance().getSocketID();
+        String socketID = SocketManager.socketID;
         LoginProxy.instance().login(username, password, socketID);
     }
 
@@ -84,7 +84,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
             SocketManager.ip = ip;
             System.out.println("IP changed to: " + ip);
             try {
-                ClientModel.getInstance().getSocket().closeConnection(500, "ChangeIP");
+                SocketManager.socket.closeConnection(500, "ChangeIP");
                 SocketManager.ConnectSocket(ip);
                 return true;
             } catch (Exception e) {

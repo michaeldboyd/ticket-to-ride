@@ -15,6 +15,7 @@ import java.util.TreeMap;
 import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Communication.SocketClient;
 import e.mboyd6.tickettoride.Communication.Proxies.UtilityProxy;
+import e.mboyd6.tickettoride.Communication.SocketManager;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class LoginCommandsTest {
@@ -25,8 +26,8 @@ public class LoginCommandsTest {
 
         try {
             WebSocketClient client = new SocketClient(new URI("ws://localhost:8080/echo/"));
-            ClientModel.getInstance().setSocket(client);
-            ClientModel.getInstance().getSocket().connect();
+            SocketManager.socket = client;
+            SocketManager.socket.connect();
             Thread.sleep(1000);
             UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
             Thread.sleep(1500);
@@ -40,10 +41,10 @@ public class LoginCommandsTest {
     public void testLoginCommands_AllCorrect()
     {
         try {
-            String id = ClientModel.getInstance().getSocketID();
+            String id = SocketManager.socketID;
 
             assert(id != null);
-            assert(ClientModel.getInstance().getSocket() != null);
+            assert(SocketManager.socket != null);
             Map<String, String> tokens = new TreeMap<String, String>();
 
             //REGISTER
@@ -94,7 +95,7 @@ public class LoginCommandsTest {
     public void close()
     {
         UtilityProxy.instance().clearServer("thisisoursupersecrettestpassword");
-        ClientModel.getInstance().getSocket().close();
+        SocketManager.socket.close();
         ClientModel.getInstance().clearInstance();
     }
 }
