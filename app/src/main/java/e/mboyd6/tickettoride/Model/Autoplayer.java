@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
+import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
 /**
@@ -55,7 +56,7 @@ public class Autoplayer {
 
                 int count = 0;
                 while(model.getCurrentPlayer().getHand().get(TrainType.BOX) < 5){
-                    count++;
+                    count += 2;
                     presenter.drawTrainCards(0, 1, 0);
                 }
 
@@ -70,10 +71,9 @@ public class Autoplayer {
 
                 stepText = "Step " + step + " - Claimed route from Rosette to Lucin\n" +
                         "Player score is now updated to " + score.getPoints() + " points.\n" +
-                        "Number of train cards for player " + model.getCurrentPlayer().getName() + "is now" + score.getCards() + ".\n" +
-                        "Number of train card in deck is " + game.getTrainCardDeck().size() + ".\n" +
-                        "Number of trains is now " + score.getTrains() + ".\n" +
-                        "Number of desination cards is " + score.getRoutes() + ".";
+                        "Number of train cards for player " + model.getCurrentPlayer().getName() + " is now" + score.getCards() + ".\n" +
+                        "Number of train cards in deck is " + game.getTrainCardDeck().size() + ".\n" +
+                        "Number of trains is now " + score.getTrains() + ".";
                 break;
             case 3:
                 //drawing face up cards test
@@ -98,6 +98,7 @@ public class Autoplayer {
             case 5:
                 //change player turn
                 game.setCurrentTurnPlayerID(game.getPlayers().get(1).getName());
+                presenter.updateBoard();
 
                 stepText = "Step " + step + " - Changed player's turn to player " + game.getPlayers().get(1).getName() + ".";
                 step = -1;
