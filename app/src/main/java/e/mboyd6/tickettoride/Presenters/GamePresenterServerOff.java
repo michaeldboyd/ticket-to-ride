@@ -83,8 +83,7 @@ public class GamePresenterServerOff extends GamePresenter {
     @Override
     public ArrayList<DestinationCard> drawDestinationCards() {
         String myName = ClientModel.getInstance().getPlayerName();
-        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " entered the game.");
-        updateBoard();
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " drew destination cards");
         return super.drawDestinationCards();
 
     }
@@ -93,8 +92,7 @@ public class GamePresenterServerOff extends GamePresenter {
     public void claimRoute(Route route) {
         super.claimRoute(route);
         String myName = ClientModel.getInstance().getPlayerName();
-        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + "claimed a route.");
-
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " claimed a route.");
         updateBoard();
     }
 
@@ -104,7 +102,6 @@ public class GamePresenterServerOff extends GamePresenter {
         // normal GamePresenter state.
         serverOnButton.setBackgroundResource(R.drawable.button_red_bg);
         serverOnButton.setText(R.string.server_off);
-
         String myName = ClientModel.getInstance().getPlayerName();
         ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " entered server off mode.");
         updateBoard();
@@ -112,10 +109,11 @@ public class GamePresenterServerOff extends GamePresenter {
 
     @Override
     public void exit() {
+        super.exit();
         String myName = ClientModel.getInstance().getPlayerName();
         ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " exited the game.");
         updateBoard();
-        super.exit();
+
 
     }
 
