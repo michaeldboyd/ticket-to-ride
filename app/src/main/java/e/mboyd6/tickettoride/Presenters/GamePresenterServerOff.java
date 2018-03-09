@@ -99,7 +99,8 @@ public class GamePresenterServerOff extends GamePresenter {
         super.claimRoute(route);
         String myName = ClientModel.getInstance().getPlayerName();
         ClientModel.getInstance().getCurrentGame().getHistory().add(myName + "claimed a route.");
-        updateBoard();
+        // Simulate receiving the response from the Server
+        super.receiveRouteClaimed(route.getName());
     }
 
     @Override
@@ -121,13 +122,5 @@ public class GamePresenterServerOff extends GamePresenter {
         updateBoard();
         super.exit();
 
-    }
-
-    @Override
-    public void claimRoute(Route route) {
-        super.claimRoute(route);
-
-        // Simulate receiving the response from the Server
-        super.receiveRouteClaimed(route.getName());
     }
 }
