@@ -50,10 +50,14 @@ public class GamePresenterServerOff extends GamePresenter {
     }
 
     @Override
+    public void drawTrainCards(int index1, int index2, int numberFromDeck) {
+        super.drawTrainCards(index1, index2, numberFromDeck);
+        updateBoard();
+    }
+
+    @Override
     public void claimRoute(Route route) {
         super.claimRoute(route);
-
-        // Simulate receiving the response from the Server
-        super.receiveRouteClaimed(route.getName());
+        updateBoard();
     }
 }
