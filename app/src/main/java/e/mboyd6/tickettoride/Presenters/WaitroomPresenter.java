@@ -25,7 +25,6 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     public WaitroomPresenter(IWaitroomFragment waitroomFragment) {
         this.waitroomFragment = waitroomFragment;
-
         ClientModel.getInstance().addObserver(this);
     }
 
@@ -114,6 +113,5 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
                 //System.out.println("ENUM ERROR");
                 break;
         }
-
     }
 }

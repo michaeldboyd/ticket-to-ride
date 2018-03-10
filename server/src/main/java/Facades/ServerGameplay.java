@@ -101,11 +101,17 @@ public class ServerGameplay implements IServerGameplayFacade {
         Game currentGame = null;
         if (ServerModel.instance().getGames().containsKey(gameID)) {
             currentGame = ServerModel.instance().getGames().get(gameID);
+            //get the card count
+            Player oldPlayer = currentGame.getPlayer(player.getName());
+            int cardCount = player.getDestinationCards().size() - oldPlayer.getDestinationCards().size();
 
             currentGame.updatePlayer(player);
             currentGame.setDestinationDeck(destinationDeck);
-            currentGame.getHistory().add(player.getName() + " drew destination cards.");
 
+            if(cardCount > 0)
+                currentGame.getHistory().add(player.getName() + " drew " + cardCount + " destination card(s).");
+            else if(cardCount < 0)
+                currentGame.getHistory().add(player.getName() + " discarded " + cardCount + " destination card(s).");
         } else {
             message = "Game not found on server";
         }

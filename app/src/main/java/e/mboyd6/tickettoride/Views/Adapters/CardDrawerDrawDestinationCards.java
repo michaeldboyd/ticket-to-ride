@@ -112,7 +112,8 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
         if (selectedCards.size() >= 1) {
             drawSelectedCardsButton.setAlpha(1f);
         } else {
-           // drawSelectedCardsButton.setAlpha(0.5f);
+            if(drawSelectedCardsButton != null)
+               drawSelectedCardsButton.setAlpha(0.5f);
         }
     }
 
