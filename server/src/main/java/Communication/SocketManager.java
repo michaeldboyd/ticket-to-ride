@@ -16,7 +16,9 @@ import java.util.*;
 /**
  * Socket manager stores the logic and data members required to communicate all the generic commands
  * back to the client to everyone, to a single person, or to everyone in a game.
- *
+ * @invariant Server must be running
+ * @invariant ServerModel must implement observable pattern
+ * @invariant SocketManager must be subscribed to the observable pattern.
  */
 public class SocketManager implements Observer {
     private static SocketManager _instance;
@@ -69,7 +71,7 @@ public class SocketManager implements Observer {
     }
 
     /**
-     * Sends a message based on the socket ID
+     * Sends a message based on the socket ID that is paired to the session
      * @pre id != null && !id.equals("")
      * @pre command != null
      * @post returns true if the command sent correctly. false if not.
