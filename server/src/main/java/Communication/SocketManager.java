@@ -47,10 +47,11 @@ public class SocketManager implements Observer {
             return false;
         }
     }
-    public void sendBySocketId(Command command, String id) {
+
+    public void sendBySocketId(Command command, String sessionID) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
-        Session sess = ServerModel.instance().getAllSessions().get(id);
+        Session sess = ServerModel.instance().getAllSessions().get(sessionID);
 
         assert sess != null;
 
@@ -66,7 +67,7 @@ public class SocketManager implements Observer {
      * Sends to a list of people. Right now that list is all the logged in users.
      * @param command
      */
-    public void sendBroadcast(Collection<String> authTokens, Command command) {
+    private void sendBroadcast(Collection<String> authTokens, Command command) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
 
@@ -93,7 +94,7 @@ public class SocketManager implements Observer {
             userTokensInGame.add(auth);
         }
 
-        SocketManager.instance().sendBroadcast(userTokensInGame, command);
+        _instance.sendBroadcast(userTokensInGame, command);
 
     }
 
@@ -114,7 +115,7 @@ public class SocketManager implements Observer {
         Command updateGamesClientCommand = CommandFactory.createCommand(null, CLIENT_LOBBY_CLASS_NAME,
                 "_updateGamesReceived", paramTypes, paramValues);
 
-        SocketManager.instance().sendBroadcast(tokens, updateGamesClientCommand);
+        _instance.sendBroadcast(tokens, updateGamesClientCommand);
     }
 
     // *** OBSERVER ***
@@ -127,6 +128,6 @@ public class SocketManager implements Observer {
         }
         Command command = (Command)arg;
         Session sess = ServerModel.instance().getLoggedInSessions().get(command.get_authToken());
-        instance().sendCommand(command, sess);
+        _instance.sendCommand(command, sess);
     }
 }

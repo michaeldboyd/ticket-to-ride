@@ -1,6 +1,5 @@
 package com.example.sharedcode.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public class GameInitializer {
         game.setRoutesClaimed(initializeRoutes());
 
         // for each player in the game, draw three destination cards and 4 train cards.
-        game.setCurrentTurnPlayerID(game.getPlayers().get(0).getPlayerID());
+        game.setCurrentTurnPlayerName(game.getPlayers().get(0).getPlayerID());
        for(Player p : game.getPlayers()) {
            for(int i = 0; i < 3; i++) { game.addDestCardToPlayer(p.getName());}
            for(int i = 0; i <= 8; i++) { p.getHand().put(i, 0);}    //Initialize hand

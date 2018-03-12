@@ -59,6 +59,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setRoutesClaimed(routesClaimed);
             currentGame.updatePlayer(player);
             currentGame.getHistory().add(player.getName() + " claimed a route.");
+            currentGame.changeTurnForGame();
         } else {
             message = "Game not found on server";
         }
@@ -83,6 +84,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setTrainCardDeck(trainCardDeck);
             currentGame.setTrainDiscardDeck(trainDiscardDeck);
             currentGame.getHistory().add(player.getName() + " drew train cards.");
+            currentGame.changeTurnForGame();
         } else {
             message = "Game not found on server";
         }
@@ -107,7 +109,8 @@ public class ServerGameplay implements IServerGameplayFacade {
 
             currentGame.updatePlayer(player);
             currentGame.setDestinationDeck(destinationDeck);
-
+            currentGame.changeTurnForGame();
+            
             if(cardCount > 0)
                 currentGame.getHistory().add(player.getName() + " drew " + cardCount + " destination card(s).");
             else if(cardCount < 0)
