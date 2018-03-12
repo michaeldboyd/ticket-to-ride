@@ -85,12 +85,33 @@ public class GamePresenterServerOn extends GamePresenter {
     public void drawTrainCards(int index1, int index2, int numberFromDeck) {
         super.drawTrainCards(index1, index2, numberFromDeck);
         // Communicate with the server to tell them that trainCards have been drawn
+        String authToken = ClientModel.getInstance().getAuthToken();
+        Game currentGame = ClientModel.getInstance().getCurrentGame();
+        Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
+
+        GameplayProxy.getInstance().updateTrainCards(authToken,
+                currentGame.getGameID(),
+                currentPlayer,
+                currentGame.getFaceUpDeck(),
+                currentGame.getTrainCardDeck(),
+                currentGame.getTrainDiscardDeck());
     }
 
     @Override
     public ArrayList<DestinationCard> drawDestinationCards() {
-        return super.drawDestinationCards();
+        ArrayList<DestinationCard> drawDestinationCards = super.drawDestinationCards();
+
         // Tell the server that the client wants to draw destination cards
+        String authToken = ClientModel.getInstance().getAuthToken();
+        Game currentGame = ClientModel.getInstance().getCurrentGame();
+        Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
+
+        GameplayProxy.getInstance().updateDestinationCards(authToken,
+                currentGame.getGameID(),
+                currentPlayer,
+                currentGame.getDestinationDeck());
+
+        return drawDestinationCards;
     }
 
     @Override

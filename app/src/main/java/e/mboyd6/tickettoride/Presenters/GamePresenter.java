@@ -199,6 +199,8 @@ public class GamePresenter implements IGamePresenter, Observer {
                 ClientModel.getInstance().getCurrentPlayer().getDestinationCards() != null)
         {
             ClientModel.getInstance().getCurrentPlayer().getDestinationCards().removeAll(discardedCards);
+            String myName = ClientModel.getInstance().getPlayerName();
+            ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " discarded " + discardedCards.size() + " destination cards.");
         }
     }
 

@@ -75,7 +75,7 @@ public class GamePresenterServerOff extends GamePresenter {
     public void drawTrainCards(int index1, int index2, int numberFromDeck) {
         super.drawTrainCards(index1, index2, numberFromDeck);
         String myName = ClientModel.getInstance().getPlayerName();
-        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " drew train cards.");
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " drew " + 1 + " train card.");
 
         updateBoard();
     }
@@ -83,16 +83,16 @@ public class GamePresenterServerOff extends GamePresenter {
     @Override
     public ArrayList<DestinationCard> drawDestinationCards() {
         String myName = ClientModel.getInstance().getPlayerName();
-        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " drew destination cards");
+        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " drew 3 destination cards.");
+        updateBoard();
         return super.drawDestinationCards();
-
     }
 
     @Override
     public void claimRoute(Route route) {
         super.claimRoute(route);
         String myName = ClientModel.getInstance().getPlayerName();
-        ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " claimed a route.");
+        ClientModel.getInstance().getCurrentGame().getHistory().add( myName + " claimed " + route.getCity1() + " to " + route.getCity2());
         updateBoard();
     }
 
