@@ -84,7 +84,7 @@ public class GameplayProxy implements IServerGameplayFacade {
                 faceUpDeck.getClass().toString(), trainCardDeck.getClass().toString(), trainDiscardDeck.getClass().toString()};
         Object[] paramValues = {authToken, gameID, player, faceUpDeck, trainCardDeck, trainDiscardDeck};
 
-        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_drawTrainCard", paramTypes, paramValues);
+        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_updateTrainCards", paramTypes, paramValues);
 
         SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
@@ -104,7 +104,7 @@ public class GameplayProxy implements IServerGameplayFacade {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(), destinationDeck.getClass().toString()};
         Object[] paramValues = {authToken, gameID, player, destinationDeck};
 
-        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_drawDestinationCard", paramTypes, paramValues);
+        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_updateDestinationCards", paramTypes, paramValues);
 
         SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
     }

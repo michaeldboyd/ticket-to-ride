@@ -102,7 +102,7 @@ public class ClientGameplay implements IClientGamplayFacade {
     public void newPlayerTurn(String gameID, String playerID) {
         UpdateType type = UpdateType.NEW_PLAYER_TURN;
 
-        ClientModel.getInstance().getCurrentGame().setCurrentTurnPlayerID(playerID);
+        ClientModel.getInstance().getCurrentGame().setCurrentTurnPlayerName(playerID);
 
         sendUpdate(type, true, "");
     }
