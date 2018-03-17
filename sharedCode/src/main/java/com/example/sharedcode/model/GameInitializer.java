@@ -1,6 +1,5 @@
 package com.example.sharedcode.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +7,13 @@ import java.util.Map;
  * Created by Ali on 2/24/2018.
  */
 
+/**
+ * GameInitializer set up everything so the game is ready for gameplay.
+ *
+ * It sets all the decks and cards needed for the game specifically.
+ *
+ * @invariant game must be initialized already
+ */
 public class GameInitializer {
 
     private static int DEST_DECK_NUM = 30;
@@ -15,6 +21,22 @@ public class GameInitializer {
     private static int NON_LOCOMOTIVE_CARD = 12;
     private static int LOCOMOTIVE_CARD = 14;
 
+    /**
+     * Sets all decks, cities and routes for the game.
+     *
+     * @param game
+     *
+     * @pre game != null
+     *
+     * @post Game's Desination deck will be initialized
+     * @post Game's TrainCard deck will be initialized
+     * @post Game's TrainDiscarddeck will be initialized
+     * @post Game's FaceUp Deck will be initialized
+     * @post Game's Cities will be initialized
+     * @post Game's routes will be initialized
+     *
+     * @returns fully initialzed game
+     */
     public Game initializeGame(Game game){
         game.setDestinationDeck(initializeDestinationDeck());
         game.setTrainCardDeck(initializeTrainCardDeck());
@@ -24,7 +46,7 @@ public class GameInitializer {
         game.setRoutesClaimed(initializeRoutes());
 
         // for each player in the game, draw three destination cards and 4 train cards.
-        game.setCurrentTurnPlayerID(game.getPlayers().get(0).getPlayerID());
+        game.setCurrentTurnPlayerName(game.getPlayers().get(0).getPlayerID());
        for(Player p : game.getPlayers()) {
            for(int i = 0; i < 3; i++) { game.addDestCardToPlayer(p.getName());}
            for(int i = 0; i <= 8; i++) { p.getHand().put(i, 0);}    //Initialize hand
@@ -39,6 +61,16 @@ public class GameInitializer {
         return game;
     }
 
+    /**
+     * Initializes the Destination Deck for game. Creates all the cards
+     * and puts them in the deck.
+     *
+     * @pre none
+     *
+     * @post Game's Desination deck will be initialized
+     *
+     * @returns DestinationDeck
+     */
     private DestinationDeck initializeDestinationDeck(){
         DestinationDeck deck = new DestinationDeck();
         deck.add(new DestinationCard("Rosette","Fry Canyon",21));
@@ -75,6 +107,16 @@ public class GameInitializer {
         return deck;
     }
 
+    /**
+     * Initializes the TrainCard Deck for game. Creates all the cards
+     * and puts them in the deck.
+     *
+     * @pre none
+     *
+     * @post Game's TrainCard deck will be initialized
+     *
+     * @returns TrainCardDeck
+     */
     private TrainCardDeck initializeTrainCardDeck(){
         TrainCardDeck deck = new TrainCardDeck();
         for(int i = 0; i < 8; i++){
@@ -89,6 +131,16 @@ public class GameInitializer {
         return deck;
     }
 
+    /**
+     * Initializes the Cities for game.
+     * Creates all the cities needed for gameplay.
+     *
+     * @pre none
+     *
+     * @post Game's cities will be initialized
+     *
+     * @returns Map<String, City>
+     */
     private Map<String, City> intitializeCities() {
         Map<String, City> cities = new HashMap<>();
         cities.put("Rosette", new City("Rosette", 41.81994, -113.41735));
@@ -130,6 +182,16 @@ public class GameInitializer {
         return cities;
     }
 
+    /**
+     * Initializes the routes for game.
+     * Creates all the cities needed for gameplay.
+     *
+     * @pre none
+     *
+     * @post Game's Desination deck will be initialized
+     *
+     * @returns Map<Route, Player>
+     */
     private Map<Route, Player> initializeRoutes(){
         Map<Route, Player> routes = new HashMap<>();
         routes.put(new Route("Rosette", "Lucin", 2, TrainType.BOX), null);
@@ -210,6 +272,16 @@ public class GameInitializer {
         return routes;
     }
 
+    /**
+     * Initializes the FaceUp Deck for game.
+     * Chooses five cards for deck and adds them to the deck
+     *
+     * @pre none
+     *
+     * @post Game's FaceUp deck will be initialized
+     *
+     * @returns FaceUpDeck
+     */
     private FaceUpDeck initializeFaceUpDeck(TrainCardDeck trainCardDeck){
        FaceUpDeck deck = new FaceUpDeck();
        for (int i = 0; i < 5 && i < trainCardDeck.size(); i++) {

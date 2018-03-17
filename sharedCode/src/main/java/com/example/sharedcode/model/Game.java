@@ -1,7 +1,6 @@
 package com.example.sharedcode.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -16,7 +15,7 @@ public class Game {
     private TrainCardDeck trainCardDeck;
     private TrainCardDeck trainDiscardDeck;
     private FaceUpDeck faceUpDeck;
-    private String currentTurnPlayerID;
+    private String currentTurnPlayerName;
     // No reason to ever let this be null
     private ArrayList<String> history = new ArrayList<>();
     //The plan for this is that if Player is null, the route is not claimed.
@@ -43,12 +42,12 @@ public class Game {
         this.history = history;
     }
 
-    public String getCurrentTurnPlayerID() {
-        return currentTurnPlayerID;
+    public String getCurrentTurnPlayerName() {
+        return currentTurnPlayerName;
     }
 
-    public void setCurrentTurnPlayerID(String currentTurnPlayerID) {
-        this.currentTurnPlayerID = currentTurnPlayerID;
+    public void setCurrentTurnPlayerName(String currentTurnPlayerName) {
+        this.currentTurnPlayerName = currentTurnPlayerName;
     }
 
     public String getPersonTyping() {
@@ -232,32 +231,51 @@ public class Game {
     }
 
     public void addTrainCardToPlayerHand(String playerName) {
-            for (Player player : players) {
-                if (player.getName().equals(playerName)) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
 
-                    Integer cardType = 0;
-                    try{
-                        if(trainCardDeck.size() != 0)
-                            cardType = trainCardDeck.drawCard();
-                        else {
-                            setTrainCardDeck(getTrainDiscardDeck());
-                            TrainCardDeck deck = new TrainCardDeck();
-                            setTrainDiscardDeck(deck);
-                            cardType = trainCardDeck.drawCard();
-                        }
-
-                    }catch(Exception e){
-                        e.printStackTrace();
-
+                Integer cardType = 0;
+                try {
+                    if (trainCardDeck.size() != 0)
+                        cardType = trainCardDeck.drawCard();
+                    else {
+                        setTrainCardDeck(getTrainDiscardDeck());
+                        TrainCardDeck deck = new TrainCardDeck();
+                        setTrainDiscardDeck(deck);
+                        cardType = trainCardDeck.drawCard();
                     }
 
-                    Integer count = player.getHand().get(cardType);
+                } catch (Exception e) {
+                    e.printStackTrace();
 
-                    player.getHand().put(cardType, count + 1);
-
-
-                    break;
                 }
+
+                Integer count = player.getHand().get(cardType);
+
+                player.getHand().put(cardType, count + 1);
+
+
+                break;
             }
+        }
+    }
+
+    public void changeTurnForGame() {
+        int index = 0;
+
+        for (int i = 0; i < players.size(); i++) {
+            Player p = players.get(i);
+
+            if (p.getName().equals(currentTurnPlayerName)) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index >= players.size()) {
+            index = 0;
+        }
+
+        setCurrentTurnPlayerName(players.get(index).getName());
     }
 }

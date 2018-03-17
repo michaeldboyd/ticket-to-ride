@@ -81,7 +81,7 @@ public class SocketManager implements Observer {
     public boolean sendBySocketId(Command command, String id) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
-        Session sess = ServerModel.instance().getAllSessions().get(id);
+        Session sess = ServerModel.instance().getAllSessions().get(sessionID);
 
         assert sess != null;
 
@@ -149,7 +149,7 @@ public class SocketManager implements Observer {
             userTokensInGame.add(auth);
         }
 
-        SocketManager.instance().sendBroadcast(userTokensInGame, command);
+        _instance.sendBroadcast(userTokensInGame, command);
 
     }
 
@@ -204,6 +204,6 @@ public class SocketManager implements Observer {
         }
         Command command = (Command)arg;
         Session sess = ServerModel.instance().getLoggedInSessions().get(command.get_authToken());
-        instance().sendCommand(command, sess);
+        _instance.sendCommand(command, sess);
     }
 }

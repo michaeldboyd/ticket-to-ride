@@ -109,7 +109,7 @@ public class GamePresenter implements IGamePresenter, Observer {
     public void onUpdateTurn() {
         if (gameActivityFragment instanceof IBoardFragment) {
             if (ClientModel.getInstance().getCurrentGame() != null) {
-                ((IBoardFragment) gameActivityFragment).onUpdateTurn(ClientModel.getInstance().getCurrentGame().getCurrentTurnPlayerID());
+                ((IBoardFragment) gameActivityFragment).onUpdateTurn(ClientModel.getInstance().getCurrentGame().getCurrentTurnPlayerName());
             }
         }
     }
@@ -300,7 +300,7 @@ public class GamePresenter implements IGamePresenter, Observer {
 
     @Override
     public boolean isMyTurn() {
-        String currentTurnPlayerID = ClientModel.getInstance().getCurrentGame().getCurrentTurnPlayerID();
+        String currentTurnPlayerID = ClientModel.getInstance().getCurrentGame().getCurrentTurnPlayerName();
         return (getCurrentPlayer() != null && getCurrentPlayer().equals(currentTurnPlayerID));
     }
 

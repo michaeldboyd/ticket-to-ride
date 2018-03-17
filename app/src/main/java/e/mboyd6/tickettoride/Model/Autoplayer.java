@@ -100,7 +100,7 @@ public class Autoplayer {
                 break;
             case 5:
                 //change player turn
-                game.setCurrentTurnPlayerID(game.getPlayers().get(1).getName());
+                game.setCurrentTurnPlayerName(game.getPlayers().get(1).getName());
                 presenter.onUpdateTurn();
 
                 stepText = "Step " + step + " - Changed player's turn to player " + game.getPlayers().get(1).getName() + ".";

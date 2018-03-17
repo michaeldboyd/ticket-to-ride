@@ -27,26 +27,13 @@ public class ServerGameplay implements IServerGameplayFacade {
         ourInstance.claimRoute(authToken, gameID, player, routesClaimed);
     }
 
-    public static void _drawTrainCards(String authToken, String gameID, String playerID) {
+    public static void _updateTrainCards(String authToken, String gameID, String playerID) {
         //ourInstance.drawTrainCards(authToken, gameID, playerID);
     }
 
-    public static void _playTrainCard(String authToken, String gameID, String playerID, TrainCard card) {
-        //ourInstance.playTrainCard(authToken, gameID, playerID, card);
-    }
-
-    public static void _drawDestinationCard(String authToken, String gameID, String playerID) {
+    public static void _updateDestinationCards(String authToken, String gameID, String playerID) {
         //ourInstance.drawDestinationCard(authToken, gameID, playerID);
     }
-
-    public static void _discardDestinationCard(String authToken, String gameID, String playerID, DestinationCard card) {
-        //ourInstance.discardDestinationCard(authToken, gameID, playerID, card);
-    }
-
-    public static void _placeTrainCars(String authToken, String gameID, String playerID, int numCars, Route route) {
-        //ourInstance.placeTrainCars(authToken, gameID, playerID, numCars, route);
-    }
-
 
     @Override
     public void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
@@ -59,6 +46,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setRoutesClaimed(routesClaimed);
             currentGame.updatePlayer(player);
             currentGame.getHistory().add(player.getName() + " claimed a route.");
+            currentGame.changeTurnForGame();
         } else {
             message = "Game not found on server";
         }
@@ -83,6 +71,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setTrainCardDeck(trainCardDeck);
             currentGame.setTrainDiscardDeck(trainDiscardDeck);
             currentGame.getHistory().add(player.getName() + " drew train cards.");
+            currentGame.changeTurnForGame();
         } else {
             message = "Game not found on server";
         }
@@ -107,6 +96,7 @@ public class ServerGameplay implements IServerGameplayFacade {
 
             currentGame.updatePlayer(player);
             currentGame.setDestinationDeck(destinationDeck);
+            currentGame.changeTurnForGame();
 
             if(cardCount > 0)
                 currentGame.getHistory().add(player.getName() + " drew " + cardCount + " destination card(s).");
@@ -115,7 +105,6 @@ public class ServerGameplay implements IServerGameplayFacade {
         } else {
             message = "Game not found on server";
         }
-
 
         String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {currentGame, message};
