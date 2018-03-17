@@ -18,6 +18,7 @@ public class Game {
     private String currentTurnPlayerName;
     // No reason to ever let this be null
     private ArrayList<String> history = new ArrayList<>();
+
     //The plan for this is that if Player is null, the route is not claimed.
     //If we need to change this we totally can.
     private Map<Route, Player> routesClaimed;
