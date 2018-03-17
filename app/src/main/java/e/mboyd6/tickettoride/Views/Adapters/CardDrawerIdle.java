@@ -16,16 +16,39 @@ import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
 /**
- * Created by hunte on 3/4/2018.
+ * When the CardDrawer does not need to allow selection of any of its elements
  */
 
 public class CardDrawerIdle extends CardDrawerState {
 
+    /**
+     * The images which will need to be modified dynamically based on what type of card is
+     * represented in that field.
+     */
     private ArrayList<ImageView> trainCardImages = new ArrayList<>();
+    /**
+     * Context passed in from the fragment; should be GameActivity
+     */
     private Context context;
+    /**
+     * BoardFragment that initiated this drawer
+     */
     private BoardFragment boardFragment;
-    private GamePresenter gamePresenter;
 
+    /**
+     * @pre context != null
+     * @pre boardFragment != null
+     * @pre viewFlipper != null && viewFlipper.size() == 1
+     * @pre drawerSlider != null
+     * @pre gamePresenter != null
+     * @pre faceUpDeck != null
+     * @param context The context that is passed in, usually of type GameActivity
+     * @param boardFragment BoardFragment that initiated this drawer
+     * @param viewFlipper
+     * @param drawerSlider
+     * @param gamePresenter
+     * @post trainCardImage resource files will change to appropriate values
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void enter(Context context, BoardFragment boardFragment, ViewFlipper viewFlipper, DrawerSlider drawerSlider, GamePresenter gamePresenter){
@@ -34,7 +57,6 @@ public class CardDrawerIdle extends CardDrawerState {
         this.boardFragment = boardFragment;
         game = game == null ? boardFragment.getLatestLoadedGame() : game;
         faceUpDeck = game.getFaceUpDeck() == null ? new FaceUpDeck() : game.getFaceUpDeck();
-        this.gamePresenter = gamePresenter;
 
         gamePresenter.updateBoard();
         ImageView trainCard1 = viewFlipper.findViewById(R.id.train_card_1);
@@ -55,6 +77,11 @@ public class CardDrawerIdle extends CardDrawerState {
         viewFlipper.setDisplayedChild(0);
     }
 
+    /**
+     * @pre faceUpDeck != null
+     * @pre faceUpDeck.size() == 5
+     */
+
     @Override
     public void reDrawUI() {
         for(int i = 0; i < faceUpDeck.size(); i++) {
@@ -62,6 +89,13 @@ public class CardDrawerIdle extends CardDrawerState {
         }
     }
 
+    /**
+     * @pre trainCardImages.size() == 5
+     * @pre index < 5
+     * @pre trainType <
+     * @param index
+     * @param trainType
+     */
     public void setCardBackground(int index, int trainType) {
         if (index >= trainCardImages.size())
             return;
