@@ -58,6 +58,10 @@ public class ClientGameplay implements IClientGamplayFacade {
         ourInstance.updateGame(game, message);
     }
 
+    public static void _endGame(Game game, String message) {
+        ourInstance.endGame(game, message);
+    }
+
     @Override
     public void claimedRoute(String gameID, String playerID) {
         UpdateType type = UpdateType.CLAIMED_ROUTE;
@@ -121,6 +125,11 @@ public class ClientGameplay implements IClientGamplayFacade {
         }
 
         sendUpdate(type, success, message);
+    }
+
+    @Override
+    public void endGame(Game game, String message) {
+    //TODO: Send the correct updates
     }
 
     private void sendUpdate(UpdateType type, boolean success, String error)

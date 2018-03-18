@@ -29,9 +29,19 @@ public class Game {
     private String personTyping;
     private int unreadMessages = 0;
 
+    private boolean isLastRound = false;
+    private int turnsLeft = -1;
     private boolean isStarted = false;
+    private boolean isDone = false;
 
 
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
 
     // Getters / Setters
     public ArrayList<String> getHistory() {
@@ -48,6 +58,22 @@ public class Game {
 
     public void setCurrentTurnPlayerName(String currentTurnPlayerName) {
         this.currentTurnPlayerName = currentTurnPlayerName;
+    }
+
+    public boolean isLastRound() {
+        return isLastRound;
+    }
+
+    public void setLastRound(boolean lastRound) {
+        isLastRound = lastRound;
+    }
+
+    public int getTurnsLeft() {
+        return turnsLeft;
+    }
+
+    public void setTurnsLeft(int turnsLeft) {
+        this.turnsLeft = turnsLeft;
     }
 
     public String getPersonTyping() {
@@ -260,22 +286,52 @@ public class Game {
         }
     }
 
+    /**
+     * This will either:
+     * 1) Change the player
+     * 2) End the game if no turns are left
+     */
     public void changeTurnForGame() {
         int index = 0;
 
-        for (int i = 0; i < players.size(); i++) {
-            Player p = players.get(i);
+        checkFinalRound();
 
-            if (p.getName().equals(currentTurnPlayerName)) {
-                index = i;
-                break;
+        if(turnsLeft == 0){
+            isDone = true;
+        } else {
+
+            for (int i = 0; i < players.size(); i++) {
+                Player p = players.get(i);
+
+                if (p.getName().equals(currentTurnPlayerName)) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index >= players.size()) {
+                index = 0;
+            }
+
+            setCurrentTurnPlayerName(players.get(index).getName());
+        }
+    }
+
+    /**
+     * Will check if the game should be done. If it is, it will decrement the turns left
+     */
+    public void checkFinalRound(){
+        Player currentPlayer = getPlayer(currentTurnPlayerName);
+
+        if(currentPlayer.getTrains() <= 2 || isLastRound){
+            isLastRound = true;
+
+            //Set the turns left to the amount of players
+            if(turnsLeft < 0) {
+                turnsLeft = players.size();
+            } else { //decrement down
+                --turnsLeft;
             }
         }
-
-        if (index >= players.size()) {
-            index = 0;
-        }
-
-        setCurrentTurnPlayerName(players.get(index).getName());
     }
 }

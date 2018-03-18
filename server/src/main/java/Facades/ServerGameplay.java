@@ -6,13 +6,12 @@ import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerGameplayFacade;
 import com.example.sharedcode.model.*;
-import sun.security.krb5.internal.crypto.Des;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class ServerGameplay implements IServerGameplayFacade {
     private static ServerGameplay ourInstance = new ServerGameplay();
+    private static ServerModel model = ServerModel.instance();
 
     public static ServerGameplay getInstance() {
         return ourInstance;
@@ -46,16 +45,19 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setRoutesClaimed(routesClaimed);
             currentGame.updatePlayer(player);
             currentGame.getHistory().add(player.getName() + " claimed a route.");
+            currentGame.checkFinalRound();
+
+            //This method will end the game if it is needed
             currentGame.changeTurnForGame();
         } else {
             message = "Game not found on server";
         }
 
-        String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {currentGame, message};
-        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
-                "_updateGame", paramTypes, paramValues);
-        SocketManager.instance().notifyPlayersInGame(gameID, command);
+        if(currentGame.isDone()) {
+            endGame(authToken, currentGame, message);
+        } else {
+            sendGameUpdate(authToken,currentGame, message);
+        }
     }
 
     @Override
@@ -71,16 +73,18 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setTrainCardDeck(trainCardDeck);
             currentGame.setTrainDiscardDeck(trainDiscardDeck);
             currentGame.getHistory().add(player.getName() + " drew train cards.");
+
+            //This method will end the game if it is needed
             currentGame.changeTurnForGame();
         } else {
             message = "Game not found on server";
         }
 
-        String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {currentGame, message};
-        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
-                "_updateGame", paramTypes, paramValues);
-        SocketManager.instance().notifyPlayersInGame(gameID, command);
+        if(currentGame.isDone()) {
+            endGame(authToken, currentGame, message);
+        } else {
+            sendGameUpdate(authToken,currentGame, message);
+        }
     }
 
     @Override
@@ -96,6 +100,8 @@ public class ServerGameplay implements IServerGameplayFacade {
 
             currentGame.updatePlayer(player);
             currentGame.setDestinationDeck(destinationDeck);
+
+            //This method will end the game if it is needed
             currentGame.changeTurnForGame();
 
             if(cardCount > 0)
@@ -106,12 +112,27 @@ public class ServerGameplay implements IServerGameplayFacade {
             message = "Game not found on server";
         }
 
+        if(currentGame.isDone()) {
+            endGame(authToken, currentGame, message);
+        } else {
+            sendGameUpdate(authToken,currentGame, message);
+        }
+    }
+
+    public void endGame(String authToken, Game currentGame, String message){
+        String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {currentGame, message};
+        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
+                "_endGame", paramTypes, paramValues);
+        SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
+    }
+
+    public void sendGameUpdate(String authToken, Game currentGame, String message){
         String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {currentGame, message};
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_updateGame", paramTypes, paramValues);
-        SocketManager.instance().notifyPlayersInGame(gameID, command);
+        SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
     }
-
 }
 
