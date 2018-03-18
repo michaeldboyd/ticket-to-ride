@@ -52,7 +52,7 @@ public class LongestPathAlgTest {
         routes.put(new Route("Rosette", "Aragonite", 2, TrainType.PASSENGER), null);
         routes.put(new Route("Rosette", "Salt Lake City", 6, TrainType.TANKER, true), null);
         routes.put(new Route("Salt Lake City", "Rosette", 6, TrainType.REEFER, true), null);
-        routes.put(new Route("Rosette", "Paradise", 4, TrainType.FREIGHT), null);
+        routes.put(new Route("Rosette", "Paradise", 4, TrainType.FREIGHT), p);
         routes.put(new Route("Rosette", "Randolph", 6, TrainType.HOPPER), null);
         routes.put(new Route("Lucin", "Gold Hill", 5, TrainType.COAL), p);
         routes.put(new Route("Aragonite", "Gold Hill", 3, TrainType.CABOOSE), null);
@@ -71,7 +71,7 @@ public class LongestPathAlgTest {
         game.setRoutesClaimed(routes);
         game = LongestPathAlgorithm.update(game);
 
-        Assert.assertEquals(game.getPlayers().get(0).getLongestPath(), 7);
+        Assert.assertEquals(11, game.getPlayers().get(0).getLongestPath());
     }
 
 }

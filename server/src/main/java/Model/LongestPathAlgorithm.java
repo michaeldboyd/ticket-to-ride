@@ -26,6 +26,7 @@ public class LongestPathAlgorithm {
             int longestPath = longestPaths.get(player.getName());
             player.setLongestPath(longestPath);
             if(longestPath > max) {
+                max = longestPath;
                 lpPlayer = player.getName();
             }
         }
@@ -103,6 +104,12 @@ public class LongestPathAlgorithm {
         double dist, max = 0;
         for(DefaultWeightedEdge e : graph.edgesOf(v)) {
             Vertex target = graph.getEdgeTarget(e);
+            Vertex source = graph.getEdgeSource(e);
+            if(target.val.equals(v.val)) { // if the target value is the same, the source is the target
+                assert (!source.val.equals(v.val));
+                target = source;
+            }
+
             if(!target.visited) {
                 dist = graph.getEdgeWeight(e) + getLongestPath(target, graph);
                 if(dist > max) {
@@ -116,12 +123,6 @@ public class LongestPathAlgorithm {
 
 
 }
-
-/**
- * make my own tree for each person. with connected cities
- * iterate through each tree to see who's is longestp
- */
-
 
 class Vertex<V> {
     V val;
