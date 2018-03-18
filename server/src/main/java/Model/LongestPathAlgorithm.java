@@ -102,7 +102,8 @@ public class LongestPathAlgorithm {
     private static double getLongestPath(Vertex v, SimpleWeightedGraph<Vertex, DefaultWeightedEdge> graph) {
         v.visited = true;
         double dist, max = 0;
-        for(DefaultWeightedEdge e : graph.edgesOf(v)) {
+        Set<DefaultWeightedEdge> edges = graph.edgesOf(v);
+        for(DefaultWeightedEdge e : edges) {
             Vertex target = graph.getEdgeTarget(e);
             Vertex source = graph.getEdgeSource(e);
             if(target.val.equals(v.val)) { // if the target value is the same, the source is the target
