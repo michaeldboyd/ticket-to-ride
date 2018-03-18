@@ -1,78 +1,154 @@
 package Model;
 
-import com.example.sharedcode.model.City;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
-import org.jgrapht.Graph;
-import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
-import org.jgrapht.traverse.DepthFirstIterator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class LongestPathAlgorithm {
 
-    public static Game updateLongestPathsInGame(Game game) {
-        Map<String, SimpleWeightedGraph<String, DefaultWeightedEdge>> playerGraphs = buildGraphs(game);
+    public static Game update(Game game) {
+        Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> playerGraphs = buildGraphs(game);
 
-        // find the longest path for each player
+        //build new graph with vertices
+        Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> vertGraphs = new HashMap<>();
+        for(Map.Entry<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> e : playerGraphs.entrySet()) {
+        }
+        Map<String, Integer> longestPaths = findLongestPaths(playerGraphs); // find the longest path for each player
 
-        return null;
+        // set longest paths for each player
+        String lpPlayer = "";
+        int max = 0;
+        for(Player player : game.getPlayers()) {
+            int longestPath = longestPaths.get(player.getName());
+            player.setLongestPath(longestPath);
+            if(longestPath > max) {
+                lpPlayer = player.getName();
+            }
+        }
+
+        //set who has the overall longest path
+        for(Player player : game.getPlayers()) {
+            if(lpPlayer.equals(player.getName())) {
+                player.setHasLongestPath(true);
+            } else {
+                player.setHasLongestPath(false);
+            }
+        }
+        return game;
     }
 
-    private static Map<String, SimpleWeightedGraph<String, DefaultWeightedEdge>> buildGraphs(Game game) {
-        Map<String, SimpleWeightedGraph<String, DefaultWeightedEdge>> playerGraphs = new HashMap<>();
+    private static Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> buildGraphs(Game game) {
+        Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> playerGraphs = new HashMap<>();
         for(Player player : game.getPlayers()) {
             //init the player graphs
             playerGraphs.put(
                     player.getName(),
-                    new SimpleWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class)
+                    new SimpleWeightedGraph<Vertex, DefaultWeightedEdge>(DefaultWeightedEdge.class)
             );
         }
         for( Map.Entry<Route, Player> entry : game.getRoutesClaimed().entrySet()) {
             // put the route in the right player's graph
-            String playerName = entry.getValue().getName();
-            Route route = entry.getKey();
+            if(entry.getValue() != null)
+            {
+                //if the city is in the set, don't add it to the lsit.
+                String playerName = entry.getValue().getName();
+                Route route = entry.getKey();
+                Vertex vertex1 = new Vertex<>(route.getCity1());
+                Vertex vertex2 = new Vertex<>(route.getCity2());
 
-            //set vertices
-            playerGraphs.get(playerName).addVertex(route.getCity1());
-            playerGraphs.get(playerName).addVertex(route.getCity2());
+                if(!playerGraphs.get(playerName).containsVertex(vertex1)) {
+                    playerGraphs.get(playerName).addVertex(vertex1);
+                }
 
-            // add edge
-            playerGraphs.get(playerName).addEdge(route.getCity1(), route.getCity2());
+                if(!playerGraphs.get(playerName).containsVertex(vertex2))
+                    playerGraphs.get(playerName).addVertex(vertex2);
 
-            //set edge weight
-            DefaultWeightedEdge edge = playerGraphs.get(playerName).getEdge(route.getCity1(), route.getCity2());
-            playerGraphs.get(playerName).setEdgeWeight(edge, route.getNumberTrains());
+                // add edge
+                playerGraphs.get(playerName).addEdge(vertex1, vertex2);
+
+                //set edge weight
+                DefaultWeightedEdge edge = playerGraphs.get(playerName).getEdge(vertex1, vertex2);
+                playerGraphs.get(playerName).setEdgeWeight(edge, route.getNumberTrains());
+            }
+
 
         }
-        playerGraphs.toString();
         return playerGraphs;
     }
 
-    private static void findLongestPath(Map<String, SimpleWeightedGraph<String, DefaultWeightedEdge>> playerGraphs) {
-        for(SimpleWeightedGraph<String, DefaultWeightedEdge> graph : playerGraphs.values()) {
-            Iterator<String> iter = new DepthFirstIterator<>(graph);
-            SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> dfsTree =
-                    new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+    private static Map<String, Integer> findLongestPaths(Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> playerGraphs) {
+        Map<String, Integer> longestPaths  = new HashMap<>();
+        for(Map.Entry<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> e : playerGraphs.entrySet()) {
+            // get the longest path for each graph
+            Set<Vertex> vertices = e.getValue().vertexSet();
+            double max = 0;
+            for(Vertex v : vertices) {
+                double temp = getLongestPath(v, e.getValue());
+                if(temp > max) {
+                    max = temp;
+                }
+            }
+            longestPaths.put(e.getKey(),(int) max );
+        }
+        return longestPaths;
+    }
 
-            while (iter.hasNext()) {
 
-               // depth first search
+    private static double getLongestPath(Vertex v, SimpleWeightedGraph<Vertex, DefaultWeightedEdge> graph) {
+        v.visited = true;
+        double dist, max = 0;
+        for(DefaultWeightedEdge e : graph.edgesOf(v)) {
+            Vertex target = graph.getEdgeTarget(e);
+            if(!target.visited) {
+                dist = graph.getEdgeWeight(e) + getLongestPath(target, graph);
+                if(dist > max) {
+                    max = dist;
+                }
             }
         }
-
+        v.visited = false;
+        return max;
     }
+
+
 }
 
 /**
  * make my own tree for each person. with connected cities
  * iterate through each tree to see who's is longestp
  */
+
+
+class Vertex<V> {
+    V val;
+    boolean visited = false;
+
+    Vertex(V val) {
+        this.val = val;
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null  || o.getClass() != this.getClass())
+            return false;
+        Vertex v = (Vertex) o;
+
+        if(v.val.equals(this.val)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return ((String) this.val).length();
+    }
+}
 
