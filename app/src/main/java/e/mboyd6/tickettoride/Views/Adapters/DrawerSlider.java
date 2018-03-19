@@ -82,7 +82,7 @@ public class DrawerSlider extends LinearLayout {
         // Let the ScaleGestureDetector inspect all events.
         mDetector.onTouchEvent(ev);
 
-        System.out.println("TOUCHEVENT: x=" + mPosX + " y=" + mPosY + " maxSlider=" + mMaxSliderDistance);
+//        System.out.println("TOUCHEVENT: x=" + mPosX + " y=" + mPosY + " maxSlider=" + mMaxSliderDistance);
 
         final int action = MotionEventCompat.getActionMasked(ev);
 
