@@ -304,7 +304,7 @@ public class Game {
                 Player p = players.get(i);
 
                 if (p.getName().equals(currentTurnPlayerName)) {
-                    index = i;
+                    index = i + 1;
                     break;
                 }
             }
@@ -313,7 +313,10 @@ public class Game {
                 index = 0;
             }
 
+            //System.out.println(currentTurnPlayerName);
             setCurrentTurnPlayerName(players.get(index).getName());
+            //System.out.println(currentTurnPlayerName);
+
         }
     }
 

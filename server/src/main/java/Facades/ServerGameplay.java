@@ -26,16 +26,17 @@ public class ServerGameplay implements IServerGameplayFacade {
         ourInstance.claimRoute(authToken, gameID, player, routesClaimed);
     }
 
-    public static void _updateTrainCards(String authToken, String gameID, String playerID) {
-        //ourInstance.drawTrainCards(authToken, gameID, playerID);
+    public static void _updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
+        ourInstance.updateTrainCards(authToken, gameID, player, faceUpDeck, trainCardDeck, trainDiscardDeck);
     }
 
-    public static void _updateDestinationCards(String authToken, String gameID, String playerID) {
-        //ourInstance.drawDestinationCard(authToken, gameID, playerID);
+    public static void _updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
+        ourInstance.updateDestinationCards(authToken, gameID, player, destinationDeck);
     }
 
     @Override
     public void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
+        //System.out.println("claimRoute called");
         String message = "";
 
         Game currentGame = null;
@@ -62,6 +63,8 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     @Override
     public void updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
+        //System.out.println("updateTrainCards called");
+
         String message = "";
 
         Game currentGame = null;
@@ -89,6 +92,8 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     @Override
     public void updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
+       //System.out.println("updateDestCards called");
+
         String message = "";
 
         Game currentGame = null;
@@ -128,6 +133,8 @@ public class ServerGameplay implements IServerGameplayFacade {
     }
 
     public void sendGameUpdate(String authToken, Game currentGame, String message){
+        //System.out.println("sendGameUpdate called");
+
         String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {currentGame, message};
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
