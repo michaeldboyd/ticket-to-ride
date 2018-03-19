@@ -76,12 +76,12 @@ public class SocketManager implements Observer {
      * @pre command != null
      * @post returns true if the command sent correctly. false if not.
      * @param command - the command to be send
-     * @param id - the socket ID that the command should be sent to.
+     * @param sessionID - the socket ID that the command should be sent to.
      */
     public boolean sendBySocketId(Command command, String sessionID) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
-        Session sess = ServerModel.instance().getAllSessions().get(id);
+        Session sess = ServerModel.instance().getAllSessions().get(sessionID);
 
         assert sess != null;
 
