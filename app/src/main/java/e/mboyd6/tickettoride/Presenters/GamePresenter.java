@@ -314,6 +314,12 @@ public class GamePresenter implements IGamePresenter, Observer {
         UpdateArgs args = (UpdateArgs) o;
 
         switch(args.type){
+            case GAME_INITIALIZED:
+                // This is called every time someone takes a turn (client --> server --> all clients)
+                // So update the board and current turn
+                updateBoard();
+                onUpdateTurn();
+                break;
             case LAST_TURN:
                 break;
             case GAME_DONE:
