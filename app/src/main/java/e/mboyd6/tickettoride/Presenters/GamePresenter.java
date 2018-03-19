@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Presenters;
 
 import android.widget.Button;
 
+import com.example.sharedcode.communication.UpdateArgs;
 import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.FaceUpDeck;
@@ -11,6 +12,8 @@ import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.Score;
 import com.example.sharedcode.model.TrainCard;
 import com.example.sharedcode.model.TrainCardDeck;
+
+import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -305,7 +308,16 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable observable, Object o) {
 
+        Assert.assertEquals(o.getClass(), UpdateArgs.class);
+        UpdateArgs args = (UpdateArgs) o;
+
+        switch(args.type){
+            case LAST_TURN:
+                break;
+            case GAME_DONE:
+                break;
+        }
     }
 }

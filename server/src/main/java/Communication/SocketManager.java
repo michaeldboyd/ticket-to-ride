@@ -81,7 +81,7 @@ public class SocketManager implements Observer {
     public boolean sendBySocketId(Command command, String sessionID) {
         Map args = new HashMap();
         args.put(JsonWriter.TYPE, true);
-        Session sess = ServerModel.instance().getAllSessions().get(sessionID);
+        Session sess = ServerModel.instance().getAllSessions().get(id);
 
         assert sess != null;
 
