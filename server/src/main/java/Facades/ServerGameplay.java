@@ -124,7 +124,7 @@ public class ServerGameplay implements IServerGameplayFacade {
         }
     }
 
-    public void endGame(String authToken, Game currentGame, String message){
+    public void endGame(String authToken, Game currentGame, String message) {
         String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {currentGame, message};
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
@@ -132,7 +132,7 @@ public class ServerGameplay implements IServerGameplayFacade {
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
     }
 
-    public void sendGameUpdate(String authToken, Game currentGame, String message){
+    public void sendGameUpdate(String authToken, Game currentGame, String message) {
         //System.out.println("sendGameUpdate called");
 
         String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};

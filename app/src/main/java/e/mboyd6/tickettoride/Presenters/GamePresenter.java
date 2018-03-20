@@ -336,7 +336,13 @@ public class GamePresenter implements IGamePresenter, Observer {
             case GAME_DONE:
                 gameFinished();
                 break;
-            case NEW_PLAYER_TURN:
+            case NEW_PLAYER_TURN: // TODO: What is this?
+                onUpdateTurn();
+                break;
+            case GAME_INITIALIZED:
+                // This is called every time someone takes a turn (client --> server --> all clients)
+                // So update the board and current turn
+                updateBoard();
                 onUpdateTurn();
                 break;
             case GAME_UPDATED:

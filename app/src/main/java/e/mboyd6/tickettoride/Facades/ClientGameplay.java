@@ -147,7 +147,8 @@ public class ClientGameplay implements IClientGamplayFacade {
             }
         }
 
-        sendUpdate(type, success, message);    }
+        sendUpdate(type, success, message);
+    }
 
     private void sendUpdate(UpdateType type, boolean success, String error)
     {
