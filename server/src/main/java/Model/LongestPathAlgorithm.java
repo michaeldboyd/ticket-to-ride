@@ -122,6 +122,29 @@ public class LongestPathAlgorithm {
         return max;
     }
 
+  /*  private static double getLongestPath(Vertex v, SimpleWeightedGraph<Vertex, DefaultWeightedEdge> graph) {
+        v.visited = true;
+        double dist, max = 0;
+        Set<DefaultWeightedEdge> edges = graph.edgesOf(v);
+        for(DefaultWeightedEdge e : edges) {
+            Vertex target = graph.getEdgeTarget(e);
+            Vertex source = graph.getEdgeSource(e);
+            if(target.val.equals(v.val)) { // if the target value is the same, the source is the target
+                assert (!source.val.equals(v.val));
+                target = source;
+            }
+
+            if(!target.visited) {
+                dist = graph.getEdgeWeight(e) + getLongestPath(target, graph);
+                if(dist > max) {
+                    max = dist;
+                }
+            }
+        }
+        v.visited = false;
+        return max;
+    }*/
+
 
 }
 
