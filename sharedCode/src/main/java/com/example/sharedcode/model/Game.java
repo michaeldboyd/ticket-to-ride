@@ -1,6 +1,7 @@
 package com.example.sharedcode.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -292,7 +293,7 @@ public class Game {
      * 2) End the game if no turns are left
      */
     public void changeTurnForGame() {
-        int index = 0;
+        int newPlayerIndex = 0;
 
         checkFinalRound();
 
@@ -304,19 +305,16 @@ public class Game {
                 Player p = players.get(i);
 
                 if (p.getName().equals(currentTurnPlayerName)) {
-                    index = i + 1;
+                    newPlayerIndex = i + 1;
                     break;
                 }
             }
 
-            if (index >= players.size()) {
-                index = 0;
+            if (newPlayerIndex >= players.size()) {
+                newPlayerIndex = 0;
             }
 
-            //System.out.println(currentTurnPlayerName);
-            setCurrentTurnPlayerName(players.get(index).getName());
-            //System.out.println(currentTurnPlayerName);
-
+            setCurrentTurnPlayerName(players.get(newPlayerIndex).getName());
         }
     }
 
@@ -336,5 +334,39 @@ public class Game {
                 --turnsLeft;
             }
         }
+    }
+
+    /**
+     * This method looks at all the players and organizes them based on on score; greatest to least
+     * @return
+     */
+    public List<Player> getPlayerListByScore(){
+        List<Player> returnList = new ArrayList<>();
+
+        //Go through players in list
+        for(Player p : players){
+
+            //Add them to list in correct position
+            if(returnList.isEmpty()){
+                returnList.add(p);
+            } else{
+                boolean playerAdded = false;
+
+                for(int i = 0; i < returnList.size(); i++){
+
+                    if(p.getScore().getPoints() > returnList.get(i).getScore().getPoints()){
+                        returnList.add(i, p);
+                        playerAdded = true;
+                        break;
+                    }
+                }
+
+                if(!playerAdded){
+                    returnList.add(p);
+                }
+            }
+        }
+
+        return returnList;
     }
 }

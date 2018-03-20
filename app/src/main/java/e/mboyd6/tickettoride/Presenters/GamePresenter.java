@@ -15,15 +15,17 @@ import com.example.sharedcode.model.TrainCardDeck;
 
 import junit.framework.Assert;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivityFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IHandFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IHistoryFragment;
@@ -308,21 +310,37 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
+    public void finalRound(){
+        if(gameActivityFragment instanceof IBoardFragment){
+            ((IBoardFragment) gameActivityFragment).setFinalRound();
+        }
+    }
+
+    @Override
+    public void gameFinished(){
+        List<Player> playerListByScore = ClientModel.getInstance().getCurrentGame().getPlayerListByScore();
+
+        ((IGameActivity) gameActivityFragment).changeToVictoryActivity(playerListByScore);
+    }
+
+    @Override
     public void update(Observable observable, Object o) {
 
         Assert.assertEquals(o.getClass(), UpdateArgs.class);
         UpdateArgs args = (UpdateArgs) o;
 
         switch(args.type){
-            case GAME_INITIALIZED:
-                // This is called every time someone takes a turn (client --> server --> all clients)
-                // So update the board and current turn
-                updateBoard();
-                onUpdateTurn();
-                break;
-            case LAST_TURN:
+            case FINAL_ROUND:
+                finalRound();
                 break;
             case GAME_DONE:
+                gameFinished();
+                break;
+            case NEW_PLAYER_TURN:
+                onUpdateTurn();
+                break;
+            case GAME_UPDATED:
+                updateBoard();
                 break;
         }
     }

@@ -30,5 +30,5 @@ public enum UpdateType {
     TYPING_UPDATED,
     LAST_TURN,
     GAME_DONE,
-    VICTORY_READY
+    GAME_UPDATED, FINAL_ROUND, VICTORY_READY
 }

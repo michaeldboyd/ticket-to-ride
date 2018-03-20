@@ -60,4 +60,8 @@ public interface IGamePresenter {
     Player getCurrentPlayerObject();
 
     boolean isMyTurn();
+
+    void finalRound();
+
+    void gameFinished();
 }
