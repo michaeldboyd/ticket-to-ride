@@ -528,4 +528,9 @@ public class BoardFragment extends Fragment implements
             uiLocked = locked;
         }
     }
+
+    @Override
+    public void setFinalRound(){
+        //TODO: Hunter, implement the UI to respond to this current turn being the final one
+    }
 }

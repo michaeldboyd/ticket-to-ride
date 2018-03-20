@@ -13,12 +13,14 @@ import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class ClientGameplay implements IClientGamplayFacade {
     private static final ClientGameplay ourInstance = new ClientGameplay();
+    private ClientModel model;
 
     public static ClientGameplay getInstance() {
         return ourInstance;
     }
 
     private ClientGameplay() {
+        model = ClientModel.getInstance();
     }
 
     public static void _claimedRoute(String gameID, String playerID) {
@@ -113,7 +115,7 @@ public class ClientGameplay implements IClientGamplayFacade {
 
     @Override
     public void updateGame(Game game, String message) {
-        UpdateType type = UpdateType.GAME_INITIALIZED;
+        UpdateType type = UpdateType.GAME_UPDATED;
 
         boolean success = message.equals("");
         if(success) {
@@ -125,12 +127,27 @@ public class ClientGameplay implements IClientGamplayFacade {
         }
 
         sendUpdate(type, success, message);
+
+        //If this is the final round, then let the players know
+        if(model.getCurrentGame().isLastRound()){
+            sendUpdate(UpdateType.FINAL_ROUND, success, null);
+        }
     }
 
     @Override
     public void endGame(Game game, String message) {
-    //TODO: Send the correct updates
-    }
+        UpdateType type = UpdateType.GAME_DONE;
+
+        boolean success = message.equals("");
+        if(success) {
+            if (ClientModel.getInstance().getCurrentGame().getGameID().equals(game.getGameID())) {
+                ClientModel.getInstance().setCurrentGame(game);
+            } else {
+                message = "Game sent does not match current game";
+            }
+        }
+
+        sendUpdate(type, success, message);    }
 
     private void sendUpdate(UpdateType type, boolean success, String error)
     {
