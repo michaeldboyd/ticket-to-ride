@@ -3,6 +3,9 @@ package Model;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
+import org.jgrapht.EdgeFactory;
+import org.jgrapht.alg.ConnectivityInspector;
+import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
@@ -11,11 +14,11 @@ import java.util.*;
 public class LongestPathAlgorithm {
 
     public static Game update(Game game) {
-        Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> playerGraphs = buildGraphs(game);
+        Map<String, RouteGraph> playerGraphs = buildGraphs(game);
 
         //build new graph with vertices
-        Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> vertGraphs = new HashMap<>();
-        for(Map.Entry<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> e : playerGraphs.entrySet()) {
+        Map<String, RouteGraph> vertGraphs = new HashMap<>();
+        for(Map.Entry<String, RouteGraph> e : playerGraphs.entrySet()) {
         }
         Map<String, Integer> longestPaths = findLongestPaths(playerGraphs); // find the longest path for each player
 
@@ -42,13 +45,13 @@ public class LongestPathAlgorithm {
         return game;
     }
 
-    private static Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> buildGraphs(Game game) {
-        Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> playerGraphs = new HashMap<>();
+    private static Map<String, RouteGraph> buildGraphs(Game game) {
+        Map<String, RouteGraph> playerGraphs = new HashMap<>();
         for(Player player : game.getPlayers()) {
             //init the player graphs
             playerGraphs.put(
                     player.getName(),
-                    new SimpleWeightedGraph<Vertex, DefaultWeightedEdge>(DefaultWeightedEdge.class)
+                    new RouteGraph(RouteEdge.class)
             );
         }
         for( Map.Entry<Route, Player> entry : game.getRoutesClaimed().entrySet()) {
@@ -60,7 +63,7 @@ public class LongestPathAlgorithm {
                 Route route = entry.getKey();
                 Vertex vertex1 = new Vertex<>(route.getCity1());
                 Vertex vertex2 = new Vertex<>(route.getCity2());
-
+                RouteEdge edge = new RouteEdge();
                 if(!playerGraphs.get(playerName).containsVertex(vertex1)) {
                     playerGraphs.get(playerName).addVertex(vertex1);
                 }
@@ -69,10 +72,10 @@ public class LongestPathAlgorithm {
                     playerGraphs.get(playerName).addVertex(vertex2);
 
                 // add edge
-                playerGraphs.get(playerName).addEdge(vertex1, vertex2);
+                playerGraphs.get(playerName).addEdge(vertex1, vertex2, edge);
 
                 //set edge weight
-                DefaultWeightedEdge edge = playerGraphs.get(playerName).getEdge(vertex1, vertex2);
+                edge = playerGraphs.get(playerName).getEdge(vertex1, vertex2);
                 playerGraphs.get(playerName).setEdgeWeight(edge, route.getNumberTrains());
             }
 
@@ -81,9 +84,9 @@ public class LongestPathAlgorithm {
         return playerGraphs;
     }
 
-    private static Map<String, Integer> findLongestPaths(Map<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> playerGraphs) {
+    private static Map<String, Integer> findLongestPaths(Map<String, RouteGraph> playerGraphs) {
         Map<String, Integer> longestPaths  = new HashMap<>();
-        for(Map.Entry<String, SimpleWeightedGraph<Vertex, DefaultWeightedEdge>> e : playerGraphs.entrySet()) {
+        for(Map.Entry<String, RouteGraph> e : playerGraphs.entrySet()) {
             // get the longest path for each graph
             Set<Vertex> vertices = e.getValue().vertexSet();
             double max = 0;
@@ -99,34 +102,33 @@ public class LongestPathAlgorithm {
     }
 
 
-    private static double getLongestPath(Vertex v, SimpleWeightedGraph<Vertex, DefaultWeightedEdge> graph) {
-        v.visited = true;
-        double dist, max = 0;
-        Set<DefaultWeightedEdge> edges = graph.edgesOf(v);
-        for(DefaultWeightedEdge e : edges) {
-            Vertex target = graph.getEdgeTarget(e);
-            Vertex source = graph.getEdgeSource(e);
-            if(target.val.equals(v.val)) { // if the target value is the same, the source is the target
-                assert (!source.val.equals(v.val));
-                target = source;
-            }
-
-            if(!target.visited) {
-                dist = graph.getEdgeWeight(e) + getLongestPath(target, graph);
+    private static int getLongestPath(Vertex v, RouteGraph graph) {
+        int max = 0;
+        Set<RouteEdge> edges = graph.edgesOf(v);
+        for(RouteEdge e : edges) {
+            int dist = 0;
+            if(!e.isVisited()) {
+                e.setVisited(true);
+                Vertex target = graph.getEdgeTarget(e);
+                if(target.equals(v)) {
+                    target = graph.getEdgeSource(e);
+                }
+                int callLength = (int) (graph.getEdgeWeight(e));
+                dist = callLength + getLongestPath(target, graph);
                 if(dist > max) {
                     max = dist;
                 }
+                e.setVisited(false);
             }
         }
-        v.visited = false;
         return max;
     }
 
-  /*  private static double getLongestPath(Vertex v, SimpleWeightedGraph<Vertex, DefaultWeightedEdge> graph) {
+  /*  private static double getLongestPath(Vertex v, SimpleWeightedGraph<Vertex, RouteEdge> graph) {
         v.visited = true;
         double dist, max = 0;
-        Set<DefaultWeightedEdge> edges = graph.edgesOf(v);
-        for(DefaultWeightedEdge e : edges) {
+        Set<RouteEdge> edges = graph.edgesOf(v);
+        for(RouteEdge e : edges) {
             Vertex target = graph.getEdgeTarget(e);
             Vertex source = graph.getEdgeSource(e);
             if(target.val.equals(v.val)) { // if the target value is the same, the source is the target
@@ -177,3 +179,42 @@ class Vertex<V> {
     }
 }
 
+
+class RouteEdge extends DefaultWeightedEdge {
+    private boolean visited = false;
+
+    public boolean isVisited()
+    {
+        return visited;
+    }
+
+    public void setVisited(boolean visited)
+    {
+        this.visited = visited;
+    }
+}
+
+class RouteGraph extends SimpleWeightedGraph<Vertex, RouteEdge> {
+    private ConnectivityInspector<Vertex, RouteEdge> inspector;
+
+    public RouteGraph(EdgeFactory<Vertex, RouteEdge> ef)
+    {
+        super(ef);
+        initInspector();
+    }
+
+    public RouteGraph(Class<? extends RouteEdge> edgeClass)
+    {
+        this(new ClassBasedEdgeFactory<Vertex, RouteEdge>(edgeClass));
+        initInspector();
+    }
+
+    /**
+     * Initialize the inspector for the graph
+     */
+    private void initInspector()
+    {
+        inspector = new ConnectivityInspector<>(this);
+    }
+
+}
