@@ -16,17 +16,12 @@ public class LongestPathAlgorithm {
     public static Game update(Game game) {
         Map<String, RouteGraph> playerGraphs = buildGraphs(game);
 
-        //build new graph with vertices
-        Map<String, RouteGraph> vertGraphs = new HashMap<>();
-        for(Map.Entry<String, RouteGraph> e : playerGraphs.entrySet()) {
-        }
-        Map<String, Integer> longestPaths = findLongestPaths(playerGraphs); // find the longest path for each player
 
         // set longest paths for each player
         String lpPlayer = "";
         int max = 0;
         for(Player player : game.getPlayers()) {
-            int longestPath = longestPaths.get(player.getName());
+            int longestPath = playerGraphs.get(player.getName()).getLongestPath();
             player.setLongestPath(longestPath);
             if(longestPath > max) {
                 max = longestPath;
@@ -84,45 +79,7 @@ public class LongestPathAlgorithm {
         return playerGraphs;
     }
 
-    private static Map<String, Integer> findLongestPaths(Map<String, RouteGraph> playerGraphs) {
-        Map<String, Integer> longestPaths  = new HashMap<>();
-        for(Map.Entry<String, RouteGraph> e : playerGraphs.entrySet()) {
-            // get the longest path for each graph
-            Set<Vertex> vertices = e.getValue().vertexSet();
-            double max = 0;
-            for(Vertex v : vertices) {
-                double temp = getLongestPath(v, e.getValue());
-                if(temp > max) {
-                    max = temp;
-                }
-            }
-            longestPaths.put(e.getKey(),(int) max );
-        }
-        return longestPaths;
-    }
 
-
-    private static int getLongestPath(Vertex v, RouteGraph graph) {
-        int max = 0;
-        Set<RouteEdge> edges = graph.edgesOf(v);
-        for(RouteEdge e : edges) {
-            int dist = 0;
-            if(!e.isVisited()) {
-                e.setVisited(true);
-                Vertex target = graph.getEdgeTarget(e);
-                if(target.equals(v)) {
-                    target = graph.getEdgeSource(e);
-                }
-                int callLength = (int) (graph.getEdgeWeight(e));
-                dist = callLength + getLongestPath(target, graph);
-                if(dist > max) {
-                    max = dist;
-                }
-                e.setVisited(false);
-            }
-        }
-        return max;
-    }
 
   /*  private static double getLongestPath(Vertex v, SimpleWeightedGraph<Vertex, RouteEdge> graph) {
         v.visited = true;
@@ -215,6 +172,43 @@ class RouteGraph extends SimpleWeightedGraph<Vertex, RouteEdge> {
     private void initInspector()
     {
         inspector = new ConnectivityInspector<>(this);
+    }
+
+    public int getLongestPath() {
+        Map<String, Integer> longestPaths  = new HashMap<>();
+
+            Set<Vertex> vertices = vertexSet();
+            int max = 0;
+            for(Vertex v : vertices) {
+                int temp = getLongestPathRec(v);
+                if(temp > max) {
+                    max = temp;
+                }
+            }
+        return max;
+    }
+
+
+    private int getLongestPathRec(Vertex v) {
+        int max = 0;
+        Set<RouteEdge> edges = edgesOf(v);
+        for(RouteEdge e : edges) {
+            int dist = 0;
+            if(!e.isVisited()) {
+                e.setVisited(true);
+                Vertex target = getEdgeTarget(e);
+                if(target.equals(v)) {
+                    target = getEdgeSource(e);
+                }
+                int callLength = (int) (getEdgeWeight(e));
+                dist = callLength + getLongestPathRec(target);
+                if(dist > max) {
+                    max = dist;
+                }
+                e.setVisited(false);
+            }
+        }
+        return max;
     }
 
 }

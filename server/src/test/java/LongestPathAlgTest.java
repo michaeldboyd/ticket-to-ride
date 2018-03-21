@@ -36,10 +36,10 @@ public class LongestPathAlgTest {
     public void testFullBoard() {
         Game game = getGame();
         for(Map.Entry<Route, Player> e : game.getRoutesClaimed().entrySet()) {
-            int player = new Random().nextInt(3);
+            int player = new Random().nextInt(2);
             e.setValue(game.getPlayers().get(player));
         }
-
+        
         game = LongestPathAlgorithm.update(game);
     }
 
