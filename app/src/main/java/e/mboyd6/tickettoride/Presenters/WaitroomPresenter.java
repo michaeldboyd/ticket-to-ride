@@ -52,8 +52,7 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
 
     @Override
     public boolean gameReady(){
-       // return ClientModel.getInstance().getCurrentGame().getPlayers().size() >= 2;
-        return true;
+       return ClientModel.getInstance().getCurrentGame().getPlayers().size() >= 2;
     }
 
     // Model -> View
@@ -108,9 +107,10 @@ public class WaitroomPresenter implements IWaitroomPresenter, Observer {
             case GAME_LEFT:
                 leaveGameResponse(args.error);
             case SERVER_DISCONNECT:
+                // FOR JONNY TO IMPLEMENT
+                // if server disconnects accidentally
                 leaveGameResponse(args.error);
             default:
-                //System.out.println("ENUM ERROR");
                 break;
         }
     }

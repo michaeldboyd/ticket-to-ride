@@ -216,7 +216,7 @@ public class ServerLobby implements IServerLobbyFacade {
         } else message = "Game doesn't exist.";
 
         if(!message.equals("")) {
-            Game game = null;
+            Game game = new Game();
             String[] paramTypes = {message.getClass().toString(), game.getClass().toString()};
             Object[] paramValues = {message, game};
             Command errorMessage = CommandFactory.createCommand(authToken, CLASS_NAME,

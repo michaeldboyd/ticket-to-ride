@@ -5,6 +5,8 @@ package e.mboyd6.tickettoride.Communication;
  */
 import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
+import com.example.sharedcode.communication.UpdateArgs;
+import com.example.sharedcode.model.UpdateType;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
@@ -13,6 +15,8 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.nio.ByteBuffer;
+
+import e.mboyd6.tickettoride.Model.ClientModel;
 
 public class SocketClient extends WebSocketClient {
 
@@ -32,6 +36,11 @@ public class SocketClient extends WebSocketClient {
     @Override
     public void onClose(int code, String reason, boolean remote) {
         System.out.println("closed with exit code " + code + " additional info: " + reason);
+        UpdateType type = UpdateType.SERVER_DISCONNECT;
+        boolean success = true;
+        String message = "Server was disconnected";
+        UpdateArgs args = new UpdateArgs(type, success, message);
+        ClientModel.getInstance().sendUpdate(args);
     }
 
     @Override

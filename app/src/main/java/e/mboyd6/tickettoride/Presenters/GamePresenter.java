@@ -348,6 +348,9 @@ public class GamePresenter implements IGamePresenter, Observer {
             case GAME_UPDATED:
                 updateBoard();
                 break;
+            case SERVER_DISCONNECT:
+                //TO JONNY, WITH LOVE, FROM MICHAEL <3
+                break;
         }
     }
 }
