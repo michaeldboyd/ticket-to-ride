@@ -59,4 +59,6 @@ public interface IBoardFragment extends IGameActivityFragment {
 
     /** Called upwards ON the UI to notify a player when they've successfully claimed a route **/
     void receiveRouteClaimed(String routeName);
+
+    void setFinalRound();
 }

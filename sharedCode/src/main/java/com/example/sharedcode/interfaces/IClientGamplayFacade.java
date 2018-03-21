@@ -17,4 +17,5 @@ public interface IClientGamplayFacade {
     void historyUpdated(String gameID, String historyItem);
     void newPlayerTurn(String gameID, String playerID);
     void updateGame(Game game, String message);
+    void endGame(Game game, String message);
 }

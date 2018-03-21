@@ -6,13 +6,12 @@ import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerGameplayFacade;
 import com.example.sharedcode.model.*;
-import sun.security.krb5.internal.crypto.Des;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class ServerGameplay implements IServerGameplayFacade {
     private static ServerGameplay ourInstance = new ServerGameplay();
+    private static ServerModel model = ServerModel.instance();
 
     public static ServerGameplay getInstance() {
         return ourInstance;
@@ -27,16 +26,17 @@ public class ServerGameplay implements IServerGameplayFacade {
         ourInstance.claimRoute(authToken, gameID, player, routesClaimed);
     }
 
-    public static void _updateTrainCards(String authToken, String gameID, String playerID) {
-        //ourInstance.drawTrainCards(authToken, gameID, playerID);
+    public static void _updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
+        ourInstance.updateTrainCards(authToken, gameID, player, faceUpDeck, trainCardDeck, trainDiscardDeck);
     }
 
-    public static void _updateDestinationCards(String authToken, String gameID, String playerID) {
-        //ourInstance.drawDestinationCard(authToken, gameID, playerID);
+    public static void _updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
+        ourInstance.updateDestinationCards(authToken, gameID, player, destinationDeck);
     }
 
     @Override
     public void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
+        //System.out.println("claimRoute called");
         String message = "";
 
         Game currentGame = null;
@@ -46,20 +46,25 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setRoutesClaimed(routesClaimed);
             currentGame.updatePlayer(player);
             currentGame.getHistory().add(player.getName() + " claimed a route.");
+            currentGame.checkFinalRound();
+
+            //This method will end the game if it is needed
             currentGame.changeTurnForGame();
         } else {
             message = "Game not found on server";
         }
 
-        String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {currentGame, message};
-        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
-                "_updateGame", paramTypes, paramValues);
-        SocketManager.instance().notifyPlayersInGame(gameID, command);
+        if(currentGame.isDone()) {
+            endGame(authToken, currentGame, message);
+        } else {
+            sendGameUpdate(authToken,currentGame, message);
+        }
     }
 
     @Override
     public void updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {
+        //System.out.println("updateTrainCards called");
+
         String message = "";
 
         Game currentGame = null;
@@ -71,20 +76,24 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setTrainCardDeck(trainCardDeck);
             currentGame.setTrainDiscardDeck(trainDiscardDeck);
             currentGame.getHistory().add(player.getName() + " drew train cards.");
+
+            //This method will end the game if it is needed
             currentGame.changeTurnForGame();
         } else {
             message = "Game not found on server";
         }
 
-        String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
-        Object[] paramValues = {currentGame, message};
-        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
-                "_updateGame", paramTypes, paramValues);
-        SocketManager.instance().notifyPlayersInGame(gameID, command);
+        if(currentGame.isDone()) {
+            endGame(authToken, currentGame, message);
+        } else {
+            sendGameUpdate(authToken,currentGame, message);
+        }
     }
 
     @Override
     public void updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
+       //System.out.println("updateDestCards called");
+
         String message = "";
 
         Game currentGame = null;
@@ -96,6 +105,8 @@ public class ServerGameplay implements IServerGameplayFacade {
 
             currentGame.updatePlayer(player);
             currentGame.setDestinationDeck(destinationDeck);
+
+            //This method will end the game if it is needed
             currentGame.changeTurnForGame();
 
             if(cardCount > 0)
@@ -106,12 +117,29 @@ public class ServerGameplay implements IServerGameplayFacade {
             message = "Game not found on server";
         }
 
+        if(currentGame.isDone()) {
+            endGame(authToken, currentGame, message);
+        } else {
+            sendGameUpdate(authToken,currentGame, message);
+        }
+    }
+
+    public void endGame(String authToken, Game currentGame, String message) {
+        String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {currentGame, message};
+        Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
+                "_endGame", paramTypes, paramValues);
+        SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
+    }
+
+    public void sendGameUpdate(String authToken, Game currentGame, String message) {
+        //System.out.println("sendGameUpdate called");
+
         String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {currentGame, message};
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_updateGame", paramTypes, paramValues);
-        SocketManager.instance().notifyPlayersInGame(gameID, command);
+        SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
     }
-
 }
 

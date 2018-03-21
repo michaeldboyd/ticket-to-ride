@@ -32,7 +32,7 @@
     <string name="title_activity_maps">Map</string>
 
 
-  <string name="style_ticket_to_ride">
+    <string name="style_ticket_to_ride">
 [
   {
     \"elementType\": \"geometry\",
@@ -554,26 +554,26 @@
   ]
   </string>
     <string name="autoplay">Autoplay</string>
-  <string name="claim_route">Claim Route</string>
+    <string name="claim_route">Claim Route</string>
     <string name="player">Player</string>
     <string name="draw_cards">Draw cards</string>
-  <string name="up_carat">^</string>
+    <string name="up_carat">^</string>
     <string name="x_0">x 0</string>
     <string name="x_45">x 45</string>
     <string name="default_route_text">Salt Lake City to Salt Lake City</string>
-  <string name="canvas_placeholder">***To be filled with a Canvas drawable that draws cities and lines***</string>
+    <string name="canvas_placeholder">***To be filled with a Canvas drawable that draws cities and lines***</string>
     <string name="select_train_cards_text_normal">Select up to two train cards from the face up cards</string>
-  <string name="select_train_cards_text_one_more">Select one more train card from the face up cards</string>
-  <string name="select_train_cards_text_locomotive_rules">Locomotive rules apply</string>
+    <string name="select_train_cards_text_one_more">Select one more train card from the face up cards</string>
+    <string name="select_train_cards_text_locomotive_rules">Locomotive rules apply</string>
     <string name="draw_destination_cards">Draw destination cards</string>
     <string name="draw_selected_cards">draw selected cards</string>
     <string name="claim_route_button_confirm">Confirm</string>
     <string name="claim_route_button_return">Return</string>
     <string name="server_on">Server On</string>
-  <string name="server_off">Server Off</string>
+    <string name="server_off">Server Off</string>
     <string name="points">Points</string>
-  <string name="trains">Trains</string>
-  <string name="cards">Cards</string>
-  <string name="routes">Routes</string>
+    <string name="trains">Trains</string>
+    <string name="cards">Cards</string>
+    <string name="routes">Routes</string>
 
 </resources>
