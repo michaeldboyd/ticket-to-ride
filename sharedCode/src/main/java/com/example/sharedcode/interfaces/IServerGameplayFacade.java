@@ -15,6 +15,7 @@ import java.util.Map;
  */
 
 public interface IServerGameplayFacade {
+    void discardDestinationCard(String authToken, String gameID, Player player, DestinationCard destinationCard);
     void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed);
     void updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck);
     void updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck);

@@ -221,7 +221,7 @@ public class GamePresenter implements IGamePresenter, Observer {
 
 
     @Override
-    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded) {
+    public void chooseDestinationCard(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
         // Tell the server that the client has chosen which destination cards to keep and which ones
         // to discard to the bottom of the deck
 
@@ -234,16 +234,15 @@ public class GamePresenter implements IGamePresenter, Observer {
             currentPlayer.setDestinationCards(chosen);
 
 
-                // Put the discarded cards at the bottom of the destination deck
+            // Put the discarded cards at the bottom of the destination deck
+            if (discarded != null) {
                 DestinationDeck destinationDeck = currentGame.getDestinationDeck();
-                for (DestinationCard card :
-                        discarded) {
-                    destinationDeck.returnDiscarded(card);
-                }
+                destinationDeck.returnDiscarded(discarded);
+            }
 
-                int index = currentGame.getPlayers().indexOf(currentPlayer);
+            int index = currentGame.getPlayers().indexOf(currentPlayer);
 
-                currentGame.getPlayers().get(index).getDestinationCards().addAll(chosen);
+            currentGame.getPlayers().get(index).getDestinationCards().addAll(chosen);
 
             // Update the score
             Player player = ClientModel.getInstance().getCurrentPlayer();

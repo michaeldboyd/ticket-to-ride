@@ -23,6 +23,10 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.ClientGameplay";
 
+    public static void _discardDestinationCard(String authToken, String gameID, Player player, DestinationCard destinationCard) {
+        ourInstance.discardDestinationCard(authToken, gameID, player, destinationCard);
+    }
+
     public static void _claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
         ourInstance.claimRoute(authToken, gameID, player, routesClaimed);
     }
@@ -33,6 +37,30 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     public static void _updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck) {
         ourInstance.updateDestinationCards(authToken, gameID, player, destinationDeck);
+    }
+
+
+
+    @Override
+    public void discardDestinationCard(String authToken, String gameID, Player player, DestinationCard destinationCard) {
+        String message = "";
+
+        Game currentGame = null;
+        if (ServerModel.instance().getGames().containsKey(gameID)) {
+            currentGame = ServerModel.instance().getGames().get(gameID);
+
+            currentGame.getDestinationDeck().returnDiscarded(destinationCard);
+            currentGame.updatePlayer(player);
+            currentGame.getHistory().add(player.getName() + " discarded 1" + " destination card.");
+        } else {
+            message = "Game not found on server";
+        }
+
+        if(currentGame.isDone()) {
+            endGame(authToken, currentGame, message);
+        } else {
+            sendGameUpdate(authToken,currentGame, message);
+        }
     }
 
     @Override
