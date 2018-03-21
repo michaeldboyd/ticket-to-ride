@@ -187,31 +187,43 @@ public class ServerLobby implements IServerLobbyFacade {
         if (ServerModel.instance().getGames().containsKey(gameID)) {
             Game game = ServerModel.instance().getGames().get(gameID);
             if (game.getPlayers() != null) {
-                // INITIALIZE GAME
-                GameInitializer gi = new GameInitializer();
-                game = gi.initializeGame(game);
+                if(!game.isStarted())
+                {
+                    // INITIALIZE GAME
+                    GameInitializer gi = new GameInitializer();
+                    game = gi.initializeGame(game);
+                    game.setStarted(true);
 
-                for (Player p :
-                        game.getPlayers()) {
-                    game.getHistory().add(p.getName() + " entered the game.");
-                }
+                    for (Player p :
+                            game.getPlayers()) {
+                        game.getHistory().add(p.getName() + " entered the game.");
+                    }
 
-                ServerModel.instance().getGames().put(gameID, game);
+                    ServerModel.instance().getGames().put(gameID, game);
 
-                //notify everyone in the lobby and in the waitroom of the changes.
-                tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
-                tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
-                SocketManager.instance().updateGameList(tokens);
+                    //notify everyone in the lobby and in the waitroom of the changes.
+                    tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
+                    tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
+                    SocketManager.instance().updateGameList(tokens);
 
-
-                String[] paramTypes = {message.getClass().toString(), game.getClass().toString()};
-                Object[] paramValues = {message, game};
-                Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
-                        "_startGameReceived", paramTypes, paramValues);
-
-                SocketManager.instance().notifyPlayersInGame(gameID, startGameClientCommand);
+                    String[] paramTypes = {message.getClass().toString(), game.getClass().toString()};
+                    Object[] paramValues = {message, game};
+                    Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
+                            "_startGameReceived", paramTypes, paramValues);
+                    SocketManager.instance().notifyPlayersInGame(gameID, startGameClientCommand);
+                } else message = "the game you're trying to start has already started!";
             } else message = "The server says no player exists in this game.";
         } else message = "Game doesn't exist.";
+
+        if(!message.equals("")) {
+            Game game = null;
+            String[] paramTypes = {message.getClass().toString(), game.getClass().toString()};
+            Object[] paramValues = {message, game};
+            Command errorMessage = CommandFactory.createCommand(authToken, CLASS_NAME,
+                    "_startGameReceived", paramTypes, paramValues);
+            ServerModel.instance().notifyObserversForUpdate(errorMessage);
+        }
+
     }
 
     @Override
