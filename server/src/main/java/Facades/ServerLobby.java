@@ -154,19 +154,19 @@ public class ServerLobby implements IServerLobbyFacade {
 
         Map<String, Game> games = ServerModel.instance().getGames();
         // This returns false if playerID is not part of game
-        if (!games.get(gameID).removePlayer(playerID)) {
-            message = "Could not remove player because is not in the game";
-        }
-        String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
-        User user = ServerModel.instance().getLoggedInUsers().get(usnm);
-        ServerModel.instance().getUsersInLobby().put(user.getUsername(), user);
-        Game game = games.get(gameID);
-        //remove the game if there are no more players
-        if (game != null && game.getPlayers() != null && game.getPlayers().size() == 0) {
-            games.remove(gameID);
-        }
-        ServerModel.instance().setGames(games);
+        if (games.get(gameID).removePlayer(playerID)) {
+            String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
+            User user = ServerModel.instance().getLoggedInUsers().get(usnm);
+            if(user != null) { // check in case socket connection closes.
+                ServerModel.instance().getUsersInLobby().put(user.getUsername(), user);
+            }
+            Game game = games.get(gameID);
+            if (game != null && game.getPlayers() != null && game.getPlayers().size() == 0) {
+                games.remove(gameID);
+            }
+        } else message = "Could not remove player because is not in the game";
 
+        ServerModel.instance().setGames(games);
         String[] paramTypes = {gameID.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {gameID, message};
 
@@ -174,7 +174,6 @@ public class ServerLobby implements IServerLobbyFacade {
                 "_leaveGameReceived", paramTypes, paramValues);
 
         ServerModel.instance().notifyObserversForUpdate(leaveGameClientCommand);
-
         Collection<String> tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
         tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
         SocketManager.instance().updateGameList(tokens);
