@@ -1,6 +1,7 @@
 package Facades;
 
 import Communication.SocketManager;
+import Model.LongestPathAlgorithm;
 import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
@@ -44,6 +45,9 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame = ServerModel.instance().getGames().get(gameID);
 
             currentGame.setRoutesClaimed(routesClaimed);
+            // maybe put this line into the end game function if it ends up taking too long.
+            currentGame = LongestPathAlgorithm.update(currentGame);
+
             currentGame.updatePlayer(player);
             currentGame.getHistory().add(player.getName() + " claimed a route.");
             currentGame.checkFinalRound();

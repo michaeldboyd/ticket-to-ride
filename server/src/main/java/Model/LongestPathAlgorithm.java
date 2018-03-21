@@ -32,9 +32,9 @@ public class LongestPathAlgorithm {
         //set who has the overall longest path
         for(Player player : game.getPlayers()) {
             if(lpPlayer.equals(player.getName())) {
-                player.setHasLongestPath(true);
+                player.setLongestPath(true);
             } else {
-                player.setHasLongestPath(false);
+                player.setLongestPath(false);
             }
         }
         return game;

@@ -46,12 +46,16 @@ public class LongestPathAlgTest {
     @Test
     public void testFullBoardSinglePlayer() {
         Game game = getGame();
+        int count = 45;
         for(Map.Entry<Route, Player> e : game.getRoutesClaimed().entrySet()) {
             e.setValue(game.getPlayers().get(0));
+            count--;
+            if(count == 0)
+                break;
         }
         game = LongestPathAlgorithm.update(game);
 
-        Assert.assertTrue(game.getPlayers().get(0).isHasLongestPath());
+        Assert.assertTrue(game.getPlayers().get(0).hasLongestPath());
     }
 
     @Test
