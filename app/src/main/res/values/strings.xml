@@ -575,5 +575,6 @@
     <string name="trains">Trains</string>
     <string name="cards">Cards</string>
     <string name="routes">Routes</string>
+    <string name="back_to_lobby">Back to Lobby</string>
 
 </resources>

@@ -1,9 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="e.mboyd6.tickettoride.Views.Activities.VictoryActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="bottom"
+    android:background="@color/blue"
+    tools:context="e.mboyd6.tickettoride.Views.Activities.VictoryActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/game_fragment_claim_route_button"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_green_bg"
+        android:drawableStart="@drawable/back_arrow"
+        android:fontFamily="@font/dense"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:text="@string/back_to_lobby"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+
+    <ImageView
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:src="@drawable/victory_screen_render"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="H,16:9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+
+        <!-- First layer -->
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_player1_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6325" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_player1_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.425" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_player1_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.535" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/color_charcoal"
+            app:layout_constraintStart_toEndOf="@id/guideline_player1_left"
+            app:layout_constraintEnd_toStartOf="@id/guideline_player1_right"
+            app:layout_constraintTop_toBottomOf="@id/guideline_player1_top"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        </LinearLayout>
+
+        <!-- First layer -->
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_player_2_3_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.665" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_player2_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2975" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline_player2_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3925" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/color_charcoal"
+            app:layout_constraintStart_toEndOf="@id/guideline_player2_left"
+            app:layout_constraintEnd_toStartOf="@id/guideline_player2_right"
+            app:layout_constraintTop_toBottomOf="@id/guideline_player_2_3_top"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
