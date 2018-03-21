@@ -99,6 +99,9 @@ public class ChatPresenter implements IChatPresenter, Observer {
             case TYPING_UPDATED:
                 isTypingUpdated();
                 break;
+            case SERVER_DISCONNECT:
+                //TO JONNY, WITH LOVE, FROM MICHAEL <3
+                break;
             default:
                 //System.out.println("ENUM ERROR");
                 break;
