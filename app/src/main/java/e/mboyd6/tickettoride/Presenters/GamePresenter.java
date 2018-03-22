@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
+import e.mboyd6.tickettoride.Facades.ClientGameplay;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
@@ -206,6 +208,10 @@ public class GamePresenter implements IGamePresenter, Observer {
             ClientModel.getInstance().getCurrentPlayer().getDestinationCards().removeAll(discardedCards);
             String myName = ClientModel.getInstance().getPlayerName();
             ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " discarded " + discardedCards.size() + " destination cards.");
+            //GameplayProxy.getInstance().discardDestinationCard(
+                //    ClientModel.getInstance().getAuthToken(), ClientModel.getInstance().getCurrentGame().getGameID(),
+              //      ClientModel.getInstance().getCurrentPlayer()
+            //);
         }
     }
 
