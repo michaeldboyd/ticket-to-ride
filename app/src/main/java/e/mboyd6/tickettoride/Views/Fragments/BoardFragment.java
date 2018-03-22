@@ -341,6 +341,7 @@ public class BoardFragment extends Fragment implements
             return;
         latestLoadedGame = game;
         ArrayList<Player> players = game.getPlayers();
+        onUpdateTurn(game.getCurrentTurnPlayerName());
 
         mMap.clear();
         mBoardState.drawRoutesAndCities(this, mMap, game, mGamePresenter.getCurrentPlayerObject());
@@ -361,7 +362,7 @@ public class BoardFragment extends Fragment implements
 
     @Override
     public void onUpdateTurn(String pT) {
-        final String playerTurn = pT == null ? "" : pT;
+        final String playerTurn = (pT == null) ? "" : pT;
         if (!isAdded())
             return;
         getActivity().runOnUiThread(new Runnable() {

@@ -336,6 +336,7 @@ public class GamePresenter implements IGamePresenter, Observer {
                 gameFinished();
                 break;
             case NEW_PLAYER_TURN: // TODO: What is this?
+                // NOTE: this is no longer used... We go through the Game_updated enum now.
                 onUpdateTurn();
                 break;
             case GAME_INITIALIZED:
