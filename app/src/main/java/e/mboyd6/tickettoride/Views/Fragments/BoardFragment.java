@@ -341,7 +341,6 @@ public class BoardFragment extends Fragment implements
             return;
         latestLoadedGame = game;
         ArrayList<Player> players = game.getPlayers();
-        onUpdateTurn(game.getCurrentTurnPlayerName());
 
         mMap.clear();
         mBoardState.drawRoutesAndCities(this, mMap, game, mGamePresenter.getCurrentPlayerObject());
