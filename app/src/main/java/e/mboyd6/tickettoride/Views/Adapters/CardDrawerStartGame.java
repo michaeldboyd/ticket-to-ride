@@ -72,14 +72,14 @@ public class CardDrawerStartGame extends CardDrawerState {
         TextView destinationCard3Name = destinationCard3.findViewById(R.id.destination_name_value);
         names.add(destinationCard3Name);
         TextView destinationCard3Value = destinationCard3.findViewById(R.id.destination_amount_value);
-        names.add(destinationCard3Value);
+        values.add(destinationCard3Value);
 
-        if (destinationCards.size() >= 3) {
+        for(int i = 0; i < destinationCards.size(); i++) {
 
-            names.get(0).setText(String.format("%s to %s", destinationCards.get(0).getStartCity(), destinationCards.get(0).getEndCity()));
-            names.get(1).setText(String.format("%s to %s", destinationCards.get(1).getStartCity(), destinationCards.get(1).getEndCity()));
-            names.get(2).setText(String.format("%s to %s", destinationCards.get(1).getStartCity(), destinationCards.get(2).getEndCity()));
+            names.get(i).setText(String.format("%s to %s", destinationCards.get(i).getStartCity(), destinationCards.get(0).getEndCity()));
+            values.get(i).setText(String.valueOf(destinationCards.get(i).getPoints()));
         }
+
         for(int i = 0; i < destinationCardViews.size(); i++) {
             final int i_final = i;
             destinationCardViews.get(i).setOnClickListener(new View.OnClickListener() {
@@ -125,7 +125,6 @@ public class CardDrawerStartGame extends CardDrawerState {
             selectedCards.remove(index);
         }
         reDrawUI();
-        //Toast.makeText(context, "Destination card selected: " + index, Toast.LENGTH_SHORT).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
