@@ -111,10 +111,13 @@ public class HandFragment extends Fragment implements IHandFragment {
 
         for(TextView textView : mTrainCardsText) {
             textView.setVisibility(View.INVISIBLE);
+            String textViewText = "x 0";
+            textView.setText(textViewText);
         }
 
         mTrainsText = mLayout.findViewById(R.id.hand_fragment_trains_text);
-        mTrainsText.setVisibility(View.INVISIBLE);
+        mTrainsText.setText("");
+        mTrainsText.setVisibility(View.VISIBLE);
 
         mGamePresenter.updateBoard();
         return mLayout;
