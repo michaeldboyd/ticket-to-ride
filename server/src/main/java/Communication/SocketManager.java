@@ -65,7 +65,7 @@ public class SocketManager implements Observer {
             remote.sendString(resp);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("WARNING: " + e.getMessage());
             return false;
         }
     }
@@ -76,7 +76,7 @@ public class SocketManager implements Observer {
      * @pre command != null
      * @post returns true if the command sent correctly. false if not.
      * @param command - the command to be send
-     * @param id - the socket ID that the command should be sent to.
+     *
      */
     public boolean sendBySocketId(Command command, String id) {
         Map args = new HashMap();
@@ -203,7 +203,14 @@ public class SocketManager implements Observer {
             return;
         }
         Command command = (Command)arg;
-        Session sess = ServerModel.instance().getLoggedInSessions().get(command.get_authToken());
-        _instance.sendCommand(command, sess);
+        if(ServerModel.instance().getLoggedInSessions().containsKey(command.get_authToken())) {
+            Session sess = ServerModel.instance().getLoggedInSessions().get(command.get_authToken());
+            _instance.sendCommand(command, sess);
+        } else {
+            Exception e = new Exception("There is no one logged in with that authtoken. Their socket " +
+                    "connection might have closed");
+            System.out.println(e.getMessage());
+        }
+
     }
 }

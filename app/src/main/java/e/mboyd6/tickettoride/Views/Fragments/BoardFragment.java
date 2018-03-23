@@ -307,7 +307,7 @@ public class BoardFragment extends Fragment implements
         if (getArguments() != null && getArguments().getBoolean("START_GAME", false)) {
             setCardDrawerState(new CardDrawerStartGame());
         }
-        setGamePresenterState(new GamePresenterServerOff(this));
+        setGamePresenterState(new GamePresenterServerOn(this));
         mGamePresenter.updateBoard();
         mGamePresenter.onUpdateTurn();
     }
@@ -361,7 +361,7 @@ public class BoardFragment extends Fragment implements
 
     @Override
     public void onUpdateTurn(String pT) {
-        final String playerTurn = pT == null ? "" : pT;
+        final String playerTurn = (pT == null) ? "" : pT;
         if (!isAdded())
             return;
         getActivity().runOnUiThread(new Runnable() {
@@ -527,5 +527,10 @@ public class BoardFragment extends Fragment implements
             ((IGameActivity) getActivity()).setUiLocked(locked);
             uiLocked = locked;
         }
+    }
+
+    @Override
+    public void setFinalRound(){
+        //TODO: Hunter, implement the UI to respond to this current turn being the final one
     }
 }

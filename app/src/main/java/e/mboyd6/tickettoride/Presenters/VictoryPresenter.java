@@ -44,6 +44,9 @@ public class VictoryPresenter implements IVictoryPresenter, Observer {
             case VICTORY_READY:
                 loadScreen();
                 break;
+            case SERVER_DISCONNECT:
+                //TO JONNY, WITH LOVE, FROM MICHAEL <3
+                break;
             default:
                 break;
         }

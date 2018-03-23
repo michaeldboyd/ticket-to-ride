@@ -130,16 +130,17 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onSelectDestinationCards() {
         ArrayList<DestinationCard> chosen = new ArrayList<>();
-        ArrayList<DestinationCard> discarded = new ArrayList<>();
+        DestinationCard discarded = null;
 
         for(int i = 0; i < destinationCards.size(); i++) {
             if (selectedCards.contains(i))
                 chosen.add(destinationCards.get(i));
             else
-                discarded.add(destinationCards.get(i));
+                discarded = destinationCards.get(i);
         }
+
         if (selectedCards.size() >= 1) {
-            gamePresenter.chooseDestinationCards(chosen, discarded);
+            gamePresenter.chooseDestinationCard(chosen, discarded);
             boardFragment.completeTurn();
             boardFragment.setCardDrawerState(new CardDrawerIdle());
         }

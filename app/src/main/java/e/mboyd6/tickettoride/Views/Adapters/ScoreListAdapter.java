@@ -16,27 +16,32 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 import e.mboyd6.tickettoride.Views.Fragments.ScoreFragment;
 
 /**
- * Created by hunte on 2/8/2018.
+ * Class which inflates the instances of the Score object
  */
 
 public class ScoreListAdapter extends ArrayAdapter<Player> {
-    private final Context context;
-    private final ScoreFragment scoreFragment;
-    private int position;
-    private View convertView;
-    private ViewGroup parent;
 
+    /**
+     * @pre context != null
+     * @pre players != null
+     * @pre scoreFragment != null
+     * @param context The gameActivity that gets passed in through the fragment
+     * @param players A list of the players whose scores we wish to display
+     * @param scoreFragment The score fragment that initialized the list
+     */
     public ScoreListAdapter(Context context, ArrayList<Player> players, ScoreFragment scoreFragment) {
         super(context, 0, players);
-        this.context = context;
-        this.scoreFragment = scoreFragment;
+        /*
+      The context which is passed in from the Fragment. Should be the GameActivity.
+     */
+        Context context1 = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        this.position = position;
-        this.convertView = convertView;
-        this.parent = parent;
+        int position1 = position;
+        View convertView1 = convertView;
+        ViewGroup parent1 = parent;
 
         // Get the data item for this position
         final Player player = getItem(position);

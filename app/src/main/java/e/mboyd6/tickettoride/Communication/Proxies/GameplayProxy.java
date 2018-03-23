@@ -4,6 +4,7 @@ import com.cedarsoftware.util.io.JsonWriter;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerGameplayFacade;
+import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.FaceUpDeck;
 import com.example.sharedcode.model.Player;
@@ -45,6 +46,16 @@ public class GameplayProxy implements IServerGameplayFacade {
     private GameplayProxy() {args.put(JsonWriter.TYPE, true);
     }
 
+
+    @Override
+    public void discardDestinationCard(String authToken, String gameID, Player player, DestinationCard destinationCard) {
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(), destinationCard.getClass().toString()};
+        Object[] paramValues = {authToken, gameID, player, destinationCard};
+
+        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_discardDestinationCard", paramTypes, paramValues);
+
+        SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
+    }
 
     /**
      *

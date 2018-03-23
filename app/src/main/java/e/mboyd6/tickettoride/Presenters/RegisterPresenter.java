@@ -120,6 +120,7 @@ public class RegisterPresenter implements IRegisterPresenter, Observer {
                 registerResponse(args.error);
                 break;
             case SERVER_DISCONNECT:
+                //MAKE SURE TO NOTIFY IF SERVER DISCONNECTS
                 registerResponse(args.error);
             default:
                 break;

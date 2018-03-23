@@ -115,17 +115,17 @@ public class GamePresenterServerOn extends GamePresenter {
     }
 
     @Override
-    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded) {
-        super.chooseDestinationCards(chosen, discarded);
-        // Tell the server that the client has chosen which destination cards to keep and which ones
-        // to discard to the bottom of the deck
+    public void chooseDestinationCard(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
+        super.chooseDestinationCard(chosen, discarded);
+        // Only tell the Server to discard a card if there is one
+        if (discarded != null) {
 
-        Game currentGame = ClientModel.getInstance().getCurrentGame();
-        Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
-        DestinationDeck destinationDeck = currentGame.getDestinationDeck();
+            Game currentGame = ClientModel.getInstance().getCurrentGame();
+            Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
 
-        String authToken = ClientModel.getInstance().getAuthToken();
-        //GameplayProxy.getInstance().updateDestinationCards(authToken, currentGame.getGameID(), currentPlayer, destinationDeck);
+            String authToken = ClientModel.getInstance().getAuthToken();
+            GameplayProxy.getInstance().discardDestinationCard(authToken, currentGame.getGameID(), currentPlayer, discarded);
+        }
     }
 
     @Override
@@ -136,7 +136,7 @@ public class GamePresenterServerOn extends GamePresenter {
         Game currentGame = ClientModel.getInstance().getCurrentGame();
         Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
 
-        //GameplayProxy.getInstance().claimRoute(authToken, currentGame.getGameID(), currentPlayer, currentGame.getRoutesClaimed());
+        GameplayProxy.getInstance().claimRoute(authToken, currentGame.getGameID(), currentPlayer, currentGame.getRoutesClaimed());
     }
 
     @Override

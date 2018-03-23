@@ -1,6 +1,7 @@
 package Communication;
 
 import Facades.ServerUtility;
+import Model.ServerModel;
 import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
@@ -52,6 +53,7 @@ public class CommandSocket implements WebSocketListener
     public void onWebSocketBinary(byte[] payload, int offset, int len) {}
     @Override
     public void onWebSocketClose(int statusCode, String reason) {
+         ServerModel.instance().cleanSessions();
     }
 
     /**

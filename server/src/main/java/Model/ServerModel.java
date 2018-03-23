@@ -1,6 +1,7 @@
 package Model;
 
 import Communication.SocketManager;
+import Facades.ServerLobby;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.model.*;
 import com.example.sharedcode.communication.Command;
@@ -16,9 +17,7 @@ import java.util.*;
 
 public class ServerModel extends Observable {
 
-    private static ServerModel _instance;
-    private String testPassword = "thisisoursupersecrettestpassword";
-
+    private static volatile ServerModel _instance;
 
 
     public static ServerModel instance() {
@@ -33,15 +32,15 @@ public class ServerModel extends Observable {
 
     private ServerModel() {}
     //User Info
-    private Map<String, User> loggedInUsers = new HashMap<>(); // <username, User>
-    private Map<String, User> allUsers = new HashMap<>(); // <username, User>
-    private Map<String, String> authTokenToUsername = new HashMap<>(); // <authToken, username>
-    private Map<String, User> usersInLobby = new HashMap<String, User>();
-    private Map<String, Game> startedGames = new HashMap<>();
+    private Map<String, User> loggedInUsers = Collections.synchronizedMap(new HashMap<>()); // <username, User>
+    private Map<String, User> allUsers = Collections.synchronizedMap(new HashMap<>()); // <username, User>
+    private Map<String, String> authTokenToUsername = Collections.synchronizedMap(new HashMap<>()); // <authToken, username>
+    private Map<String, User> usersInLobby = Collections.synchronizedMap(new HashMap<>());
+    private Map<String, Game> startedGames = Collections.synchronizedMap(new HashMap<>());
 
     //Game list
-    private Map<String, Game> games = new HashMap<>(); // <gameID, Game>
-    private Map<String, ArrayList<ChatMessage>> chatMessagesForGame = new HashMap<>(); // <gameID, ChatMessage[]>
+    private Map<String, Game> games = Collections.synchronizedMap(new HashMap<>()); // <gameID, Game>
+    private Map<String, ArrayList<ChatMessage>> chatMessagesForGame = Collections.synchronizedMap(new HashMap<>()); // <gameID, ChatMessage[]>
 
 
     //this static map keeps track of all open websockets
@@ -88,7 +87,8 @@ public class ServerModel extends Observable {
         return allSessions;
     }
     public String getTestPassword() {
-        return testPassword;
+        return "thisisoursupersecrettestpassword";
+
     }
     public Map<String, ArrayList<ChatMessage>> getChatMessagesForGame() {
         return chatMessagesForGame;
@@ -112,5 +112,47 @@ public class ServerModel extends Observable {
         return tokens;
     }
 
-
+    /**
+     * This function exists to handle websocket disconnect errors. Whenever a websocket closes, this
+     * function will go through the relevant server model objects to remove the client that has been disconnected
+     * from the server. Normally this functionality will be covered by the server logic during standard use, but in
+     * case of an error, this fucntion will clean the the client from the data and from any game it was in.
+     */
+    public void cleanSessions() {
+        try {
+            //clear all sessions
+            for(Map.Entry<String, Session> e : allSessions.entrySet()) {
+                if(e.getValue() == null || !(e.getValue().isOpen())) {
+                    allSessions.remove(e.getKey());
+                    break;
+                }
+            }
+            //clear logged in sessions and server model data
+            for(Map.Entry<String, Session> e : loggedInSessions.entrySet()) {
+                String token = e.getKey();
+                String username = authTokenToUsername.get(token);
+                if(e.getValue() == null || !(e.getValue().isOpen())) {
+                    //check the games for an instance of the client.
+                    loggedInSessions.remove(token);
+                    loggedInUsers.remove(username);
+                    authTokenToUsername.remove(token);
+                    usersInLobby.remove(username);
+                    for(Game g : games.values()) {
+                        int i = 0;
+                        for(Player p : g.getPlayers()) {
+                            if (p.getName().equals(username)) {
+                                // if the player was still in a game when his client got killed, remove him and notify
+                                // the others in the game.
+                                ServerLobby.instance().leaveGame(token, g.getGameID(), p.getPlayerID());
+                                break;
+                            } i++;
+                        }
+                    }
+                }
+            }
+            System.out.println("Successfully cleaned all sessions of closed session.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

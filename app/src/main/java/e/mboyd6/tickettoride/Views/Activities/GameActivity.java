@@ -28,6 +28,7 @@ import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.PlayerColors;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import e.mboyd6.tickettoride.Communication.SocketManager;
@@ -193,5 +194,10 @@ public class GameActivity extends AppCompatActivity
     @Override
     public void setUiLocked(boolean uiLocked) {
         this.uiLocked = uiLocked;
+    }
+
+    @Override
+    public void changeToVictoryActivity(List<Player> playerListByScore){
+        //TODO: HUNTER, close this activity and open the VictoryActivity
     }
 }

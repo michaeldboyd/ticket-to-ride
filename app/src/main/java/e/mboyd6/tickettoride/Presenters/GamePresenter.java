@@ -15,15 +15,19 @@ import com.example.sharedcode.model.TrainCardDeck;
 
 import junit.framework.Assert;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
 import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
+import e.mboyd6.tickettoride.Facades.ClientGameplay;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
+import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivityFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IHandFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IHistoryFragment;
@@ -204,6 +208,10 @@ public class GamePresenter implements IGamePresenter, Observer {
             ClientModel.getInstance().getCurrentPlayer().getDestinationCards().removeAll(discardedCards);
             String myName = ClientModel.getInstance().getPlayerName();
             ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " discarded " + discardedCards.size() + " destination cards.");
+            //GameplayProxy.getInstance().discardDestinationCard(
+                //    ClientModel.getInstance().getAuthToken(), ClientModel.getInstance().getCurrentGame().getGameID(),
+              //      ClientModel.getInstance().getCurrentPlayer()
+            //);
         }
     }
 
@@ -219,7 +227,7 @@ public class GamePresenter implements IGamePresenter, Observer {
 
 
     @Override
-    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded) {
+    public void chooseDestinationCard(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
         // Tell the server that the client has chosen which destination cards to keep and which ones
         // to discard to the bottom of the deck
 
@@ -232,16 +240,15 @@ public class GamePresenter implements IGamePresenter, Observer {
             currentPlayer.setDestinationCards(chosen);
 
 
-                // Put the discarded cards at the bottom of the destination deck
+            // Put the discarded cards at the bottom of the destination deck
+            if (discarded != null) {
                 DestinationDeck destinationDeck = currentGame.getDestinationDeck();
-                for (DestinationCard card :
-                        discarded) {
-                    destinationDeck.returnDiscarded(card);
-                }
+                destinationDeck.returnDiscarded(discarded);
+            }
 
-                int index = currentGame.getPlayers().indexOf(currentPlayer);
+            int index = currentGame.getPlayers().indexOf(currentPlayer);
 
-                currentGame.getPlayers().get(index).getDestinationCards().addAll(chosen);
+            currentGame.getPlayers().get(index).getDestinationCards().addAll(chosen);
 
             // Update the score
             Player player = ClientModel.getInstance().getCurrentPlayer();
@@ -308,15 +315,47 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
+    public void finalRound(){
+        if(gameActivityFragment instanceof IBoardFragment){
+            ((IBoardFragment) gameActivityFragment).setFinalRound();
+        }
+    }
+
+    @Override
+    public void gameFinished(){
+        List<Player> playerListByScore = ClientModel.getInstance().getCurrentGame().getPlayerListByScore();
+
+        ((IGameActivity) gameActivityFragment).changeToVictoryActivity(playerListByScore);
+    }
+
+    @Override
     public void update(Observable observable, Object o) {
 
         Assert.assertEquals(o.getClass(), UpdateArgs.class);
         UpdateArgs args = (UpdateArgs) o;
 
         switch(args.type){
-            case LAST_TURN:
+            case FINAL_ROUND:
+                finalRound();
                 break;
             case GAME_DONE:
+                gameFinished();
+                break;
+            case NEW_PLAYER_TURN: // TODO: What is this?
+                // NOTE: this is no longer used... We go through the Game_updated enum now.
+                onUpdateTurn();
+                break;
+            case GAME_INITIALIZED:
+                // This is called every time someone takes a turn (client --> server --> all clients)
+                // So update the board and current turn
+                updateBoard();
+                onUpdateTurn();
+                break;
+            case GAME_UPDATED:
+                updateBoard();
+                break;
+            case SERVER_DISCONNECT:
+                //TO JONNY, WITH LOVE, FROM MICHAEL <3
                 break;
         }
     }

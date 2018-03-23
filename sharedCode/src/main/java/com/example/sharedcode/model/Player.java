@@ -1,6 +1,5 @@
 package com.example.sharedcode.model;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +23,8 @@ public class Player {
         hand = map;
     }
 
+    private boolean hasLongestPath = false;
+    private int longestPath = 0;
     private String playerID;
     private String name;
     private int color;
@@ -31,6 +32,22 @@ public class Player {
     private ArrayList<DestinationCard> destinationCards = new ArrayList<>();
     private int trains = START_TRAINS;
     private Score score = new Score();
+
+    public boolean hasLongestPath() {
+        return hasLongestPath;
+    }
+
+    public void setLongestPath(boolean hasLongestPath) {
+        this.hasLongestPath = hasLongestPath;
+    }
+
+    public int getLongestPath() {
+        return longestPath;
+    }
+
+    public void setLongestPath(int longestPath) {
+        this.longestPath = longestPath;
+    }
 
     public String getPlayerID() {
         return playerID;

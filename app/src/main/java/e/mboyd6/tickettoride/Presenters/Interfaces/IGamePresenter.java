@@ -46,7 +46,7 @@ public interface IGamePresenter {
     ArrayList<DestinationCard> drawDestinationCards();
 
     /** Called DOWNWARDS from Presenter **/
-    void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded);
+    void chooseDestinationCard(ArrayList<DestinationCard> chosen, DestinationCard discarded);
 
     /** Called DOWNWARDS from Presenter **/
     void claimRoute(Route route);
@@ -60,4 +60,8 @@ public interface IGamePresenter {
     Player getCurrentPlayerObject();
 
     boolean isMyTurn();
+
+    void finalRound();
+
+    void gameFinished();
 }
