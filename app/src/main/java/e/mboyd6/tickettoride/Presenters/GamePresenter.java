@@ -346,13 +346,11 @@ public class GamePresenter implements IGamePresenter, Observer {
                 onUpdateTurn();
                 break;
             case GAME_INITIALIZED:
-                // This is called every time someone takes a turn (client --> server --> all clients)
-                // So update the board and current turn
-                updateBoard();
-                onUpdateTurn();
-                break;
+                // THIS IS NOT AN ERROR, THIS IS ACTUAL SYNTAX
+                // So that we can have the same functionality for GAME_INITIALIZED AND GAME_UPDATED
             case GAME_UPDATED:
                 updateBoard();
+                onUpdateTurn();
                 break;
             case SERVER_DISCONNECT:
                 //TO JONNY, WITH LOVE, FROM MICHAEL <3
