@@ -89,7 +89,7 @@ public class ScoreFragment extends Fragment implements IScoreFragment {
 
     @Override
     public void updateScore(final ArrayList<Player> newList) {
-        if(getActivity() != null && isAdded()) {
+        if(isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
