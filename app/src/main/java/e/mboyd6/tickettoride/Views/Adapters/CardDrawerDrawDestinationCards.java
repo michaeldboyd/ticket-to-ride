@@ -142,7 +142,7 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
         }
 
         if (selectedCards.size() >= 1) {
-            gamePresenter.chooseDestinationCard(chosen, discarded);
+            gamePresenter.chooseDestinationCards(chosen, discarded);
             boardFragment.completeTurn();
             boardFragment.setCardDrawerState(new CardDrawerIdle());
         }

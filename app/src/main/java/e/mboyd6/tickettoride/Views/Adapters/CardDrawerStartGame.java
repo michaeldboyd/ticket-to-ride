@@ -139,7 +139,7 @@ public class CardDrawerStartGame extends CardDrawerState {
                 discarded = destinationCards.get(i);
         }
         if (selectedCards.size() >= 2) {
-            gamePresenter.chooseDestinationCard(chosen, discarded);
+            gamePresenter.chooseDestinationCards(chosen, discarded);
             boardFragment.completeTurn();
             if (gamePresenter.isMyTurn()) {
                 boardFragment.setCardDrawerState(new CardDrawerDrawTrainCards());

@@ -89,7 +89,7 @@ public class Autoplayer {
                 break;
             case 4:
                 ArrayList<DestinationCard> results = presenter.drawDestinationCards();
-                presenter.chooseDestinationCard(results, results.remove(2));
+                presenter.chooseDestinationCards(results, results.remove(2));
 
                 stepText = "Step " + step + " - Drew 3 destination cards.\n" +
                         "Kept 2\n" +
