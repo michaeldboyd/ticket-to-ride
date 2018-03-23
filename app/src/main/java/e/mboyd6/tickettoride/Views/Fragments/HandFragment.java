@@ -111,10 +111,13 @@ public class HandFragment extends Fragment implements IHandFragment {
 
         for(TextView textView : mTrainCardsText) {
             textView.setVisibility(View.INVISIBLE);
+            String textViewText = "x 0";
+            textView.setText(textViewText);
         }
 
         mTrainsText = mLayout.findViewById(R.id.hand_fragment_trains_text);
-        mTrainsText.setVisibility(View.INVISIBLE);
+        mTrainsText.setText("");
+        mTrainsText.setVisibility(View.VISIBLE);
 
         mGamePresenter.updateBoard();
         return mLayout;
@@ -139,32 +142,37 @@ public class HandFragment extends Fragment implements IHandFragment {
     }
 
     @Override
-    public void updateHand(Player player) {
+    public void updateHand(final Player player) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mDestinationCardAdapter.clear();
+                mDestinationCardAdapter.addAll(player.getDestinationCards());
 
-        mDestinationCardAdapter.clear();
-        mDestinationCardAdapter.addAll(player.getDestinationCards());
+                for(ImageView imageView : mTrainCardsImages) {
+                    imageView.setAlpha(0.5f);
+                }
 
-        for(ImageView imageView : mTrainCardsImages) {
-            imageView.setAlpha(0.5f);
-        }
+                for(TextView textView : mTrainCardsText) {
+                    textView.setVisibility(View.INVISIBLE);
+                }
 
-        for(TextView textView : mTrainCardsText) {
-            textView.setVisibility(View.INVISIBLE);
-        }
+                Map<Integer, Integer> hand = player.getHand();
 
-        Map<Integer, Integer> hand = player.getHand();
+                for(int i : hand.keySet()) {
+                    if (hand.get(i) != null & hand.get(i) > 0) {
+                        mTrainCardsImages.get(i).setAlpha(1f);
+                        String trainCardText = "x " + hand.get(i);
+                        mTrainCardsText.get(i).setText(trainCardText);
+                        mTrainCardsText.get(i).setVisibility(View.VISIBLE);
+                    }
+                }
 
-        for(int i : hand.keySet()) {
-            if (hand.get(i) != null & hand.get(i) > 0) {
-                mTrainCardsImages.get(i).setAlpha(1f);
-                String trainCardText = "x " + hand.get(i);
-                mTrainCardsText.get(i).setText(trainCardText);
-                mTrainCardsText.get(i).setVisibility(View.VISIBLE);
+                String trainsText = "x " + player.getTrains();
+                mTrainsText.setText(trainsText);
+                mTrainsText.setVisibility(View.VISIBLE);
             }
-        }
+        });
 
-        String trainsText = "x " + player.getTrains();
-        mTrainsText.setText(trainsText);
-        mTrainsText.setVisibility(View.VISIBLE);
     }
 }
