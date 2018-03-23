@@ -3,11 +3,15 @@ package e.mboyd6.tickettoride.Views.Activities;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import e.mboyd6.tickettoride.Presenters.VictoryPresenter;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.IVictoryActivity;
 
 
 public class VictoryActivity extends AppCompatActivity implements IVictoryActivity {
+
+    VictoryPresenter mVictoryPresenter = new VictoryPresenter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
