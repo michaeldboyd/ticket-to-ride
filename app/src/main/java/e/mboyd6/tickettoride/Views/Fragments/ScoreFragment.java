@@ -89,17 +89,22 @@ public class ScoreFragment extends Fragment implements IScoreFragment {
 
     @Override
     public void updateScore(final ArrayList<Player> newList) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //Update current game list with newList
-                if (mScoreListAdapter != null) {
-                    mScoreListAdapter.clear();
-                    mScoreListAdapter.addAll(newList);
-                    mScoreListAdapter.notifyDataSetChanged();
+        if(getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //Update current game list with newList
+                    if (mScoreListAdapter != null) {
+                        mScoreListAdapter.clear();
+                        mScoreListAdapter.addAll(newList);
+                        mScoreListAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            Exception e = new Exception("Activity is null in the update score method");
+            e.printStackTrace();;
+        }
     }
 
 
