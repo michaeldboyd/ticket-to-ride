@@ -116,12 +116,10 @@ public class ChatFragment extends Fragment implements IChatFragment {
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString()) && s.toString().trim().length() == 1) {
                     typingChanged(true);
-                    mTypingStarted = true;
 
-                } else if (s.toString().trim().length() == 0 && mTypingStarted) {
+                } else if (s.toString().trim().length() == 0) {
                     //Log.i(TAG, “typing stopped event…”);
-                    typingChanged(true);
-                    mTypingStarted = false;
+                    typingChanged(false);
                 }
             }
         });

@@ -336,17 +336,24 @@ public class BoardFragment extends Fragment implements
     }
 
     @Override
-    public void updateBoard(Game game) {
-        if (game == null || mMap == null || mGamePresenter == null)
-            return;
-        latestLoadedGame = game;
-        ArrayList<Player> players = game.getPlayers();
+    public void updateBoard(final Game game) {
 
-        mMap.clear();
-        mBoardState.drawRoutesAndCities(this, mMap, game, mGamePresenter.getCurrentPlayerObject());
+        final BoardFragment thisFragment = this;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (game == null || mMap == null || mGamePresenter == null)
+                    return;
+                latestLoadedGame = game;
+                ArrayList<Player> players = game.getPlayers();
 
-        if (mCardDrawerState != null)
-            mCardDrawerState.updateBoard(game);
+                mMap.clear();
+                mBoardState.drawRoutesAndCities(thisFragment, mMap, game, mGamePresenter.getCurrentPlayerObject());
+
+                if (mCardDrawerState != null)
+                    mCardDrawerState.updateBoard(game);
+            }
+        });
     }
 
     @Override
@@ -361,7 +368,7 @@ public class BoardFragment extends Fragment implements
 
     @Override
     public void onUpdateTurn(String pT) {
-        final String playerTurn = pT == null ? "" : pT;
+        final String playerTurn = (pT == null) ? "" : pT;
         if (!isAdded())
             return;
         getActivity().runOnUiThread(new Runnable() {
