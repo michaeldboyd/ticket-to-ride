@@ -46,7 +46,7 @@ public interface IGamePresenter {
     ArrayList<DestinationCard> drawDestinationCards();
 
     /** Called DOWNWARDS from Presenter **/
-    void chooseDestinationCard(ArrayList<DestinationCard> chosen, DestinationCard discarded);
+    void chooseDestinationCards(ArrayList<DestinationCard> chosen, DestinationCard discarded);
 
     /** Called DOWNWARDS from Presenter **/
     void claimRoute(Route route);

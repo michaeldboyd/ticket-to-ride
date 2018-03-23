@@ -221,7 +221,7 @@ public class GamePresenter implements IGamePresenter, Observer {
 
 
     @Override
-    public void chooseDestinationCard(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
+    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
         // Tell the server that the client has chosen which destination cards to keep and which ones
         // to discard to the bottom of the deck
 

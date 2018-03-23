@@ -115,8 +115,8 @@ public class GamePresenterServerOn extends GamePresenter {
     }
 
     @Override
-    public void chooseDestinationCard(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
-        super.chooseDestinationCard(chosen, discarded);
+    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
+        super.chooseDestinationCards(chosen, discarded);
         // Only tell the Server to discard a card if there is one
         if (discarded != null) {
 
