@@ -16,13 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:gravity="center"
-            android:weightSum="3"
+            android:weightSum="9"
             android:padding="10dp">
 
             <ImageView
                 android:id="@+id/hand_fragment_train_card_1_image"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:src="@drawable/card_box"
                 android:alpha="0.5" />
 
@@ -44,8 +45,9 @@
 
             <ImageView
                 android:id="@+id/hand_fragment_train_card_2_image"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:src="@drawable/card_passenger"
                 android:alpha="0.5" />
 
@@ -67,8 +69,9 @@
 
             <ImageView
                 android:id="@+id/hand_fragment_train_card_3_image"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:src="@drawable/card_tanker"
                 android:alpha="0.5"/>
 
@@ -92,13 +95,14 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:gravity="center"
-            android:weightSum="3"
+            android:weightSum="9"
             android:padding="10dp">
 
             <ImageView
                 android:id="@+id/hand_fragment_train_card_4_image"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:src="@drawable/card_reefer"
                 android:alpha="0.5" />
 
@@ -120,8 +124,9 @@
 
             <ImageView
                 android:id="@+id/hand_fragment_train_card_5_image"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:src="@drawable/card_freight"
                 android:alpha="0.5" />
 
@@ -143,8 +148,9 @@
 
             <ImageView
                 android:id="@+id/hand_fragment_train_card_6_image"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:src="@drawable/card_hopper"
                 android:alpha="0.5"/>
 
@@ -168,13 +174,14 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:gravity="center"
-            android:weightSum="3"
+            android:weightSum="9"
             android:padding="10dp">
 
             <ImageView
                 android:id="@+id/hand_fragment_train_card_7_image"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:src="@drawable/card_coal"
                 android:alpha="0.5" />
 
@@ -196,8 +203,9 @@
 
             <ImageView
                 android:id="@+id/hand_fragment_train_card_8_image"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:src="@drawable/card_caboose"
                 android:alpha="0.5" />
 
@@ -219,8 +227,9 @@
 
             <ImageView
                 android:id="@+id/hand_fragment_train_card_9_image"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:src="@drawable/card_locomotive"
                 android:alpha="0.5"/>
 
@@ -266,6 +275,8 @@
         </LinearLayout>
     </LinearLayout>
     <ListView
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:id="@+id/destination_card_list"
         android:layout_width="200dp"
         android:layout_height="match_parent"
