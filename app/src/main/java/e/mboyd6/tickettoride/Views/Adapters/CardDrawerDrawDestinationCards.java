@@ -76,7 +76,7 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
 
         for(int i = 0; i < destinationCards.size(); i++) {
 
-            names.get(i).setText(String.format("%s to %s", destinationCards.get(i).getStartCity(), destinationCards.get(0).getEndCity()));
+            names.get(i).setText(String.format("%s to %s", destinationCards.get(i).getStartCity(), destinationCards.get(i).getEndCity()));
             values.get(i).setText(String.valueOf(destinationCards.get(i).getPoints()));
         }
 
