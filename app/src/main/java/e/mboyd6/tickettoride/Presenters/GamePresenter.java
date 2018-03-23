@@ -245,11 +245,7 @@ public class GamePresenter implements IGamePresenter, Observer {
                 DestinationDeck destinationDeck = currentGame.getDestinationDeck();
                 destinationDeck.returnDiscarded(discarded);
             }
-
-            int index = currentGame.getPlayers().indexOf(currentPlayer);
-
-            currentGame.getPlayers().get(index).getDestinationCards().addAll(chosen);
-
+            
             // Update the score
             Player player = ClientModel.getInstance().getCurrentPlayer();
             Score score = player.getScore();
