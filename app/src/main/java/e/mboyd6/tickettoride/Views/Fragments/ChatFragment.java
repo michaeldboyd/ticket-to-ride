@@ -214,6 +214,7 @@ public class ChatFragment extends Fragment implements IChatFragment {
 
     @Override
     public void sendMessage(String message) {
+        typingChanged(false);
         mChatPresenter.sendMessage(message);
     }
 
