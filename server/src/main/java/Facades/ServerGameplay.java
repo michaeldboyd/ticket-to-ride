@@ -56,11 +56,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             message = "Game not found on server";
         }
 
-        if(currentGame.isDone()) {
-            endGame(authToken, currentGame, message);
-        } else {
-            sendGameUpdate(authToken,currentGame, message);
-        }
+        sendGameUpdate(authToken,currentGame, message);
     }
 
     @Override
