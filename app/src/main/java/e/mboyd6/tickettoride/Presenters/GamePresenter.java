@@ -15,15 +15,12 @@ import com.example.sharedcode.model.TrainCardDeck;
 
 import junit.framework.Assert;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
-import e.mboyd6.tickettoride.Facades.ClientGameplay;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
@@ -127,7 +124,9 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
-    public void drawTrainCards(int index1, int index2, int numberFromDeck) {
+    public ArrayList<Integer> drawTrainCards(int index1, int index2, int numberFromDeck) {
+        ArrayList<Integer> result = new ArrayList<>();
+
         // Communicate with the server to tell them that trainCards have been drawn
         FaceUpDeck faceUpDeck = ClientModel.getInstance().getCurrentGame().getFaceUpDeck();
         TrainCardDeck trainCardDeck = ClientModel.getInstance().getCurrentGame().getTrainCardDeck();
@@ -146,8 +145,10 @@ public class GamePresenter implements IGamePresenter, Observer {
                 amount1 = hand.get(card1);
                 amount1++;
                 hand.put(card1, amount1);
+                result.add(card1);
             } else {
                 hand.put(card1, 1);
+                result.add(card1);
             }
         }
         if (index2 != -1) {
@@ -163,8 +164,10 @@ public class GamePresenter implements IGamePresenter, Observer {
                 amount2 = hand.get(card2);
                 amount2++;
                 hand.put(card2, amount2);
+                result.add(card2);
             } else {
                 hand.put(card2, 1);
+                result.add(card2);
             }
         }
 
@@ -175,8 +178,10 @@ public class GamePresenter implements IGamePresenter, Observer {
                     int amount = hand.get(card);
                     amount++;
                     hand.put(card, amount);
+                    result.add(card);
                 } else {
                     hand.put(card, 1);
+                    result.add(card);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -187,6 +192,8 @@ public class GamePresenter implements IGamePresenter, Observer {
         Player player = ClientModel.getInstance().getCurrentPlayer();
         Score score = player.getScore();
         score.setCards(player.cardsInHand());
+
+        return result;
     }
 
     @Override

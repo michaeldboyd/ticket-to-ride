@@ -5,7 +5,6 @@ import android.support.annotation.RequiresApi;
 import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
-import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
@@ -82,8 +81,8 @@ public class GamePresenterServerOn extends GamePresenter {
     }
 
     @Override
-    public void drawTrainCards(int index1, int index2, int numberFromDeck) {
-        super.drawTrainCards(index1, index2, numberFromDeck);
+    public ArrayList<Integer> drawTrainCards(int index1, int index2, int numberFromDeck) {
+        ArrayList<Integer> result = super.drawTrainCards(index1, index2, numberFromDeck);
         // Communicate with the server to tell them that trainCards have been drawn
         String authToken = ClientModel.getInstance().getAuthToken();
         Game currentGame = ClientModel.getInstance().getCurrentGame();
@@ -95,6 +94,8 @@ public class GamePresenterServerOn extends GamePresenter {
                 currentGame.getFaceUpDeck(),
                 currentGame.getTrainCardDeck(),
                 currentGame.getTrainDiscardDeck());
+
+        return result;
     }
 
     @Override

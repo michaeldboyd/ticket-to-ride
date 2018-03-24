@@ -1,6 +1,8 @@
 package e.mboyd6.tickettoride.Views.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
@@ -38,6 +40,11 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
     private int maximumCards = 2;
     private BoardFragment boardFragment;
     private GamePresenter gamePresenter;
+
+    private int selectedCard1Index = -1;
+    private int selectedCard2Index = -1;
+    private int numFromDeck = 0;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -97,28 +104,79 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
     }
 
     public void onTrainCardSelect(int index) {
-        applyLocomotiveRulesIfPresent();
-        if (index < faceUpDeck.size()) {
-            if (!selectedCards.contains(index)) {
-                selectedCards.push(index);
-                if (selectedCards.size() > maximumCards) {
-                    selectedCards.removeLast();
+        //NOTE: -1 = not selected
+
+        boolean isWildcard = false;
+        if(index < faceUpDeck.size()) {
+            isWildcard = faceUpDeck.get(index) == TrainType.LOCOMOTIVE;
+        }
+        boolean isFromDeck = index >= faceUpDeck.size();
+
+        boolean wildcardSelected = (selectedCard1Index != -1 && // is selected
+                selectedCard1Index != 5 && // Not deak card
+                faceUpDeck.get(selectedCard1Index) == TrainType.LOCOMOTIVE) ||
+                (selectedCard2Index != -1 && // is selected
+                selectedCard2Index != 5 && // Not deak card
+                faceUpDeck.get(selectedCard2Index) == TrainType.LOCOMOTIVE);
+
+        if (isFromDeck){
+            if(howManyDeckCards == 0 || howManyDeckCards == 1){
+                if(selectedCard1Index == -1 && selectedCard2Index == -1){
+                    selectedCard1Index = index;
+                } else if(selectedCard1Index == -1 && selectedCard2Index != -1){
+                    selectedCard1Index = selectedCard2Index;
+                    selectedCard2Index = index;
+                } else if (selectedCard1Index != -1 && selectedCard2Index == -1){
+                    selectedCard2Index = index;
+                } else if(selectedCard1Index != -1 && selectedCard2Index != -1){
+                    selectedCard1Index = selectedCard2Index;
+                    selectedCard2Index = index;
                 }
-                if (howManyDeckCards + selectedCards.size() > maximumCards) {
-                    howManyDeckCards--;
+            } else { // two selected from deck
+                selectedCard1Index = selectedCard2Index;
+                selectedCard2Index = -1;
+            }
+
+            if (wildcardSelected) {
+                selectedCard1Index = index;
+                selectedCard2Index = -1;
+            }
+
+        } else if (selectedCard1Index == index){
+            selectedCard1Index = selectedCard2Index;
+            selectedCard2Index = -1;
+        } else if (selectedCard2Index == index){    // reselecting 2
+            selectedCard2Index = -1;
+        } else{ // choosing new card
+            if (isWildcard || wildcardSelected) {
+                selectedCard1Index = index;
+                selectedCard2Index = -1;
+            } else{
+                if(selectedCard1Index == -1 && selectedCard2Index == -1){
+                    selectedCard1Index = index;
+                } else if(selectedCard1Index == -1 && selectedCard2Index != -1){
+                    selectedCard1Index = selectedCard2Index;
+                    selectedCard2Index = index;
+                } else if (selectedCard1Index != -1 && selectedCard2Index == -1){
+                    selectedCard2Index = index;
+                } else if(selectedCard1Index != -1 && selectedCard2Index != -1){
+                    selectedCard1Index = selectedCard2Index;
+                    selectedCard2Index = index;
                 }
-            } else {
-                selectedCards.removeFirstOccurrence(index);
             }
-        } else {
-            if (howManyDeckCards < maximumCards) {
-                howManyDeckCards++;
-            } else {
-                howManyDeckCards = 0;
-            }
-            if (howManyDeckCards + selectedCards.size() > maximumCards) {
-                selectedCards.removeLast();
-            }
+        }
+
+        howManyDeckCards = 0;
+        howManyDeckCards += (selectedCard1Index == 5) ? 1 : 0;
+        howManyDeckCards += (selectedCard2Index == 5) ? 1 : 0;
+
+        selectedCards = new ArrayDeque<>();
+
+        if (selectedCard1Index != -1){
+            selectedCards.add(selectedCard1Index);
+        }
+        if (selectedCard2Index != -1){
+            selectedCards.add(selectedCard2Index);
         }
         reDrawUI();
     }
@@ -208,16 +266,16 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
     public void enableDisbableUIElements() {
         applyLocomotiveRulesIfPresent();
 
-        if (selectedCards.size() + howManyDeckCards < maximumCards) {
-            if (maximumCards > 1 && selectedCards.size() + howManyDeckCards == maximumCards - 1)
-                selectTrainCardsText.setText(R.string.select_train_cards_text_one_more);
-            else if (maximumCards > 1 && selectedCards.size() + howManyDeckCards == maximumCards - 2)
-                selectTrainCardsText.setText(R.string.select_train_cards_text_normal);
+        if (selectedCards.size() + howManyDeckCards < 1) {
+            selectTrainCardsText.setText(R.string.select_train_cards_text_normal);
             DrawTrainCardsButton.setClickable(false);
             DrawTrainCardsButton.setAlpha(0.5f);
             DrawDestinationCardsButton.setClickable(true);
             DrawDestinationCardsButton.setAlpha(1f);
         } else {
+            int amountOfCards = (selectedCard1Index == 5 ? -1 : 0) + (selectedCard2Index == 5 ? -1 : 0) + selectedCards.size() + howManyDeckCards;
+            String trainCardsText = String.valueOf(amountOfCards) + " cards are selected";
+            selectTrainCardsText.setText(trainCardsText);
             DrawTrainCardsButton.setClickable(true);
             DrawTrainCardsButton.setAlpha(1f);
             DrawDestinationCardsButton.setClickable(false);
@@ -227,13 +285,35 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onDrawTrainCardsButton() {
-        Toast.makeText(context, "onDrawTrainCardsButton()", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "onDrawTrainCardsButton()", Toast.LENGTH_SHORT).show();
         int index1 = selectedCards.size() > 0 ? selectedCards.pop() : -1;
         int index2 = selectedCards.size() > 0 ? selectedCards.pop() : -1;
-        boardFragment.getmGamePresenter().drawTrainCards(index1, index2, howManyDeckCards);
+        ArrayList<Integer> cardsAdded = boardFragment.getmGamePresenter().drawTrainCards(index1 == 5 ? -1 : index1, index2 == 5 ? -1 : index2, howManyDeckCards);
         selectedCards.clear();
         howManyDeckCards = 0;
+        selectedCard1Index = -1;
+        selectedCard2Index = -1;
+
+        reDrawUI();
         boardFragment.completeTurn();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Added ");
+        sb.append(cardsAdded.size() == 1 ? TrainType.typeToName(cardsAdded.get(0)) + " (" + TrainType.typeToColor(cardsAdded.get(0)) + ")" + " card" : TrainType.typeToName(cardsAdded.get(0)) + " (" + TrainType.typeToColor(cardsAdded.get(0)) + ")" + " and " + TrainType.typeToName(cardsAdded.get(1)) + " (" + TrainType.typeToColor(cardsAdded.get(1)) + ")" + " cards");
+        sb.append(" to hand");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Drew train cards!");
+        builder.setMessage(sb.toString());
+        builder.setNegativeButton(null, null);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
