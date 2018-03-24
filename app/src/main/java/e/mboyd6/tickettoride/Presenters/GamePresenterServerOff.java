@@ -1,20 +1,16 @@
 package e.mboyd6.tickettoride.Presenters;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.app.Activity;
 import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
-import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.R;
-import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IHandFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IHistoryFragment;
@@ -26,20 +22,20 @@ import e.mboyd6.tickettoride.Views.Interfaces.IScoreFragment;
 
 public class GamePresenterServerOff extends GamePresenter {
 
-    public GamePresenterServerOff(IBoardFragment boardFragment) {
-        super(boardFragment);
+    public GamePresenterServerOff(IBoardFragment boardFragment, Activity activity) {
+        super(boardFragment, activity);
     }
 
-    public GamePresenterServerOff(IHandFragment handFragment) {
-        super(handFragment);
+    public GamePresenterServerOff(IHandFragment handFragment, Activity activity) {
+        super(handFragment, activity);
     }
 
-    public GamePresenterServerOff(IScoreFragment scoreFragment) {
-        super(scoreFragment);
+    public GamePresenterServerOff(IScoreFragment scoreFragment, Activity activity) {
+        super(scoreFragment, activity);
     }
 
-    public GamePresenterServerOff(IHistoryFragment historyFragment) {
-        super(historyFragment);
+    public GamePresenterServerOff(IHistoryFragment historyFragment, Activity activity) {
+        super(historyFragment, activity);
     }
 
 

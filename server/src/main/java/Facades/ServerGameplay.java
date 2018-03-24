@@ -8,6 +8,7 @@ import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerGameplayFacade;
 import com.example.sharedcode.model.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ServerGameplay implements IServerGameplayFacade {
@@ -27,8 +28,9 @@ public class ServerGameplay implements IServerGameplayFacade {
         ourInstance.discardDestinationCard(authToken, gameID, player, destinationCard);
     }
 
-    public static void _claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed) {
-        ourInstance.claimRoute(authToken, gameID, player, routesClaimed);
+    public static void _claimRoute(String authToken, String gameID, Player player, HashMap routesClaimed) {
+        Map<Route, Player> routesClaimedCasted = (Map<Route, Player>) routesClaimed;
+        ourInstance.claimRoute(authToken, gameID, player, routesClaimedCasted);
     }
 
     public static void _updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck) {

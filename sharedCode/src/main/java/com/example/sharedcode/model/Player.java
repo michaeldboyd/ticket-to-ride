@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Player {
 
-    final public int START_TRAINS = 45;
+    final public int START_TRAINS = 0;
 
     public Player(String playerID, String name, int color) {
         this.playerID = playerID;
@@ -18,7 +18,7 @@ public class Player {
         this.color = color;
         Map <Integer, Integer> map = new HashMap<>();
         for(int i = 0; i < 9; i++){
-            map.put((Integer)i,0 );
+            map.put((Integer)i, 0);
         }
         hand = map;
     }

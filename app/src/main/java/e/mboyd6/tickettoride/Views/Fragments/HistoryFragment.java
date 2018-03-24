@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.sharedcode.model.Player;
-
 import java.util.ArrayList;
 
 import e.mboyd6.tickettoride.Presenters.GamePresenter;
@@ -31,7 +29,7 @@ public class HistoryFragment extends Fragment implements IHistoryFragment {
     private View mLayout;
     private HistoryListAdapter mHistoryListAdapter;
 
-    private GamePresenter mGamePresenter = new GamePresenter(this);
+    private GamePresenter mGamePresenter = new GamePresenter(this, getActivity());
 
     public HistoryFragment() {
         // Required empty public constructor
