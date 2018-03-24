@@ -40,7 +40,7 @@ public class ScoreFragment extends Fragment implements IScoreFragment {
     private View mLayout;
     private ScoreListAdapter mScoreListAdapter;
 
-    private IGamePresenter mGamePresenter = new GamePresenter(this);
+    private IGamePresenter mGamePresenter = new GamePresenter(this, getActivity());
 
     public ScoreFragment() {
         // Required empty public constructor

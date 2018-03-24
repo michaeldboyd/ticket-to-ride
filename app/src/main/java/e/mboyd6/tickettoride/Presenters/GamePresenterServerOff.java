@@ -1,5 +1,6 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.app.Activity;
 import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
@@ -21,20 +22,20 @@ import e.mboyd6.tickettoride.Views.Interfaces.IScoreFragment;
 
 public class GamePresenterServerOff extends GamePresenter {
 
-    public GamePresenterServerOff(IBoardFragment boardFragment) {
-        super(boardFragment);
+    public GamePresenterServerOff(IBoardFragment boardFragment, Activity activity) {
+        super(boardFragment, activity);
     }
 
-    public GamePresenterServerOff(IHandFragment handFragment) {
-        super(handFragment);
+    public GamePresenterServerOff(IHandFragment handFragment, Activity activity) {
+        super(handFragment, activity);
     }
 
-    public GamePresenterServerOff(IScoreFragment scoreFragment) {
-        super(scoreFragment);
+    public GamePresenterServerOff(IScoreFragment scoreFragment, Activity activity) {
+        super(scoreFragment, activity);
     }
 
-    public GamePresenterServerOff(IHistoryFragment historyFragment) {
-        super(historyFragment);
+    public GamePresenterServerOff(IHistoryFragment historyFragment, Activity activity) {
+        super(historyFragment, activity);
     }
 
 
@@ -67,14 +68,12 @@ public class GamePresenterServerOff extends GamePresenter {
     }
 
     @Override
-    public ArrayList<Integer> drawTrainCards(int index1, int index2, int numberFromDeck) {
-        ArrayList<Integer> result = super.drawTrainCards(index1, index2, numberFromDeck);
+    public void drawTrainCards(int index1, int index2, int numberFromDeck) {
+        super.drawTrainCards(index1, index2, numberFromDeck);
         String myName = ClientModel.getInstance().getPlayerName();
         ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " drew " + 1 + " train card.");
 
         updateBoard();
-
-        return result;
     }
 
     @Override

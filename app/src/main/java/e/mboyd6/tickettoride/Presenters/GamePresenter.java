@@ -1,5 +1,6 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.app.Activity;
 import android.widget.Button;
 
 import com.example.sharedcode.communication.UpdateArgs;
@@ -23,6 +24,7 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
+import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IGameActivityFragment;
@@ -37,24 +39,29 @@ import e.mboyd6.tickettoride.Views.Interfaces.IScoreFragment;
 public class GamePresenter implements IGamePresenter, Observer {
 
     protected IGameActivityFragment gameActivityFragment;
+    protected Activity activity;
 
-    public GamePresenter(IBoardFragment boardFragment) {
+    public GamePresenter(IBoardFragment boardFragment, Activity activity) {
         gameActivityFragment = boardFragment;
+        this.activity = activity;
         ClientModel.getInstance().addObserver(this);
     }
 
-    public GamePresenter(IHandFragment handFragment) {
+    public GamePresenter(IHandFragment handFragment, Activity activity) {
         gameActivityFragment = handFragment;
+        this.activity = activity;
         ClientModel.getInstance().addObserver(this);
     }
 
-    public GamePresenter(IScoreFragment scoreFragment) {
+    public GamePresenter(IScoreFragment scoreFragment, Activity activity) {
         gameActivityFragment = scoreFragment;
+        this.activity = activity;
         ClientModel.getInstance().addObserver(this);
     }
 
-    public GamePresenter(IHistoryFragment historyFragment) {
+    public GamePresenter(IHistoryFragment historyFragment, Activity activity) {
         gameActivityFragment = historyFragment;
+        this.activity = activity;
         ClientModel.getInstance().addObserver(this);
     }
 
@@ -328,7 +335,9 @@ public class GamePresenter implements IGamePresenter, Observer {
     public void gameFinished(){
         List<Player> playerListByScore = ClientModel.getInstance().getCurrentGame().getPlayerListByScore();
 
-        ((IGameActivity) gameActivityFragment).changeToVictoryActivity(playerListByScore);
+        if (activity instanceof GameActivity) {
+            ((IGameActivity) activity).changeToVictoryActivity(playerListByScore);
+        }
     }
 
     @Override

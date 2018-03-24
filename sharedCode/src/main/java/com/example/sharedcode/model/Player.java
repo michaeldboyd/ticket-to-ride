@@ -18,7 +18,7 @@ public class Player {
         this.color = color;
         Map <Integer, Integer> map = new HashMap<>();
         for(int i = 0; i < 9; i++){
-            map.put((Integer)i,0 );
+            map.put((Integer)i, 0);
         }
         hand = map;
     }
