@@ -199,5 +199,8 @@ public class GameActivity extends AppCompatActivity
     @Override
     public void changeToVictoryActivity(List<Player> playerListByScore){
         //TODO: HUNTER, close this activity and open the VictoryActivity
+        Intent intent = new Intent(this, VictoryActivity.class);
+        intent.putExtra("START_GAME", true);
+        startActivity(intent);
     }
 }

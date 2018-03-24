@@ -9,6 +9,8 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IVictoryPresenter;
+import e.mboyd6.tickettoride.Views.Activities.VictoryActivity;
+import e.mboyd6.tickettoride.Views.Interfaces.IVictoryActivity;
 
 /**
  * Created by jonathanlinford on 3/17/18.
@@ -16,9 +18,12 @@ import e.mboyd6.tickettoride.Presenters.Interfaces.IVictoryPresenter;
 
 public class VictoryPresenter implements IVictoryPresenter, Observer {
 
-    public VictoryPresenter() {
+    IVictoryActivity victoryActivity;
+
+    public VictoryPresenter(IVictoryActivity victoryActivity) {
     //TODO: Implement the context setting
         ClientModel.getInstance().addObserver(this);
+        this.victoryActivity = victoryActivity;
     }
 
     @Override
