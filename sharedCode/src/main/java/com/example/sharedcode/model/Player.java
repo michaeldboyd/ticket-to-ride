@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Player {
 
-    final public int START_TRAINS = 0;
+    final public int START_TRAINS = 45;
 
     public Player(String playerID, String name, int color) {
         this.playerID = playerID;
