@@ -93,6 +93,8 @@ public class BoardFragment extends Fragment implements
     private Button mClaimRouteButton;
     private ClaimRouteButtonState mClaimRouteButtonState = new ClaimRouteButtonMissing();
 
+    private Button mEndGameButton;
+
     private boolean myTurn = false;
 
     private ArrayList<ColorSelectionView> mColorSelectionViews = new ArrayList<>();
@@ -196,6 +198,14 @@ public class BoardFragment extends Fragment implements
                 //autoplay();
                 //Autoplayer.getInstance().autoAutoplay(getActivity(), getContext(), boardFragment);
                 return true;
+            }
+        });
+
+        mEndGameButton = mLayout.findViewById(R.id.game_fragment_end_game_button);
+        mEndGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGamePresenter.endGame();
             }
         });
 

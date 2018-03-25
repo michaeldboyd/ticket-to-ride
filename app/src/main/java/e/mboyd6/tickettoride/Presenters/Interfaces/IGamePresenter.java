@@ -64,4 +64,6 @@ public interface IGamePresenter {
     void finalRound();
 
     void gameFinished();
+
+    void endGame();
 }
