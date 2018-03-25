@@ -10,6 +10,7 @@ import com.example.sharedcode.model.City;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
+import com.example.sharedcode.model.TrainType;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -54,7 +55,8 @@ public class BoardSelecting extends BoardState {
                 if (currentPlayer.getHand() != null &&
                         currentPlayer.getHand().containsKey(route.getTrainType()) &&
                         currentPlayer.getHand().get(route.getTrainType()) != null &&
-                        currentPlayer.getHand().get(route.getTrainType()) >= route.getNumberTrains()) {
+                        currentPlayer.getTrains() >= route.getNumberTrains() &&
+                        currentPlayer.getHand().get(route.getTrainType()) + currentPlayer.getHand().get(TrainType.LOCOMOTIVE)  >= route.getNumberTrains()) {
 
                     Polygon clickablePolygon = drawAvailableRoute(boardFragment, map, cities, route);
                     clickablePolygons.put(clickablePolygon, route);

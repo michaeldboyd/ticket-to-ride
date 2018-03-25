@@ -2,7 +2,6 @@ package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -465,7 +464,7 @@ public class BoardFragment extends Fragment implements
     }
 
     @Override
-    public void claimRoute(Route route) {
+    public void claimRoute(Route route, int howManyWildcardsToUse) {
         mGamePresenter.claimRoute(route);
     }
 
@@ -482,14 +481,14 @@ public class BoardFragment extends Fragment implements
             @Override
             public void onPolygonClick(Polygon polygon) {
                 if (polygon.getTag() != null && polygon.getTag().equals("Background_Layer")) {
-                    mClaimRouteButtonState.setRoute(boardFragment,null);
+                    mClaimRouteButtonState.setRoute(boardFragment,null, mGamePresenter.getCurrentPlayerObject());
                     for(Polygon otherPoly : clickPolys.keySet()) {
                         otherPoly.setFillColor(0xFFFFC0CB);
                     }
                     polygon.setFillColor(0x00000000);
                 }
                 else if (clickPolys.containsKey(polygon)) {
-                    mClaimRouteButtonState.setRoute(boardFragment, clickPolys.get(polygon));
+                    mClaimRouteButtonState.setRoute(boardFragment, clickPolys.get(polygon), mGamePresenter.getCurrentPlayerObject());
                     for(Polygon otherPoly : clickPolys.keySet()) {
                         otherPoly.setFillColor(0xFFFFC0CB);
                     }

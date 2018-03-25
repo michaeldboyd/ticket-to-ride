@@ -5,6 +5,7 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
 
 import e.mboyd6.tickettoride.R;
@@ -33,12 +34,13 @@ public class ClaimRouteButtonSelecting extends ClaimRouteButtonState {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setRoute(BoardFragment boardFragment, Route route) {
+    public void setRoute(BoardFragment boardFragment, Route route, Player player) {
         selectedRoute = route;
+        this.player = player;
         if (boardFragment.getBoardState().getClass().equals(BoardSelecting.class)
                 && selectedRoute != null) {
             ClaimRouteButtonConfirm confirm = new ClaimRouteButtonConfirm();
-            confirm.setRoute(boardFragment, route);
+            confirm.setRoute(boardFragment, route, player);
             boardFragment.setClaimRouteButtonState(confirm);
         }
     }
