@@ -101,19 +101,7 @@ public class GamePresenterServerOn extends GamePresenter {
 
     @Override
     public ArrayList<DestinationCard> drawDestinationCards() {
-        ArrayList<DestinationCard> drawDestinationCards = super.drawDestinationCards();
-
-        // Tell the server that the client wants to draw destination cards
-        String authToken = ClientModel.getInstance().getAuthToken();
-        Game currentGame = ClientModel.getInstance().getCurrentGame();
-        Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
-
-        GameplayProxy.getInstance().updateDestinationCards(authToken,
-                currentGame.getGameID(),
-                currentPlayer,
-                currentGame.getDestinationDeck());
-
-        return drawDestinationCards;
+        return super.drawDestinationCards();
     }
 
     @Override

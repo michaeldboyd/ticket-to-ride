@@ -245,7 +245,6 @@ public class GamePresenter implements IGamePresenter, Observer {
     public void chooseDestinationCards(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
         // Tell the server that the client has chosen which destination cards to keep and which ones
         // to discard to the bottom of the deck
-
         Game currentGame = ClientModel.getInstance().getCurrentGame();
 
         // Find the current player object

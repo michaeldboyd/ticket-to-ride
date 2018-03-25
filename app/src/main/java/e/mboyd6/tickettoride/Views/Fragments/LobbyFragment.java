@@ -150,17 +150,19 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
     @Override
     public void updateGameList(ArrayList<Game> newList) {
         final ArrayList<Game> nl = newList;
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //Update current game list with newList
-                if (mGameListAdapter != null) {
-                    mGameListAdapter.clear();
-                    mGameListAdapter.addAll(nl);
-                    mGameListAdapter.notifyDataSetChanged();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //Update current game list with newList
+                    if (mGameListAdapter != null) {
+                        mGameListAdapter.clear();
+                        mGameListAdapter.addAll(nl);
+                        mGameListAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
