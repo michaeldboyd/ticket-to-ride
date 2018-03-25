@@ -214,7 +214,7 @@ public class BoardFragment extends Fragment implements
 
         mDrawerSlider = mLayout.findViewById(R.id.drawer_slider);
 
-        setGamePresenterState(new GamePresenterServerOn(this));
+        setGamePresenterState(new GamePresenterServerOn(this, null));
 
         // Run the updates even if Google Maps isn't working
         Thread thread = new Thread(new Runnable() {
@@ -248,9 +248,9 @@ public class BoardFragment extends Fragment implements
 
     private void onServerOnButton() {
         if (mGamePresenter instanceof GamePresenterServerOff) {
-            setGamePresenterState(new GamePresenterServerOn(this));
+            setGamePresenterState(new GamePresenterServerOn(this, null));
         } else {
-            setGamePresenterState(new GamePresenterServerOff(this));
+            setGamePresenterState(new GamePresenterServerOff(this, null));
         }
     }
 
@@ -307,7 +307,7 @@ public class BoardFragment extends Fragment implements
         if (getArguments() != null && getArguments().getBoolean("START_GAME", false)) {
             setCardDrawerState(new CardDrawerStartGame());
         }
-        setGamePresenterState(new GamePresenterServerOn(this));
+        setGamePresenterState(new GamePresenterServerOn(this, null));
         mGamePresenter.updateBoard();
         mGamePresenter.onUpdateTurn();
     }

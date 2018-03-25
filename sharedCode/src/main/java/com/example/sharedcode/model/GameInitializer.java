@@ -102,7 +102,6 @@ public class GameInitializer {
         deck.add(new DestinationCard("Rainbow", "Gold Hill",12));
         deck.add(new DestinationCard("Mexican Hat", "Shivwits",	13	));
         deck.add(new DestinationCard("Agate", "Enterprise",9));
-        deck.add(new DestinationCard("Agate	", "Enterprise",9));
         deck.shuffleDeck();
         return deck;
     }

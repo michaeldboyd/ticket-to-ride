@@ -1,11 +1,11 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
-import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
@@ -28,20 +28,20 @@ import e.mboyd6.tickettoride.Views.Interfaces.IScoreFragment;
 
 public class GamePresenterServerOn extends GamePresenter {
 
-    public GamePresenterServerOn(IBoardFragment boardFragment) {
-        super(boardFragment);
+    public GamePresenterServerOn(IBoardFragment boardFragment, Activity activity) {
+        super(boardFragment, activity);
     }
 
-    public GamePresenterServerOn(IHandFragment handFragment) {
-        super(handFragment);
+    public GamePresenterServerOn(IHandFragment handFragment, Activity activity) {
+        super(handFragment, activity);
     }
 
-    public GamePresenterServerOn(IScoreFragment scoreFragment) {
-        super(scoreFragment);
+    public GamePresenterServerOn(IScoreFragment scoreFragment, Activity activity) {
+        super(scoreFragment, activity);
     }
 
-    public GamePresenterServerOn(IHistoryFragment historyFragment) {
-        super(historyFragment);
+    public GamePresenterServerOn(IHistoryFragment historyFragment, Activity activity) {
+        super(historyFragment, activity);
     }
 
     @Override
@@ -77,13 +77,13 @@ public class GamePresenterServerOn extends GamePresenter {
         // If autoplay is pressed, it will transition out of GamePresenterServerOn
         if (gameActivityFragment instanceof IBoardFragment) {
             BoardFragment currentFragment = (BoardFragment) gameActivityFragment;
-            currentFragment.setGamePresenterState(new GamePresenterServerOff(currentFragment));
+            currentFragment.setGamePresenterState(new GamePresenterServerOff(currentFragment, null));
         }
     }
 
     @Override
-    public void drawTrainCards(int index1, int index2, int numberFromDeck) {
-        super.drawTrainCards(index1, index2, numberFromDeck);
+    public ArrayList<Integer> drawTrainCards(int index1, int index2, int numberFromDeck) {
+        ArrayList<Integer> result = super.drawTrainCards(index1, index2, numberFromDeck);
         // Communicate with the server to tell them that trainCards have been drawn
         String authToken = ClientModel.getInstance().getAuthToken();
         Game currentGame = ClientModel.getInstance().getCurrentGame();
@@ -95,6 +95,8 @@ public class GamePresenterServerOn extends GamePresenter {
                 currentGame.getFaceUpDeck(),
                 currentGame.getTrainCardDeck(),
                 currentGame.getTrainDiscardDeck());
+
+        return result;
     }
 
     @Override

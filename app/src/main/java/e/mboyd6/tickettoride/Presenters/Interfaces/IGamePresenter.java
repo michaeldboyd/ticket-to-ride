@@ -36,7 +36,7 @@ public interface IGamePresenter {
     void autoplay();
 
     /** Called DOWNWARDS from Presenter **/
-    void drawTrainCards(int index1, int index2, int numberFromDeck);
+    ArrayList<Integer> drawTrainCards(int index1, int index2, int numberFromDeck);
 
     ArrayList<DestinationCard> getStartDestinationCards();
 
