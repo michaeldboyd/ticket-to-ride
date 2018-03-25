@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.Views.Activities.GameActivity;

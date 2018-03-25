@@ -41,6 +41,10 @@ public class ServerGameplay implements IServerGameplayFacade {
         ourInstance.updateDestinationCards(authToken, gameID, player, destinationDeck);
     }
 
+    public static void _endGameEarly(String authToken, String gameID) {
+        ourInstance.endGameEarly(authToken, gameID);
+    }
+
 
 
     @Override
@@ -156,6 +160,22 @@ public class ServerGameplay implements IServerGameplayFacade {
         } else {
             sendGameUpdate(authToken,currentGame, message);
         }
+    }
+
+    @Override
+    public void endGameEarly(String authToken, String gameID) {
+
+        Game currentGame = null;
+
+        if (ServerModel.instance().getGames().containsKey(gameID)) {
+            currentGame = ServerModel.instance().getGames().get(gameID);
+
+            currentGame.setDone(true);
+        } else {
+            message = "Game not found on server";
+        }
+
+        endGame(authToken, currentGame, message);
     }
 
     public void endGame(String authToken, Game currentGame, String message) {

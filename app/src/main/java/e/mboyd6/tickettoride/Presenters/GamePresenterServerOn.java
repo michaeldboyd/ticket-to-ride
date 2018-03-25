@@ -148,4 +148,14 @@ public class GamePresenterServerOn extends GamePresenter {
         serverOnButton.setBackgroundResource(R.drawable.button_green_bg);
         serverOnButton.setText(R.string.server_on);
     }
+
+    @Override
+    public void endGame() {
+        super.endGame();
+
+        String authToken = ClientModel.getInstance().getAuthToken();
+        Game currentGame = ClientModel.getInstance().getCurrentGame();
+
+        GameplayProxy.getInstance().endGameEarly(authToken, currentGame.getGameID());
+    }
 }
