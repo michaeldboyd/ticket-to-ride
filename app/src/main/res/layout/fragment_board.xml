@@ -43,7 +43,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/button_red_bg"
+        android:background="@drawable/button_black_bg"
         android:drawableEnd="@drawable/icon_skull"
         android:fontFamily="@font/dense"
         android:paddingStart="10dp"
@@ -56,7 +56,7 @@
         tools:ignore="HardcodedText" />
 
     <Button
-        android:visibility="gone"
+        android:visibility="invisible"
         android:id="@+id/game_fragment_autoplay_button"
         android:layout_width="140dp"
         android:layout_height="40dp"
@@ -74,7 +74,6 @@
         app:layout_constraintTop_toBottomOf="parent" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/game_fragment_server_on_button"
         android:layout_width="100dp"
         android:layout_height="40dp"
