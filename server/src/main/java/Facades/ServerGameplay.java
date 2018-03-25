@@ -160,7 +160,7 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     @Override
     public void endGameEarly(String authToken, String gameID) {
-
+        String message = "";
         Game currentGame = null;
 
         if (ServerModel.instance().getGames().containsKey(gameID)) {
