@@ -203,4 +203,14 @@ public class GameActivity extends AppCompatActivity
         intent.putExtra("START_GAME", true);
         startActivity(intent);
     }
+
+    public boolean sendToast(String message)
+    {
+        if (message == null || message.equals(""))
+            return false;
+
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.show();
+        return true;
+    }
 }

@@ -120,4 +120,14 @@ public class GameplayProxy implements IServerGameplayFacade {
         SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
     }
 
+    @Override
+    public void endGameEarly(String authToken, String gameID) {
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString()};
+        Object[] paramValues = {authToken, gameID};
+
+        Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_endGameEarly", paramTypes, paramValues);
+
+        SocketManager.socket.send(JsonWriter.objectToJson(sendMessageCommand, args));
+    }
+
 }
