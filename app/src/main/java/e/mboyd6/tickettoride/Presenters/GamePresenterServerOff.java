@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
+import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 
 import java.util.ArrayList;
 
+import e.mboyd6.tickettoride.Facades.ClientGameplay;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Interfaces.IBoardFragment;
@@ -114,8 +116,13 @@ public class GamePresenterServerOff extends GamePresenter {
         String myName = ClientModel.getInstance().getPlayerName();
         ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " exited the game.");
         updateBoard();
-
-
     }
 
+    @Override
+    public void endGame() {
+        super.endGame();
+
+        ClientModel.getInstance().getCurrentGame().setDone(true);
+        ClientGameplay._endGame(ClientModel.getInstance().getCurrentGame(), "");
+    }
 }
