@@ -341,6 +341,11 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
+    public void endGame() {
+
+    }
+
+    @Override
     public void update(Observable observable, Object o) {
 
         Assert.assertEquals(o.getClass(), UpdateArgs.class);
