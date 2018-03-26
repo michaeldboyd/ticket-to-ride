@@ -3,9 +3,11 @@ package e.mboyd6.tickettoride.Model;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.sharedcode.model.DestinationCard;
+import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.Score;
@@ -85,8 +87,10 @@ public class Autoplayer {
                         "Number of cards in face-down train cards deck is " + game.getTrainCardDeck().size() + ".";
                 break;
             case 4:
-                ArrayList<DestinationCard> results = presenter.drawDestinationCards();
-                presenter.chooseDestinationCards(results, results.remove(2));
+                ArrayList<DestinationCard> chosen = presenter.drawDestinationCards();
+                ArrayList<DestinationCard> discarded = new ArrayList<>();
+                discarded.add(chosen.remove(2));
+                presenter.chooseDestinationCards(chosen, discarded);
 
                 stepText = "Step " + step + " - Drew 3 destination cards.\n" +
                         "Kept 2\n" +

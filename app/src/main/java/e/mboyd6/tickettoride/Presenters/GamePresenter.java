@@ -221,21 +221,6 @@ public class GamePresenter implements IGamePresenter, Observer {
         else return new ArrayList<DestinationCard>();
     }
 
-    public void discardStartDestinationCards(ArrayList<DestinationCard> discardedCards) {
-        if (ClientModel.getInstance().getCurrentGame() != null &&
-                ClientModel.getInstance().getCurrentPlayer() != null &&
-                ClientModel.getInstance().getCurrentPlayer().getDestinationCards() != null)
-        {
-            ClientModel.getInstance().getCurrentPlayer().getDestinationCards().removeAll(discardedCards);
-            String myName = ClientModel.getInstance().getPlayerName();
-            ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " discarded " + discardedCards.size() + " destination cards.");
-            //GameplayProxy.getInstance().discardDestinationCard(
-                //    ClientModel.getInstance().getAuthToken(), ClientModel.getInstance().getCurrentGame().getGameID(),
-              //      ClientModel.getInstance().getCurrentPlayer()
-            //);
-        }
-    }
-
     @Override
     public ArrayList<DestinationCard> drawDestinationCards() {
         // Tell the server that the client wants to draw destination cards
@@ -248,9 +233,8 @@ public class GamePresenter implements IGamePresenter, Observer {
 
 
     @Override
-    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
-        // Tell the server that the client has chosen which destination cards to keep and which ones
-        // to discard to the bottom of the deck
+    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded) {
+        // Tell the server which destination cards to keep and put discarded on bottom of deck
         Game currentGame = ClientModel.getInstance().getCurrentGame();
 
         // Find the current player object
@@ -263,7 +247,10 @@ public class GamePresenter implements IGamePresenter, Observer {
             // Put the discarded cards at the bottom of the destination deck
             if (discarded != null) {
                 DestinationDeck destinationDeck = currentGame.getDestinationDeck();
-                destinationDeck.returnDiscarded(discarded);
+
+                for (DestinationCard card: discarded) {
+                    destinationDeck.returnDiscarded(card);
+                }
             }
 
             // Update the score
