@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import e.mboyd6.tickettoride.Communication.Proxies.GameplayProxy;
+import e.mboyd6.tickettoride.Communication.Proxies.LobbyProxy;
+import e.mboyd6.tickettoride.Facades.ClientGameplay;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IVictoryPresenter;
 import e.mboyd6.tickettoride.Views.Interfaces.IVictoryActivity;
@@ -36,7 +39,8 @@ public class VictoryPresenter implements IVictoryPresenter, Observer {
 
     @Override
     public void returnToLobby() {
-
+        LobbyProxy.instance().leaveGame(ClientModel.getInstance().getAuthToken(), ClientModel.getInstance().getCurrentGame().getGameID(),
+                ClientModel.getInstance().getPlayerName());
     }
 
     @Override
