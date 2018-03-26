@@ -241,7 +241,7 @@ public class GamePresenter implements IGamePresenter, Observer {
         Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
 
         if (currentPlayer != null) {
-            currentPlayer.setDestinationCards(chosen);
+            currentPlayer.getDestinationCards().addAll(chosen);
 
 
             // Put the discarded cards at the bottom of the destination deck
