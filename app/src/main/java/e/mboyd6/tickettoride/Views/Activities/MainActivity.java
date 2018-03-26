@@ -1,6 +1,7 @@
 package e.mboyd6.tickettoride.Views.Activities;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity
   private static final long SLIDE_DEFAULT_TIME = 200;
   private FragmentManager mFragmentManager;
   private Handler mDelayedTransactionHandler = new Handler();
+  private boolean straightToLobby = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +63,18 @@ public class MainActivity extends AppCompatActivity
     if (actionBar != null)
       actionBar.hide();
 
+    Intent intent = getIntent();
+    straightToLobby = intent.getBooleanExtra("STRAIGHT_TO_LOBBY", false);
+
+
     mFragmentManager = getSupportFragmentManager();
-    loadLoginFragmentFirstTime();
+
+    if (straightToLobby) {
+      loadLobbyFragment();
+    } else {
+      loadLoginFragmentFirstTime();
+    }
+
     SocketManager.ConnectSocket("this will be the URI once implemented"); //ws://192.168.255.178:8080/echo/
   }
 
@@ -74,6 +86,13 @@ public class MainActivity extends AppCompatActivity
 
   public void loadLoginFragment(String usernameData, String passwordData) {
     Fragment initialFragment = LoginFragment.newInstance(usernameData, passwordData);
+    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+    fragmentTransaction.replace(R.id.main_activity_fragment_container, initialFragment, "CURRENT_FRAGMENT");
+    fragmentTransaction.commit();
+  }
+
+  public void loadLobbyFragment() {
+    Fragment initialFragment = LobbyFragment.newInstance();
     FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
     fragmentTransaction.replace(R.id.main_activity_fragment_container, initialFragment, "CURRENT_FRAGMENT");
     fragmentTransaction.commit();

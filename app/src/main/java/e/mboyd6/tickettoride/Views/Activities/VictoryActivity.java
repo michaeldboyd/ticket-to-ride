@@ -1,10 +1,12 @@
 package e.mboyd6.tickettoride.Views.Activities;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.sharedcode.model.Player;
@@ -29,6 +31,8 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
     View victoryCard4;
     View victoryCard5;
 
+    Button backToLobby;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,15 +53,25 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
 
         int count = 1;
         for(Player player : playerListByScore) {
-            count++;
             View victoryCard = count == 1 ? victoryCard1 : count == 2 ? victoryCard2 : count == 3 ? victoryCard3 : count == 4 ? victoryCard4 : count == 5 ? victoryCard5 : null;
             inflatePlayer(count, player, victoryCard);
+            count++;
         }
+
+        backToLobby = findViewById(R.id.victory_fragment_back_to_lobby_button);
+        backToLobby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transitionToLobby();
+            }
+        });
     }
 
     protected void inflatePlayer(int rank_num, Player player, View victoryCard) {
         if (victoryCard == null)
             return;
+
+        victoryCard.setVisibility(View.VISIBLE);
 
         int route_points = player.getScore().getPoints();
         int destination_points = player.getScore().destCardPoints;
@@ -88,5 +102,11 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
         destinations_failed.setText(destinations_failed_text);
         longest_route.setText(longest_route_text);
         total.setText(total_points_text);
+    }
+
+    private void transitionToLobby() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("STRAIGHT_TO_LOBBY", true);
+        startActivity(intent);
     }
 }
