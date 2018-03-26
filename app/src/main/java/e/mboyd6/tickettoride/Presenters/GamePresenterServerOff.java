@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
-import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 
@@ -90,8 +89,8 @@ public class GamePresenterServerOff extends GamePresenter {
     }
 
     @Override
-    public void claimRoute(Route route) {
-        super.claimRoute(route);
+    public void claimRoute(Route route, int howManyWildcardsToUse) {
+        super.claimRoute(route, howManyWildcardsToUse);
         String myName = ClientModel.getInstance().getPlayerName();
         ClientModel.getInstance().getCurrentGame().getHistory().add( myName + " claimed " + route.getCity1() + " to " + route.getCity2());
         updateBoard();

@@ -465,7 +465,7 @@ public class BoardFragment extends Fragment implements
 
     @Override
     public void claimRoute(Route route, int howManyWildcardsToUse) {
-        mGamePresenter.claimRoute(route);
+        mGamePresenter.claimRoute(route, howManyWildcardsToUse);
     }
 
     @Override

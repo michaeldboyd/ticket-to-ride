@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="top|center_horizontal"
+    android:background="@color/goldenrod"
+    android:weightSum="3">
+
+    <NumberPicker
+        android:id="@+id/numberPicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:solidColor="@color/goldenrod_faded"
+        android:layout_marginTop="64dp"/>
+
+    <Button
+        android:id="@+id/dialog_use_wildcards"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_green_bg"
+        android:fontFamily="@font/dense"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:text="@string/use_wildcards"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"/>
+    <Button
+        android:id="@+id/dialog_cancel_wildcards"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_red_bg"
+        android:fontFamily="@font/dense"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:text="@string/cancel"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"/>
+
+</LinearLayout>

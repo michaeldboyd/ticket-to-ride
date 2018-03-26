@@ -273,7 +273,7 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
-    public void claimRoute(Route route) {
+    public void claimRoute(Route route, int howManyWildcardsToUse) {
         // Tell the server that the client has clicked on a route to claim/**/
         Game currentGame = ClientModel.getInstance().getCurrentGame();
 

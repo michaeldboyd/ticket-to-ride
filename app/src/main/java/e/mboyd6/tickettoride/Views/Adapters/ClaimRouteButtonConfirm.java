@@ -1,14 +1,18 @@
 package e.mboyd6.tickettoride.Views.Adapters;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
+import com.example.sharedcode.model.TrainType;
 
 import e.mboyd6.tickettoride.R;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
@@ -20,6 +24,9 @@ import e.mboyd6.tickettoride.Views.Fragments.BoardSelecting;
  */
 
 public class ClaimRouteButtonConfirm extends ClaimRouteButtonState {
+
+    int wildCardsToUse = 0;
+
     public void enter(BoardFragment boardFragment, Button claimRouteButton) {
         claimRouteButton.setVisibility(View.VISIBLE);
         claimRouteButton.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.thumbs_up, 0);
@@ -32,9 +39,11 @@ public class ClaimRouteButtonConfirm extends ClaimRouteButtonState {
         if (boardFragment.getBoardState().getClass().equals(BoardSelecting.class)
                 && selectedRoute != null) {
             if (selectedRoute.getNumberTrains() > player.getHand().get(selectedRoute.getTrainType())) {
-                wildCardDialog(boardFragment);
+                int min = selectedRoute.getNumberTrains() - player.getHand().get(selectedRoute.getTrainType());
+                int max = player.getHand().get(TrainType.LOCOMOTIVE) > selectedRoute.getNumberTrains() ? selectedRoute.getNumberTrains() : player.getHand().get(TrainType.LOCOMOTIVE);
+                wildCardDialog(boardFragment, min, max);
             } else {
-                claimRoute(boardFragment, 0);
+                claimRoute(boardFragment, wildCardsToUse);
             }
         }
     }
@@ -49,31 +58,44 @@ public class ClaimRouteButtonConfirm extends ClaimRouteButtonState {
         }
     }
 
-    private void wildCardDialog(final BoardFragment boardFragment) {
+    private void wildCardDialog(final BoardFragment boardFragment, int min, int max) {
         if(!boardFragment.isAdded())
             return;
-        boardFragment.getActivity();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(boardFragment.getActivity());
-        builder.setTitle("You have wildcards");
-        builder.setNegativeButton("Don't use", new DialogInterface.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+        final Dialog d = new Dialog(boardFragment.getActivity());
+        d.setTitle("You have wildcards");
+        d.setContentView(R.layout.dialog_wildcard);
+        Button useWildcards = (Button) d.findViewById(R.id.dialog_use_wildcards);
+        Button cancel = (Button) d.findViewById(R.id.dialog_cancel_wildcards);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+        np.setMaxValue(max); // max value 100
+        np.setMinValue(min);   // min value 0
+        np.setWrapSelectorWheel(false);
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //fill with stuff
-                claimRoute(boardFragment, 0);
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                wildCardsToUse = newVal;
             }
         });
-
-        builder.setPositiveButton("Use", new DialogInterface.OnClickListener() {
+        useWildcards.setOnClickListener(new View.OnClickListener()
+        {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //fill with stuff
-                claimRoute(boardFragment, 0);
+            public void onClick(View v) {
+                claimRoute(boardFragment, wildCardsToUse);
+                d.dismiss();
             }
         });
-        builder.show();
+        cancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                wildCardsToUse = 0;
+                d.dismiss(); // dismiss the dialog
+            }
+        });
+        d.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

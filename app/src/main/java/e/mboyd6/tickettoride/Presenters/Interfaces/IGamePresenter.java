@@ -49,7 +49,7 @@ public interface IGamePresenter {
     void chooseDestinationCards(ArrayList<DestinationCard> chosen, DestinationCard discarded);
 
     /** Called DOWNWARDS from Presenter **/
-    void claimRoute(Route route);
+    void claimRoute(Route route, int howManyWildcardsToUse);
 
     void detachView();
 

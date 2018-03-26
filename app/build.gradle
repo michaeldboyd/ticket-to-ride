@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'ttr-key'
+            keyPassword '2502502'
+            storeFile file('C:/Users/mboyd6/code/ttr-key.jks')
+            storePassword '2502502'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "e.mboyd6.tickettoride"
@@ -12,8 +20,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
@@ -29,7 +38,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':sharedCode')
     compile 'com.cedarsoftware:json-io:4.10.0'
-    compile "org.java-websocket:Java-WebSocket:1.3.7"
+    compile 'org.java-websocket:Java-WebSocket:1.3.7'
     testCompile 'org.assertj:assertj-core:3.9.0'
-
 }
