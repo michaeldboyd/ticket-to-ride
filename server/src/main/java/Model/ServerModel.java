@@ -127,13 +127,14 @@ public class ServerModel extends Observable {
                     break;
                 }
             }
+            ArrayList<String> removedSessions = new ArrayList<>();
             //clear logged in sessions and server model data
             for(Map.Entry<String, Session> e : loggedInSessions.entrySet()) {
                 String token = e.getKey();
                 String username = authTokenToUsername.get(token);
                 if(e.getValue() == null || !(e.getValue().isOpen())) {
                     //check the games for an instance of the client.
-                    loggedInSessions.remove(token);
+                    removedSessions.add(token);
                     loggedInUsers.remove(username);
                     authTokenToUsername.remove(token);
                     usersInLobby.remove(username);
@@ -149,6 +150,9 @@ public class ServerModel extends Observable {
                         }
                     }
                 }
+            }
+            for(String tok : removedSessions ){
+                loggedInSessions.remove(tok);
             }
             System.out.println("Successfully cleaned all sessions of closed session.");
         } catch (Exception e) {
