@@ -291,7 +291,7 @@ public class GamePresenter implements IGamePresenter, Observer {
             Score score = currentPlayer.getScore();
             score.addPoints(route);
             score.setTrains(numTrainsAfter);
-            score.setCards(currentPlayer.removeFromHand(route));
+            score.setCards(currentPlayer.removeFromHand(route, howManyWildcardsToUse));
 
             currentPlayer.setTrains(numTrainsAfter);
 

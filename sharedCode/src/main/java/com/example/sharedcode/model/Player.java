@@ -102,10 +102,16 @@ public class Player {
         this.hand = hand;
     }
 
-    public int removeFromHand(Route route) {
-        int cardsOfType = hand.get(route.getTrainType());
-        cardsOfType -= route.getNumberTrains();
-        hand.put(route.getTrainType(), cardsOfType);
+    public int removeFromHand(Route route, int wildcardsUsed) {
+
+        for(int i = 0; i < route.getNumberTrains(); i++){
+            if(wildcardsUsed > 0){
+                hand.put(TrainType.LOCOMOTIVE, hand.get(TrainType.LOCOMOTIVE) - 1);
+                wildcardsUsed--;
+            } else {
+                hand.put(route.getTrainType(), hand.get(route.getTrainType()) - 1);
+            }
+        }
 
         return cardsInHand();
     }

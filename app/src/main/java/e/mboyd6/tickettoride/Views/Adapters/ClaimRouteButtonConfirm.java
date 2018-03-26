@@ -83,6 +83,7 @@ public class ClaimRouteButtonConfirm extends ClaimRouteButtonState {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
+                wildCardsToUse = np.getValue();
                 claimRoute(boardFragment, wildCardsToUse);
                 d.dismiss();
             }
