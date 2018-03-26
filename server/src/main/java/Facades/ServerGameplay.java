@@ -8,6 +8,7 @@ import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerGameplayFacade;
 import com.example.sharedcode.model.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.ClientGameplay";
 
-    public static void _discardDestinationCard(String authToken, String gameID, Player player, DestinationDeck discardCards) {
+    public static void _discardDestinationCard(String authToken, String gameID, Player player, ArrayList<DestinationCard> discardCards) {
         ourInstance.discardDestinationCard(authToken, gameID, player, discardCards);
     }
 
@@ -48,7 +49,7 @@ public class ServerGameplay implements IServerGameplayFacade {
 
 
     @Override
-    public void discardDestinationCard(String authToken, String gameID, Player player, DestinationDeck discardCards) {
+    public void discardDestinationCard(String authToken, String gameID, Player player, ArrayList<DestinationCard> discardCards) {
         String message = "";
 
         Game currentGame = null;
