@@ -27,6 +27,83 @@
         app:layout_constraintTop_toBottomOf="parent" />
 
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/victory_fragment_back_to_lobby_button"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <include layout="@layout/victory_card"
+            android:id="@+id/victory_card_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            />
+        <include layout="@layout/victory_card"
+            android:id="@+id/victory_card_2"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            />
+        <include layout="@layout/victory_card"
+            android:id="@+id/victory_card_3"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            />
+        <include layout="@layout/victory_card"
+            android:id="@+id/victory_card_4"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            />
+        <include layout="@layout/victory_card"
+            android:id="@+id/victory_card_5"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            />
+
+
+    </LinearLayout>
+
+    <!-- PLEASE DON'T DELETE BELOW, IT'S FOR LATER -->
+<!--
+
     <ImageView
         android:layout_height="0dp"
         android:layout_width="match_parent"
@@ -44,8 +121,10 @@
         app:layout_constraintDimensionRatio="H,16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" >
+        -->
 
         <!-- First layer -->
+    <!--
         <android.support.constraint.Guideline
             android:id="@+id/guideline_player1_top"
             android:layout_width="wrap_content"
@@ -77,8 +156,10 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
         </LinearLayout>
+        -->
 
-        <!-- First layer -->
+    <!-- First layer -->
+    <!--
         <android.support.constraint.Guideline
             android:id="@+id/guideline_player_2_3_top"
             android:layout_width="wrap_content"
@@ -112,5 +193,6 @@
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
+-->
 
 </android.support.constraint.ConstraintLayout>

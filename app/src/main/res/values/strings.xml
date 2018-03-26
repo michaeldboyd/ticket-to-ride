@@ -578,5 +578,12 @@
     <string name="back_to_lobby">Back to Lobby</string>
     <string name="use_wildcards">Use Wildcards</string>
   <string name="cancel">cancel</string>
+  <string name="victory_rank">#1</string>
+  <string name="victory_name">PlayerName</string>
+  <string name="victory_routes">Routes:</string>
+  <string name="victory_destinations">+ Destinations:</string>
+  <string name="victory_destinations_failed">+ Destinations Failed:</string>
+  <string name="victory_longest_route">+ Longest Route: 10</string>
+  <string name="victory_total">= Total:</string>
 
 </resources>

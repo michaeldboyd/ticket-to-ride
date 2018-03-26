@@ -1,9 +1,11 @@
 package e.mboyd6.tickettoride.Presenters;
 
 import com.example.sharedcode.communication.UpdateArgs;
+import com.example.sharedcode.model.Player;
 
 import junit.framework.Assert;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -39,6 +41,11 @@ public class VictoryPresenter implements IVictoryPresenter, Observer {
     @Override
     public void detachView() {
         ClientModel.getInstance().deleteObserver(this);
+    }
+
+    @Override
+    public List<Player> getPlayerListByScore() {
+        return ClientModel.getInstance().getCurrentGame().getPlayerListByScore();
     }
 
     @Override
