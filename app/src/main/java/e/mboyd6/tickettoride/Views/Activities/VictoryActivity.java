@@ -108,5 +108,6 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("STRAIGHT_TO_LOBBY", true);
         startActivity(intent);
+        mVictoryPresenter.returnToLobby();
     }
 }
