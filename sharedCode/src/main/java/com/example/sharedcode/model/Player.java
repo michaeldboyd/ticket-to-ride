@@ -31,7 +31,7 @@ public class Player {
     private ArrayList<DestinationCard> destinationCards = new ArrayList<>();
     private int trains = START_TRAINS;
     private Score score = new Score();
-
+    public boolean hasStartedTurns = false;
     public boolean hasLongestPath() {
         return score.isLongestRoute();
     }

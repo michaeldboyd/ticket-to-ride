@@ -61,6 +61,14 @@ public class ServerGameplay implements IServerGameplayFacade {
             }
 
             currentGame.updatePlayer(player);
+
+            if(player.hasStartedTurns) {
+                currentGame.changeTurnForGame();
+            }
+            else {
+                player.hasStartedTurns = true;
+            }
+
             currentGame.getHistory().add(player.getName() + " discarded 1" + " destination card.");
         } else {
             message = "Game not found on server";
