@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'ttr-key'
-            keyPassword '2502502'
-            storeFile file('C:/Users/mboyd6/code/ttr-key.jks')
-            storePassword '2502502'
-        }
-    }
+//    signingConfigs {
+//        config {
+//            keyAlias 'ttr-key'
+//            keyPassword '2502502'
+//            storeFile file('C:/Users/mboyd6/code/ttr-key.jks')
+//            storePassword '2502502'
+//        }
+//    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "e.mboyd6.tickettoride"
@@ -22,7 +22,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
         }
     }
 }
