@@ -70,9 +70,8 @@ public class GamePresenterServerOff extends GamePresenter {
 
     @Override
     public ArrayList<Integer> drawTrainCards(int index1, int index2, int numberFromDeck) {
-        ArrayList<Integer> result = new ArrayList<>();
+        ArrayList<Integer> result = super.drawTrainCards(index1, index2, numberFromDeck);
 
-        super.drawTrainCards(index1, index2, numberFromDeck);
         String myName = ClientModel.getInstance().getPlayerName();
         ClientModel.getInstance().getCurrentGame().getHistory().add(myName + " drew " + 1 + " train card.");
 

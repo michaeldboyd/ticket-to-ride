@@ -1,6 +1,7 @@
 package e.mboyd6.tickettoride.Presenters;
 
 import com.example.sharedcode.communication.UpdateArgs;
+import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 
 import junit.framework.Assert;
@@ -11,7 +12,6 @@ import java.util.Observer;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IVictoryPresenter;
-import e.mboyd6.tickettoride.Views.Activities.VictoryActivity;
 import e.mboyd6.tickettoride.Views.Interfaces.IVictoryActivity;
 
 /**
@@ -21,11 +21,17 @@ import e.mboyd6.tickettoride.Views.Interfaces.IVictoryActivity;
 public class VictoryPresenter implements IVictoryPresenter, Observer {
 
     IVictoryActivity victoryActivity;
+    Game game = ClientModel.getInstance().getCurrentGame();
 
     public VictoryPresenter(IVictoryActivity victoryActivity) {
     //TODO: Implement the context setting
         ClientModel.getInstance().addObserver(this);
         this.victoryActivity = victoryActivity;
+    }
+
+    @Override
+    public List<Player> getPlayersByScore(){
+        return game.getPlayerListByScore();
     }
 
     @Override

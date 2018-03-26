@@ -9,6 +9,8 @@ import java.util.List;
  */
 
 public interface IVictoryPresenter {
+    List<Player> getPlayersByScore();
+
     void returnToLobby();
     void loadScreen();
     void detachView();
