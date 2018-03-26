@@ -576,5 +576,7 @@
     <string name="cards">Cards</string>
     <string name="routes">Routes</string>
     <string name="back_to_lobby">Back to Lobby</string>
+    <string name="use_wildcards">Use Wildcards</string>
+  <string name="cancel">cancel</string>
 
 </resources>

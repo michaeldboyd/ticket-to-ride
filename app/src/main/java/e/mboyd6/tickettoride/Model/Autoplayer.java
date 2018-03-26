@@ -11,12 +11,9 @@ import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.Score;
 import com.example.sharedcode.model.TrainType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import e.mboyd6.tickettoride.Presenters.GamePresenter;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
-import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Fragments.BoardFragment;
 
 /**
@@ -70,7 +67,7 @@ public class Autoplayer {
 
                 Route route = new Route("Rosette", "Lucin", 2, TrainType.BOX);
 
-                presenter.claimRoute(route);
+                presenter.claimRoute(route, 0);
 
                 stepText = "Step " + step + " - Claimed route from Rosette to Lucin\n" +
                         "Player score is now updated to " + score.getPoints() + " points.\n" +

@@ -119,8 +119,8 @@ public class GamePresenterServerOn extends GamePresenter {
     }
 
     @Override
-    public void claimRoute(Route routeName) {
-        super.claimRoute(routeName);
+    public void claimRoute(Route routeName, int howManyWildcardsToUse) {
+        super.claimRoute(routeName, howManyWildcardsToUse);
         // Tell the server that the client has clicked on a route to claim
         String authToken = ClientModel.getInstance().getAuthToken();
         Game currentGame = ClientModel.getInstance().getCurrentGame();

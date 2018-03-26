@@ -299,7 +299,8 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
 
         StringBuilder sb = new StringBuilder();
         sb.append("Added ");
-        sb.append(cardsAdded.size() == 1 ? TrainType.typeToName(cardsAdded.get(0)) + " (" + TrainType.typeToColor(cardsAdded.get(0)) + ")" + " card" : TrainType.typeToName(cardsAdded.get(0)) + " (" + TrainType.typeToColor(cardsAdded.get(0)) + ")" + " and " + TrainType.typeToName(cardsAdded.get(1)) + " (" + TrainType.typeToColor(cardsAdded.get(1)) + ")" + " cards");
+        if (cardsAdded.size() > 0)
+            sb.append(cardsAdded.size() < 2 ? TrainType.typeToName(cardsAdded.get(0)) + " (" + TrainType.typeToColor(cardsAdded.get(0)) + ")" + " card" : TrainType.typeToName(cardsAdded.get(0)) + " (" + TrainType.typeToColor(cardsAdded.get(0)) + ")" + " and " + TrainType.typeToName(cardsAdded.get(1)) + " (" + TrainType.typeToColor(cardsAdded.get(1)) + ")" + " cards");
         sb.append(" to hand");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

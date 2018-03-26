@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/game_fragment_claim_route_button"
+        android:id="@+id/victory_fragment_back_to_lobby_button"
         android:layout_width="160dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
