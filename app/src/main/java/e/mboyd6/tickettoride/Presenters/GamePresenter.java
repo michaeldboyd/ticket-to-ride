@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import e.mboyd6.tickettoride.Facades.ClientGameplay;
 import e.mboyd6.tickettoride.Model.ClientModel;
 import e.mboyd6.tickettoride.Presenters.Interfaces.IGamePresenter;
 import e.mboyd6.tickettoride.Views.Activities.GameActivity;
@@ -40,6 +41,7 @@ public class GamePresenter implements IGamePresenter, Observer {
 
     protected IGameActivityFragment gameActivityFragment;
     protected Activity activity;
+    protected Game game = ClientModel.getInstance().getCurrentGame();
 
     public GamePresenter(IBoardFragment boardFragment, Activity activity) {
         gameActivityFragment = boardFragment;
@@ -199,6 +201,10 @@ public class GamePresenter implements IGamePresenter, Observer {
         Player player = ClientModel.getInstance().getCurrentPlayer();
         Score score = player.getScore();
         score.setCards(player.cardsInHand());
+
+        if(game.checkAndResolveTooManyWildcardsInFaceUp()){
+            ((GameActivity) activity).sendToast("Too many locomotives in face up deck. They've all been discarded and face up was recreated.");
+        }
 
         return result;
     }

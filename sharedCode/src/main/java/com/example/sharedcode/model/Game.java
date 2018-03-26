@@ -370,4 +370,34 @@ public class Game {
 
         return returnList;
     }
+
+    public boolean checkAndResolveTooManyWildcardsInFaceUp(){
+        int wildcardCount = 0;
+
+        for(int i : faceUpDeck){
+            if(i == TrainType.LOCOMOTIVE){
+                //If there are more than 3 locomotives and increment
+                if(++wildcardCount >= 3){
+                    //Discard train cards
+                    for(int j = faceUpDeck.size() - 1; j >= 0; j--){
+                        trainDiscardDeck.returnDiscarded(faceUpDeck.get(j));
+                        faceUpDeck.remove(j);
+                    }
+
+                    //Recreated face up deck
+                    for(int j = 0; j < 5; j++){
+                        try {
+                            faceUpDeck.add(trainCardDeck.drawCard());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
