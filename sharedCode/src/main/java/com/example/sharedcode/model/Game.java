@@ -354,8 +354,10 @@ public class Game {
                 boolean playerAdded = false;
 
                 for(int i = 0; i < sortedPlayers.size(); i++){
-
-                    if(p.getScore().getPoints() > sortedPlayers.get(i).getScore().getPoints()) {
+                    int pscore = p.getScore().getPoints() + p.getScore().destCardPoints - p.getScore().destCardDeductions;
+                    Score other_score = sortedPlayers.get(i).getScore();
+                    int other = other_score.getPoints() + other_score.destCardPoints - other_score.destCardDeductions;
+                    if(pscore > other)  {
                         sortedPlayers.add(i, p);
                         playerAdded = true;
                         break;
