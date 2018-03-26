@@ -1,5 +1,6 @@
 package e.mboyd6.tickettoride.Views.Activities;
 
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_victory);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
