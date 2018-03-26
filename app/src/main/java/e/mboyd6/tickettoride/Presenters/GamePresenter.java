@@ -330,14 +330,14 @@ public class GamePresenter implements IGamePresenter, Observer {
     }
 
     @Override
-    public void finalRound(){
+    public void finalRound() {
         if(gameActivityFragment instanceof IBoardFragment){
             ((IBoardFragment) gameActivityFragment).setFinalRound();
         }
     }
 
     @Override
-    public void gameFinished(){
+    public void gameFinished() {
         List<Player> playerListByScore = ClientModel.getInstance().getCurrentGame().getPlayerListByScore();
 
         if (activity instanceof GameActivity) {
