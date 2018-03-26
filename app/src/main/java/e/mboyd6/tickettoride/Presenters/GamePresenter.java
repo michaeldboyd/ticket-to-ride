@@ -244,7 +244,7 @@ public class GamePresenter implements IGamePresenter, Observer {
             if(currentPlayer.hasStartedTurns) {
                 currentPlayer.getDestinationCards().addAll(chosen);
             } else {
-                currentPlayer.getDestinationCards().removeAll(discarded);
+                currentPlayer.setDestinationCards(chosen);
             }
 
 
