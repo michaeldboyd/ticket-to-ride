@@ -1,5 +1,6 @@
 package e.mboyd6.tickettoride.Views.Activities;
 
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_victory);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -57,11 +59,10 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
         if (victoryCard == null)
             return;
 
-        //TODO: Anyone who can properly set these ints/bools can make it work
-        int route_points = 0;
-        int destination_points = 0;
-        int destination_deductions = 0;
-        boolean has_longest_route = false;
+        int route_points = player.getScore().getPoints();
+        int destination_points = player.getScore().destCardPoints;
+        int destination_deductions = player.getScore().destCardDeductions;
+        boolean has_longest_route = player.hasLongestPath();
         int total_points = route_points + destination_points - destination_deductions + (has_longest_route ? 10 : 0);
 
         TextView rank = victoryCard.findViewById(R.id.victory_card_rank);

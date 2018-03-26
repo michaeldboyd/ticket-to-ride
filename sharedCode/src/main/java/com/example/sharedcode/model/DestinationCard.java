@@ -11,6 +11,16 @@ public class DestinationCard {
     private String startCity; //these might be enums, but didn't have those yet
     private String endCity; //or know if we're using those, so I used strings for now
     private int points;
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    private boolean completed;
     private ArrayList<Route> routesClaimed; 
 
     public DestinationCard(String start, String end, int points){

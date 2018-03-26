@@ -5,21 +5,20 @@ package com.example.sharedcode.model;
  */
 
 public class Score {
-    int points = 0;
-    int trains = 0;
-    int cards = 0;
-    int routes = 0;
-    boolean longestRoute = false;
-
-    public Score() {
-    }
+    public int destCardPoints = 0;
+    public int destCardDeductions = 0;
+    private int routePoints = 0;
+    private int trains = 0;
+    private int cards = 0;
+    private int routes = 0;
+    private boolean longestRoute = false;
 
     public int getPoints() {
-        return points;
+        return routePoints;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void setPoints(int routePoints) {
+        this.routePoints = routePoints;
     }
 
     public int getTrains() {
@@ -56,7 +55,7 @@ public class Score {
 
 
     public void addPoints(Route route) {
-        this.points += computePoints(route);
+        this.routePoints += computePoints(route);
     }
 
     public int computePoints(Route route){

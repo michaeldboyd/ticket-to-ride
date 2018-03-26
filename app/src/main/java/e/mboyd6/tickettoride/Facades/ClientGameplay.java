@@ -145,6 +145,7 @@ public class ClientGameplay implements IClientGamplayFacade {
                 ClientModel.getInstance().setCurrentGame(game);
             } else {
                 message = "Game sent does not match current game";
+                success = false;
             }
         }
 

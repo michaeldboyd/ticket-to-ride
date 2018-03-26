@@ -1,10 +1,13 @@
 package Model;
 
+import com.example.sharedcode.model.DestinationCard;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
 import org.jgrapht.EdgeFactory;
+import org.jgrapht.GraphPath;
 import org.jgrapht.alg.ConnectivityInspector;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
@@ -21,8 +24,11 @@ public class LongestPathAlgorithm {
         String lpPlayer = "";
         int max = 0;
         for(Player player : game.getPlayers()) {
-            int longestPath = playerGraphs.get(player.getName()).getLongestPath();
+            RouteGraph playerGraph = playerGraphs.get(player.getName());
+            int longestPath = playerGraph.getLongestPath();
             player.setLongestPath(longestPath);
+            // go through all destination cards and mark any of them that have been completed.
+            player = playerGraph.checkDestCards(player);
             if(longestPath > max) {
                 max = longestPath;
                 lpPlayer = player.getName();
@@ -211,4 +217,41 @@ class RouteGraph extends SimpleWeightedGraph<Vertex, RouteEdge> {
         return max;
     }
 
+    public Player checkDestCards(Player player) {
+
+        for(DestinationCard card : player.getDestinationCards()) {
+            boolean completed = checkCard(card);
+            card.setCompleted(completed);
+        }
+        return player;
+    }
+
+    private boolean checkCard(DestinationCard card) {
+        // check to see if the cards start and end routes are linked.
+        String startCity = card.getStartCity();
+        String endCity = card.getEndCity();
+        Vertex startV = null;
+        Vertex endV = null;
+
+        boolean completed = false;
+
+        for (Vertex v : vertexSet()) {
+            if (startCity.equals(v.val)) {
+                startV = v;
+            } else if (endCity.equals(v.val)) {
+                endV = v;
+            }
+        }
+        // check if start and end v are connected.
+        if(startV != null && endV != null)
+        {
+            DijkstraShortestPath<Vertex, RouteEdge> dijk = new DijkstraShortestPath<>(this);
+            GraphPath<Vertex, RouteEdge> path = dijk.getPath(startV, endV);
+            if(path != null) {
+                completed = true;
+            }
+        }
+
+        return completed;
+    }
 }

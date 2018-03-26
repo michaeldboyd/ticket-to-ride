@@ -21,7 +21,7 @@ public class LongestPathAlgTest {
     private Game getGame() {
         Game game = new Game();
 
-        Player p1 = new Player("1", "1", PlayerColors.BLUE);
+        Player p1 = new Player("001", "001", PlayerColors.BLUE);
         Player p2 = new Player("002", "002", PlayerColors.RED);
         Player p3 = new Player("003", "003", PlayerColors.ORANGE);
         game.addPlayer(p1);
@@ -61,6 +61,9 @@ public class LongestPathAlgTest {
     @Test
     public void testSmallBoard() {
         Game game = getGame();
+        for (Player p : game.getPlayers()) {
+            p.getDestinationCards().clear();
+        }
         Player p = game.getPlayers().get(0);
         Map<Route, Player> routes = new HashMap<>();
         routes.put(new Route("Rosette", "Lucin", 2, TrainType.BOX), p);
@@ -87,6 +90,52 @@ public class LongestPathAlgTest {
         game = LongestPathAlgorithm.update(game);
 
         Assert.assertEquals(11, game.getPlayers().get(0).getLongestPath());
+    }
+
+    @Test
+    public void testDestCards() {
+        Game game = getGame();
+        for (Player p : game.getPlayers()) {
+            p.getDestinationCards().clear();
+        }
+
+        game.getPlayers().get(0).getDestinationCards().add(new DestinationCard("Provo", "Gold Hill",5));
+        Player p = game.getPlayers().get(0);
+
+        Map<Route, Player> routes = new HashMap<>();
+        routes.put(new Route("Rosette", "Lucin", 2, TrainType.BOX), p);
+        routes.put(new Route("Rosette", "Aragonite", 2, TrainType.PASSENGER), null);
+        routes.put(new Route("Rosette", "Salt Lake City", 6, TrainType.TANKER, true), null);
+        routes.put(new Route("Salt Lake City", "Rosette", 6, TrainType.REEFER, true), null);
+        routes.put(new Route("Rosette", "Paradise", 4, TrainType.FREIGHT), p);
+        routes.put(new Route("Rosette", "Randolph", 6, TrainType.HOPPER), null);
+        routes.put(new Route("Lucin", "Gold Hill", 5, TrainType.COAL), p);
+        routes.put(new Route("Aragonite", "Gold Hill", 3, TrainType.CABOOSE), null);
+        routes.put(new Route("Aragonite", "Dugway", 2, TrainType.BOX), null);
+        routes.put(new Route("Aragonite", "Salt Lake City", 3, TrainType.PASSENGER), null);
+        routes.put(new Route("Salt Lake City", "Dugway", 2, TrainType.TANKER), null);
+        routes.put(new Route("Salt Lake City", "Provo", 2, TrainType.REEFER), null);
+        routes.put(new Route("Salt Lake City", "Park City", 1, TrainType.FREIGHT), null);
+        routes.put(new Route("Salt Lake City", "Paradise", 4, TrainType.HOPPER), null);
+        routes.put(new Route("Paradise", "Randolph", 1, TrainType.COAL), null);
+        routes.put(new Route("Randolph", "Tabiona", 5, TrainType.CABOOSE), null);
+        routes.put(new Route("Randolph", "Manila", 5, TrainType.BOX), null);
+        routes.put(new Route("Gold Hill", "Gandy", 3, TrainType.PASSENGER), null);
+        routes.put(new Route("Gold Hill", "Black Rock", 6, TrainType.TANKER, true), null);
+        routes.put(new Route("Black Rock", "Gold Hill", 6, TrainType.COAL, true), null);
+        routes.put(new Route("Gold Hill", "Gandy", 3, TrainType.PASSENGER), null);
+        routes.put(new Route("Gold Hill", "Black Rock", 6, TrainType.TANKER, true), null);
+        routes.put(new Route("Black Rock", "Gold Hill", 6, TrainType.COAL, true), null);
+        routes.put(new Route("Gold Hill", "Dugway", 3, TrainType.REEFER), p);
+        routes.put(new Route("Dugway", "Black Rock", 6, TrainType.FREIGHT), null);
+        routes.put(new Route("Dugway", "Scipio", 4, TrainType.HOPPER), null);
+        routes.put(new Route("Dugway", "Provo", 2, TrainType.COAL), p);
+        routes.put(new Route("Provo", "Scipio", 4, TrainType.CABOOSE), null);
+        routes.put(new Route("Provo", "Elmo", 4, TrainType.BOX), null);
+        game.setRoutesClaimed(routes);
+        game = LongestPathAlgorithm.update(game);
+        Assert.assertTrue(p.getDestinationCards().get(0).isCompleted());
+
     }
 
 }

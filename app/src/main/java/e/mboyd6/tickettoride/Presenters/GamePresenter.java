@@ -1,6 +1,7 @@
 package e.mboyd6.tickettoride.Presenters;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.widget.Button;
 
 import com.example.sharedcode.communication.UpdateArgs;
@@ -340,6 +341,7 @@ public class GamePresenter implements IGamePresenter, Observer {
     public void gameFinished() {
         List<Player> playerListByScore = ClientModel.getInstance().getCurrentGame().getPlayerListByScore();
 
+        // activity is null
         if (activity instanceof GameActivity) {
             ((IGameActivity) activity).changeToVictoryActivity(playerListByScore);
 
@@ -349,7 +351,7 @@ public class GamePresenter implements IGamePresenter, Observer {
 
     @Override
     public void endGame() {
-
+            //assuming this is deprecated?
     }
 
     @Override

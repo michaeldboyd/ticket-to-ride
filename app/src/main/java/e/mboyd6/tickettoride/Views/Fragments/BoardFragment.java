@@ -317,7 +317,7 @@ public class BoardFragment extends Fragment implements
         if (getArguments() != null && getArguments().getBoolean("START_GAME", false)) {
             setCardDrawerState(new CardDrawerStartGame());
         }
-        setGamePresenterState(new GamePresenterServerOn(this, null));
+        setGamePresenterState(new GamePresenterServerOn(this, activity));
         mGamePresenter.updateBoard();
         mGamePresenter.onUpdateTurn();
     }

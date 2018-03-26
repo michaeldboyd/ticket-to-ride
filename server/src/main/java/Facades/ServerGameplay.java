@@ -75,6 +75,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame = ServerModel.instance().getGames().get(gameID);
 
             currentGame.setRoutesClaimed(routesClaimed);
+
             // maybe put this line into the end game function if it ends up taking too long.
             currentGame = LongestPathAlgorithm.update(currentGame);
 
@@ -88,7 +89,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             message = "Game not found on server";
         }
 
-        if(currentGame.isDone()) {
+        if(currentGame != null && currentGame.isDone()) {
             endGame(authToken, currentGame, message);
         } else {
             sendGameUpdate(authToken,currentGame, message);
@@ -110,14 +111,13 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setTrainCardDeck(trainCardDeck);
             currentGame.setTrainDiscardDeck(trainDiscardDeck);
             currentGame.getHistory().add(player.getName() + " drew train cards.");
-
             //This method will end the game if it is needed
             currentGame.changeTurnForGame();
         } else {
             message = "Game not found on server";
         }
 
-        if(currentGame.isDone()) {
+        if(currentGame != null && currentGame.isDone()) {
             endGame(authToken, currentGame, message);
         } else {
             sendGameUpdate(authToken,currentGame, message);
@@ -151,7 +151,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             message = "Game not found on server";
         }
 
-        if(currentGame.isDone()) {
+        if(currentGame != null && currentGame.isDone()) {
             endGame(authToken, currentGame, message);
         } else {
             sendGameUpdate(authToken,currentGame, message);
@@ -175,12 +175,15 @@ public class ServerGameplay implements IServerGameplayFacade {
     }
 
     public void endGame(String authToken, Game currentGame, String message) {
+        //calculate the destination card scores and longest path score and
+        currentGame = calculateFinalScores(currentGame);
         String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {currentGame, message};
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_endGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
     }
+
 
     public void sendGameUpdate(String authToken, Game currentGame, String message) {
         //System.out.println("sendGameUpdate called");
@@ -190,6 +193,21 @@ public class ServerGameplay implements IServerGameplayFacade {
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_updateGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
+    }
+
+    private Game calculateFinalScores(Game currentGame) {
+        for(Player p : currentGame.getPlayers()) {
+            // add points if dest card was complete, remove if not.
+            for(DestinationCard card : p.getDestinationCards()) {
+                if(card.isCompleted()) {
+                    p.getScore().destCardPoints += card.getPoints();
+                } else {
+                    p.getScore().destCardDeductions += card.getPoints();
+                }
+            }
+        }
+
+        return currentGame;
     }
 }
 
