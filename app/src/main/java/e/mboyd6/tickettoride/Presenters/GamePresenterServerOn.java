@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 import android.widget.Button;
 
 import com.example.sharedcode.model.DestinationCard;
+import com.example.sharedcode.model.DestinationDeck;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
@@ -105,7 +106,7 @@ public class GamePresenterServerOn extends GamePresenter {
     }
 
     @Override
-    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, DestinationCard discarded) {
+    public void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded) {
         super.chooseDestinationCards(chosen, discarded);
         // Only tell the Server to discard a card if there is one
         if (discarded != null) {

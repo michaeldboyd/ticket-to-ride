@@ -8,6 +8,7 @@ import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCard;
 import com.example.sharedcode.model.TrainCardDeck;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 
 public interface IServerGameplayFacade {
-    void discardDestinationCard(String authToken, String gameID, Player player, DestinationCard destinationCard);
+    void discardDestinationCard(String authToken, String gameID, Player player, ArrayList<DestinationCard> discardCards);
     void claimRoute(String authToken, String gameID, Player player, Map<Route, Player> routesClaimed);
     void updateTrainCards(String authToken, String gameID, Player player, FaceUpDeck faceUpDeck, TrainCardDeck trainCardDeck, TrainCardDeck trainDiscardDeck);
     void updateDestinationCards(String authToken, String gameID, Player player, DestinationDeck destinationDeck);

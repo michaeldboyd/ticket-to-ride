@@ -11,6 +11,7 @@ import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.Route;
 import com.example.sharedcode.model.TrainCardDeck;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,9 +49,9 @@ public class GameplayProxy implements IServerGameplayFacade {
 
 
     @Override
-    public void discardDestinationCard(String authToken, String gameID, Player player, DestinationCard destinationCard) {
-        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(), destinationCard.getClass().toString()};
-        Object[] paramValues = {authToken, gameID, player, destinationCard};
+    public void discardDestinationCard(String authToken, String gameID, Player player, ArrayList<DestinationCard> destinationCards) {
+        String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(), destinationCards.getClass().toString()};
+        Object[] paramValues = {authToken, gameID, player, destinationCards};
 
         Command sendMessageCommand = CommandFactory.createCommand(null, CLASS_PATH, "_discardDestinationCard", paramTypes, paramValues);
 

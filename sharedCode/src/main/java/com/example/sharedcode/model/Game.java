@@ -298,7 +298,7 @@ public class Game {
 
         checkFinalRound();
 
-        if(turnsLeft == 0){
+        if(turnsLeft == 0) {
             isDone = true;
         } else {
 
@@ -325,7 +325,7 @@ public class Game {
     public void checkFinalRound(){
         Player currentPlayer = getPlayer(currentTurnPlayerName);
 
-        if(currentPlayer.getTrains() <= 2 || isLastRound){
+        if(currentPlayer.getTrains() <= 2 || isLastRound) {
             isLastRound = true;
 
             //Set the turns left to the amount of players [Michael says..] plus one because first player must go again.
@@ -342,59 +342,65 @@ public class Game {
      * @return
      */
     public List<Player> getPlayerListByScore(){
-        List<Player> returnList = new ArrayList<>();
+        List<Player> sortedPlayers = new ArrayList<>();
 
         //Go through players in list
         for(Player p : players){
 
             //Add them to list in correct position
-            if(returnList.isEmpty()){
-                returnList.add(p);
+            if(sortedPlayers.isEmpty()){
+                sortedPlayers.add(p);
             } else{
                 boolean playerAdded = false;
 
-                for(int i = 0; i < returnList.size(); i++){
+                for(int i = 0; i < sortedPlayers.size(); i++){
 
-                    if(p.getScore().getPoints() > returnList.get(i).getScore().getPoints()){
-                        returnList.add(i, p);
+                    if(p.getScore().getPoints() > sortedPlayers.get(i).getScore().getPoints()) {
+                        sortedPlayers.add(i, p);
                         playerAdded = true;
                         break;
                     }
                 }
 
                 if(!playerAdded){
-                    returnList.add(p);
+                    sortedPlayers.add(p);
                 }
             }
         }
 
-        return returnList;
+        return sortedPlayers;
     }
 
-    public boolean checkAndResolveTooManyWildcardsInFaceUp(){
+    public boolean checkAndResolveTooManyWildcardsInFaceUp() {
         int wildcardCount = 0;
 
         for(int i : faceUpDeck){
             if(i == TrainType.LOCOMOTIVE){
                 //If there are more than 3 locomotives and increment
-                if(++wildcardCount >= 3){
-                    //Discard train cards
-                    for(int j = faceUpDeck.size() - 1; j >= 0; j--){
-                        trainDiscardDeck.returnDiscarded(faceUpDeck.get(j));
-                        faceUpDeck.remove(j);
-                    }
-
-                    //Recreated face up deck
-                    for(int j = 0; j < 5; j++){
-                        try {
-                            faceUpDeck.add(trainCardDeck.drawCard());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    return true;
+                wildcardCount++;
+                if (wildcardCount >= 3) {
+                    break;
                 }
+            }
+
+            if(wildcardCount >= 3) {
+                // Discard train cards
+                // Go backwards so that we avoid problems mutating while iterating
+                for(int j = faceUpDeck.size() - 1; j >= 0; j--) {
+                    trainDiscardDeck.returnDiscarded(faceUpDeck.get(j));
+                    faceUpDeck.remove(j);
+                }
+
+                //Recreated face up deck
+                for(int j = 0; j < 5; j++){
+                    try {
+                        faceUpDeck.add(trainCardDeck.drawCard());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                return true;
             }
         }
 

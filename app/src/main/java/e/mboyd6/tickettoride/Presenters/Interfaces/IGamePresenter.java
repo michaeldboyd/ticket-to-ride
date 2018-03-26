@@ -40,13 +40,11 @@ public interface IGamePresenter {
 
     ArrayList<DestinationCard> getStartDestinationCards();
 
-    void discardStartDestinationCards(ArrayList<DestinationCard> discardedCards);
-
     /** Called DOWNWARDS from Presenter **/
     ArrayList<DestinationCard> drawDestinationCards();
 
     /** Called DOWNWARDS from Presenter **/
-    void chooseDestinationCards(ArrayList<DestinationCard> chosen, DestinationCard discarded);
+    void chooseDestinationCards(ArrayList<DestinationCard> chosen, ArrayList<DestinationCard> discarded);
 
     /** Called DOWNWARDS from Presenter **/
     void claimRoute(Route route, int howManyWildcardsToUse);

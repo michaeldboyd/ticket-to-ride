@@ -8,6 +8,7 @@ import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerGameplayFacade;
 import com.example.sharedcode.model.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,8 +25,8 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.ClientGameplay";
 
-    public static void _discardDestinationCard(String authToken, String gameID, Player player, DestinationCard destinationCard) {
-        ourInstance.discardDestinationCard(authToken, gameID, player, destinationCard);
+    public static void _discardDestinationCard(String authToken, String gameID, Player player, ArrayList<DestinationCard> discardCards) {
+        ourInstance.discardDestinationCard(authToken, gameID, player, discardCards);
     }
 
     public static void _claimRoute(String authToken, String gameID, Player player, HashMap routesClaimed) {
@@ -48,14 +49,17 @@ public class ServerGameplay implements IServerGameplayFacade {
 
 
     @Override
-    public void discardDestinationCard(String authToken, String gameID, Player player, DestinationCard destinationCard) {
+    public void discardDestinationCard(String authToken, String gameID, Player player, ArrayList<DestinationCard> discardCards) {
         String message = "";
 
         Game currentGame = null;
         if (ServerModel.instance().getGames().containsKey(gameID)) {
             currentGame = ServerModel.instance().getGames().get(gameID);
 
-            currentGame.getDestinationDeck().returnDiscarded(destinationCard);
+            for (DestinationCard card: discardCards) {
+                currentGame.getDestinationDeck().returnDiscarded(card);
+            }
+
             currentGame.updatePlayer(player);
             currentGame.getHistory().add(player.getName() + " discarded 1" + " destination card.");
         } else {
