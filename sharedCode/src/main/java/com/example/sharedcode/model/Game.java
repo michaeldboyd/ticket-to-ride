@@ -355,7 +355,7 @@ public class Game {
 
                 for(int i = 0; i < returnList.size(); i++){
 
-                    if(p.getScore().getPoints() > returnList.get(i).getScore().getPoints()){
+                    if(p.getScore().getRoutePoints() > returnList.get(i).getScore().getRoutePoints()){
                         returnList.add(i, p);
                         playerAdded = true;
                         break;

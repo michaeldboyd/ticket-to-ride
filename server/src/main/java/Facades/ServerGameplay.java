@@ -175,12 +175,15 @@ public class ServerGameplay implements IServerGameplayFacade {
     }
 
     public void endGame(String authToken, Game currentGame, String message) {
+        //calculate the destination card scores and longest path score and
+        currentGame = calculateFinalScores(currentGame);
         String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {currentGame, message};
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_endGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
     }
+
 
     public void sendGameUpdate(String authToken, Game currentGame, String message) {
         //System.out.println("sendGameUpdate called");
@@ -190,6 +193,21 @@ public class ServerGameplay implements IServerGameplayFacade {
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_updateGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
+    }
+
+    private Game calculateFinalScores(Game currentGame) {
+        for(Player p : currentGame.getPlayers()) {
+            // add points if dest card was complete, remove if not.
+            for(DestinationCard card : p.getDestinationCards()) {
+                if(card.isCompleted()) {
+                    p.getScore().destCardPoints += card.getPoints();
+                } else {
+                    p.getScore().destCardDeductions += card.getPoints();
+                }
+            }
+        }
+
+        return currentGame;
     }
 }
 

@@ -23,7 +23,6 @@ public class Player {
         hand = map;
     }
 
-    private boolean hasLongestPath = false;
     private int longestPath = 0;
     private String playerID;
     private String name;
@@ -34,12 +33,10 @@ public class Player {
     private Score score = new Score();
 
     public boolean hasLongestPath() {
-        return hasLongestPath;
+        return score.isLongestRoute();
     }
 
-    public void setLongestPath(boolean hasLongestPath) {
-        this.hasLongestPath = hasLongestPath;
-    }
+    public void setLongestPath(boolean hasLongestPath) { this.getScore().setLongestRoute(hasLongestPath); }
 
     public int getLongestPath() {
         return longestPath;
