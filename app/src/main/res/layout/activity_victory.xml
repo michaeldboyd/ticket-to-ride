@@ -44,6 +44,7 @@
         android:weightSum="5">
 
         <include layout="@layout/victory_card"
+            android:visibility="gone"
             android:id="@+id/victory_card_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -54,6 +55,8 @@
             android:layout_marginTop="8dp"
             />
         <include layout="@layout/victory_card"
+
+            android:visibility="gone"
             android:id="@+id/victory_card_2"
 
             android:layout_width="0dp"
@@ -65,6 +68,8 @@
             android:layout_marginTop="8dp"
             />
         <include layout="@layout/victory_card"
+
+            android:visibility="gone"
             android:id="@+id/victory_card_3"
 
             android:layout_width="0dp"
@@ -76,6 +81,8 @@
             android:layout_marginTop="8dp"
             />
         <include layout="@layout/victory_card"
+
+            android:visibility="gone"
             android:id="@+id/victory_card_4"
 
             android:layout_width="0dp"
@@ -87,6 +94,8 @@
             android:layout_marginTop="8dp"
             />
         <include layout="@layout/victory_card"
+
+            android:visibility="gone"
             android:id="@+id/victory_card_5"
 
             android:layout_width="0dp"
