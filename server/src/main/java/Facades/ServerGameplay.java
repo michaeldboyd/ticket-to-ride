@@ -75,6 +75,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame = ServerModel.instance().getGames().get(gameID);
 
             currentGame.setRoutesClaimed(routesClaimed);
+
             // maybe put this line into the end game function if it ends up taking too long.
             currentGame = LongestPathAlgorithm.update(currentGame);
 
@@ -110,7 +111,6 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setTrainCardDeck(trainCardDeck);
             currentGame.setTrainDiscardDeck(trainDiscardDeck);
             currentGame.getHistory().add(player.getName() + " drew train cards.");
-
             //This method will end the game if it is needed
             currentGame.changeTurnForGame();
         } else {
