@@ -328,9 +328,9 @@ public class Game {
         if(currentPlayer.getTrains() <= 2 || isLastRound){
             isLastRound = true;
 
-            //Set the turns left to the amount of players
+            //Set the turns left to the amount of players [Michael says..] plus one because first player must go again.
             if(turnsLeft < 0) {
-                turnsLeft = players.size();
+                turnsLeft = players.size() + 1;
             } else { //decrement down
                 --turnsLeft;
             }
@@ -355,7 +355,7 @@ public class Game {
 
                 for(int i = 0; i < returnList.size(); i++){
 
-                    if(p.getScore().getRoutePoints() > returnList.get(i).getScore().getRoutePoints()){
+                    if(p.getScore().getPoints() > returnList.get(i).getScore().getPoints()){
                         returnList.add(i, p);
                         playerAdded = true;
                         break;

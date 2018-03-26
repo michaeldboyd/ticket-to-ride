@@ -57,7 +57,6 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
         if (victoryCard == null)
             return;
 
-        //TODO: Anyone who can properly set these ints/bools can make it work
         int route_points = player.getScore().getPoints();
         int destination_points = player.getScore().destCardPoints;
         int destination_deductions = player.getScore().destCardDeductions;

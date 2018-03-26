@@ -340,6 +340,7 @@ public class GamePresenter implements IGamePresenter, Observer {
     public void gameFinished(){
         List<Player> playerListByScore = ClientModel.getInstance().getCurrentGame().getPlayerListByScore();
 
+        // activity is null
         if (activity instanceof GameActivity) {
             ((IGameActivity) activity).changeToVictoryActivity(playerListByScore);
 
@@ -349,7 +350,7 @@ public class GamePresenter implements IGamePresenter, Observer {
 
     @Override
     public void endGame() {
-
+            //assuming this is deprecated?
     }
 
     @Override

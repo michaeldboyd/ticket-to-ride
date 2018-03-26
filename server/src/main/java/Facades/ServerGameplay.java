@@ -89,7 +89,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             message = "Game not found on server";
         }
 
-        if(currentGame.isDone()) {
+        if(currentGame != null && currentGame.isDone()) {
             endGame(authToken, currentGame, message);
         } else {
             sendGameUpdate(authToken,currentGame, message);
@@ -117,7 +117,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             message = "Game not found on server";
         }
 
-        if(currentGame.isDone()) {
+        if(currentGame != null && currentGame.isDone()) {
             endGame(authToken, currentGame, message);
         } else {
             sendGameUpdate(authToken,currentGame, message);
@@ -151,7 +151,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             message = "Game not found on server";
         }
 
-        if(currentGame.isDone()) {
+        if(currentGame != null && currentGame.isDone()) {
             endGame(authToken, currentGame, message);
         } else {
             sendGameUpdate(authToken,currentGame, message);
