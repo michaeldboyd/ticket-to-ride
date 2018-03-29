@@ -63,7 +63,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/dense"
             android:gravity="center_vertical"
-            android:text="@string/routes"
+            android:text="@string/destination_cards"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:layout_weight="1"
