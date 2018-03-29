@@ -49,7 +49,7 @@ public class GameplayProxy implements IServerGameplayFacade {
 
 
     @Override
-    public void discardDestinationCard(String authToken, String gameID, Player player, ArrayList<DestinationCard> destinationCards) {
+    public void discardDestinationCards(String authToken, String gameID, Player player, ArrayList<DestinationCard> destinationCards) {
         String[] paramTypes = {authToken.getClass().toString(), gameID.getClass().toString(), player.getClass().toString(), destinationCards.getClass().toString()};
         Object[] paramValues = {authToken, gameID, player, destinationCards};
 

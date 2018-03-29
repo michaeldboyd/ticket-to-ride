@@ -115,7 +115,7 @@ public class GamePresenterServerOn extends GamePresenter {
             Player currentPlayer = ClientModel.getInstance().getCurrentPlayer();
 
             String authToken = ClientModel.getInstance().getAuthToken();
-            GameplayProxy.getInstance().discardDestinationCard(authToken, currentGame.getGameID(), currentPlayer, discarded);
+            GameplayProxy.getInstance().discardDestinationCards(authToken, currentGame.getGameID(), currentPlayer, discarded);
         }
     }
 
