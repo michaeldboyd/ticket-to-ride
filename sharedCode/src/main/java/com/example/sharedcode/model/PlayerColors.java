@@ -6,7 +6,7 @@ package com.example.sharedcode.model;
 
 public class PlayerColors
 {
-    public static final int NO_COLOR = 0;
+    public static final int NUMBER_OF_COLORS = 5;
     public static final int RED = 1;
     public static final int TURQUOISE = 2;
     public static final int ORANGE = 3;

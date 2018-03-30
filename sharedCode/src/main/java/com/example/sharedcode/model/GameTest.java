@@ -81,4 +81,39 @@ public class GameTest {
         game.changeTurnForGame();
         assertTrue(game.isDone());
     }
+
+    @Test
+    public void gettingUnchosenColorTest(){
+        //Test if empty
+        game = new Game();
+        game.addPlayer(new Player("p1", "p1", game.getColorNotChosen()));
+
+        assertTrue(game.getPlayer("p1").getColor() == 1);
+
+        //Test if in order
+        game = new Game();
+
+        game.addPlayer(new Player("p1", "p1", 1));
+        game.addPlayer(new Player("p2", "p2", 2));
+        game.addPlayer(new Player("p3", "p3", 3));
+        game.addPlayer(new Player("p4", "p4", 4));
+
+        game.addPlayer(new Player("p5", "p5", game.getColorNotChosen()));
+
+        assertTrue(game.getPlayer("p5").getColor() == 5);
+
+        //Test if out of order
+        game = new Game();
+
+        game.addPlayer(new Player("p1", "p1", 3));
+        game.addPlayer(new Player("p2", "p2", 1));
+        game.addPlayer(new Player("p3", "p3", 5));
+
+        game.addPlayer(new Player("p4", "p4", game.getColorNotChosen()));   //Should set 2
+        game.addPlayer(new Player("p5", "p5", game.getColorNotChosen()));   //Should set 4
+
+        assertTrue(game.getPlayer("p4").getColor() == 2);
+        assertTrue(game.getPlayer("p5").getColor() == 4);
+
+    }
 }
