@@ -1,5 +1,6 @@
 package e.mboyd6.tickettoride.Presenters;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,6 +9,7 @@ import e.mboyd6.tickettoride.Communication.Proxies.LoginProxy;
 import e.mboyd6.tickettoride.Model.ClientModel;
 
 import com.example.sharedcode.communication.UpdateArgs;
+import com.example.sharedcode.model.Game;
 
 import junit.framework.Assert;
 
@@ -30,7 +32,8 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
 
     @Override
     public void updateGameList() {
-        lobbyFragment.updateGameList(ClientModel.getInstance().getGames());
+        lobbyFragment.updateGameList((ArrayList<Game>) ClientModel.getInstance().getUnstartedGames());
+
     }
 
     //TODO: Implement logOut method

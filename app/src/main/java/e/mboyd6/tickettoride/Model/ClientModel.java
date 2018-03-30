@@ -8,6 +8,7 @@ import com.example.sharedcode.model.PlayerColors;
 import org.java_websocket.client.WebSocketClient;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -118,6 +119,18 @@ public class ClientModel extends Observable {
 
     //for testing multiple clients
     public ClientModel getTestInstance() {return new ClientModel(); }
+
+    public List<Game> getUnstartedGames(){
+        List<Game> returnGames = new ArrayList<>();
+
+        for(Game g: games){
+            if(!g.isStarted()){
+                returnGames.add(g);
+            }
+        }
+
+        return returnGames;
+    }
 
 }
 
