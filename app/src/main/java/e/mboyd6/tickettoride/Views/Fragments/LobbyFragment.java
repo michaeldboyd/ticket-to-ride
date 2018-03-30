@@ -149,6 +149,13 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
 
     @Override
     public void updateGameList(ArrayList<Game> newList) {
+        ArrayList<Game> startedGames = new ArrayList<>();
+        for(Game game : newList) {
+            if (game.isStarted()) {
+                startedGames.add(game);
+            }
+        }
+        newList.removeAll(startedGames);
         final ArrayList<Game> nl = newList;
         if (activity != null) {
             activity.runOnUiThread(new Runnable() {
