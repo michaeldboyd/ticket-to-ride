@@ -53,6 +53,17 @@ public class Score {
         this.longestRoute = longestRoute;
     }
 
+    /**
+     * adds all the route points with destcard points, subtracts deductions, and calculates longest route.
+     * @return
+     */
+    public int getTotalPoints() {
+        return routePoints
+                + destCardPoints
+                - destCardDeductions
+                + (longestRoute ? 10 : 0);
+    }
+
 
     public void addPoints(Route route) {
         this.routePoints += computePoints(route);
