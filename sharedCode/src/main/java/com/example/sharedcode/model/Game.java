@@ -415,4 +415,22 @@ public class Game {
 
         return false;
     }
+
+    public int getColorNotChosen() {
+        for(int i = 1; i <= PlayerColors.NUMBER_OF_COLORS; i++){
+            boolean colorAlreadChosen = false;
+            for(Player p: players){
+                if(p.getColor() == i){
+                    colorAlreadChosen = true;
+                    break;
+                }
+            }
+
+            if(!colorAlreadChosen){
+                return i;
+            }
+        }
+
+        return 0;
+    }
 }

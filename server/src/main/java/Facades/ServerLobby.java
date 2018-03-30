@@ -109,8 +109,9 @@ public class ServerLobby implements IServerLobbyFacade {
         String playerID = "";
         if (ServerModel.instance().getGames().containsKey(gameID)) {
             String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
-            newPlayer = new Player(usnm,usnm, PlayerColors.NO_COLOR);
+
             game = ServerModel.instance().getGames().get(gameID);
+            newPlayer = new Player(usnm,usnm, game.getColorNotChosen());
 
 
             // Only set message if we fail to add user to the game
