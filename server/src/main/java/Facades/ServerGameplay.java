@@ -26,7 +26,7 @@ public class ServerGameplay implements IServerGameplayFacade {
     private final String CLASS_NAME = "e.mboyd6.tickettoride.Facades.ClientGameplay";
 
     public static void _discardDestinationCard(String authToken, String gameID, Player player, ArrayList<DestinationCard> discardCards) {
-        ourInstance.discardDestinationCard(authToken, gameID, player, discardCards);
+        ourInstance.discardDestinationCards(authToken, gameID, player, discardCards);
     }
 
     public static void _claimRoute(String authToken, String gameID, Player player, HashMap routesClaimed) {
@@ -49,7 +49,7 @@ public class ServerGameplay implements IServerGameplayFacade {
 
 
     @Override
-    public void discardDestinationCard(String authToken, String gameID, Player player, ArrayList<DestinationCard> discardCards) {
+    public void discardDestinationCards(String authToken, String gameID, Player player, ArrayList<DestinationCard> discardCards) {
         String message = "";
 
         Game currentGame = null;
@@ -69,7 +69,7 @@ public class ServerGameplay implements IServerGameplayFacade {
                 player.hasStartedTurns = true;
             }
 
-            currentGame.getHistory().add(player.getName() + " drew "+ (3-discardCards.size()) + " destination card.");
+            currentGame.addToHistory(player.getName() + " drew "+ (3 - discardCards.size()) + " destination card(s).");
         } else {
             message = "Game not found on server";
         }
@@ -92,7 +92,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame = LongestPathAlgorithm.update(currentGame);
 
             currentGame.updatePlayer(player);
-            currentGame.getHistory().add(player.getName() + " claimed a route.");
+            currentGame.addToHistory(player.getName() + " claimed a route.");
             currentGame.checkFinalRound();
 
             //This method will end the game if it is needed
@@ -122,7 +122,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             currentGame.setFaceUpDeck(faceUpDeck);
             currentGame.setTrainCardDeck(trainCardDeck);
             currentGame.setTrainDiscardDeck(trainDiscardDeck);
-            currentGame.getHistory().add(player.getName() + " drew train cards.");
+            currentGame.addToHistory(player.getName() + " drew train cards.");
             //This method will end the game if it is needed
             currentGame.changeTurnForGame();
         } else {
@@ -155,10 +155,7 @@ public class ServerGameplay implements IServerGameplayFacade {
             //This method will end the game if it is needed
             currentGame.changeTurnForGame();
 
-            if(cardCount > 0)
-                currentGame.getHistory().add(player.getName() + " drew " + cardCount + " destination card(s).");
-            else if(cardCount < 0)
-                currentGame.getHistory().add(player.getName() + " discarded " + cardCount + " destination card(s).");
+            currentGame.addToHistory(player.getName() + " drew " + cardCount + " destination card(s).");
         } else {
             message = "Game not found on server";
         }

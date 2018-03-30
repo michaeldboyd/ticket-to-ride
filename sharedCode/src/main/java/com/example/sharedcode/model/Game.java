@@ -288,6 +288,13 @@ public class Game {
         }
     }
 
+
+    public void addToHistory(String historyItem) {
+        history.add(historyItem);
+    }
+
+
+
     /**
      * This will either:
      * 1) Change the player
