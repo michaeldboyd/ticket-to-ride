@@ -77,7 +77,7 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
         int destination_points = player.getScore().destCardPoints;
         int destination_deductions = player.getScore().destCardDeductions;
         boolean has_longest_route = player.hasLongestPath();
-        int total_points = route_points + destination_points - destination_deductions + (has_longest_route ? 10 : 0);
+        int total_points = player.getScore().getTotalPoints();
 
         TextView rank = victoryCard.findViewById(R.id.victory_card_rank);
         TextView name = victoryCard.findViewById(R.id.victory_card_name);
@@ -91,8 +91,8 @@ public class VictoryActivity extends AppCompatActivity implements IVictoryActivi
         String name_text = player.getName();
         String routes_text = getString(R.string.victory_routes) + " " + route_points;
         String destinations_text = getString(R.string.victory_destinations) + " " + destination_points;
-        String destinations_failed_text = getString(R.string.victory_destinations_failed) + " " + destination_deductions;
-        String longest_route_text = has_longest_route ? getString(R.string.victory_longest_route) : "";
+        String destinations_failed_text = getString(R.string.victory_destinations_failed) + " -" + destination_deductions;
+        String longest_route_text = has_longest_route ? getString(R.string.victory_longest_route) + " " + player.getLongestPath() + " trains": "";
         String total_points_text = getString(R.string.victory_total) + " " + total_points;
 
         rank.setText(rank_text);

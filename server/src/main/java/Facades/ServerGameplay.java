@@ -85,14 +85,13 @@ public class ServerGameplay implements IServerGameplayFacade {
         Game currentGame = null;
         if (ServerModel.instance().getGames().containsKey(gameID)) {
             currentGame = ServerModel.instance().getGames().get(gameID);
-
             currentGame.setRoutesClaimed(routesClaimed);
+            currentGame.updatePlayer(player);
 
             // maybe put this line into the end game function if it ends up taking too long.
-            currentGame = LongestPathAlgorithm.update(currentGame);
 
-            currentGame.updatePlayer(player);
             currentGame.addToHistory(player.getName() + " claimed a route.");
+            currentGame = LongestPathAlgorithm.update(currentGame);
             currentGame.checkFinalRound();
 
             //This method will end the game if it is needed
@@ -185,7 +184,7 @@ public class ServerGameplay implements IServerGameplayFacade {
 
     public void endGame(String authToken, Game currentGame, String message) {
         //calculate the destination card scores and longest path score and
-        currentGame = calculateFinalScores(currentGame);
+        currentGame = updateDestCardScore(currentGame);
         String[] paramTypes = {currentGame.getClass().toString(), message.getClass().toString()};
         Object[] paramValues = {currentGame, message};
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
@@ -204,7 +203,7 @@ public class ServerGameplay implements IServerGameplayFacade {
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
     }
 
-    private Game calculateFinalScores(Game currentGame) {
+    private Game updateDestCardScore(Game currentGame) {
         for(Player p : currentGame.getPlayers()) {
             // add points if dest card was complete, remove if not.
             for(DestinationCard card : p.getDestinationCards()) {
@@ -215,7 +214,6 @@ public class ServerGameplay implements IServerGameplayFacade {
                 }
             }
         }
-
         return currentGame;
     }
 }

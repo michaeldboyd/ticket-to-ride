@@ -361,22 +361,20 @@ public class Game {
                 boolean playerAdded = false;
 
                 for(int i = 0; i < sortedPlayers.size(); i++){
-                    int pscore = p.getScore().getPoints() + p.getScore().destCardPoints - p.getScore().destCardDeductions;
+                    int pscore = p.getScore().getTotalPoints();
                     Score other_score = sortedPlayers.get(i).getScore();
-                    int other = other_score.getPoints() + other_score.destCardPoints - other_score.destCardDeductions;
+                    int other = other_score.getTotalPoints();
                     if(pscore > other)  {
                         sortedPlayers.add(i, p);
                         playerAdded = true;
                         break;
                     }
                 }
-
                 if(!playerAdded){
                     sortedPlayers.add(p);
                 }
             }
         }
-
         return sortedPlayers;
     }
 

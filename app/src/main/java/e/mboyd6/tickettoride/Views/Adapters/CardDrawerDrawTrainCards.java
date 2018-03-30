@@ -253,27 +253,40 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
     }
 
     public void applyLocomotiveRulesIfPresent() {
+        if (locomotivePresent()) {
+            selectTrainCardsText.setText(R.string.select_train_cards_text_locomotive_rules);
+        }
+    }
+
+    private boolean locomotiveSelected() {
+        if (faceUpDeck.size() == 0 ||
+                faceUpDeck.size() < selectedCard1Index + 1 ||
+                faceUpDeck.size() < selectedCard2Index + 1)
+            return false;
+        return (selectedCard1Index != -1 && faceUpDeck.get(selectedCard1Index) == TrainType.LOCOMOTIVE) ||
+                (selectedCard2Index != -1 && faceUpDeck.get(selectedCard2Index) == TrainType.LOCOMOTIVE);
+    }
+
+    private boolean locomotivePresent() {
         for (Integer i : faceUpDeck) {
             if (i == TrainType.LOCOMOTIVE) {
-                maximumCards = 1;
-                selectTrainCardsText.setText(R.string.select_train_cards_text_locomotive_rules);
-                return;
+                return true;
             }
         }
-        maximumCards = 2;
+        return false;
     }
 
     public void enableDisbableUIElements() {
-        applyLocomotiveRulesIfPresent();
 
-        if (selectedCards.size() + howManyDeckCards < 1) {
-            selectTrainCardsText.setText(R.string.select_train_cards_text_normal);
+        int amountOfCards = (selectedCard1Index == 5 ? -1 : 0) + (selectedCard2Index == 5 ? -1 : 0) + selectedCards.size() + howManyDeckCards;
+
+        if (amountOfCards < 2 && !locomotiveSelected()) {
+            selectTrainCardsText.setText(R.string.select_two_face_up_cards);
             DrawTrainCardsButton.setClickable(false);
             DrawTrainCardsButton.setAlpha(0.5f);
             DrawDestinationCardsButton.setClickable(true);
             DrawDestinationCardsButton.setAlpha(1f);
         } else {
-            int amountOfCards = (selectedCard1Index == 5 ? -1 : 0) + (selectedCard2Index == 5 ? -1 : 0) + selectedCards.size() + howManyDeckCards;
             String trainCardsText = String.valueOf(amountOfCards) + " cards are selected";
             selectTrainCardsText.setText(trainCardsText);
             DrawTrainCardsButton.setClickable(true);
@@ -281,6 +294,7 @@ public class CardDrawerDrawTrainCards extends CardDrawerState {
             DrawDestinationCardsButton.setClickable(false);
             DrawDestinationCardsButton.setAlpha(0.5f);
         }
+        applyLocomotiveRulesIfPresent();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

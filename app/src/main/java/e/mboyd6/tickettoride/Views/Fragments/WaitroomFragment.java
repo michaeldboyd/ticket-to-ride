@@ -218,20 +218,20 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
 
             if (i < playerCount) {
                 int playerColor = players.get(i).getColor();
-                if (playerColor != PlayerColors.NO_COLOR) {
-                    for (SelectedColor selectedColor : selectedColors) {
-                        if (playerColor == selectedColor.playerColor) {
-                            selectedColor.chosen = true;
-                            chosen = true;
-                            colorSelectionText = players.get(i).getName();
-                            selectedColor.shown = true;
-                            background = selectedColor.backgroundFaded;
-                            textColor = fadedText;
-                            playerColorToSelect = selectedColor.playerColor;
-                            break;
-                        }
+                for (SelectedColor selectedColor : selectedColors) {
+                    if (playerColor == selectedColor.playerColor) {
+                        selectedColor.chosen = true;
+                        chosen = true;
+                        colorSelectionText = players.get(i).getName();
+                        selectedColor.shown = true;
+                        background = selectedColor.backgroundFaded;
+                        textColor = fadedText;
+                        playerColorToSelect = selectedColor.playerColor;
+                        break;
                     }
-                } else {
+                }
+                //^^ this previosly was in this conditional: if(player.getColor() != Color.NO_COLOR) {...}
+                /*else {   //The player will never not have a color.
                     for (SelectedColor selectedColor : selectedColors) {
                         if (!selectedColor.chosen && !selectedColor.shown) {
                             selectedColor.shown = true;
@@ -240,7 +240,7 @@ public class WaitroomFragment extends Fragment implements IWaitroomFragment, IMa
                             break;
                         }
                     }
-                }
+                }*/
             } else {
                 for (SelectedColor selectedColor : selectedColors) {
                     if (!selectedColor.chosen && !selectedColor.shown) {
