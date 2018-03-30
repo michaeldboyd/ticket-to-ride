@@ -68,8 +68,9 @@ public class ChatPresenter implements IChatPresenter, Observer {
         int unreadMessages = ClientModel.getInstance().getCurrentGame().getUnreadMessages();
 
         chatFragment.updateChat(chatMessages);
-        if (gameActivity != null)
-        gameActivity.onChatReceived(chatMessages, unreadMessages);
+        if (gameActivity != null) {
+            gameActivity.onChatReceived(chatMessages, unreadMessages);
+        }
     }
 
     @Override
