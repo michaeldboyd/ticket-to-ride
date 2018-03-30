@@ -133,16 +133,14 @@ public class CardDrawerDrawDestinationCards extends CardDrawerState {
     public void onSelectDestinationCards() {
         ArrayList<DestinationCard> chosen = new ArrayList<>();
         ArrayList<DestinationCard> discarded = new ArrayList<>();
-        DestinationCard discard = null;
 
-        for(int i = 0; i < destinationCards.size(); i++) {
+        for (int i = 0; i < destinationCards.size(); i++) {
+            DestinationCard card = destinationCards.get(i);
             if (selectedCards.contains(i)) {
-                chosen.add(destinationCards.get(i));
+                chosen.add(card);
             } else {
-                discard = destinationCards.get(i);
+                discarded.add(card);
             }
-
-            discarded.add(discard);
         }
 
         if (selectedCards.size() >= 1) {
