@@ -585,5 +585,6 @@
     <string name="victory_destinations_failed">+ Deductions: </string>
     <string name="victory_longest_route">+ Longest Route: 10 with </string>
     <string name="victory_total">= Total:</string>
+    <string name="select_two_face_up_cards">Please select two face up cards.</string>
 
 </resources>
