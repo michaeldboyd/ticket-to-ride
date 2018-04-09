@@ -42,7 +42,6 @@ public class ServerModel extends Observable {
     private Map<String, Game> games = Collections.synchronizedMap(new HashMap<>()); // <gameID, Game>
     private Map<String, ArrayList<ChatMessage>> chatMessagesForGame = Collections.synchronizedMap(new HashMap<>()); // <gameID, ChatMessage[]>
 
-
     //this static map keeps track of all open websockets
     private Map<String, Session> loggedInSessions = Collections.synchronizedMap(new HashMap<>());
     private Map<String, Session> allSessions = Collections.synchronizedMap(new HashMap<>());
@@ -159,4 +158,5 @@ public class ServerModel extends Observable {
             e.printStackTrace();
         }
     }
+
 }
