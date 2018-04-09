@@ -29,7 +29,7 @@ public class ClaimRouteButtonConfirm extends ClaimRouteButtonState {
 
     public void enter(BoardFragment boardFragment, Button claimRouteButton) {
         claimRouteButton.setVisibility(View.VISIBLE);
-        claimRouteButton.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.thumbs_up, 0);
+        claimRouteButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.thumbs_up, 0);
         claimRouteButton.setText(R.string.claim_route_button_confirm);
     }
 
@@ -47,7 +47,7 @@ public class ClaimRouteButtonConfirm extends ClaimRouteButtonState {
             }
         }
     }
-
+    
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setRoute(BoardFragment boardFragment, Route route, Player player) {
         this.player = player;
