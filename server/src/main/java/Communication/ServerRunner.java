@@ -2,6 +2,7 @@ package Communication;
 
 import java.io.*;
 
+import Model.ServerModel;
 import org.eclipse.jetty.server.Server;
 
 import org.eclipse.jetty.server.ServerConnector;
@@ -75,6 +76,17 @@ public class ServerRunner {
     }
 
     public static void main(String[] args) {
+        if(args.length != 2) {
+            System.out.println(args.length + " incorrect parameters!! Please specify db name and game state command count. #makerodhamproud");
+            return;
+        }
+        try {
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println(String.format("parameters incorrect: [%s %s]. \n CORRECT USE: $: server.jar <sqlite | json> <commandCount>", args[0], args[1]));
+            return;
+        }
         int portNumber = 8080;
         ServerRunner server = new ServerRunner();
         server.run(portNumber);
