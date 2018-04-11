@@ -1,0 +1,13 @@
+[
+	{
+		"name" : "sqlite",
+		"filepath" : "/relational",
+		"classPath" : "com.shared/relational"
+	},
+	
+	{
+		"name" : "json",
+		"filepath" : "/non-relational",
+		"classPath" : "com.shared/non-relational"
+	}
+]
