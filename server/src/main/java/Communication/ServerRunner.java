@@ -3,6 +3,7 @@ package Communication;
 import java.io.*;
 
 import Model.ServerModel;
+import Persistence.PersistenceManager;
 import org.eclipse.jetty.server.Server;
 
 import org.eclipse.jetty.server.ServerConnector;
@@ -78,10 +79,17 @@ public class ServerRunner {
     public static void main(String[] args) {
         if(args.length != 2) {
             System.out.println(args.length + " incorrect parameters!! Please specify db name and game state command count. #makerodhamproud");
+            try {
+                PersistenceManager.getInstance().loadPlugin("sqlite");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("plugin not found\n" + e.getMessage());
+            }
             return;
         }
-        try {
 
+        try {
+            PersistenceManager.getInstance().loadPlugin(args[0]);
         } catch(Exception e) {
             e.printStackTrace();
             System.out.println(String.format("parameters incorrect: [%s %s]. \n CORRECT USE: $: server.jar <sqlite | json> <commandCount>", args[0], args[1]));

@@ -3,6 +3,17 @@ package Relational;
 import com.example.sharedcode.interfaces.persistence.*;
 
 public class DatabaseFactory implements IDatabaseFactory {
+
+    @Override
+    public void initializeDatabase() {
+        createConnectionManager();
+        createUserDAO();
+        createGameDAO();
+        createCommandDAO();
+
+        System.out.println("initialized relational database");
+    }
+
     @Override
     public IConnectionManager createConnectionManager() {
         return null;

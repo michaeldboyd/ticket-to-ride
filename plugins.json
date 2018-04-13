@@ -1,13 +1,16 @@
-[
-	{
-		"name" : "sqlite",
-		"filepath" : "/relational",
-		"classPath" : "com.shared/relational"
-	},
-	
-	{
-		"name" : "json",
-		"filepath" : "/non-relational",
-		"classPath" : "com.shared/non-relational"
-	}
-]
+{
+	"@type":"[LPersistence.PluginInformation;",
+		"@items":
+	[
+		{
+			"name":"sqlite",
+			"filePath":"file:out/artifacts/relational_jar/relational.jar",
+			"classPath":"Relational.DatabaseFactory"
+		},
+		{
+			"name":"json",
+			"filePath":"file:out/artifacts/non_relational_jar/non-relational.jar",
+			"classPath":"NonRelational.DatabaseFactory"
+		}
+	]
+}
