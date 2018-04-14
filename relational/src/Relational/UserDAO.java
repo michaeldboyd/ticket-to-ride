@@ -10,22 +10,23 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public String login(String userName, String password) {
+    public String login(String userName, String authToken) {
         return null;
     }
 
     @Override
-    public boolean logout(String authToken) {
+    public boolean logout(String userName) {
         return false;
     }
 
     @Override
-    public boolean joinGame(String gameID) {
+    public boolean joinGame(String userName, String gameID) {
         return false;
     }
 
     @Override
-    public void clearDatabase() {
-
+    public boolean leaveGame(String userName, String gameID) {
+        return false;
     }
+
 }
