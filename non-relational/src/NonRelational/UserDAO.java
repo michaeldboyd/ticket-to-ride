@@ -2,18 +2,24 @@ package NonRelational;
 
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
-import com.cedarsoftware.util.io.Writers;
 import com.example.sharedcode.interfaces.persistence.IUserDAO;
 import com.example.sharedcode.model.User;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.util.Map;
 
 public class UserDAO implements IUserDAO {
 
     private final String usersFolderPath = "users";
     private final String gamesFolderPath = "games";
+
+    @Override
+    public User getUser(String userName) {
+
+        String path = usersFolderPath + File.separator + userName;
+        File userFile = new File(path);
+
+        return loadUserFromFile(userFile);
+    }
 
     @Override
     public User addUser(String userName, String password) {
