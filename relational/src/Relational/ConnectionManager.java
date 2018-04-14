@@ -1,7 +1,5 @@
 package Relational;
-
 import java.sql.*;
-
 import com.example.sharedcode.interfaces.persistence.IConnectionManager;
 
 import javax.xml.crypto.Data;
@@ -12,7 +10,7 @@ public class ConnectionManager implements IConnectionManager {
 
     static {
         try {
-            final String driver = "org.xerial.sqlite-jdbc";
+            final String driver = "org.sqlite.JDBC";
             Class.forName(driver);
         }
         catch(Exception e)
@@ -30,7 +28,7 @@ public class ConnectionManager implements IConnectionManager {
     @Override
     public void openConnection(){
         try {
-            final String CONNECTION_URL = "jdbc:sqlite:db/fms.sqlite";
+            final String CONNECTION_URL = "jdbc:sqlite:rel_db.db";
 
             // Open a database connection
             conn = DriverManager.getConnection(CONNECTION_URL);
@@ -67,7 +65,7 @@ public class ConnectionManager implements IConnectionManager {
         {
             ConnectionManager cm = new ConnectionManager();
             cm.openConnection();
-
+            cm.createTables();
             cm.closeConnection(true);
             System.out.println("DB Commands executed");
 
