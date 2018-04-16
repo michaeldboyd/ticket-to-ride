@@ -3,6 +3,7 @@ package Communication;
 import java.io.*;
 
 import Model.ServerModel;
+import Persistence.GameRestorer;
 import Persistence.PersistenceManager;
 import org.eclipse.jetty.server.Server;
 
@@ -98,6 +99,9 @@ public class ServerRunner {
         int portNumber = 8080;
         ServerRunner server = new ServerRunner();
         server.run(portNumber);
+
+        //TODO: Is this where the game restoration should be called?
+        //GameRestorer.getInstance().run();
     }
 }
 
