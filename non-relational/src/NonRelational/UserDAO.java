@@ -6,6 +6,8 @@ import com.example.sharedcode.interfaces.persistence.IUserDAO;
 import com.example.sharedcode.model.User;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO implements IUserDAO {
 
@@ -19,6 +21,26 @@ public class UserDAO implements IUserDAO {
         File userFile = new File(path);
 
         return loadUserFromFile(userFile);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+
+        String path = usersFolderPath + File.separator;
+        File userDirectory = new File(path);
+
+        File[] filesInDirectory = userDirectory.listFiles();
+
+        ArrayList<User> allUsers = new ArrayList<>();
+
+        for (File userFile : filesInDirectory) {
+            User user = loadUserFromFile(userFile);
+            if (user != null) {
+                allUsers.add(user);
+            }
+        }
+
+        return allUsers;
     }
 
     @Override
