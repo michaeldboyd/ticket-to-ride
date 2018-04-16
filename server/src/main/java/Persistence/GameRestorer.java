@@ -1,5 +1,6 @@
 package Persistence;
 
+import Facades.ServerUtility;
 import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.model.Game;
@@ -49,12 +50,12 @@ public class GameRestorer implements IGameRestorer {
 
     @Override
     public void initFromDB() {
-        //TODO: Implement when DAOs are working
-        //games = DAO.getGames();
-        //for (Game g : games) {
-        //  List<Command> commandsTemp = DAO.GetCommands(g.getGameID());
-        //  commandsByGame.set(g.getGameID(), commandsTemp);
-        //{
+        games = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO().getAllGames();
+
+        for (Game g : games) {
+            List<Command> commandsTemp = PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO().getCommands(g.getGameID());
+            commandsByGame.put(g.getGameID(), commandsTemp);
+        }
     }
 
     @Override
@@ -79,13 +80,6 @@ public class GameRestorer implements IGameRestorer {
 
     }
 
-    private void errorOccured(Exception e, String messageToPrint){
-        //TODO: Create a method on the ServerModel to clear the server model. This prevents a duplicate games from being created.
-
-        e.printStackTrace();
-        System.out.println(messageToPrint);
-    }
-
     @Override
     public void pushGameToServerModel(Game game) throws Exception {
         model.getGames().put(game.getGameID(), game);
@@ -100,5 +94,13 @@ public class GameRestorer implements IGameRestorer {
         } else if (game.getPlayers().size() != checkGame.getPlayers().size()){
             throw new Exception("Game not stored in model correctly: Player List size not equal.");
         }
+    }
+
+
+    private void errorOccured(Exception e, String messageToPrint){
+        ServerUtility.instance().clearServer(ServerModel.instance().getTestPassword());
+
+        e.printStackTrace();
+        System.out.println(messageToPrint);
     }
 }
