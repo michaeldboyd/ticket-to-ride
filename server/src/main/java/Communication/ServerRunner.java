@@ -79,12 +79,6 @@ public class ServerRunner {
     public static void main(String[] args) {
         if(args.length != 2) {
             System.out.println(args.length + " incorrect parameters!! Please specify db name and game state command count. #makerodhamproud");
-            try {
-                PersistenceManager.getInstance().loadPlugin("sqlite");
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("plugin not found\n" + e.getMessage());
-            }
             return;
         }
 
