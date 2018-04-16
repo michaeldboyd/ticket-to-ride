@@ -48,7 +48,6 @@ public class PersistenceManager {
         String json = readFile("../plugins.json");
         PluginInformation[] plugins = (PluginInformation[]) JsonReader.jsonToJava(json);
 
-        System.out.println(System.getProperty("user.dir"));
         PluginInformation selectedPlugin = null;
         for (PluginInformation plugin : plugins) {
             if (pluginName.equals(plugin.getName())) {
@@ -58,6 +57,7 @@ public class PersistenceManager {
 
         if (selectedPlugin == null) {
             // TODO: - Might need to do some sort of error handling for not finding a valid plugin for the name entered
+            System.out.println("plugin " + "\"" + pluginName + "\" not found");
             return;
         }
 
@@ -74,11 +74,14 @@ public class PersistenceManager {
 
         // Create a new instance from the loaded class
         Constructor<?> constructor = databaseFactoryClass.getConstructor();
-        Object databaseFactory = constructor.newInstance();
+        Object factory = constructor.newInstance();
 
-        // Getting a method from the loaded class and invoke it
-        Method method = databaseFactoryClass.getMethod("initializeDatabase");
-        method.invoke(databaseFactory) ;
+        // This should always be true
+        if (factory instanceof IDatabaseFactory) {
+            setDatabaseFactory((IDatabaseFactory)factory);
+
+            databaseFactory.initializeDatabase();
+        }
     }
 
     String readFile(String fileName) throws IOException {
