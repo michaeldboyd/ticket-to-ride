@@ -35,7 +35,10 @@ public class GameRestorer implements IGameRestorer {
             initFromDB();
 
             for (Game g : games) {
+                //loads the game to the server model
                 pushGameToServerModel(g);
+                //executes the game on the server model
+                simulateGame(commandsByGame.get(g.getGameID()));
             }
 
 
@@ -77,7 +80,7 @@ public class GameRestorer implements IGameRestorer {
     }
 
     private void errorOccured(Exception e, String messageToPrint){
-        //TODO: Create a method on the ServerModel to clear the database. This prevents a duplicate games from being created.
+        //TODO: Create a method on the ServerModel to clear the server model. This prevents a duplicate games from being created.
 
         e.printStackTrace();
         System.out.println(messageToPrint);
