@@ -32,7 +32,7 @@ public class ConnectionManager implements IConnectionManager {
 
             // Open a database connection
             conn = DriverManager.getConnection(CONNECTION_URL);
-
+            createTables();
             // Start a transaction
             conn.setAutoCommit(false);
         }
