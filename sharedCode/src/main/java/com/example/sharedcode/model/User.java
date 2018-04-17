@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private String userID;
     private String username;
     private String password;
     private String authtoken;
@@ -19,14 +18,6 @@ public class User implements Serializable {
 
     public void setAuthtoken(String authtoken) {
         this.authtoken = authtoken;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
     }
 
     public String getUsername() {

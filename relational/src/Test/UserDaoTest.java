@@ -12,5 +12,8 @@ public class UserDaoTest {
         UserDAO dao = new UserDAO();
         dao.addUser(user);
         user = dao.getUser("test");
+
+        dao.getAllUsers();
+        dao.updateUser(user.getUsername(), user, null);
     }
 }

@@ -8,6 +8,9 @@ public interface IUserDAO {
     User getUser(String userName);
     List<User> getAllUsers();
     User addUser(User user);
+
+    void updateUser(String userName, User user, String gameID);
+
     /** Returns authtoken **/
     String login(String userName, String authToken);
     boolean logout(String userName);

@@ -85,19 +85,20 @@ public class ConnectionManager implements IConnectionManager {
         try(Statement stmt = conn.createStatement()){
             stmt.execute("create table if not exists game\n" +
                     "(\n" +
-                    "	 gameID text not null,\n" +
+                    "	 gameID text not null primary key,\n" +
                             "game blob not null " +
                     ");");
             stmt.execute("create table if not exists command\n" +
                     "(\n" +
-                    "    commandID integer not null,\n" +
-                    "    comand blob not null,\n" +
+                    "    commandID integer not null primary key autoincrement,\n" +
+                    "    command blob not null,\n" +
                     "    gameID text not null\n" +
                     ");");
             stmt.execute("create table if not exists user\n" +
                     "(\n" +
-                    "    userName text not null,\n" +
-                    "    user blob not null" +
+                    "    userName text not null primary key,\n" +
+                    "    user blob not null," +
+                    "    gameID text" +
                     ");");
         } catch(SQLException e){
             System.out.println(e.getMessage());

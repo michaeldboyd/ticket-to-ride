@@ -1,5 +1,6 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class Game {
+public class Game implements Serializable{
 
     private String gameID;
     private ArrayList<Player> players = new ArrayList<>();

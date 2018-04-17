@@ -7,6 +7,7 @@ import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.User;
 
 import java.io.*;
+import java.util.List;
 
 public class GameDAO implements IGameDAO {
 
@@ -18,6 +19,11 @@ public class GameDAO implements IGameDAO {
         String path = gamesFolderPath + File.separator + gameID;
         File gameFile = new File(path);
         return loadGameFromFile(gameFile);
+    }
+
+    @Override
+    public List<Game> getAllGames() {
+        return null;
     }
 
     @Override
