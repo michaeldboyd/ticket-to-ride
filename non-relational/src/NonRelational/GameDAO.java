@@ -12,14 +12,14 @@ import java.util.List;
 
 public class GameDAO implements IGameDAO {
 
-    private final String gamesFolderPath = "games";
+    private final String gamesFolderPath = "jsonDB" + File.separator +  "games";
 
     @Override
     public Game getGame(String gameID) {
 
-        String path = gamesFolderPath + File.separator + gameID + File.separator + "game.json";
+        String path = gamesFolderPath + File.separator + gameID;
         File gameFile = new File(path);
-        return loadGameFromFile(gameFile);
+        return loadGameFromFolder(gameFile);
     }
 
     @Override
@@ -32,9 +32,9 @@ public class GameDAO implements IGameDAO {
         ArrayList<Game> allGames = new ArrayList<>();
 
         for (File gameFolder : filesInDirectory) {
-            path = gameFolder.getAbsolutePath() + File.separator + "game.json";
+            path = gameFolder.getAbsolutePath();
             File gameFile = new File(path);
-            Game game = loadGameFromFile(gameFile);
+            Game game = loadGameFromFolder(gameFile);
             if (game != null) {
                 allGames.add(game);
             }
@@ -46,8 +46,8 @@ public class GameDAO implements IGameDAO {
     @Override
     public String addGame(Game game) {
 
-        String path = gamesFolderPath + File.separator + game.getGameID() + File.separator + "game.json";
-        writeGameToFile(game, path);
+        String path = gamesFolderPath + File.separator + game.getGameID();
+        writeGameToFolder(game, path);
 
         return game.getGameID();
     }
@@ -55,8 +55,8 @@ public class GameDAO implements IGameDAO {
     @Override
     public boolean updateGame(String gameID, Game game) {
 
-        String path = gamesFolderPath + File.separator + game.getGameID() + File.separator + "game.json";
-        writeGameToFile(game, path);
+        String path = gamesFolderPath + File.separator + game.getGameID();
+        writeGameToFolder(game, path);
 
         return false;
     }
@@ -66,11 +66,11 @@ public class GameDAO implements IGameDAO {
         return false;
     }
 
-    private Game loadGameFromFile(File gameFile) {
+    private Game loadGameFromFolder(File gameFolder) {
         Game game = null;
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(gameFile);
+            FileInputStream fileInputStream = new FileInputStream(gameFolder + File.separator + "game.json");
             game = (Game) JsonReader.jsonToJava(fileInputStream, null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -79,9 +79,9 @@ public class GameDAO implements IGameDAO {
         return game;
     }
 
-    private void writeGameToFile(Game game, String path) {
-        File gameFile = new File(path);
-        gameFile.mkdirs();
+    private void writeGameToFolder(Game game, String path) {
+        File gameFile = new File(path + File.separator + "game.json");
+        gameFile.getParentFile().mkdirs();
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(gameFile);

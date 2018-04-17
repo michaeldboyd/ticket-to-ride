@@ -9,6 +9,7 @@ import com.sun.deploy.util.StringUtils;
 
 import java.io.*;
 import java.lang.reflect.Array;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class CommandDAO implements ICommandDAO {
 
-    private final String gamesFolderPath = "games";
+    private final String gamesFolderPath = "jsonDB" + File.separator + "games";
 
     @Override
     public ArrayList<Command> getCommands(String gameID) {
@@ -28,10 +29,13 @@ public class CommandDAO implements ICommandDAO {
         File commandsFolder = new File(path);
         File[] commandFiles = commandsFolder.listFiles();
 
-        int arrayLength = Array.getLength(commandFiles);
+        int arrayLength = 0;
+        if (commandFiles != null) {
+            arrayLength = Array.getLength(commandFiles);
+        }
 
         for(int i = 0; i < arrayLength; i++) {
-            File commandFile = new File(path + i + ".json");
+            File commandFile = new File(path + File.separator + i + ".json");
             commands.add(loadCommandFromFile(commandFile));
         }
 
@@ -44,11 +48,17 @@ public class CommandDAO implements ICommandDAO {
 
         String path = gamesFolderPath + File.separator + gameID + File.separator + "commands";
         File commandsFolder = new File(path);
+        commandsFolder.mkdirs();
 
         File[] commandFiles = commandsFolder.listFiles();
-        int index_next_file = Array.getLength(commandFiles);
+        int index_next_file = 0;
+
+        if (commandFiles != null) {
+            index_next_file = Array.getLength(commandFiles);
+        }
+
         String commandFilePath = path + File.separator + index_next_file + ".json";
-        writeCommandToFile(command, gameID);
+        writeCommandToFile(command, commandFilePath);
     }
 
     @Override
@@ -57,7 +67,9 @@ public class CommandDAO implements ICommandDAO {
         String path = gamesFolderPath + File.separator + gameID + File.separator + "commands";
         File commandsFolder = new File(path);
 
-        return commandsFolder.delete();
+        deleteDir(commandsFolder);
+
+        return true;
     }
 
     private Command loadCommandFromFile(File commandFile) {
@@ -75,7 +87,7 @@ public class CommandDAO implements ICommandDAO {
 
     private void writeCommandToFile(Command command, String path) {
         File commandFile = new File(path);
-        commandFile.mkdirs();
+        commandFile.getParentFile().mkdirs();
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(commandFile);
@@ -85,5 +97,17 @@ public class CommandDAO implements ICommandDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void deleteDir(File file) {
+        File[] contents = file.listFiles();
+        if (contents != null) {
+            for (File f : contents) {
+                if (! Files.isSymbolicLink(f.toPath())) {
+                    deleteDir(f);
+                }
+            }
+        }
+        file.delete();
     }
 }

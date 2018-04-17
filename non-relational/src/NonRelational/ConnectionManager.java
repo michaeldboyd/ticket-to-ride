@@ -8,18 +8,14 @@ import java.io.FileReader;
 
 public class ConnectionManager implements IConnectionManager {
 
-    private final String usersFolderPath = "users";
-    private final String gamesFolderPath = "games";
-    private final String commandsFolderPath = "commands";
+    private final String usersFolderPath = "jsonDB" + File.separator + "users";
+    private final String gamesFolderPath = "jsonDB" + File.separator + "games";
     @Override
     public void openConnection() {
         File usersFolder = new File(usersFolderPath);
         File gamesFolder = new File(gamesFolderPath);
-        File commandsFolder = new File(commandsFolderPath);
 
         usersFolder.mkdirs();
-        gamesFolder.mkdirs();
-        commandsFolder.mkdirs();
     }
 
     @Override
