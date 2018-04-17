@@ -13,6 +13,6 @@ public class CommandDAOTest {
         dao.storeGameCommand(command, "test");
         ArrayList<Command> commands = dao.getCommands("test");
 
-        //dao.clearGameCommands("test");
+        dao.clearGameCommands("test");
     }
 }
