@@ -17,7 +17,7 @@ public class GameDAO implements IGameDAO {
     @Override
     public Game getGame(String gameID) {
 
-        String path = gamesFolderPath + File.separator + gameID;
+        String path = gamesFolderPath + File.separator + gameID + File.separator + "game.json";
         File gameFile = new File(path);
         return loadGameFromFile(gameFile);
     }
@@ -25,13 +25,15 @@ public class GameDAO implements IGameDAO {
     @Override
     public List<Game> getAllGames() {
         String path = gamesFolderPath;
-        File gameDirectory = new File(path);
+        File gamesDirectory = new File(path);
 
-        File[] filesInDirectory = gameDirectory.listFiles();
+        File[] filesInDirectory = gamesDirectory.listFiles();
 
         ArrayList<Game> allGames = new ArrayList<>();
 
-        for (File gameFile : filesInDirectory) {
+        for (File gameFolder : filesInDirectory) {
+            path = gameFolder.getAbsolutePath() + File.separator + "game.json";
+            File gameFile = new File(path);
             Game game = loadGameFromFile(gameFile);
             if (game != null) {
                 allGames.add(game);
@@ -44,7 +46,7 @@ public class GameDAO implements IGameDAO {
     @Override
     public String addGame(Game game) {
 
-        String path = gamesFolderPath + File.separator + game.getGameID();
+        String path = gamesFolderPath + File.separator + game.getGameID() + File.separator + "game.json";
         writeGameToFile(game, path);
 
         return game.getGameID();
@@ -52,7 +54,10 @@ public class GameDAO implements IGameDAO {
 
     @Override
     public boolean updateGame(String gameID, Game game) {
-        
+
+        String path = gamesFolderPath + File.separator + game.getGameID() + File.separator + "game.json";
+        writeGameToFile(game, path);
+
         return false;
     }
 

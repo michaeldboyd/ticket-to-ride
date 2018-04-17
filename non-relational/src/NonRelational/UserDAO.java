@@ -58,6 +58,18 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
+    public void updateUser(String userName, User user, String gameID) {
+
+        // Update their overall instance
+        String path = usersFolderPath + File.separator + userName;
+        writeUserToFile(user, path);
+
+        // Update their instance in the local game
+        path = gamesFolderPath + File.separator + gameID + File.separator + userName;
+        writeUserToFile(user, path);
+    }
+
+    @Override
     public String login(String userName, String authToken) {
 
         String path = usersFolderPath + File.separator + userName;
