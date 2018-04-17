@@ -44,13 +44,13 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public User addUser(String userName, String password) {
+    public User addUser(User user) {
 
-        String path = usersFolderPath + File.separator + userName;
+        String path = usersFolderPath + File.separator + user.getUsername();
 
-        User user = new User();
-        user.setUserID(userName);
-        user.setPassword(password);
+//        User user = new User();
+//        user.setUserID(userName);
+//        user.setPassword(password);
 
         writeUserToFile(user, path);
 

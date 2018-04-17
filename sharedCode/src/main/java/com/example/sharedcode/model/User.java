@@ -1,10 +1,12 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
+
 /**
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class User {
+public class User implements Serializable {
 
     private String userID;
     private String username;
