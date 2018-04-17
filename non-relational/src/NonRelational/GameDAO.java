@@ -29,7 +29,7 @@ public class GameDAO implements IGameDAO {
 
         File[] filesInDirectory = gameDirectory.listFiles();
 
-        ArrayList<User> allGames = new ArrayList<>();
+        ArrayList<Game> allGames = new ArrayList<>();
 
         for (File gameFile : filesInDirectory) {
             Game game = loadGameFromFile(gameFile);
@@ -37,6 +37,8 @@ public class GameDAO implements IGameDAO {
                 allGames.add(game);
             }
         }
+
+        return allGames;
     }
 
     @Override
