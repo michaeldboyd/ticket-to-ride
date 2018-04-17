@@ -7,6 +7,7 @@ import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.User;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,12 @@ public class GameDAO implements IGameDAO {
 
     @Override
     public boolean removeGame(String gameID) {
-        return false;
+
+        String path = gamesFolderPath + File.separator + gameID;
+        File gameFolder = new File(path);
+
+        deleteDir(gameFolder);
+        return true;
     }
 
     private Game loadGameFromFolder(File gameFolder) {
@@ -91,5 +97,17 @@ public class GameDAO implements IGameDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void deleteDir(File file) {
+        File[] contents = file.listFiles();
+        if (contents != null) {
+            for (File f : contents) {
+                if (! Files.isSymbolicLink(f.toPath())) {
+                    deleteDir(f);
+                }
+            }
+        }
+        file.delete();
     }
 }
