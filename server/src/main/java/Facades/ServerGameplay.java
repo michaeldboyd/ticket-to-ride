@@ -190,6 +190,8 @@ public class ServerGameplay implements IServerGameplayFacade {
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_endGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
+
+        // TODO: - serialize everything
     }
 
 
@@ -201,6 +203,8 @@ public class ServerGameplay implements IServerGameplayFacade {
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_updateGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
+
+        // TODO: - save command and check if need to serialize everything in the game
     }
 
     private Game updateDestCardScore(Game currentGame) {

@@ -84,6 +84,7 @@ public class ServerRunner {
         }
 
         try {
+            PersistenceManager.getInstance().setTimesBetweenStorage(Integer.parseInt(args[1]));
             PersistenceManager.getInstance().loadPlugin(args[0]);
         } catch(Exception e) {
             e.printStackTrace();

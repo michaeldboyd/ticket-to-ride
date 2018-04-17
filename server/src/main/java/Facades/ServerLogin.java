@@ -100,6 +100,8 @@ public class ServerLogin implements IServerLoginFacade {
         Collection<String> tok = new ArrayList<String>();
         tok.add(authToken);
         SocketManager.instance().updateGameList(tok);
+
+        // TODO: - serialize/save user in the database
     }
 
 
@@ -149,6 +151,7 @@ public class ServerLogin implements IServerLoginFacade {
         tok.add(authToken);
         SocketManager.instance().updateGameList(tok);
 
+        // TODO: - serialize/save user in the database
     }
 
 
@@ -172,6 +175,8 @@ public class ServerLogin implements IServerLoginFacade {
 
         ServerModel.instance().notifyObserversForUpdate(logoutClientCommand);
         ServerModel.instance().getLoggedInSessions().remove(authToken);
+
+        // TODO: - serialize/save user in the database as logged out
     }
 
 

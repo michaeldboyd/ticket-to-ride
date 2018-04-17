@@ -75,6 +75,8 @@ public class ServerLobby implements IServerLobbyFacade {
         ServerModel.instance().notifyObserversForUpdate(createGameClientCommand);
 
         SocketManager.instance().updateGameList(ServerModel.instance().getLobbyUserAuthTokens());
+
+        // TODO: - serialize/save game in the database
     }
 
 
@@ -143,6 +145,8 @@ public class ServerLobby implements IServerLobbyFacade {
         SocketManager.instance().updateGameList(tokens);
 
         ServerChat._getChatHistory(authToken, gameID);
+
+        // TODO: - serialize/save game in the database
     }
 
     // If the game
@@ -178,6 +182,8 @@ public class ServerLobby implements IServerLobbyFacade {
         Collection<String> tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
         tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
         SocketManager.instance().updateGameList(tokens);
+
+        // TODO: - serialize/save game in the database
     }
 
     //tell everyone to start the game who is in it, andupdate the games list for everyone else
@@ -225,6 +231,7 @@ public class ServerLobby implements IServerLobbyFacade {
             ServerModel.instance().notifyObserversForUpdate(errorMessage);
         }
 
+        // TODO: - serialize/save game in the database
     }
 
     @Override
@@ -247,6 +254,8 @@ public class ServerLobby implements IServerLobbyFacade {
         if (success) {
             SocketManager.instance().updateGameList(tokens);
         }
+
+        // TODO: - serialize/save game in the database
     }
 
 
