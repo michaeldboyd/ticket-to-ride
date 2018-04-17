@@ -127,7 +127,6 @@ public class ServerLogin implements IServerLoginFacade {
             authToken = UUID.randomUUID().toString();
 
             User user = new User();
-            user.setUserID(UUID.randomUUID().toString());
             user.setAuthtoken(authToken);
             user.setUsername(username);
             user.setPassword(password);

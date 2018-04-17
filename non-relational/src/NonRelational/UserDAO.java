@@ -11,8 +11,8 @@ import java.util.List;
 
 public class UserDAO implements IUserDAO {
 
-    private final String usersFolderPath = "users";
-    private final String gamesFolderPath = "games";
+    private final String usersFolderPath = "jsonDB" + File.separator + "users";
+    private final String gamesFolderPath = "jsonDB" + File.separator + "games";
 
     @Override
     public User getUser(String userName) {
@@ -20,7 +20,7 @@ public class UserDAO implements IUserDAO {
         String path = usersFolderPath + File.separator + userName;
         File userFile = new File(path);
 
-        return loadUserFromFile(userFile);
+        return loadUserFromFolder(userFile);
     }
 
     @Override
@@ -29,12 +29,12 @@ public class UserDAO implements IUserDAO {
         String path = usersFolderPath + File.separator;
         File userDirectory = new File(path);
 
-        File[] filesInDirectory = userDirectory.listFiles();
+        File[] foldersInDirectory = userDirectory.listFiles();
 
         ArrayList<User> allUsers = new ArrayList<>();
 
-        for (File userFile : filesInDirectory) {
-            User user = loadUserFromFile(userFile);
+        for (File userFolder : foldersInDirectory) {
+            User user = loadUserFromFolder(userFolder);
             if (user != null) {
                 allUsers.add(user);
             }
@@ -44,17 +44,31 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public User addUser(String userName, String password) {
+    public User addUser(User user) {
 
-        String path = usersFolderPath + File.separator + userName;
+        String path = usersFolderPath + File.separator + user.getUsername();
 
-        User user = new User();
-        user.setUserID(userName);
-        user.setPassword(password);
+//        User user = new User();
+//        user.setUserID(userName);
+//        user.setPassword(password);
 
-        writeUserToFile(user, path);
+        writeUserToFolder(user, path);
 
         return user;
+    }
+
+    @Override
+    public void updateUser(String userName, User user, String gameID) {
+
+        // Update their overall instance
+        String path = usersFolderPath + File.separator + userName;
+        writeUserToFolder(user, path);
+
+        if (gameID != null && gameID.length() > 0) {
+            // Update their instance in the local game
+            path = gamesFolderPath + File.separator + gameID + File.separator + "users" + File.separator + userName;
+            writeUserToFolder(user, path);
+        }
     }
 
     @Override
@@ -63,10 +77,10 @@ public class UserDAO implements IUserDAO {
         String path = usersFolderPath + File.separator + userName;
 
         File userFile = new File(path);
-        User user = loadUserFromFile(userFile);
+        User user = loadUserFromFolder(userFile);
         user.setAuthtoken(authToken);
 
-        writeUserToFile(user, path);
+        writeUserToFolder(user, path);
 
         return authToken;
     }
@@ -77,10 +91,10 @@ public class UserDAO implements IUserDAO {
         String path = usersFolderPath + File.separator + userName;
 
         File userFile = new File(path);
-        User user = loadUserFromFile(userFile);
+        User user = loadUserFromFolder(userFile);
         user.setAuthtoken("");
 
-        writeUserToFile(user, path);
+        writeUserToFolder(user, path);
 
         return true;
     }
@@ -91,10 +105,10 @@ public class UserDAO implements IUserDAO {
 
         String userPath = usersFolderPath + File.separator + userName;
         File userFile = new File(userPath);
-        User user = loadUserFromFile(userFile);
+        User user = loadUserFromFolder(userFile);
 
         String userGamePath = gamesFolderPath + File.separator + gameID + File.separator + "users" + File.separator + userName;
-        writeUserToFile(user,userGamePath);
+        writeUserToFolder(user,userGamePath);
 
         return false;
     }
@@ -108,7 +122,9 @@ public class UserDAO implements IUserDAO {
         return userGameFile.delete();
     }
 
-    private User loadUserFromFile(File userFile) {
+    private User loadUserFromFolder(File userFolder) {
+        String userFilePath = userFolder.getPath() + File.separator + userFolder.getName() + ".json";
+        File userFile = new File(userFilePath);
         User user = null;
 
         try {
@@ -121,9 +137,9 @@ public class UserDAO implements IUserDAO {
         return user;
     }
 
-    private void writeUserToFile(User user, String path) {
-        File newUserFile = new File(path);
-        newUserFile.mkdirs();
+    private void writeUserToFolder(User user, String path) {
+        File newUserFile = new File(path + File.separator + user.getUsername() + ".json");
+        newUserFile.getParentFile().mkdirs();
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(newUserFile);

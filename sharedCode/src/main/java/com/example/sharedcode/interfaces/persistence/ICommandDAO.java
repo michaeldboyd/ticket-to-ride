@@ -8,6 +8,5 @@ import java.util.List;
 public interface  ICommandDAO {
     ArrayList<Command> getCommands(String gameID);
     void storeGameCommand(Command command, String gameID);
-    List<Command> getGameCommands(String gameID);
     boolean clearGameCommands(String gameID);
 }

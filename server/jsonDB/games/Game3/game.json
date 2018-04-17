@@ -1,0 +1,1 @@
+{"@type":"com.example.sharedcode.model.Game","gameID":"Game3","players":[],"destinationDeck":null,"trainCardDeck":null,"trainDiscardDeck":null,"faceUpDeck":null,"currentTurnPlayerName":null,"history":[],"routesClaimed":null,"cities":null,"chatMessages":[],"isTyping":false,"personTyping":null,"unreadMessages":0,"isLastRound":false,"turnsLeft":-1,"isStarted":false,"isDone":false}
