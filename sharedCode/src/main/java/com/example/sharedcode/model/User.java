@@ -1,12 +1,13 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
+
 /**
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class User {
+public class User implements Serializable {
 
-    private String userID;
     private String username;
     private String password;
     private String authtoken;
@@ -17,14 +18,6 @@ public class User {
 
     public void setAuthtoken(String authtoken) {
         this.authtoken = authtoken;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
     }
 
     public String getUsername() {

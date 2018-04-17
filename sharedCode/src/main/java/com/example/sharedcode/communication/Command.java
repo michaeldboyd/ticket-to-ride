@@ -3,6 +3,7 @@ package com.example.sharedcode.communication;
 import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.UpdateType;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,7 +20,7 @@ interface ICommand {
 }
 
 
-public class Command implements ICommand {
+public class Command implements ICommand, Serializable {
     private String _className;
     private String _methodName;
     private String[] _paramTypesStringNames;

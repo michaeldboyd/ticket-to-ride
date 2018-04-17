@@ -3,6 +3,7 @@ package Communication;
 import java.io.*;
 
 import Model.ServerModel;
+import Persistence.GameRestorer;
 import Persistence.PersistenceManager;
 import org.eclipse.jetty.server.Server;
 
@@ -79,12 +80,6 @@ public class ServerRunner {
     public static void main(String[] args) {
         if(args.length != 2) {
             System.out.println(args.length + " incorrect parameters!! Please specify db name and game state command count. #makerodhamproud");
-            try {
-                PersistenceManager.getInstance().loadPlugin("sqlite");
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("plugin not found\n" + e.getMessage());
-            }
             return;
         }
 
@@ -98,6 +93,9 @@ public class ServerRunner {
         int portNumber = 8080;
         ServerRunner server = new ServerRunner();
         server.run(portNumber);
+
+        //TODO: Is this where the game restoration should be called?
+        //GameRestorer.getInstance().run();
     }
 }
 
