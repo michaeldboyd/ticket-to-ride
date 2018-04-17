@@ -2,9 +2,11 @@ package Facades;
 
 import Communication.SocketManager;
 import Model.ServerModel;
+import Persistence.PersistenceManager;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLoginFacade;
+import com.example.sharedcode.interfaces.persistence.IUserDAO;
 import com.example.sharedcode.model.User;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.api.Session;
@@ -71,7 +73,6 @@ public class ServerLogin implements IServerLoginFacade {
                 User user = ServerModel.instance().getAllUsers().get(username);
 
                 if (user.getPassword().equals(password)) {
-
                     //Do we want to reset authtoken each time?
                     UUID uuid = UUID.randomUUID();
                     authToken = uuid.toString();
@@ -81,6 +82,10 @@ public class ServerLogin implements IServerLoginFacade {
                     ServerModel.instance().getLoggedInUsers().put(username, user);
                     ServerModel.instance().getUsersInLobby().put(username, user);
                     matchSocketToAuthToken(socketID, authToken);
+
+                    user.setAuthtoken(authToken);
+                    IUserDAO userDAO = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO();
+                    userDAO.updateUser(username, user, "");
                 } else {
                     message = "Incorrect password.";
                 }
@@ -100,8 +105,6 @@ public class ServerLogin implements IServerLoginFacade {
         Collection<String> tok = new ArrayList<String>();
         tok.add(authToken);
         SocketManager.instance().updateGameList(tok);
-
-        // TODO: - serialize/save user in the database
     }
 
 
@@ -137,6 +140,9 @@ public class ServerLogin implements IServerLoginFacade {
             ServerModel.instance().getAuthTokenToUsername().put(authToken, username);
             ServerModel.instance().getUsersInLobby().put(username, user);
             matchSocketToAuthToken(socketID, authToken);
+
+            IUserDAO userDAO = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO();
+            userDAO.addUser(user);
         }
 
         String[] paramTypes = {authToken.getClass().toString(), message.getClass().toString()};
@@ -149,8 +155,6 @@ public class ServerLogin implements IServerLoginFacade {
         Collection<String> tok = new ArrayList<String>();
         tok.add(authToken);
         SocketManager.instance().updateGameList(tok);
-
-        // TODO: - serialize/save user in the database
     }
 
 
@@ -159,9 +163,13 @@ public class ServerLogin implements IServerLoginFacade {
         String message = "";
         if (ServerModel.instance().getAuthTokenToUsername().containsKey(authToken)) {
             String username = ServerModel.instance().getAuthTokenToUsername().get(authToken);
-            ServerModel.instance().getLoggedInUsers().remove(username);
+            User user = ServerModel.instance().getLoggedInUsers().remove(username);
             ServerModel.instance().getAuthTokenToUsername().remove(authToken);
             ServerModel.instance().getUsersInLobby().remove(username);
+
+            user.setAuthtoken("");
+            IUserDAO userDAO = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO();
+            userDAO.updateUser(username, user, "");
         } else  {
             message = "Error logging out -- not logged in";
         }
@@ -174,8 +182,6 @@ public class ServerLogin implements IServerLoginFacade {
 
         ServerModel.instance().notifyObserversForUpdate(logoutClientCommand);
         ServerModel.instance().getLoggedInSessions().remove(authToken);
-
-        // TODO: - serialize/save user in the database as logged out
     }
 
 

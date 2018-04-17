@@ -3,6 +3,8 @@ package Persistence;
 import Facades.ServerUtility;
 import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
+import com.example.sharedcode.interfaces.persistence.ICommandDAO;
+import com.example.sharedcode.interfaces.persistence.IGameDAO;
 import com.example.sharedcode.model.Game;
 
 import java.util.ArrayList;
@@ -96,6 +98,27 @@ public class GameRestorer implements IGameRestorer {
         }
     }
 
+    @Override
+    public void addCommandForGame(Command command, Game game) {
+        String gameID = game.getGameID();
+
+        if (!commandsByGame.containsKey(gameID)) {
+            commandsByGame.put(gameID, new ArrayList<>());
+        }
+
+        if (commandsByGame.get(gameID).size() == PersistenceManager.getInstance().getTimesBetweenStorage()) {
+            // Remove all commands
+            commandsByGame.get(gameID).clear();
+
+            // Save the game in the database
+            IGameDAO gameDAO = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO();
+            gameDAO.updateGame(gameID, game);
+        } else {
+            commandsByGame.get(gameID).add(command);
+            ICommandDAO commandDAO = PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO();
+            commandDAO.storeGameCommand(command, gameID);
+        }
+    }
 
     private void errorOccured(Exception e, String messageToPrint){
         ServerUtility.instance().clearServer(ServerModel.instance().getTestPassword());

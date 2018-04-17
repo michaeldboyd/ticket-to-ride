@@ -3,9 +3,12 @@ package Facades;
 import Communication.SocketManager;
 import Model.LongestPathAlgorithm;
 import Model.ServerModel;
+import Persistence.GameRestorer;
+import Persistence.PersistenceManager;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerGameplayFacade;
+import com.example.sharedcode.interfaces.persistence.IGameDAO;
 import com.example.sharedcode.model.*;
 
 import java.util.ArrayList;
@@ -191,7 +194,8 @@ public class ServerGameplay implements IServerGameplayFacade {
                 "_endGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
 
-        // TODO: - serialize everything
+        IGameDAO gameDAO = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO();
+        gameDAO.removeGame(currentGame.getGameID());
     }
 
 
@@ -204,7 +208,7 @@ public class ServerGameplay implements IServerGameplayFacade {
                 "_updateGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
 
-        // TODO: - save command and check if need to serialize everything in the game
+        GameRestorer.getInstance().addCommandForGame(command, currentGame);
     }
 
     private Game updateDestCardScore(Game currentGame) {
@@ -218,6 +222,7 @@ public class ServerGameplay implements IServerGameplayFacade {
                 }
             }
         }
+
         return currentGame;
     }
 }

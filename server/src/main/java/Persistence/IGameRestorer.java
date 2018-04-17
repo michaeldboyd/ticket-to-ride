@@ -15,4 +15,5 @@ public interface IGameRestorer {
     List<Command> getCommandsForGame(String gameID);
     void simulateGame(List<Command> commands);
     void pushGameToServerModel(Game game) throws Exception;
+    void addCommandForGame(Command command, Game game);
 }

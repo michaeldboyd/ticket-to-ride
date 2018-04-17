@@ -2,9 +2,11 @@ package Facades;
 
 import Communication.SocketManager;
 import Model.ServerModel;
+import Persistence.PersistenceManager;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLobbyFacade;
+import com.example.sharedcode.interfaces.persistence.IGameDAO;
 import com.example.sharedcode.model.*;
 import org.eclipse.jetty.server.Server;
 
@@ -76,7 +78,8 @@ public class ServerLobby implements IServerLobbyFacade {
 
         SocketManager.instance().updateGameList(ServerModel.instance().getLobbyUserAuthTokens());
 
-        // TODO: - serialize/save game in the database
+        IGameDAO gameDAO = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO();
+        gameDAO.addGame(newGame);
     }
 
 
@@ -110,10 +113,10 @@ public class ServerLobby implements IServerLobbyFacade {
 
         String playerID = "";
         if (ServerModel.instance().getGames().containsKey(gameID)) {
-            String usnm = ServerModel.instance().getAuthTokenToUsername().get(authToken);
+            String username = ServerModel.instance().getAuthTokenToUsername().get(authToken);
 
             game = ServerModel.instance().getGames().get(gameID);
-            newPlayer = new Player(usnm,usnm, game.getColorNotChosen());
+            newPlayer = new Player(username, username, game.getColorNotChosen());
 
 
             // Only set message if we fail to add user to the game
@@ -122,7 +125,7 @@ public class ServerLobby implements IServerLobbyFacade {
             } else {
                 playerID = newPlayer.getPlayerID();
                 ServerModel.instance().getUsersInLobby()
-                        .remove(ServerModel.instance().getLoggedInUsers().get(usnm).getUsername());
+                        .remove(ServerModel.instance().getLoggedInUsers().get(username).getUsername());
             }
         } else {
             message = "could not find game in list";
@@ -145,8 +148,6 @@ public class ServerLobby implements IServerLobbyFacade {
         SocketManager.instance().updateGameList(tokens);
 
         ServerChat._getChatHistory(authToken, gameID);
-
-        // TODO: - serialize/save game in the database
     }
 
     // If the game
@@ -182,8 +183,6 @@ public class ServerLobby implements IServerLobbyFacade {
         Collection<String> tokens = ServerModel.instance().getPlayerAuthTokens(gameID);
         tokens.addAll(ServerModel.instance().getLobbyUserAuthTokens());
         SocketManager.instance().updateGameList(tokens);
-
-        // TODO: - serialize/save game in the database
     }
 
     //tell everyone to start the game who is in it, andupdate the games list for everyone else
@@ -218,6 +217,9 @@ public class ServerLobby implements IServerLobbyFacade {
                     Command startGameClientCommand = CommandFactory.createCommand(authToken, CLASS_NAME,
                             "_startGameReceived", paramTypes, paramValues);
                     SocketManager.instance().notifyPlayersInGame(gameID, startGameClientCommand);
+
+                    IGameDAO gameDAO = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO();
+                    gameDAO.updateGame(gameID, game);
                 } else message = "the game you're trying to start has already started!";
             } else message = "The server says no player exists in this game.";
         } else message = "Game doesn't exist.";
@@ -254,8 +256,6 @@ public class ServerLobby implements IServerLobbyFacade {
         if (success) {
             SocketManager.instance().updateGameList(tokens);
         }
-
-        // TODO: - serialize/save game in the database
     }
 
 

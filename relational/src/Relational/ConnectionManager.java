@@ -125,16 +125,20 @@ public class ConnectionManager implements IConnectionManager {
 
     public boolean clearTables()
     {
+        openConnection();
+
         try(Statement stmt = conn.createStatement())
         {
             stmt.execute("delete from game");
             stmt.execute("delete from user");
             stmt.execute("delete from command");
-        } catch(Exception e)
-        {
+        } catch(Exception e) {
             e.printStackTrace();
             return false;
+         } finally {
+            closeConnection();
         }
+
         return true;
     }
 
