@@ -1,5 +1,6 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
  *
  * @invariant game must be initialized already
  */
-public class GameInitializer {
+public class GameInitializer implements Serializable {
 
     private static int DEST_DECK_NUM = 30;
     private static int TRAIN_CARD_DECK_NUM = 110;

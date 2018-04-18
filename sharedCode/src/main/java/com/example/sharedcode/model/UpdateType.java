@@ -1,10 +1,12 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jonathanlinford on 2/9/18.
  */
 
-public enum UpdateType {
+public enum UpdateType implements Serializable {
     LOBBY_LIST_UPDATED,
     PLAYER_LIST,
     GAME_STARTED,

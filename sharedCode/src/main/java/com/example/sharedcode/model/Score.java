@@ -1,10 +1,12 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jonathanlinford on 3/2/18.
  */
 
-public class Score {
+public class Score implements Serializable {
     public int destCardPoints = 0;
     public int destCardDeductions = 0;
     private int routePoints = 0;

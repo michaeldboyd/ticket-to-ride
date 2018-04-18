@@ -1,7 +1,9 @@
 package Communication;
 
+import Facades.ServerGameplay;
 import Facades.ServerUtility;
 import Model.ServerModel;
+import Persistence.PersistenceManager;
 import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
@@ -27,6 +29,10 @@ public class CommandSocket implements WebSocketListener
         Command req = (Command) JsonReader.jsonToJava(message);
         try {
             req.execute();
+
+            if(shouldSaveCommand(req)){
+                saveCommand(req);
+            }
         } catch (InvocationTargetException e) {
             System.out.println(e.getCause().getMessage());
             e.printStackTrace();
@@ -63,6 +69,33 @@ public class CommandSocket implements WebSocketListener
     @Override
     public void onWebSocketConnect(Session session) {
        ServerUtility.instance().initSocket(session);
+
+    }
+
+    private boolean shouldSaveCommand(Command command){
+        if(command.get_className().equals(ServerGameplay.class.toString())){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void saveCommand(Command command){
+        PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO().storeGameCommand(command, getGameIDFromCommand(command));
+    }
+
+    private String getGameIDFromCommand(Command command){
+        String[] paramTypes = command.get_paramTypesStringNames();
+        Object[] params = command.get_paramValues();
+
+
+        for (int i = 0; i < paramTypes.length; i++){
+            if(paramTypes[i].equals("gameID")){
+                return (String) command.get_paramValues()[i];
+            }
+        }
+
+        return null;
 
     }
 }

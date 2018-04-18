@@ -1,12 +1,13 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Ali on 2/24/2018.
  */
 
-public class TrainCard  {
+public class TrainCard  implements Serializable {
 
     private int trainCarType;
 
