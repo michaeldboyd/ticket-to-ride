@@ -59,7 +59,17 @@ public class Command implements ICommand, Serializable {
         this._authToken = _authToken;
     }
 
+    public String get_className(){
+        return _className;
+    }
 
+    public String[] get_paramTypesStringNames() {
+        return _paramTypesStringNames;
+    }
+
+    public Object[] get_paramValues() {
+        return _paramValues;
+    }
 
     /**
      *
