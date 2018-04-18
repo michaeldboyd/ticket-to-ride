@@ -5,6 +5,7 @@ import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IUtility;
+import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.api.Session;
 
 import java.util.UUID;
@@ -19,6 +20,7 @@ public class ServerUtility implements IUtility{
         instance().clearServer(password);
     }
     public static void _initSocket(Session sess) { instance().initSocket(sess);}
+    public static void _dontForgetMe(String authToken, String socketID){instance().identify(authToken, socketID);}
     @Override
     public void clearServer(String password) {
         if(password.equals(ServerModel.instance().getTestPassword()))
@@ -46,5 +48,11 @@ public class ServerUtility implements IUtility{
                 "_initSocket", paramTypes, paramValues);
         // Send logoutCommand to Client via socket
         SocketManager.instance().sendBySocketId(initCommand, id);
+    }
+
+    public void identify(String authToken, String socketID) {
+        // match the username
+        Session sess = ServerModel.instance().getAllSessions().get(socketID);
+        ServerModel.instance().getLoggedInSessions().put(authToken, sess);
     }
 }

@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
       loadLoginFragmentFirstTime();
     }
 
-    SocketManager.ConnectSocket("this will be the URI once implemented"); //ws://192.168.255.178:8080/echo/
+    SocketManager.ConnectSocket(); //ws://192.168.255.178:8080/echo/
   }
 
   public void loadLoginFragmentFirstTime() {

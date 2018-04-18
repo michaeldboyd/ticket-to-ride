@@ -105,7 +105,7 @@ public class LoginPresenter implements ILoginPresenter, Observer{
             System.out.println("IP changed to: " + ip);
             try {
                 SocketManager.socket.closeConnection(500, "ChangeIP");
-                SocketManager.ConnectSocket(ip);
+                SocketManager.ConnectSocket();
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
