@@ -17,6 +17,7 @@ public class ConnectionManager implements IConnectionManager {
         File gamesFolder = new File(gamesFolderPath);
 
         usersFolder.mkdirs();
+        gamesFolder.mkdirs();
     }
 
     @Override
