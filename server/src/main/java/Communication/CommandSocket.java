@@ -86,15 +86,7 @@ public class CommandSocket implements WebSocketListener
     }
 
     private String getGameIDFromCommand(Command command){
-        String[] paramTypes = command.get_paramTypesStringNames();
 
-        for (int i = 0; i < paramTypes.length; i++){
-            if(paramTypes[i].equals("gameID")){
-                return (String) command.get_paramValues()[i];
-            }
-        }
-
-        return null;
-
+        return (String) command.get_paramValues()[1];
     }
 }
