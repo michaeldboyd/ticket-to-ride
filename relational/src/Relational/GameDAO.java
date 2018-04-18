@@ -39,12 +39,10 @@ public class GameDAO implements IGameDAO {
             stmt.close();
 
             conn.commit();
-            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -78,12 +76,10 @@ public class GameDAO implements IGameDAO {
             stmt.close();
 
             conn.commit();
-            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -116,12 +112,11 @@ public class GameDAO implements IGameDAO {
             stmt.execute();
             stmt.close();
 
-
+            conn.commit();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -156,12 +151,10 @@ public class GameDAO implements IGameDAO {
             stmt.close();
 
             conn.commit();
-            conn.close();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -185,13 +178,11 @@ public class GameDAO implements IGameDAO {
             stmt.execute();
 
             conn.commit();
-            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         } finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();

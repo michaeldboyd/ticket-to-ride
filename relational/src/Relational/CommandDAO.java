@@ -41,12 +41,14 @@ public class CommandDAO implements ICommandDAO {
             }
 
             stmt.close();
+
+            conn.commit();
+
         } catch (Exception e) {
             e.printStackTrace();
 
         }finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -80,11 +82,13 @@ public class CommandDAO implements ICommandDAO {
 
             stmt.execute();
             stmt.close();
+
+            conn.commit();
+
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -107,12 +111,13 @@ public class CommandDAO implements ICommandDAO {
             stmt.setString(1, gameID);
             stmt.execute();
 
+            conn.commit();
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         } finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();

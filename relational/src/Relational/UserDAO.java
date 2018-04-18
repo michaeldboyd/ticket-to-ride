@@ -31,12 +31,12 @@ public class UserDAO implements IUserDAO {
             }
 
             stmt.close();
+            conn.commit();
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -71,11 +71,13 @@ public class UserDAO implements IUserDAO {
 
             stmt.close();
 
+            conn.commit();
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -109,11 +111,12 @@ public class UserDAO implements IUserDAO {
         stmt.execute();
         stmt.close();
 
-    } catch(Exception e) {
+        conn.commit();
+
+        } catch(Exception e) {
         e.printStackTrace();
     } finally {
         try {
-            conn.commit();
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -148,11 +151,12 @@ public class UserDAO implements IUserDAO {
             stmt.execute();
             stmt.close();
 
+            conn.commit();
+
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                conn.commit();
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();

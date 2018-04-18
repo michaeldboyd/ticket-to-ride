@@ -3,6 +3,7 @@ package Communication;
 import Facades.ServerGameplay;
 import Facades.ServerUtility;
 import Model.ServerModel;
+import Persistence.GameRestorer;
 import Persistence.PersistenceManager;
 import com.cedarsoftware.util.io.JsonReader;
 import com.example.sharedcode.communication.Command;
@@ -73,7 +74,7 @@ public class CommandSocket implements WebSocketListener
     }
 
     private boolean shouldSaveCommand(Command command){
-        if(command.get_className().equals(ServerGameplay.class.toString())){
+        if(command.get_className().equals("Facades.ServerGameplay")){
             return true;
         } else {
             return false;
@@ -81,13 +82,11 @@ public class CommandSocket implements WebSocketListener
     }
 
     private void saveCommand(Command command){
-        PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO().storeGameCommand(command, getGameIDFromCommand(command));
+        GameRestorer.getInstance().addCommandForGame(command, ServerModel.instance().getGames().get(getGameIDFromCommand(command)));
     }
 
     private String getGameIDFromCommand(Command command){
         String[] paramTypes = command.get_paramTypesStringNames();
-        Object[] params = command.get_paramValues();
-
 
         for (int i = 0; i < paramTypes.length; i++){
             if(paramTypes[i].equals("gameID")){

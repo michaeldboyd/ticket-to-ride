@@ -68,9 +68,12 @@ public class ServerLogin implements IServerLoginFacade {
             message = "User already logged in.";
         } else {
 
-            if (ServerModel.instance().getAllUsers().containsKey(username)) {
+            IUserDAO userDAO = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO();
 
-                User user = ServerModel.instance().getAllUsers().get(username);
+            User user = userDAO.getUser(username);
+
+            //if (ServerModel.instance().getAllUsers().containsKey(username)) {
+            if (user != null) {
 
                 if (user.getPassword().equals(password)) {
                     //Do we want to reset authtoken each time?
@@ -78,13 +81,11 @@ public class ServerLogin implements IServerLoginFacade {
                     authToken = uuid.toString();
 
                     ServerModel.instance().getAuthTokenToUsername().put(authToken, username);
-                    ServerModel.instance().getAllUsers().get(username).setAuthtoken(authToken);
                     ServerModel.instance().getLoggedInUsers().put(username, user);
                     ServerModel.instance().getUsersInLobby().put(username, user);
                     matchSocketToAuthToken(socketID, authToken);
 
                     user.setAuthtoken(authToken);
-                    IUserDAO userDAO = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO();
                     userDAO.updateUser(username, user, "");
                 } else {
                     message = "Incorrect password.";
@@ -124,7 +125,9 @@ public class ServerLogin implements IServerLoginFacade {
         String authToken = "";
         String message = "";
 
-        if (ServerModel.instance().getAllUsers().containsKey(username)) {
+        IUserDAO userDAO = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO();
+
+        if (userDAO.getUser(username) != null) {
             message = "Username already registered.";
         } else {
             authToken = UUID.randomUUID().toString();
@@ -141,7 +144,6 @@ public class ServerLogin implements IServerLoginFacade {
             ServerModel.instance().getUsersInLobby().put(username, user);
             matchSocketToAuthToken(socketID, authToken);
 
-            IUserDAO userDAO = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO();
             userDAO.addUser(user);
         }
 

@@ -77,9 +77,6 @@ public class ServerLobby implements IServerLobbyFacade {
         ServerModel.instance().notifyObserversForUpdate(createGameClientCommand);
 
         SocketManager.instance().updateGameList(ServerModel.instance().getLobbyUserAuthTokens());
-
-        IGameDAO gameDAO = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO();
-        gameDAO.addGame(newGame);
     }
 
 
@@ -219,7 +216,7 @@ public class ServerLobby implements IServerLobbyFacade {
                     SocketManager.instance().notifyPlayersInGame(gameID, startGameClientCommand);
 
                     IGameDAO gameDAO = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO();
-                    gameDAO.updateGame(gameID, game);
+                    gameDAO.addGame(game);
                 } else message = "the game you're trying to start has already started!";
             } else message = "The server says no player exists in this game.";
         } else message = "Game doesn't exist.";
@@ -232,8 +229,6 @@ public class ServerLobby implements IServerLobbyFacade {
                     "_startGameReceived", paramTypes, paramValues);
             ServerModel.instance().notifyObserversForUpdate(errorMessage);
         }
-
-        // TODO: - serialize/save game in the database
     }
 
     @Override
@@ -257,7 +252,6 @@ public class ServerLobby implements IServerLobbyFacade {
             SocketManager.instance().updateGameList(tokens);
         }
     }
-
 
     // this should only be sent to the people in the game.
 

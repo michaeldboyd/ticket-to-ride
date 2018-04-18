@@ -2,6 +2,7 @@ package Model;
 
 import Communication.SocketManager;
 import Facades.ServerLobby;
+import Persistence.PersistenceManager;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.model.*;
 import com.example.sharedcode.communication.Command;
@@ -35,7 +36,6 @@ public class ServerModel extends Observable {
 
     //User Info
     private Map<String, User> loggedInUsers = Collections.synchronizedMap(new HashMap<>()); // <username, User>
-    private Map<String, User> allUsers = Collections.synchronizedMap(new HashMap<>()); // <username, User>
     private Map<String, String> authTokenToUsername = Collections.synchronizedMap(new HashMap<>()); // <authToken, username>
     private Map<String, User> usersInLobby = Collections.synchronizedMap(new HashMap<>());
     private Map<String, Game> startedGames = Collections.synchronizedMap(new HashMap<>());
@@ -73,9 +73,18 @@ public class ServerModel extends Observable {
     public Map<String, User> getLoggedInUsers() {
         return loggedInUsers;
     }
+
     public Map<String, User> getAllUsers() {
-        return allUsers;
+        Map<String, User> returnUsers = new HashMap<>();
+        List<User> users = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO().getAllUsers();
+
+        for(User u : users){
+            returnUsers.put(u.getUsername(), u);
+        }
+
+        return returnUsers;
     }
+
     public Map<String, String> getAuthTokenToUsername() {
         return authTokenToUsername;
     }
