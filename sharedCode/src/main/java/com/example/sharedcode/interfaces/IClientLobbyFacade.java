@@ -15,4 +15,5 @@ public interface IClientLobbyFacade {
     void joinGame(String message, Player player, Game game);
     void startGame(String message, Game game);
     void leaveGame(String gameID, String message);
+    void sendUserStraightToGame(Game game, String message);
 }

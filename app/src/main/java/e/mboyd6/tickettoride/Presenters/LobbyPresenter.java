@@ -106,6 +106,10 @@ public class LobbyPresenter implements ILobbyPresenter, Observer{
             case SERVER_DISCONNECT:
                 // FOR JONNY TO IMPLEMENT
                 serverDisconnected(args.error);
+                break;
+            case STRAIGHT_TO_GAME:
+                lobbyFragment.sendStraightToGame(args.error);
+                break;
             default:
                 //System.out.println("ENUM ERROR");
                 break;

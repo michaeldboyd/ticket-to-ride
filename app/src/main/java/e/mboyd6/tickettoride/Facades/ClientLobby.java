@@ -51,6 +51,10 @@ public class ClientLobby implements IClientLobbyFacade {
         instance().leaveGame(gameID, message);
     }
 
+    public static void _sendUserStraightToGame(Game game, String message) {
+        instance().sendUserStraightToGame(game, message);
+    }
+
 
 
 
@@ -150,6 +154,17 @@ public class ClientLobby implements IClientLobbyFacade {
         boolean success = isSuccess(message);
         if(success) {
             ClientModel.getInstance().setCurrentGame(null);
+        }
+
+        sendUpdate(type, success, message);
+    }
+
+    @Override
+    public void sendUserStraightToGame(Game game, String message){
+        UpdateType type = UpdateType.STRAIGHT_TO_GAME;
+        boolean success = isSuccess(message);
+        if(success) {
+            ClientModel.getInstance().setCurrentGame(game);
         }
 
         sendUpdate(type, success, message);

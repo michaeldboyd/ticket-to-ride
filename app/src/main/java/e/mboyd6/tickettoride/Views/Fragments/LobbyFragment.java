@@ -2,6 +2,7 @@ package e.mboyd6.tickettoride.Views.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import e.mboyd6.tickettoride.Presenters.Interfaces.ILobbyPresenter;
 import e.mboyd6.tickettoride.Presenters.LobbyPresenter;
 import e.mboyd6.tickettoride.R;
+import e.mboyd6.tickettoride.Views.Activities.GameActivity;
 import e.mboyd6.tickettoride.Views.Adapters.GameListAdapter;
 import e.mboyd6.tickettoride.Views.Interfaces.ILobbyFragment;
 import e.mboyd6.tickettoride.Views.Interfaces.IMainActivity;
@@ -245,6 +247,22 @@ public class LobbyFragment extends Fragment implements ILobbyFragment, IMainActi
                 }
             }
         });
+    }
+
+    @Override
+    public void sendStraightToGame(String message){
+        final String mess = message;
+
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (!handleError(mess)) {
+                    Intent intent = new Intent(getActivity(), GameActivity.class);
+                    intent.putExtra("START_GAME", false);
+                    getActivity().startActivity(intent);
+                }
+            }});
     }
 
 

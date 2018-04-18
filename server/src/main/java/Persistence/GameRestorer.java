@@ -7,6 +7,7 @@ import com.example.sharedcode.interfaces.persistence.ICommandDAO;
 import com.example.sharedcode.interfaces.persistence.IGameDAO;
 import com.example.sharedcode.interfaces.persistence.IUserDAO;
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.Player;
 import com.example.sharedcode.model.User;
 
 import java.util.ArrayList;

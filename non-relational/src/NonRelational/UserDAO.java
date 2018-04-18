@@ -33,6 +33,9 @@ public class UserDAO implements IUserDAO {
 
         ArrayList<User> allUsers = new ArrayList<>();
 
+        if (foldersInDirectory == null)
+            return allUsers;
+
         for (File userFolder : foldersInDirectory) {
             User user = loadUserFromFolder(userFolder);
             if (user != null) {

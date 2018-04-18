@@ -29,4 +29,6 @@ public interface ILobbyFragment {
     void onCreateGameResponse(String message);
     void onGameJoinedSent();
     void onGameJoinedResponse(String message);
+
+    void sendStraightToGame(String message);
 }

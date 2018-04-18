@@ -2,6 +2,7 @@ package Persistence;
 
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.User;
 
 import java.util.List;
 

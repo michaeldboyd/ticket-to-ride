@@ -32,6 +32,9 @@ public class GameDAO implements IGameDAO {
 
         ArrayList<Game> allGames = new ArrayList<>();
 
+        if (filesInDirectory == null)
+            return allGames;
+
         for (File gameFolder : filesInDirectory) {
             path = gameFolder.getAbsolutePath();
             File gameFile = new File(path);

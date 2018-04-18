@@ -78,7 +78,8 @@ public class ServerModel extends Observable {
     public Map<String, User> getAllUsers() {
         Map<String, User> returnUsers = new HashMap<>();
         List<User> users = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO().getAllUsers();
-
+        if (users == null)
+            return null;
         for(User u : users){
             returnUsers.put(u.getUsername(), u);
         }
@@ -155,6 +156,7 @@ public class ServerModel extends Observable {
 
                     authTokenToUsername.remove(token);
                     usersInLobby.remove(username);
+                    /*
                     for(Game g : games.values()) {
                         int i = 0;
                         for(Player p : g.getPlayers()) {
@@ -166,6 +168,7 @@ public class ServerModel extends Observable {
                             } i++;
                         }
                     }
+                    */
                 }
             }
             for(String tok : removedSessions ){
@@ -175,6 +178,18 @@ public class ServerModel extends Observable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Game getUsersGame(User user){
+        for(String gameID : games.keySet()){
+            for(Player p : games.get(gameID).getPlayers()){
+                if(p.getName().equals(user.getUsername())){
+                    return games.get(gameID);
+                }
+            }
+        }
+
+        return null;
     }
 
 }

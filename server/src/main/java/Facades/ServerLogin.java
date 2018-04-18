@@ -2,11 +2,13 @@ package Facades;
 
 import Communication.SocketManager;
 import Model.ServerModel;
+import Persistence.GameRestorer;
 import Persistence.PersistenceManager;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerLoginFacade;
 import com.example.sharedcode.interfaces.persistence.IUserDAO;
+import com.example.sharedcode.model.Game;
 import com.example.sharedcode.model.User;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.api.Session;
@@ -99,8 +101,16 @@ public class ServerLogin implements IServerLoginFacade {
         Command loginClientCommand = CommandFactory.createCommand(authToken,
                 CLASS_NAME,
                 "_loginReceived", paramTypes, paramValues);
-        if(!authToken.equals(""))
+        if(!authToken.equals("")) {
             ServerModel.instance().notifyObserversForUpdate(loginClientCommand);
+
+            User user = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO().getUser(username);
+
+            Game game = ServerModel.instance().getUsersGame(user);
+            if (game != null){
+                sendStraightToGameCommand(authToken, game, message);
+            }
+        }
         else SocketManager.instance().sendBySocketId(loginClientCommand, socketID);
 
         Collection<String> tok = new ArrayList<String>();
@@ -108,6 +118,17 @@ public class ServerLogin implements IServerLoginFacade {
         SocketManager.instance().updateGameList(tok);
     }
 
+    private void sendStraightToGameCommand(String authToken, Game game, String message) {
+        String[] paramTypes = {game.getClass().toString(), message.getClass().toString()};
+        Object[] paramValues = {game, message};
+        Command sendUserStraightToGameCommand = CommandFactory.createCommand(authToken,
+                "e.mboyd6.tickettoride.Facades.ClientLobby",
+                "_sendUserStraightToGame", paramTypes, paramValues);
+
+
+        ServerModel.instance().notifyObserversForUpdate(sendUserStraightToGameCommand);
+
+    }
 
 
     /**
