@@ -1,10 +1,12 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
+
 /**
  * Created by hunte on 2/10/2018.
  */
 
-public class TrainType {
+public class TrainType implements Serializable {
     public static final int BOX = 0;
     public static final int PASSENGER = 1;
     public static final int TANKER = 2;
