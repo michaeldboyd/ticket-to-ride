@@ -59,8 +59,6 @@ public class ServerChat implements IChatServerFacade {
         Command addChatCommand = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.ClientChat", "_chatMessageReceived", paramTypes, paramValues);
 
         SocketManager.instance().notifyPlayersInGame(gameID, addChatCommand);
-
-        PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO().storeGameCommand(addChatCommand, gameID);
     }
 
     @Override
@@ -78,9 +76,7 @@ public class ServerChat implements IChatServerFacade {
         Command command = CommandFactory.createCommand(authToken, "e.mboyd6.tickettoride.Facades.ClientChat", "_isTypingReceived", paramTypes, paramValues);
 
         SocketManager.instance().notifyPlayersInGame(gameID, command);
-
-        PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO().storeGameCommand(command, gameID);
-    }
+        }
 
     @Override
     public void getChatHistory(String authToken, String gameID) {

@@ -8,6 +8,7 @@ import Persistence.PersistenceManager;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IServerGameplayFacade;
+import com.example.sharedcode.interfaces.persistence.ICommandDAO;
 import com.example.sharedcode.interfaces.persistence.IGameDAO;
 import com.example.sharedcode.model.*;
 
@@ -196,6 +197,7 @@ public class ServerGameplay implements IServerGameplayFacade {
 
         IGameDAO gameDAO = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO();
         gameDAO.removeGame(currentGame.getGameID());
+        PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO().clearGameCommands(currentGame.getGameID());
     }
 
 
@@ -207,8 +209,6 @@ public class ServerGameplay implements IServerGameplayFacade {
         Command command = CommandFactory.createCommand(authToken, CLASS_NAME,
                 "_updateGame", paramTypes, paramValues);
         SocketManager.instance().notifyPlayersInGame(currentGame.getGameID(), command);
-
-        GameRestorer.getInstance().addCommandForGame(command, currentGame);
     }
 
     private Game updateDestCardScore(Game currentGame) {
