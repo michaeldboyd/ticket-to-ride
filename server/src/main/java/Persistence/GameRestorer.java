@@ -58,6 +58,16 @@ public class GameRestorer implements IGameRestorer {
             List<Command> commandsTemp = PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO().getCommands(g.getGameID());
             commandsByGame.put(g.getGameID(), commandsTemp);
         }
+        // users
+
+        // init all users
+        // init logged in users
+        // init authToken to username
+        // init users in lobby
+        // init started games
+
+
+
     }
 
     @Override
@@ -128,5 +138,5 @@ public class GameRestorer implements IGameRestorer {
     }
 
 
-    
+
 }
