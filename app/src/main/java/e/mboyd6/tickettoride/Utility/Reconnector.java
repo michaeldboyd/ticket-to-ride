@@ -16,46 +16,52 @@ import e.mboyd6.tickettoride.Model.ClientModel;
  */
 
 public class Reconnector implements Runnable{
-
+    boolean isClosed = SocketManager.socket.isClosed();
+    boolean isConnecting = SocketManager.socket.isConnecting();
     @Override
     public void run() {
-        int nope = 0;
-        WebSocketClient client = null;
-        boolean success = false;
-
-
+        while(isClosed || isConnecting) {
             try {
-                SocketManager.socket = new SocketClient(new URI("ws://" + SocketManager.ip + ":8080/echo/"));
-                //wait 1.5 seconds
-                while (!SocketManager.socket.isOpen() && nope < 600) { // try to reconnect for 10 minute
-                    Thread.sleep(3000);
-
-                    if (SocketManager.socket != null) {
-                        SocketManager.socket.connect();
-                        if (SocketManager.socket.isOpen())
-                            break;
-                    } else nope++;
-
-                    System.out.println("Trying to reconect...");
-                }
+                SocketManager.socket.closeConnection(500, "ChangeIP");
+                SocketManager.ConnectSocket();
             } catch (Exception e) {
-                nope++;
-        }
-// server dies. on close happens. when server reconnects, command sent to client updating socket number. authtoken sent back to pair for session.
-        if(SocketManager.socket.isOpen()) {
-            // send command saying who I am.
-            System.out.println("RECONNECTED");
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            String at = ClientModel.getInstance().getAuthToken();
-            String id = SocketManager.socketID;
-            if(at != null && id != null) {
-                UtilityProxy.instance().dontForgetMe(at, id);
-            }
-
+            isClosed = SocketManager.socket.isClosed();
+            isConnecting = SocketManager.socket.isConnecting();
+            boolean isOpen = SocketManager.socket.isOpen();
         }
+
     }
 }
+
+
+    /*int nope = 0;
+    WebSocketClient client = null;
+    boolean success = false;
+        while (!SocketManager.socket.isOpen() && nope < 600) {
+        SocketManager.socket.getConnection().closeConnection(500, "Reconnect");
+        try {
+        SocketManager.socket.connectBlocking();
+        } catch (InterruptedException e) {
+        e.printStackTrace();
+        }
+        }*/
+//                //wait 1.5 seconds
+//                while (!SocketManager.socket.isOpen() && nope < 600) { // try to reconnect for 10 minute
+//                    try {
+//                        Thread.sleep(1000);
+//                        SocketManager.socket = new SocketClient(new URI("ws://" + SocketManager.ip + ":8080/echo/"));
+//                        if (SocketManager.socket != null) {
+//                            SocketManager.socket.connect();
+//                            nope++;
+//                            if (SocketManager.socket.isOpen())
+//                                break;
+//                            else
+//                                SocketManager.socket.close();
+//                        } else nope++;
+//
+//                        System.out.println("Trying to reconect...");
+//                    } catch (Exception e) {
+//                        nope++;
+//                    }

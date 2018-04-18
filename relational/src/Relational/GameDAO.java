@@ -38,10 +38,8 @@ public class GameDAO implements IGameDAO {
 
             stmt.close();
 
-<<<<<<< HEAD
             conn.commit();
-=======
->>>>>>> socket-restore
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
