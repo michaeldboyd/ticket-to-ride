@@ -93,10 +93,11 @@ public class ServerRunner {
         }
         int portNumber = 8080;
         ServerRunner server = new ServerRunner();
+        GameRestorer.getInstance().run();
         server.run(portNumber);
 
         //TODO: Is this where the game restoration should be called?
-        GameRestorer.getInstance().run();
+
     }
 }
 

@@ -38,7 +38,10 @@ public class GameDAO implements IGameDAO {
 
             stmt.close();
 
+<<<<<<< HEAD
             conn.commit();
+=======
+>>>>>>> socket-restore
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -76,6 +79,7 @@ public class GameDAO implements IGameDAO {
             stmt.close();
 
             conn.commit();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -149,8 +153,8 @@ public class GameDAO implements IGameDAO {
 
             stmt.execute();
             stmt.close();
-
             conn.commit();
+
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -178,6 +182,7 @@ public class GameDAO implements IGameDAO {
             stmt.execute();
 
             conn.commit();
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

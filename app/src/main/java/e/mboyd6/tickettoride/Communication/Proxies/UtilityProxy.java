@@ -34,5 +34,14 @@ public class UtilityProxy implements IUtility {
         // TODO - send login to Server via socket
         Sender.sendToServer(command);
     }
+
+    public void dontForgetMe(String authToken, String socketID) {
+        String[] paramTypes = {authToken.getClass().toString(), socketID.getClass().toString()};
+        String[] paramValues = {authToken, socketID};
+        // the authToken is null because when logging in we don't have an auth token.
+        Command command = CommandFactory.createCommand(null, CLASS_NAME, "_dontForgetMe", paramTypes, paramValues);
+        // TODO - send login to Server via socket
+        Sender.sendToServer(command);
+    }
 }
 

@@ -24,7 +24,7 @@ public class SocketManager {
     public static String socketID = "";
     //public static String ip = "192.168.1.134";
 
-    public static String ConnectSocket(String url)
+    public static String ConnectSocket()
     {
         WebSocketImpl.DEBUG = true;
         String error = null;
