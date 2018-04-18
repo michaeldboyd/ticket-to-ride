@@ -109,6 +109,8 @@ public class GameRestorer implements IGameRestorer {
         if (commandsByGame.get(gameID).size() == PersistenceManager.getInstance().getTimesBetweenStorage()) {
             // Remove all commands
             commandsByGame.get(gameID).clear();
+            ICommandDAO commandDAO = PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO();
+            commandDAO.clearGameCommands(gameID);
 
             // Save the game in the database
             IGameDAO gameDAO = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO();

@@ -1,5 +1,6 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,7 +9,7 @@ import java.util.Collections;
  * Created by Ali on 2/24/2018.
  */
 
-public class TrainCardDeck extends ArrayList<Integer> {
+public class TrainCardDeck extends ArrayList<Integer> implements Serializable {
 
     TrainCardDeck(){
 

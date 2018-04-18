@@ -1,12 +1,13 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Ali on 3/2/2018.
  */
 
-public class DestinationCard {
+public class DestinationCard implements Serializable {
 
     private String startCity; //these might be enums, but didn't have those yet
     private String endCity; //or know if we're using those, so I used strings for now

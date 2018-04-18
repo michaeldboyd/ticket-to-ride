@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by mboyd6 on 2/1/2018.
  */
 
-public class Game implements Serializable{
+public class Game implements Serializable {
 
     private String gameID;
     private ArrayList<Player> players = new ArrayList<>();

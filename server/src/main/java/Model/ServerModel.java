@@ -31,6 +31,8 @@ public class ServerModel extends Observable {
     }
 
     private ServerModel() {}
+
+
     //User Info
     private Map<String, User> loggedInUsers = Collections.synchronizedMap(new HashMap<>()); // <username, User>
     private Map<String, User> allUsers = Collections.synchronizedMap(new HashMap<>()); // <username, User>

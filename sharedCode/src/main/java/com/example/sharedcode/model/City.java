@@ -1,16 +1,18 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Ali on 3/2/2018.
  */
 
-public class City {
+public class City implements Serializable {
 
     private String cityName;
     private double lat;
     private double lon;
 
-    City (String city, double lat, double lon){
+    City (String city, double lat, double lon) {
         this.cityName = city;
         this.lat = lat;
         this.lon = lon;

@@ -1,10 +1,12 @@
 package com.example.sharedcode.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Ali on 2/24/2018.
  */
 
-public class Route {
+public class Route implements Serializable {
 
     private String city1;
     private String city2;

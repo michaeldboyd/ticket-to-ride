@@ -1,6 +1,7 @@
 package com.example.sharedcode.model;
 
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ import java.util.Date;
  * Created by Ali on 2/26/2018.
  */
 
-public class ChatMessage {
+public class ChatMessage implements Serializable {
 
     private static int idTracker = 0;
 
