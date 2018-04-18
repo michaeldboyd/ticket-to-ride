@@ -5,7 +5,9 @@ import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.interfaces.persistence.ICommandDAO;
 import com.example.sharedcode.interfaces.persistence.IGameDAO;
+import com.example.sharedcode.interfaces.persistence.IUserDAO;
 import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +57,9 @@ public class GameRestorer implements IGameRestorer {
         games = PersistenceManager.getInstance().getDatabaseFactory().createGameDAO().getAllGames();
 
         for (Game g : games) {
+            if(g.isStarted()) {
+                ServerModel.instance().getStartedGames().put(g.getGameID(), g);
+            }
             List<Command> commandsTemp = PersistenceManager.getInstance().getDatabaseFactory().createCommandDAO().getCommands(g.getGameID());
             commandsByGame.put(g.getGameID(), commandsTemp);
         }
@@ -62,7 +67,18 @@ public class GameRestorer implements IGameRestorer {
 
         // init all users
         // init logged in users
+
         // init authToken to username
+        IUserDAO ud = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO();
+        List<User> users = ud.getAllUsers();
+        for(User u : users) {
+            ServerModel.instance().getAllUsers().put(u.getUsername(), u);
+            ServerModel.instance().getAuthTokenToUsername().put(u.getAuthtoken(), u.getUsername());
+            if(u.getAuthtoken() != null && !u.getUsername().equals("")) {
+                ServerModel.instance().getLoggedInUsers().put(u.getUsername(), u);
+            }
+        }
+
         // init users in lobby
         // init started games
 

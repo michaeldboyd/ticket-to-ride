@@ -22,22 +22,24 @@ public class Reconnector implements Runnable{
         int nope = 0;
         WebSocketClient client = null;
         boolean success = false;
-        while (!SocketManager.socket.isOpen() && nope < 600) { // try to reconnect for 10 minute
+
+
             try {
-                //wait 1.5 seconds
-                Thread.sleep(1000);
                 SocketManager.socket = new SocketClient(new URI("ws://" + SocketManager.ip + ":8080/echo/"));
-                if(SocketManager.socket != null) {
-                    SocketManager.socket.connect();
-                    if(SocketManager.socket.isOpen())
-                        break;
-                } else nope++;
+                //wait 1.5 seconds
+                while (!SocketManager.socket.isOpen() && nope < 600) { // try to reconnect for 10 minute
+                    Thread.sleep(3000);
 
-                System.out.println("Trying to reconect...");
+                    if (SocketManager.socket != null) {
+                        SocketManager.socket.connect();
+                        if (SocketManager.socket.isOpen())
+                            break;
+                    } else nope++;
 
+                    System.out.println("Trying to reconect...");
+                }
             } catch (Exception e) {
                 nope++;
-            }
         }
 // server dies. on close happens. when server reconnects, command sent to client updating socket number. authtoken sent back to pair for session.
         if(SocketManager.socket.isOpen()) {

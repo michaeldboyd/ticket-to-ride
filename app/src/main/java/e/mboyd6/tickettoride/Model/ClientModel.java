@@ -26,7 +26,7 @@ public class ClientModel extends Observable {
     private String playerName = "";
 
     private String authToken;
-
+    public boolean disconnected = false;
     // ******* USEFUL FUNCTIONS ******//
     /**
      * this function sends an update to the presenters subscribed

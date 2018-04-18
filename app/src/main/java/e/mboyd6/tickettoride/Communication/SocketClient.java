@@ -42,6 +42,7 @@ public class SocketClient extends WebSocketClient {
         String message = "Server was disconnected";
         UpdateArgs args = new UpdateArgs(type, success, message);
         ClientModel.getInstance().sendUpdate(args);
+
         Thread thread = new Thread(new Reconnector());
         thread.start();
 
