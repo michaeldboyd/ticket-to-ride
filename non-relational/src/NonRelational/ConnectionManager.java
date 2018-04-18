@@ -5,6 +5,7 @@ import com.example.sharedcode.interfaces.persistence.IConnectionManager;
 
 import java.io.File;
 import java.io.FileReader;
+import java.nio.file.Files;
 
 public class ConnectionManager implements IConnectionManager {
 
@@ -16,13 +17,24 @@ public class ConnectionManager implements IConnectionManager {
         File gamesFolder = new File(gamesFolderPath);
 
         usersFolder.mkdirs();
+        gamesFolder.mkdirs();
     }
 
     @Override
     public void closeConnection() {
-        File usersFolder = new File(usersFolderPath);
-        File gamesFolder = new File(gamesFolderPath);
-        usersFolder.delete();
-        gamesFolder.delete();
+        String path = "jsonDB";
+        deleteDir(new File(path));
+    }
+
+    void deleteDir(File file) {
+        File[] contents = file.listFiles();
+        if (contents != null) {
+            for (File f : contents) {
+                if (! Files.isSymbolicLink(f.toPath())) {
+                    deleteDir(f);
+                }
+            }
+        }
+        file.delete();
     }
 }
