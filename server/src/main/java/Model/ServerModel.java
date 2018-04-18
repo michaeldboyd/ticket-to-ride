@@ -4,6 +4,7 @@ import Communication.SocketManager;
 import Facades.ServerLobby;
 import Persistence.PersistenceManager;
 import com.example.sharedcode.communication.CommandFactory;
+import com.example.sharedcode.interfaces.persistence.IUserDAO;
 import com.example.sharedcode.model.*;
 import com.example.sharedcode.communication.Command;
 import org.eclipse.jetty.websocket.api.Session;
@@ -145,7 +146,13 @@ public class ServerModel extends Observable {
                 if(e.getValue() == null || !(e.getValue().isOpen())) {
                     //check the games for an instance of the client.
                     removedSessions.add(token);
-                    loggedInUsers.remove(username);
+                    User user = loggedInUsers.remove(username);
+                    if(user != null) {
+                        user.setAuthtoken(null);
+                        IUserDAO dao = PersistenceManager.getInstance().getDatabaseFactory().createUserDAO();
+                        dao.updateUser(username, user, null );
+                    }
+
                     authTokenToUsername.remove(token);
                     usersInLobby.remove(username);
                     for(Game g : games.values()) {

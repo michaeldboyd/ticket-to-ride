@@ -43,7 +43,7 @@ public class SocketClient extends WebSocketClient {
         UpdateArgs args = new UpdateArgs(type, success, message);
         ClientModel.getInstance().sendUpdate(args);
 
-        Thread thread = new Thread(new Reconnector());
+        Thread thread = new Thread(new Reconnector(SocketManager.socket));
         thread.start();
 
     }

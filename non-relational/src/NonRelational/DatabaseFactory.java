@@ -36,6 +36,6 @@ public class DatabaseFactory implements IDatabaseFactory{
 
     @Override
     public void clearDatabase() {
-
+        new ConnectionManager().closeConnection();
     }
 }

@@ -1,6 +1,11 @@
 package e.mboyd6.tickettoride.Utility;
 
+import com.example.sharedcode.communication.UpdateArgs;
+import com.example.sharedcode.model.Game;
+import com.example.sharedcode.model.UpdateType;
+
 import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 
 import java.net.Socket;
 import java.net.URI;
@@ -16,21 +21,39 @@ import e.mboyd6.tickettoride.Model.ClientModel;
  */
 
 public class Reconnector implements Runnable{
-    boolean isClosed = SocketManager.socket.isClosed();
-    boolean isConnecting = SocketManager.socket.isConnecting();
+
+    WebSocketClient socket;
+    public Reconnector(WebSocketClient socket) {
+        this.socket = socket;
+    }
     @Override
     public void run() {
-        while(isClosed || isConnecting) {
-            try {
-                SocketManager.socket.closeConnection(500, "ChangeIP");
-                SocketManager.ConnectSocket();
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            System.out.println("******ATTEMTPING RECONNECT*******");
+            socket.reconnectBlocking();
+            Thread.sleep(3000);
+            String at, id, gameID = "";
+            Game game = ClientModel.getInstance().getCurrentGame();
+            if(game != null) {
+                gameID = game.getGameID();
             }
-            isClosed = SocketManager.socket.isClosed();
-            isConnecting = SocketManager.socket.isConnecting();
-            boolean isOpen = SocketManager.socket.isOpen();
+            at = ClientModel.getInstance().getAuthToken();
+            id = ClientModel.getInstance().socketID;
+            if (at != null && id != null) {
+                UtilityProxy.instance().dontForgetMe(at, id, gameID);
+            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        // Send toast to server
+        UpdateType type = UpdateType.SERVER_DISCONNECT;
+        boolean success = true;
+        String message = "SERVER HAS RECONNECTED!!! YAY!!!";
+        System.out.println(message);
+        UpdateArgs args = new UpdateArgs(type, success, message);
+        ClientModel.getInstance().sendUpdate(args);
+
 
     }
 }

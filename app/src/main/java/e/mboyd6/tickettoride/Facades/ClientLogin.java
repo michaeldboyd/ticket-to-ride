@@ -98,6 +98,7 @@ public class ClientLogin implements IClientLoginFacade {
     @Override
     public void initSocket(String id) {
         SocketManager.socketID = id;
+        ClientModel.getInstance().socketID  = id;
         // send the username back to the server, and whether they are logged in (if they have an atuh token
 
     }

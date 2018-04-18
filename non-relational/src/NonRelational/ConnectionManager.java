@@ -20,6 +20,9 @@ public class ConnectionManager implements IConnectionManager {
 
     @Override
     public void closeConnection() {
-
+        File usersFolder = new File(usersFolderPath);
+        File gamesFolder = new File(gamesFolderPath);
+        usersFolder.delete();
+        gamesFolder.delete();
     }
 }

@@ -79,6 +79,9 @@ public class ServerRunner {
 
     public static void main(String[] args) {
         if(args.length != 2) {
+            if(args[0].equals("clear")) {
+                PersistenceManager.getInstance().getDatabaseFactory().clearDatabase();
+            }
             System.out.println(args.length + " incorrect parameters!! Please specify db name and game state command count. #makerodhamproud");
             return;
         }
@@ -95,8 +98,6 @@ public class ServerRunner {
         ServerRunner server = new ServerRunner();
         GameRestorer.getInstance().run();
         server.run(portNumber);
-
-        //TODO: Is this where the game restoration should be called?
 
     }
 }

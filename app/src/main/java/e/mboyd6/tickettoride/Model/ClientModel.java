@@ -24,9 +24,9 @@ public class ClientModel extends Observable {
     private ArrayList<Game> games = new ArrayList<>();
     private Game currentGame = null;
     private String playerName = "";
-
     private String authToken;
     public boolean disconnected = false;
+    volatile public String socketID;
     // ******* USEFUL FUNCTIONS ******//
     /**
      * this function sends an update to the presenters subscribed

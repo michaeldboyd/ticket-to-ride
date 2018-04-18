@@ -5,9 +5,11 @@ import Model.ServerModel;
 import com.example.sharedcode.communication.Command;
 import com.example.sharedcode.communication.CommandFactory;
 import com.example.sharedcode.interfaces.IUtility;
+import com.example.sharedcode.model.Game;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.api.Session;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class ServerUtility implements IUtility{
@@ -20,7 +22,7 @@ public class ServerUtility implements IUtility{
         instance().clearServer(password);
     }
     public static void _initSocket(Session sess) { instance().initSocket(sess);}
-    public static void _dontForgetMe(String authToken, String socketID){instance().identify(authToken, socketID);}
+    public static void _dontForgetMe(String authToken, String socketID, String gameID){instance().identify(authToken, socketID, gameID);}
     @Override
     public void clearServer(String password) {
         if(password.equals(ServerModel.instance().getTestPassword()))
@@ -50,9 +52,23 @@ public class ServerUtility implements IUtility{
         SocketManager.instance().sendBySocketId(initCommand, id);
     }
 
-    public void identify(String authToken, String socketID) {
+    public void identify(String authToken, String socketID, String gameID) {
         // match the username
+
         Session sess = ServerModel.instance().getAllSessions().get(socketID);
-        ServerModel.instance().getLoggedInSessions().put(authToken, sess);
+        Map<String, Session> sm = ServerModel.instance().getAllSessions();
+        if(sess != null) {
+            ServerModel.instance().getLoggedInSessions().put(authToken, sess);
+        }
+
+
+        // do we need to add these to the games?
+        if(!gameID.equals("")) {
+            Game currentGame = ServerModel.instance().getGames().get(gameID);
+            if (currentGame != null) {
+                ServerGameplay.getInstance().sendGameUpdate(authToken, currentGame, "");
+            }
+        }
+
     }
 }

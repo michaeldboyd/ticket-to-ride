@@ -124,6 +124,11 @@ public class ServerLobby implements IServerLobbyFacade {
                 ServerModel.instance().getUsersInLobby()
                         .remove(ServerModel.instance().getLoggedInUsers().get(username).getUsername());
             }
+
+            User user = ServerModel.instance().getAllUsers().get(username);
+            if(user != null) {
+                PersistenceManager.getInstance().getDatabaseFactory().createUserDAO().updateUser(username, user, gameID);
+            }
         } else {
             message = "could not find game in list";
         }
@@ -162,6 +167,8 @@ public class ServerLobby implements IServerLobbyFacade {
             User user = ServerModel.instance().getLoggedInUsers().get(usnm);
             if(user != null) { // check in case socket connection closes.
                 ServerModel.instance().getUsersInLobby().put(user.getUsername(), user);
+                PersistenceManager.getInstance()
+                        .getDatabaseFactory().createUserDAO().updateUser(usnm, user, null);
             }
             Game game = games.get(gameID);
             if (game != null && game.getPlayers() != null && game.getPlayers().size() == 0) {
