@@ -17,6 +17,7 @@ import java.net.URI;
 import java.nio.ByteBuffer;
 
 import e.mboyd6.tickettoride.Model.ClientModel;
+import e.mboyd6.tickettoride.Utility.Reconnector;
 
 public class SocketClient extends WebSocketClient {
 
@@ -41,6 +42,11 @@ public class SocketClient extends WebSocketClient {
         String message = "Server was disconnected";
         UpdateArgs args = new UpdateArgs(type, success, message);
         ClientModel.getInstance().sendUpdate(args);
+        
+        if(ClientModel.getInstance().getCurrentGame() != null && ClientModel.getInstance().getCurrentGame().isStarted()) {
+            Thread thread = new Thread(new Reconnector());
+            thread.start();
+        }
     }
 
     @Override

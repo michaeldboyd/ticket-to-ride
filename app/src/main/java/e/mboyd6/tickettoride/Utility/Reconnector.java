@@ -25,6 +25,7 @@ public class Reconnector implements Runnable{
                 client = new SocketClient(new URI("ws://" + SocketManager.ip + ":8080/echo/"));
                 client.connect();
                 SocketManager.socket = client;
+                System.out.println("Trying to reconect...");
             } catch (Exception e) {
                 nope++;
             }
@@ -32,7 +33,7 @@ public class Reconnector implements Runnable{
 
         if(client != null) {
             // send command saying who I am.
-            
+
         }
     }
 }
